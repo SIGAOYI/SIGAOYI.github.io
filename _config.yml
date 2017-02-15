@@ -1,6 +1,6 @@
 # Site settings
-title: SIGAOYI
-SEOTitle: 史杨 | SIGAOYI
+title: LawooTrip
+SEOTitle: 龟龟 || LawooTrip
 header-img: img/home-bg.jpg
 email: lawootrip@gmail.com
 description: "cool"
@@ -12,8 +12,8 @@ baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 # SNS settings
 RSS: false
-weibo_username:     乐物旅行
-zhihu_username:     龟七爷
+weibo_username:     abigidea
+zhihu_username:     lawoo
 github_username:    SIGAOYI
 #twitter_username:  huxpro
 #facebook_username:  
@@ -52,7 +52,7 @@ kramdown:
 # Duoshuo settings
 duoshuo_username: lawootrip
 # Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+duoshuo_share: false                     # set to false if you want to use Comment without Sharing
 
 
 
@@ -82,20 +82,11 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "SIGAOYI Blog",
+        title: "龟龟的Blog",
         href: "http://lawootrip.com"
     },{
-        title: "Foo",
-        href: "#"
-    },{
-        title: "Bar",
-        href: "#"
-    },{
-        title: "Example Friends",
-        href: "#"
-    },{
-        title: "It helps SEO",
-        href: "#"
+        title: "龟龟的知乎",
+        href: "https://www.zhihu.com/people/lawoo"
     }
 ]
 
