@@ -4,7 +4,7 @@ title:      "克什米尔之殇"
 subtitle:   " \"披肩匠人Ghulam的故事\""
 date:       2017-02-15 19:05
 author:     "龟龟"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/post-bg-kashmir2017.jpg"
 tags:
     - 生活
 ---

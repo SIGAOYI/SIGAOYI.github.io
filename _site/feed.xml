@@ -5,8 +5,8 @@
     <description>cool</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 16 Feb 2017 14:12:20 +0800</pubDate>
-    <lastBuildDate>Thu, 16 Feb 2017 14:12:20 +0800</lastBuildDate>
+    <pubDate>Thu, 16 Feb 2017 14:32:07 +0800</pubDate>
+    <lastBuildDate>Thu, 16 Feb 2017 14:32:07 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -24,8 +24,6 @@
 老人吸了一口水烟，往事立马随着烟气将我们笼罩。
 &lt;img src=&quot;http://p1.bqimg.com/567571/cac33d40135de4f6.png&quot; alt=&quot;&quot; /&gt;
 &lt;img src=&quot;http://i1.piimg.com/567571/5fdacaed4f06ab67.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;这是一个代码区块。
-&lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
 
