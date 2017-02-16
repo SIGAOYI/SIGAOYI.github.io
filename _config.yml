@@ -11,7 +11,7 @@ baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 # SNS settings
-RSS: false
+RSS: ture
 weibo_username:     abigidea
 zhihu_username:     lawoo
 github_username:    SIGAOYI
@@ -26,7 +26,7 @@ highlighter: rouge
 permalink: pretty
 paginate: 9
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+#anchorjs: ture                          # if you want to customize anchor. check out line:181 of `post.html`
 
 
 
@@ -89,7 +89,8 @@ friends: [
         href: "https://www.zhihu.com/people/lawoo"
     }
 ]
-
+# 时区
+timezone: CN
 
 #deploy
 #source:      _source
