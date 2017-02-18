@@ -35,7 +35,21 @@
     <!-- Hux change font-awesome CDN to qiniu -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
+    <script type='text/javascript'>
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', 'a1e337aa83fed6a6']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+    </script>
     <!-- Hux Delete, sad but pending in China
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
@@ -227,7 +241,7 @@
 
 <ul>
   <li><strong>Markdown</strong> 带来的优雅写作体验</li>
-  <li>非常熟悉的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
+  <li>非常便捷的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
   <li>利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
     <ul>
       <li>如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了</li>
@@ -236,16 +250,14 @@
   <li>Jekyll 的自定制非常容易，基本就是个模版引擎</li>
 </ul>
 
-<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy) 迁移了一个<a href="http://huxpro.gitcafe.io">镜像</a>出来，结果还是巨慢。</p>
+<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy) 迁移了一个<a href="http://SIGAOYI.gitcafe.io">镜像</a>出来，结果还是巨慢。</p>
 
 <p>果断开 <strong>Charles</strong>查了下网络请求，原来是 <strong>pending 在了 Google Fonts</strong> 上，页面渲染一直被阻塞到请求超时为止，难怪这么慢。<br />
 忍痛割爱，只好把 Web Fonts 去了（反正超时看到的也只能是 fallback ），果然一下就正常了，而且 GitHub 和 GitCafe 对比并没有感受到明显的速度差异，虽然 github 的 ping 值明显要高一些，达到了 300ms，于是用 DNSPOD 优化了一下速度。</p>
 
 <hr />
 
-<p>配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手</p>
-
-<p>大的 Jekyll 主题上直接 fork 了 Clean Blog（这个主题也相当有名，就不多赘述了。唯一的缺点大概就是没有标签支持，于是我给它补上了。）</p>
+<p>配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续研究。）</p>
 
 <p>本地调试环境需要 <code class="highlighter-rouge">gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
 
