@@ -1,0 +1,17 @@
+---
+layout:     post
+title:      "土耳其图集"
+subtitle:   " \"伊斯坦布尔\""
+date:       2017-02-19
+author:     "龟龟"
+header-img: "img/post-bg-pt-turkey.png"
+tags:
+    - 图集
+---
+
+> “Türk Marşı”
+
+![烤肉！烤肉！烤肉！][1]
+
+
+  [1]: http://image.lawootrip.com/WechatIMG5.jpeg

@@ -163,6 +163,14 @@ body, html {
     background: url("../images/logo-lu.png") 50% 50% no-repeat;
     background-size: 20px;
 }
+.i-bao:before {
+	content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url("../images/logo-bao.jpeg") 50% 50% no-repeat;
+    background-size: 20px;
+}
 
 .i-kissy:before {
 	content: "";

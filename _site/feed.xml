@@ -2,12 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>LawooTrip</title>
-    <description>cool</description>
+    <description>龟龟的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 17 Feb 2017 18:20:46 +0000</pubDate>
-    <lastBuildDate>Fri, 17 Feb 2017 18:20:46 +0000</lastBuildDate>
+    <pubDate>Sun, 19 Feb 2017 12:18:49 +0000</pubDate>
+    <lastBuildDate>Sun, 19 Feb 2017 12:18:49 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
+    
+      <item>
+        <title>土耳其图集</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“Türk Marşı”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/WechatIMG5.jpeg&quot; alt=&quot;烤肉！烤肉！烤肉！&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 19 Feb 2017 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/02/19/turkey.markup/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/02/19/turkey.markup/</guid>
+        
+        <category>图集</category>
+        
+        
+      </item>
     
       <item>
         <title>克什米尔之殇</title>
