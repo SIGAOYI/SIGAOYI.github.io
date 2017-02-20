@@ -4,7 +4,7 @@ title:      "土耳其图集"
 subtitle:   " \"伊斯坦布尔\""
 date:       2017-02-19
 author:     "龟龟"
-header-img: "img/post-bg-pt-turkey.jpg"
+header-img: "http://image.lawootrip.com/travel-turkey.jpeg"
 tags:
     - 图集
 ---
