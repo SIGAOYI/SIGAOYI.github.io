@@ -166,7 +166,8 @@
 		<link rel="stylesheet" type="text/css" href="css/timeline.css" />
 		<script src="js/modernizr.custom.js"></script>
 	</head>
-	<body>
+	
+<body>
 		<div class="container" style="margin:0;padding:0;width:100%;">
 			<header>
 				<img width="175" height="175" style="border-radius:50%;" src="/img/guigui_icon.png">
@@ -219,8 +220,7 @@
 			</div>
 		</div>
 		
-	</body>
-</html>
+
 	</body>
 </html>
 
@@ -404,11 +404,32 @@
 
 
 
+	
+<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/blog.js"></script>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+  <!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);  
+    })
+</script>
 
+<!--page views-->
+<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
 
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

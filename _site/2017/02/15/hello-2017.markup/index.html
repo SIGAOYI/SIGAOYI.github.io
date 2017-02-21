@@ -156,11 +156,7 @@
 </script>
 
 
-     <!-- Image to hack wechat 
- <img src="/img/icon_wechat.png" width="0" height="0"> 
- <img src="/img/post-bg-2015.jpg" width="0" height="0">
--->
-<!-- Post Header -->
+    <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
@@ -169,6 +165,7 @@
 
     
 </style>
+
 <header class="intro-header" >
     <div class="header-mask"></div>
     <div class="container">
@@ -185,7 +182,7 @@
                     
                     <h2 class="subheading"> "Hello World, Hello Blog"</h2>
                     
-                    <span class="meta">Posted by 龟龟 on February 15, 2017</span>
+                     
                 </div>
             </div>
         </div>
@@ -269,6 +266,22 @@
 <p>—— 龟龟 后记于 2017.02</p>
 
 
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">龟龟</a>
+                <span class="time">
+                /
+                <time>2017-02-15</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
+
                 <hr style="visibility: hidden;">
 
 
@@ -338,6 +351,7 @@
 
 
 
+<script type="text/javascript" src="/assets/js/r-highlight.js"></script>
 
     <!-- Footer -->
 <footer>
@@ -518,11 +532,32 @@
 
 
 
+	
+<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/blog.js"></script>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+  <!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);  
+    })
+</script>
 
+<!--page views-->
+<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
 
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
 

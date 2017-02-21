@@ -2,10 +2,6 @@
 layout: default
 ---
 
- <!-- Image to hack wechat 
- <img src="/img/icon_wechat.png" width="0" height="0"> 
- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0">
--->
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
@@ -22,6 +18,7 @@ layout: default
     }
     {% endif %}
 </style>
+
 <header class="intro-header" >
     <div class="header-mask"></div>
     <div class="container">
@@ -40,7 +37,7 @@ layout: default
                     {% comment %} if page.subtitle {% endcomment %}
                     <h2 class="subheading">{{ page.subtitle }}</h2>
                     {% comment %} endif {% endcomment %}
-                    <span class="meta">Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}</span>
+                     
                 </div>
             </div>
         </div>
@@ -59,6 +56,22 @@ layout: default
                 post-container">
 
 				{{ content }}
+
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">{{ page.author }}</a>
+                <span class="time">
+                /
+                <time>{{ page.date | date:"%Y-%m-%d" }}</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
 
                 <hr style="visibility: hidden;">
 
@@ -176,3 +189,4 @@ layout: default
     }
 </style>
 {% endif %}
+<script type="text/javascript" src="{{ site.BASE_PATH }}/assets/js/r-highlight.js"></script>
