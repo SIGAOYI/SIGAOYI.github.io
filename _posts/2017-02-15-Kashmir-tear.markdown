@@ -7,7 +7,6 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/post-bg-kashmir2017.jpg"
 tags:
     - 生活
-    - 旅行
 ---
 
 > “اپ سے مل کر خوشی ہوی ”

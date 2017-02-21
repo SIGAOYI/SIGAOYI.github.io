@@ -206,8 +206,8 @@
                 post-container">
 
 				<blockquote>
-  <p>BY (<a href="https://github.com/geeeeeeeeek/git-recipes/">童仲毅geeeeeeeeek@github</a>)——目前看到的关于Merge、Rebase最通俗易懂的wiki。
-这是一篇在原文(<a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">BY atlassian</a>)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(CC BY 2.5 AU)协议共享。</p>
+  <p>BY <a href="https://github.com/geeeeeeeeek/git-recipes/">童仲毅geeeeeeeeek@github</a>——目前看到的关于Merge、Rebase最通俗易懂的wiki。</p>
+  <p>这是一篇在原文(<a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">BY atlassian</a>)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(CC BY 2.5 AU)协议共享。</p>
 </blockquote>
 
 <p><code class="highlighter-rouge">git rebase</code> 这个命令经常被人认为是一种Git巫术，初学者应该避而远之。但如果使用得当的话，它能给你的团队开发省去太多烦恼。在这篇文章中，我们会比较<code class="highlighter-rouge">git rebase</code>和类似的<code class="highlighter-rouge">git merge</code>命令，找到Git工作流中rebase的所有用法。</p>
@@ -257,7 +257,7 @@ git rebase master
 
 <p>它会把整个feature分支移动到master分支的后面，有效地把所有master分支上新的提交并入过来。但是，rebase为原分支上每一个提交创建一个新的提交，重写了项目历史，并且不会带来合并提交。</p>
 
-<p>　　<img src="https://camo.githubusercontent.com/626197748d8d8493b194ce59874b71897c88c39f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30332e737667" alt="此处输入图片的描述" /></p>
+<p><img src="https://camo.githubusercontent.com/626197748d8d8493b194ce59874b71897c88c39f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30332e737667" alt="此处输入图片的描述" /></p>
 
 <p>rebase最大的好处是你的项目历史会非常整洁。首先，它不像<code class="highlighter-rouge">git merge</code> 那样引入不必要的合并提交。其次，如上图所示，rebase导致最后的项目历史呈现出完美的线性——你可以从项目终点到起点浏览而不需要任何的Fork。这让你更容易使用<code class="highlighter-rouge">git log</code> 、<code class="highlighter-rouge">git bisect</code> 和<code class="highlighter-rouge">gitk</code> 来查看项目历史。</p>
 
@@ -267,7 +267,7 @@ git rebase master
 <h3 id="交互式的rebase">交互式的rebase</h3>
 <p>交互式的rebase允许你更改并入新分支的提交。这比自动的rebase更加强大，因为它提供了对分支上提交历史完整的控制。一般来说，这被用于将feature分支并入master分支之前，清理混乱的历史。</p>
 
-<p>　　把<code class="highlighter-rouge">-i</code> 传入<code class="highlighter-rouge">git rebase</code> 选项来开始一个交互式的rebase过程：
+<p>把<code class="highlighter-rouge">-i</code> 传入<code class="highlighter-rouge">git rebase</code> 选项来开始一个交互式的rebase过程：
 　　</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>git checkout feature
@@ -293,7 +293,7 @@ pick 5c67e61 Message for commit #3
 
 <p>保存后关闭文件，Git会根据你的指令来执行rebase，项目历史看上去会是这样：
 　　
-　　<img src="https://camo.githubusercontent.com/b685d6f2a7b4ecf6896fa2439e8da2fb958195fd/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30342e737667" alt="此处输入图片的描述" /></p>
+<img src="https://camo.githubusercontent.com/b685d6f2a7b4ecf6896fa2439e8da2fb958195fd/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30342e737667" alt="此处输入图片的描述" /></p>
 
 <p>　　忽略不重要的提交会让你的feature分支的历史更清晰易读。这是git merge 做不到的。
 　　</p>
@@ -369,12 +369,12 @@ git rebase -i HEAD~3
 
 <p>比如说，如果你和另一个开发者——John——往feature分支上添加了几个提交，在从John的仓库中fetch之后，你的仓库可能会像下面这样：</p>
 
-<p><img src="https://camo.githubusercontent.com/6758dd2be664491c52dc4c246939f1ad5a14fba9/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30382e737667" alt="此处输入图片的描述" />)</p>
+<p><img src="https://camo.githubusercontent.com/6758dd2be664491c52dc4c246939f1ad5a14fba9/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30382e737667" alt="此处输入图片的描述" /></p>
 
 <p>就和并入master上的上游更改一样，你可以这样解决这个Fork：要么merge你的本地分支和John的分支，要不把你的本地分支rebase到John的分支后面。</p>
 
-<p><img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" />)
-<img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" />)</p>
+<p><img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" />
+<img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" /></p>
 
 <p>注意，这里的rebase没有违反Rebase黄金法则，因为只有你的本地分支上的commit被移动了，之前的所有东西都没有变。这就像是在说“把我的改动加到John的后面去”。在大多数情况下，这比通过合并提交来同步远程分支更符合直觉。</p>
 
@@ -389,13 +389,13 @@ git rebase -i HEAD~3
 <p>因此，在提交pull request前用交互式的rebase进行代码清理通常是一个好的做法。</p>
 
 <hr />
-<p>###并入通过的功能分支</p>
+<h3 id="并入通过的功能分支">并入通过的功能分支</h3>
 
 <p>如果某个功能被你们团队通过了，你可以选择将这个分支rebase到master分支之后，或是使用<code class="highlighter-rouge">git merge</code> 来将这个功能并入主代码库中。</p>
 
 <p>这和将上游改动并入feature分支很相似，但是你不可以在master分支重写提交，你最后需要用<code class="highlighter-rouge">git merge</code> 来并入这个feature。但是，在merge之前执行一次rebase，你可以确保merge是一直向前的，最后生成的是一个完全线性的提交历史。这样你还可以加入pull request之后的提交。</p>
 
-<p><img src="https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667" alt="此处输入图片的描述" />)
+<p><img src="https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667" alt="此处输入图片的描述" />
 <img src="https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667" alt="此处输入图片的描述" /></p>
 
 <p>如果你还没有完全熟悉git rebase，你还可以在一个临时分支中执行<code class="highlighter-rouge">rebase</code>。这样的话，如果你意外地弄乱了你feature分支的历史，你还可以查看原来的分支然后重试。</p>
@@ -413,7 +413,7 @@ git merge temporary-branch
 
 <hr />
 
-<p>###总结</p>
+<h3 id="总结">总结</h3>
 
 <p>你使用rebase之前需要知道的知识点都在这了。如果你想要一个干净的、线性的提交历史，没有不必要的合并提交，你应该使用<code class="highlighter-rouge">git rebase</code> 而不是<code class="highlighter-rouge">git merge</code> 来并入其他分支上的更改。</p>
 
@@ -455,9 +455,11 @@ git merge temporary-branch
                     <div class="tags">
         				
                             
-                				<a href="/tags/#生活" title="生活" rel="2">
+                				<a href="/tags/#生活" title="生活" rel="3">
                                     生活
                                 </a>
+                            
+        				
                             
         				
                             
