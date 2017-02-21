@@ -10,8 +10,10 @@ tags:
     - 笔记
 ---
 
-><p>BY <a href="https://github.com/geeeeeeeeek/git-recipes/">童仲毅geeeeeeeeek@github</a>——目前看到的关于Merge、Rebase最通俗易懂的wiki。</p>
-><p>这是一篇在原文(<a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">BY atlassian</a>)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(CC BY 2.5 AU)协议共享。</p>
+<blockquote>
+<p>BY <a href="https://github.com/geeeeeeeeek/git-recipes/">童仲毅geeeeeeeeek@github</a>——目前看到的关于Merge、Rebase最通俗易懂的wiki。</p>
+<p>这是一篇在原文(<a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">BY atlassian</a>)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(<a herf="https://creativecommons.org/licenses/by/2.5/au/deed.en">CC BY 2.5 AU协议共享。</a>)</p> 
+</blockquote>
 
 `git rebase` 这个命令经常被人认为是一种Git巫术，初学者应该避而远之。但如果使用得当的话，它能给你的团队开发省去太多烦恼。在这篇文章中，我们会比较`git rebase`和类似的`git merge`命令，找到Git工作流中rebase的所有用法。
 
