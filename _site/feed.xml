@@ -5,8 +5,8 @@
     <description>龟龟的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 21 Feb 2017 12:16:31 +0000</pubDate>
-    <lastBuildDate>Tue, 21 Feb 2017 12:16:31 +0000</lastBuildDate>
+    <pubDate>Tue, 21 Feb 2017 12:22:47 +0000</pubDate>
+    <lastBuildDate>Tue, 21 Feb 2017 12:22:47 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
