@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="龟龟的个人博客">
+    <meta name="keywords"  content="乐物旅行、乐物、龟龟、大头苗苗的老公、屁屁的爸比">
+    <meta name="theme-color" content="">
+    
+    <title>Merge、Rebase的选择 - 龟龟 || LawooTrip</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/02/21/github-rebase-merge.markup/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+<!-- Growing IO-->
+    <script type='text/javascript'>
+      var _vds = _vds || [];
+      window._vds = _vds;
+      (function(){
+        _vds.push(['setAccountId', 'a1e337aa83fed6a6']);
+        (function() {
+          var vds = document.createElement('script');
+          vds.type='text/javascript';
+          vds.async = true;
+          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(vds, s);
+        })();
+      })();
+    </script>
+    
+
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">LawooTrip</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/http://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(http://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg)
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#github" title="github">github</a>
+                        
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                    </div>
+                    <h1>Merge、Rebase的选择</h1>
+                    
+                    
+                    <h2 class="subheading"> "GitHub笔记——代码合并"</h2>
+                    
+                    <span class="meta">Posted by 龟龟 on February 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>BY (<a href="https://github.com/geeeeeeeeek/git-recipes/">童仲毅geeeeeeeeek@github</a>)——目前看到的关于Merge、Rebase最通俗易懂的wiki。
+这是一篇在原文(<a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">BY atlassian</a>)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(CC BY 2.5 AU)协议共享。</p>
+</blockquote>
+
+<p><code class="highlighter-rouge">git rebase</code> 这个命令经常被人认为是一种Git巫术，初学者应该避而远之。但如果使用得当的话，它能给你的团队开发省去太多烦恼。在这篇文章中，我们会比较<code class="highlighter-rouge">git rebase</code>和类似的<code class="highlighter-rouge">git merge</code>命令，找到Git工作流中rebase的所有用法。</p>
+
+<h3 id="概述">概述</h3>
+<p>你要知道的第一件事是，<code class="highlighter-rouge">git rebase</code> 和<code class="highlighter-rouge">git merge</code> 做的事其实是一样的。它们都被设计来将一个分支的更改并入另一个分支，只不过方式有些不同。</p>
+
+<p>想象一下，你刚创建了一个专门的分支开发新功能，然后团队中另一个成员在master分支上添加了新的提交。这就会造成提交历史被Fork一份，用Git来协作的开发者应该都很清楚。</p>
+
+<p><img src="https://camo.githubusercontent.com/919155232a162011b8a64a84872482034c0ce999/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30312e737667" alt="此处输入图片的描述" /></p>
+
+<p>现在，如果master中新的提交和你的工作是相关的。为了将新的提交并入你的分支，你有两个选择：merge或rebase。</p>
+
+<hr />
+
+<h3 id="merge">Merge</h3>
+<p>将master分支合并到feature分支最简单的办法就是用下面这些命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>　　git checkout feature
+　　git merge master
+</code></pre>
+</div>
+
+<p>或者，你也可以把它们压缩在一行里。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git merge master feature
+</code></pre>
+</div>
+
+<p>feature分支中新的合并提交(merge　commit)将两个分支的历史连在了一起。你会得到下面这样的分支结构：</p>
+
+<p><img src="https://camo.githubusercontent.com/266aef357af48c218b8779cd489bcb8839aa0a25/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30322e737667" alt="此处输入图片的描述" /></p>
+
+<p>Merge好在它是一个安全的操作。现有的分支不会被更改，避免了rebase潜在的缺点（后面会说）。</p>
+
+<p>另一方面，这同样意味着每次合并上游更改时feature分支都会引入一个外来的合并提交。如果master非常活跃的话，这或多或少会污染你的分支历史。虽然高级的git log 选项可以减轻这个问题，但对于开发者来说，还是会增加理解项目历史的难度。</p>
+
+<hr />
+
+<h3 id="rebase">Rebase</h3>
+<p>作为merge的替代选择，你可以像下面这样将feature分支并入master分支：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout feature
+git rebase master
+</code></pre>
+</div>
+
+<p>它会把整个feature分支移动到master分支的后面，有效地把所有master分支上新的提交并入过来。但是，rebase为原分支上每一个提交创建一个新的提交，重写了项目历史，并且不会带来合并提交。</p>
+
+<p>　　<img src="https://camo.githubusercontent.com/626197748d8d8493b194ce59874b71897c88c39f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30332e737667" alt="此处输入图片的描述" /></p>
+
+<p>rebase最大的好处是你的项目历史会非常整洁。首先，它不像<code class="highlighter-rouge">git merge</code> 那样引入不必要的合并提交。其次，如上图所示，rebase导致最后的项目历史呈现出完美的线性——你可以从项目终点到起点浏览而不需要任何的Fork。这让你更容易使用<code class="highlighter-rouge">git log</code> 、<code class="highlighter-rouge">git bisect</code> 和<code class="highlighter-rouge">gitk</code> 来查看项目历史。</p>
+
+<p>不过，这种简单的提交历史会带来两个后果：安全性和可跟踪性。如果你违反了Rebase黄金法则，重写项目历史可能会给你的协作工作流带来灾难性的影响。此外，rebase不会有合并提交中附带的信息——你看不到feature分支中并入了上游的哪些更改。</p>
+
+<hr />
+<h3 id="交互式的rebase">交互式的rebase</h3>
+<p>交互式的rebase允许你更改并入新分支的提交。这比自动的rebase更加强大，因为它提供了对分支上提交历史完整的控制。一般来说，这被用于将feature分支并入master分支之前，清理混乱的历史。</p>
+
+<p>　　把<code class="highlighter-rouge">-i</code> 传入<code class="highlighter-rouge">git rebase</code> 选项来开始一个交互式的rebase过程：
+　　</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout feature
+git rebase -i master
+</code></pre>
+</div>
+
+<p>它会打开一个文本编辑器，显示所有将被移动的提交：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pick 33d5b7a Message for commit #1
+pick 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+</code></pre>
+</div>
+
+<p>这个列表定义了rebase将被执行后分支会是什么样的。更改pick 命令或者重新排序，这个分支的历史就能如你所愿了。比如说，如果第二个提交修复了第一个提交中的小问题，你可以用fixup 命令把它们合到一个提交中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pick 33d5b7a Message for commit #1
+fixup 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+</code></pre>
+</div>
+
+<p>保存后关闭文件，Git会根据你的指令来执行rebase，项目历史看上去会是这样：
+　　
+　　<img src="https://camo.githubusercontent.com/b685d6f2a7b4ecf6896fa2439e8da2fb958195fd/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30342e737667" alt="此处输入图片的描述" /></p>
+
+<p>　　忽略不重要的提交会让你的feature分支的历史更清晰易读。这是git merge 做不到的。
+　　</p>
+<h3 id="rebase的黄金法则">Rebase的黄金法则</h3>
+<p>当你理解rebase是什么的时候，最重要的就是什么时候 不能 用rebase。git rebase 的黄金法则便是，绝不要在公共的分支上使用它。</p>
+
+<p>比如说，如果你把master分支rebase到你的feature分支上会发生什么：</p>
+
+<p><img src="https://camo.githubusercontent.com/b3d06635fdadff5863f94aa53b16bba69452f04f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30352e737667" alt="此处输入图片的描述" /></p>
+
+<p>这次rebase将master分支上的所有提交都移到了feature分支后面。问题是它只发生在你的代码仓库中，其他所有的开发者还在原来的master上工作。因为rebase引起了新的提交，Git会认为你的master分支和其他人的master已经分叉了。</p>
+
+<p>同步两个master分支的唯一办法是把它们merge到一起，导致一个额外的合并提交和两堆包含同样更改的提交。不用说，这会让人非常困惑。</p>
+
+<p>所以，在你运行git rebase 之前，一定要问问你自己“有没有别人正在这个分支上工作？”。如果答案是肯定的，那么把你的爪子放回去，重新找到一个无害的方式（如git revert）来提交你的更改。不然的话，你可以随心所欲地重写历史。</p>
+
+<hr />
+<h3 id="强制推送">强制推送</h3>
+<p>如果你想把rebase之后的master分支推送到远程仓库，Git会阻止你这么做，因为两个分支包含冲突。但你可以传入<code class="highlighter-rouge">--force</code> 标记来强行推送。就像下面一样：</p>
+
+<p><strong>小心使用这个命令！！！</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git push --force
+</code></pre>
+</div>
+
+<p>它会重写远程的master分支来匹配你仓库中rebase之后的master分支，对于团队中其他成员来说这看上去很诡异。所以，务必小心这个命令，只有当你知道你在做什么的时候再使用。</p>
+
+<p>仅有的几个强制推送的使用场景之一是，当你在想向远程仓库推送了一个私有分支之后，执行了一个本地的清理（比如说为了回滚）。这就像是在说“哦，其实我并不想推送之前那个feature分支的。用我现在的版本替换掉吧。”同样，你要注意没有别人正在这个feature分支上工作。</p>
+
+<hr />
+<h3 id="工作流">工作流</h3>
+<p>rebase可以或多或少应用在你们团队的Git工作流中。在这一节中，我们来看看在feature分支开发的各个阶段中，rebase有哪些好处。</p>
+
+<p>第一步是在任何和<code class="highlighter-rouge">git rebase</code> 有关的工作流中为每一个feature专门创建一个分支。它会给你带来安全使用rebase的分支结构：</p>
+
+<p><img src="https://camo.githubusercontent.com/4b8c7e7855643d46885f8df41b4dc4de11dc89a3/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30362e737667" alt="此处输入图片的描述" /></p>
+
+<hr />
+<h3 id="本地清理">本地清理</h3>
+<p>在你工作流中使用rebase最好的用法之一就是清理本地正在开发的分支。隔一段时间执行一次交互式rebase，你可以保证你feature分支中的每一个提交都是专注和有意义的。你在写代码时不用担心造成孤立的提交——因为你后面一定能修复。</p>
+
+<p>调用<code class="highlighter-rouge">git rebase</code> 的时候，你有两个基(base)可以选择：上游分支（比如master）或者你feature分支中早先的一个提交。我们在“交互式rebase”一节看到了第一种的例子。后一种在当你只需要修改最新几次提交时也很有用。比如说，下面的命令对最新的3次提交进行了交互式rebase：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout feature
+git rebase -i HEAD~3
+</code></pre>
+</div>
+
+<p>通过指定<code class="highlighter-rouge">HEAD~3</code>作为新的基提交，你实际上没有移动分支——你只是将之后的3次提交重写了。注意它不会把上游分支的更改并入到feature分支中。</p>
+
+<p><img src="https://camo.githubusercontent.com/890e91bbd54876ff01865403164de70fe47b555b/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30372e737667" alt="此处输入图片的描述" /></p>
+
+<p>如果你想用这个方法重写整个feature分支，<code class="highlighter-rouge">git merge-base</code> 命令非常方便地找出feature分支开始分叉的基。下面这段命令返回基提交的ID，你可以接下来将它传给<code class="highlighter-rouge">git rebase</code>：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git merge-base feature master
+</code></pre>
+</div>
+
+<p>交互式rebase是在你工作流中引入git rebase 的的好办法，因为它只影响本地分支。其他开发者只能看到你已经完成的结果，那就是一个非常整洁、易于追踪的分支历史。</p>
+
+<p>但同样的，这只能用在私有分支上。如果你在同一个feature分支和其他开发者合作的话，这个分支是公开的，你不能重写这个历史。</p>
+
+<p>用带有交互式的rebase清理本地提交，这是无法用<code class="highlighter-rouge">git merge</code> 命令代替的。</p>
+
+<hr />
+<h3 id="将上游分支上的更改并入feature分支">将上游分支上的更改并入feature分支</h3>
+<p>在概览一节，我们看到了feature分支如何通过<code class="highlighter-rouge">git merge</code> 或<code class="highlighter-rouge">git rebase</code> 来并入上游分支。merge是保留你完整历史的安全选择，rebase将你的feature分支移动到master分支后面，创建一个线性的历史。</p>
+
+<p>git rebase 的用法和本地清理非常类似（而且可以同时使用），但之间并入了master上的上游更改。</p>
+
+<p>记住，rebase到远程分支而不是master也是完全合法的。当你和另一个开发者在同一个feature分之上协作的时候，你会用到这个用法，将他们的更改并入你的项目。</p>
+
+<p>比如说，如果你和另一个开发者——John——往feature分支上添加了几个提交，在从John的仓库中fetch之后，你的仓库可能会像下面这样：</p>
+
+<p><img src="https://camo.githubusercontent.com/6758dd2be664491c52dc4c246939f1ad5a14fba9/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30382e737667" alt="此处输入图片的描述" />)</p>
+
+<p>就和并入master上的上游更改一样，你可以这样解决这个Fork：要么merge你的本地分支和John的分支，要不把你的本地分支rebase到John的分支后面。</p>
+
+<p><img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" />)
+<img src="https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667" alt="此处输入图片的描述" />)</p>
+
+<p>注意，这里的rebase没有违反Rebase黄金法则，因为只有你的本地分支上的commit被移动了，之前的所有东西都没有变。这就像是在说“把我的改动加到John的后面去”。在大多数情况下，这比通过合并提交来同步远程分支更符合直觉。</p>
+
+<p>默认情况下，<code class="highlighter-rouge">git pull</code> 命令会执行一次merge，但你可以传入<code class="highlighter-rouge">--rebase</code> 来强制它通过rebase来整合远程分支。</p>
+
+<hr />
+<h3 id="通过pull-request进行审查">通过Pull Request进行审查</h3>
+<p>如果你将pull request作为你代码审查过程中的一环，你需要避免在创建pull request之后使用<code class="highlighter-rouge">git rebase</code>。只要你发起了pull request，其他开发者能看到你的代码，也就是说这个分支变成了公共分支。重写历史会造成Git和你的同事难以找到这个分支接下来的任何提交。</p>
+
+<p>来自其他开发者的任何更改都应该用<code class="highlighter-rouge">git merge</code> 而不是<code class="highlighter-rouge">git rebase</code> 来并入。</p>
+
+<p>因此，在提交pull request前用交互式的rebase进行代码清理通常是一个好的做法。</p>
+
+<hr />
+<p>###并入通过的功能分支</p>
+
+<p>如果某个功能被你们团队通过了，你可以选择将这个分支rebase到master分支之后，或是使用<code class="highlighter-rouge">git merge</code> 来将这个功能并入主代码库中。</p>
+
+<p>这和将上游改动并入feature分支很相似，但是你不可以在master分支重写提交，你最后需要用<code class="highlighter-rouge">git merge</code> 来并入这个feature。但是，在merge之前执行一次rebase，你可以确保merge是一直向前的，最后生成的是一个完全线性的提交历史。这样你还可以加入pull request之后的提交。</p>
+
+<p><img src="https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667" alt="此处输入图片的描述" />)
+<img src="https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667" alt="此处输入图片的描述" /></p>
+
+<p>如果你还没有完全熟悉git rebase，你还可以在一个临时分支中执行<code class="highlighter-rouge">rebase</code>。这样的话，如果你意外地弄乱了你feature分支的历史，你还可以查看原来的分支然后重试。</p>
+
+<p>比如说：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout feature
+git checkout -b temporary-branch
+git rebase -i master
+# [清理目录]
+git checkout master
+git merge temporary-branch
+</code></pre>
+</div>
+
+<hr />
+
+<p>###总结</p>
+
+<p>你使用rebase之前需要知道的知识点都在这了。如果你想要一个干净的、线性的提交历史，没有不必要的合并提交，你应该使用<code class="highlighter-rouge">git rebase</code> 而不是<code class="highlighter-rouge">git merge</code> 来并入其他分支上的更改。</p>
+
+<p>另一方面，如果你想要保存项目完整的历史，并且避免重写公共分支上的commit， 你可以使用<code class="highlighter-rouge">git merge</code>。两种选项都很好用，但至少你现在多了<code class="highlighter-rouge">git rebase</code>这个选择。</p>
+
+
+                <hr style="visibility: hidden;">
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/02/19/turkey.markup/" data-toggle="tooltip" data-placement="top" title="土耳其图集">
+                        Previous<br>
+                        <span>土耳其图集</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#生活" title="生活" rel="2">
+                                    生活
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://lawootrip.com">龟龟的Blog</a></li>
+                    
+                        <li><a href="https://www.zhihu.com/people/lawoo">龟龟的知乎</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/lawoo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/abigidea">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/SIGAOYI">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LawooTrip 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'lawootrip.com';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
