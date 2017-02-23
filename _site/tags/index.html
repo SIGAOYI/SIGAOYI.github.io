@@ -36,6 +36,13 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
+  <link rel="alternate" type="application/rss+xml" title="龟龟 || LawooTrip" href="/feed.xml">
+  <!-- Le styles -->
+  <link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+
 <!-- Growing IO-->
     <script type='text/javascript'>
       var _vds = _vds || [];
@@ -495,7 +502,32 @@
 
 <!-- Side Catalog -->
 
-
+<!-- back-to-top -->1
+<div id="back-top">
+  <a href="#section" data-toggle="tooltip" data-placement="top" title="top">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>
+<script type="text/javascript" src="/assets/resources/jquery/jquery-1.8.3.js"></script>
+<script>
+    $('#back-top').hide();
+    $(document).ready(function () {
+    $(window).scroll(function () {
+    if ($(this).scrollTop() > 250) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 800);
+    return false;
+  });
+});
+</script>
+</footer>
 
 	
 <script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
