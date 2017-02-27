@@ -210,26 +210,26 @@ CR 不仅爱打官司， 还好管「闲事」。为保护消费者利益，2011
 ---
 小贴士：
 
-在评测完毕之后，CR 一般将产品拍卖给员工。
-CR 不予许企业在宣传中引用其评测结果，不惜为此诉诸法律。
-在很长一段时间里，CR 刻意与企业和政府保持距离，以免影响判断的独立性。2007 年的失误出现后，才开始更多地咨询外界意见。
-CR 目前有 50 个实验室，100 多个测试专家，超过 25 个调查统计研究人员，超过 150 个匿名购物者。
-CR 大部分测试由自己的实验室完成，少数委托给三方实验室，2007 年的比例是十分之一。
-CR 曾拒绝一家汽车经销商的大量订阅，以免影响杂志的独立性和客观性。
-CR和「CPSC'（美国消费品安全委员会）共享数据，帮助缺陷产品召回。
-虽然有很多公司抱怨 CR，但都是针对其评测和结论，很少有人质疑其动机。
-最近几年，CR 杂志和网络订阅量大致在 700 - 800 万。
+* 在评测完毕之后，CR 一般将产品拍卖给员工。
+* CR 不予许企业在宣传中引用其评测结果，不惜为此诉诸法律。
+* 在很长一段时间里，CR 刻意与企业和政府保持距离，以免影响判断的独立性。2007年的失误出现后，才开始更多地咨询外界意见。
+* CR 目前有 50 个实验室，100 多个测试专家，超过 25 个调查统计研究人员，超过 150个匿名购物者。
+* CR 大部分测试由自己的实验室完成，少数委托给三方实验室，2007 年的比例是十分之一。
+* CR 曾拒绝一家汽车经销商的大量订阅，以免影响杂志的独立性和客观性。
+* CR和「CPSC'（美国消费品安全委员会）共享数据，帮助缺陷产品召回。
+* 虽然有很多公司抱怨 CR，但都是针对其评测和结论，很少有人质疑其动机。
+* 最近几年，CR 杂志和网络订阅量大致在 700 - 800 万。
 ---
 主要参考资料：
 
-[Consumers Union History - fundinguniverse](http://www.fundinguniverse.com/company-histories/consumers-union-history/)
-[Behind Our Ratings - Consumer Reports](http://www.consumerreports.org/cro/about-us/whats-behind-the-ratings/index.htm)
-[Cover Worthy: 80 Years of Consumer Reports Magazine - Consumer Reports](http://www.consumerreports.org/consumer-protection/cover-worthy-80-years-of-consumer-reports-magazine/)
-[Vintage Photo Gallery - Consumer Reports](http://www.consumerreports.org/cro/about-us/history/vintage-photos/index.htm)
-[Jim Guest - Timothy LaPalme](https://books.google.co.jp/books?id=MxOjAgAAQBAJ&hl=zh-CN&source=gbs_navlinks_s)
-[Watchdogs and Whistleblowers: A Reference Guide to Consumer Activism - Robert N. Mayer](https://play.google.com/store/books/details?id=uUUMCgAAQBAJ&rdid=book-uUUMCgAAQBAJ&rdot=1&source=gbs_vpt_read&pcampaignid=books_booksearch_viewport)
-[Consumer Reports in the Age of the Amazon Review -  The Atlantic](https://www.theatlantic.com/business/archive/2016/04/consumer-reports-in-the-age-of-the-amazon-review/477108/)
-[Success Without Ads - The New York Times](http://www.nytimes.com/2007/12/08/business/media/08consumer.html)
-[Meet the Sticklers -  WSJ](http://www.wsj.com/articles/SB10001424052748703866704575224093017379202)
-[Consumer Reports - Kevin P. Manion](https://books.google.co.jp/books/about/Consumer_Reports.html?id=lCAiVjC6Sp8C&redir_esc=y)
-[An Inventory to the Records of Consumers' Research, Inc. - Gregory L. Williams](http://www2.scc.rutgers.edu/ead/manuscripts/consumers_introf.html)
+* [Consumers Union History - fundinguniverse](http://www.fundinguniverse.com/company-histories/consumers-union-history/)
+* [Behind Our Ratings - Consumer Reports](http://www.consumerreports.org/cro/about-us/whats-behind-the-ratings/index.htm)
+* [Cover Worthy: 80 Years of Consumer Reports Magazine - Consumer Reports](http://www.consumerreports.org/consumer-protection/cover-worthy-80-years-of-consumer-reports-magazine/)
+* [Vintage Photo Gallery - Consumer Reports](http://www.consumerreports.org/cro/about-us/history/vintage-photos/index.htm)
+* [Jim Guest - Timothy LaPalme](https://books.google.co.jp/books?id=MxOjAgAAQBAJ&hl=zh-CN&source=gbs_navlinks_s)
+* [Watchdogs and Whistleblowers: A Reference Guide to Consumer Activism - Robert N. Mayer](https://play.google.com/store/books/details?id=uUUMCgAAQBAJ&rdid=book-uUUMCgAAQBAJ&rdot=1&source=gbs_vpt_read&pcampaignid=books_booksearch_viewport)
+* [Consumer Reports in the Age of the Amazon Review -  The Atlantic](https://www.theatlantic.com/business/archive/2016/04/consumer-reports-in-the-age-of-the-amazon-review/477108/)
+* [Success Without Ads - The New York Times](http://www.nytimes.com/2007/12/08/business/media/08consumer.html)
+* [Meet the Sticklers -  WSJ](http://www.wsj.com/articles/SB10001424052748703866704575224093017379202)
+* [Consumer Reports - Kevin P. Manion](https://books.google.co.jp/books/about/Consumer_Reports.html?id=lCAiVjC6Sp8C&redir_esc=y)
+* [An Inventory to the Records of Consumers' Research, Inc. - Gregory L. Williams](http://www2.scc.rutgers.edu/ead/manuscripts/consumers_introf.html)
