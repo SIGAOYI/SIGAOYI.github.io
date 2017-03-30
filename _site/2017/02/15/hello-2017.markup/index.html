@@ -7,10 +7,10 @@
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="龟龟的个人博客">
-    <meta name="keywords"  content="乐物旅行、乐物、龟龟、大头苗苗的老公、屁屁的爸比">
+    <meta name="keywords"  content="乐物旅行、乐物、龟龟、龟七爷、大头苗苗、逗逼、大头苗苗的老公、屁屁、屁屁的爸比">
     <meta name="theme-color" content="">
     
-    <title>Welcome to LawooTrip - 龟龟 || LawooTrip</title>
+    <title>Welcome to LawooTrip - 龟龟-乐物旅行</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -36,7 +36,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
-  <link rel="alternate" type="application/rss+xml" title="龟龟 || LawooTrip" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="龟龟-乐物旅行" href="/feed.xml">
   <!-- Le styles -->
   <link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -211,56 +211,202 @@
   <p>“Yeah It’s on. ”</p>
 </blockquote>
 
-<h2 id="前言">前言</h2>
+<h1 id="前言">前言</h1>
 
 <p>龟龟 的 Blog 就这么开通了。</p>
 
-<p><a href="#build">跳过废话，直接看技术实现 </a></p>
+<p><a href="#0">跳过废话，直接看技术实现 </a></p>
+
+<p><br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /></p>
+
+<p>其实并没有废话</p>
+
+<p>………………………………
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /></p>
 
 <p>2017 年，龟龟 总算有个地方可以好好写点东西了。</p>
 
 <p>历时大半个月，断断续续的，终于把个人站搭建起来。</p>
 
-<p id="build"></p>
 <hr />
 
-<h2 id="正文">正文</h2>
+<h1 id="目录">目录</h1>
 
-<p>接下来说说搭建这个博客的技术细节。</p>
+<h3 id="1创建属于你的gitpages"><a href="#1">1.创建属于你的GitPages</a></h3>
 
-<p>正好之前就有关注过 <a href="https://pages.github.com/">GitHub Pages</a> + <a href="http://jekyllrb.com/">Jekyll</a> 快速 Building Blog 的技术方案，非常轻松时尚。</p>
+<h3 id="2配置和使用你的gitpages"><a href="#2">2.配置和使用你的GitPages</a></h3>
 
-<p>其优点非常明显：</p>
+<h3 id="3使用jekyll搭建博客系统"><a href="#3">3.使用Jekyll搭建博客系统</a></h3>
 
-<ul>
-  <li><strong>Markdown</strong> 带来的优雅写作体验</li>
-  <li>非常便捷的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
-  <li>利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
-    <ul>
-      <li>如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了</li>
-    </ul>
-  </li>
-  <li>Jekyll 的自定制非常容易，基本就是个模版引擎</li>
-</ul>
-
-<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy) 迁移了一个<a href="http://SIGAOYI.gitcafe.io">镜像</a>出来，结果还是巨慢。</p>
-
-<p>果断开 <strong>Charles</strong>查了下网络请求，原来是 <strong>pending 在了 Google Fonts</strong> 上，页面渲染一直被阻塞到请求超时为止，难怪这么慢。<br />
-忍痛割爱，只好把 Web Fonts 去了（反正超时看到的也只能是 fallback ），果然一下就正常了，而且 GitHub 和 GitCafe 对比并没有感受到明显的速度差异，虽然 github 的 ping 值明显要高一些，达到了 300ms，于是用 DNSPOD 优化了一下速度。</p>
-
+<p id="0"></p>
+<p id="1"></p>
 <hr />
 
-<p>配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续研究。）</p>
+<h2 id="1创建属于你的gitpages-1">1.创建属于你的GitPages</h2>
+
+<p>既然是在GitHub上搭建博客，当然要先去人家平台上<a href="https://github.com">注册</a>自己的账号。</p>
+
+<p>注册流程很简单，基本就是根据官方引导往下走就可以了。</p>
+
+<p>注册号账号后，创建一个属于自己的repository，如下图所示：</p>
+
+<p><code class="highlighter-rouge">注意：repository名称的格式必须是："ID.github.io"</code></p>
+
+<p><img src="http://image.lawootrip.com/2017-02-15-01" alt="" />
+<small class="img-hint"><a href="http://www.jianshu.com/p/0ea178531ac8">细节流程参考这个教程</a></small></p>
+
+<p>推荐勾选自带README的选项，免去日后还得添加README的麻烦。</p>
+
+<p id="2"></p>
+<hr />
+
+<h2 id="2配置和使用你的gitpages-1">2.配置和使用你的GitPages</h2>
+
+<h5 id="配置和使用github">配置和使用GitHub</h5>
+
+<p>本块教程主要参考wayne23的<a href="http://www.cnblogs.com/wayne23/p/4313630.html">Github的基本配置与使用</a></p>
+
+<h5 id="配置ssh-keys">配置SSH keys</h5>
+<p>首先我们需要检查你电脑上现有的ssh key：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/. ssh 检查本机的ssh密钥
+</code></pre>
+</div>
+
+<p>如果提示：No such file or directory 说明你是第一次使用git。</p>
+
+<h5 id="生成新的ssh-keys">生成新的SSH keys</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh-keygen -t rsa -C "你用来注册的邮件地址@xxx.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
+&lt;回车就好&gt;
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">注意: 此处的「-C」的是大写的「C」</code></p>
+
+<p>然后系统会要你输入密码：
+    Enter passphrase (empty for no passphrase):<输入加密串>
+    Enter same passphrase again:<再次输入加密串></再次输入加密串></输入加密串></p>
+
+<p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
+
+<p><code class="highlighter-rouge">注意：输入密码的时候没有*字样的，你直接输入就可以了。</code></p>
+
+<h5 id="添加ssh-key到github">添加SSH Key到GitHub</h5>
+<p>在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>MAC下路径
+/Users/lizhimin/.ssh/id_rsa.pub.
+WINDOWS下路径
+C:\Documents and Settings\Administrator.ssh\id_rsa.pub
+</code></pre>
+</div>
+
+<p>此文件里面内容为刚才生成人密钥。如果看不到这个文件，你需要设置显示隐藏文件。准确的复制这个文件的内容，才能保证设置的成功。</p>
+
+<p>登陆github系统。点击右上角的 Account Settings—&gt;SSH Public keys —&gt; add another public keys</p>
+
+<p>把你本地生成的密钥复制到里面（key文本框中）， 点击 add key 就ok了</p>
+
+<h5 id="测试">测试</h5>
+<p>可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh -T git@github.com
+</code></pre>
+</div>
+
+<p>如果是下面的反馈：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The authenticity of host 'github.com (207.97.227.239)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)?
+</code></pre>
+</div>
+
+<p>不要紧张，输入yes就好，然后会看到：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Hi 你的名字! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+</div>
+
+<h5 id="设置用户信息">设置用户信息</h5>
+<p>现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。</p>
+
+<p>Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。
+    git config –global user.name “cnfeat”//用户名
+    git config –global user.email  “cnfeat@gmail.com”//填写自己的邮箱</p>
+
+<h5 id="ssh-key配置成功">SSH Key配置成功</h5>
+<p>本机已成功连接到github。</p>
+
+<p>若有问题，请重新设置。常见错误请参考：</p>
+
+<p><a href="https://help.github.com/articles/connecting-to-github-with-ssh/">GitHub Help - Generating SSH Keys</a></p>
+
+<p><a href="https://help.github.com/articles/error-permission-denied-publickey/">GitHub Help - Error Permission denied (publickey)</a></p>
+
+<p id="3"></p>
+<hr />
+
+<h2 id="3使用jekyll搭建博客系统-1">3.使用Jekyll搭建博客系统</h2>
+
+<p>这里仅以MAC下的OSX系统为例,Jekyll是用ruby开发的，所以安装Jekyll之前需要执行下面的命令安装一些依赖。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby ruby1.9.1-dev nodejs
+
+sudo gem install jekyll
+</code></pre>
+</div>
+
+<p>至此，你的MAC电脑上已经安装并配置了搭建博客需要的所有的依赖环境。</p>
+
+<p>去<a href="http://jekyllthemes.org">jekyllthemes</a> 或者<a href="https://www.zhihu.com/question/20223939">知乎</a>挑选一个Jekyll主题，并按照主题的README进行CLONE安装即可。</p>
+
+<p>以本站为例，我选用了<a href="https://github.com/Huxpro">Huang Xuan</a>原创的<a href="https://github.com/Huxpro/huxpro.github.io">Jekyll主题</a>，主题文档里有中英文的README，十分清晰可靠，强烈推荐。</p>
+
+<p>其他常见问题和基础知识可参见<a href="http://jekyll.com.cn">Jekyll官网</a> ，有中文文档，也十分清晰可靠，强烈推荐。</p>
+
+<hr />
+<h1 id="后记">后记</h1>
+
+<p>配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。</p>
+
+<p><strong>关于Git基础知识</strong></p>
+
+<p><strong>此处强烈推荐<a href="https://github.com/geeeeeeeeek">geeeeeeeeek-童仲毅</a>的<a href="https://github.com/geeeeeeeeek/git-recipes/wiki">Git 中文教程</a>悉心细读，获益匪浅。</strong></p>
 
 <p>本地调试环境需要 <code class="highlighter-rouge">gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
 
-<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些），<strong>不过其实我一直觉得 Bootstrap 在移动端的体验做得相当一般，比我在淘宝参与的团队 CSS 框架差多了……</strong>所以为了体验，也补了不少 CSS 进去</p>
+<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了。</p>
 
 <p>最后就进入了耗时反而最长的<strong>做图、写字</strong>阶段，也算是进入了<strong>写博客</strong>的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。</p>
 
 <p>第二天考虑中文字体的渲染，fork 了 <a href="http://www.typeisbeautiful.com/">Type is Beautiful</a> 的 <code class="highlighter-rouge">font</code> CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。</p>
-
-<h2 id="后记">后记</h2>
 
 <p>回顾这个博客的诞生，纯粹是出于个人兴趣。</p>
 
@@ -271,6 +417,19 @@
 <p>跑起来了</p>
 
 <p>—— 龟龟 后记于 2017.02</p>
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
+<td>
+<img src="http://image.lawootrip.com/1490878210.png" /></td>
+</tr>
+</table>
+<table>
+
+<div><small class="img-hint">这不是收钱的  加个好友而已</small></div>
+
+</table>
 
 
 <!-- 阅读量统计 -->

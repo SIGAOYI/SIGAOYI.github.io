@@ -12,47 +12,198 @@ tags:
 > “Yeah It's on. ”
 
 
-## 前言
+# 前言
 
 龟龟 的 Blog 就这么开通了。
 
-[跳过废话，直接看技术实现 ](#build)
+[跳过废话，直接看技术实现 ](#0)
+ 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
 
+
+其实并没有废话
+
+
+………………………………
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
+<br /> 
 
 
 2017 年，龟龟 总算有个地方可以好好写点东西了。
 
 历时大半个月，断断续续的，终于把个人站搭建起来。
 
+----
+
+# 目录
+
+### [1.创建属于你的GitPages](#1)
 
 
-<p id = "build"></p>
+### [2.配置和使用你的GitPages](#2)
+
+
+### [3.使用Jekyll搭建博客系统](#3)
+
+
+
+<p id = "0"></p>
+<p id = "1"></p>
 ---
 
-## 正文
+## 1.创建属于你的GitPages
 
-接下来说说搭建这个博客的技术细节。  
+既然是在GitHub上搭建博客，当然要先去人家平台上[注册](https://github.com)自己的账号。
 
+注册流程很简单，基本就是根据官方引导往下走就可以了。
 
-。。。
-拖延症发作
+注册号账号后，创建一个属于自己的repository，如下图所示：
 
+`注意：repository名称的格式必须是："ID.github.io"`
 
+![](http://image.lawootrip.com/2017-02-15-01)
+<small class="img-hint">[细节流程参考这个教程](http://www.jianshu.com/p/0ea178531ac8)</small>
 
+推荐勾选自带README的选项，免去日后还得添加README的麻烦。
+
+<p id = "2"></p>
 ---
 
-配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续研究。）
+## 2.配置和使用你的GitPages
+
+##### 配置和使用GitHub
+
+本块教程主要参考wayne23的[Github的基本配置与使用](http://www.cnblogs.com/wayne23/p/4313630.html)
+
+##### 配置SSH keys
+首先我们需要检查你电脑上现有的ssh key：
+
+    cd ~/. ssh 检查本机的ssh密钥
+
+如果提示：No such file or directory 说明你是第一次使用git。
+
+##### 生成新的SSH keys
+    ssh-keygen -t rsa -C "你用来注册的邮件地址@xxx.com"
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
+    <回车就好>
+
+`注意: 此处的「-C」的是大写的「C」`
+
+然后系统会要你输入密码：
+    Enter passphrase (empty for no passphrase):<输入加密串>
+    Enter same passphrase again:<再次输入加密串>
+
+在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。
+
+`注意：输入密码的时候没有*字样的，你直接输入就可以了。`
+
+##### 添加SSH Key到GitHub
+在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。
+
+    MAC下路径
+    /Users/lizhimin/.ssh/id_rsa.pub.
+    WINDOWS下路径
+    C:\Documents and Settings\Administrator.ssh\id_rsa.pub
+
+此文件里面内容为刚才生成人密钥。如果看不到这个文件，你需要设置显示隐藏文件。准确的复制这个文件的内容，才能保证设置的成功。
+
+登陆github系统。点击右上角的 Account Settings--->SSH Public keys ---> add another public keys
+
+把你本地生成的密钥复制到里面（key文本框中）， 点击 add key 就ok了
+
+##### 测试
+可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：
+
+    ssh -T git@github.com
+
+如果是下面的反馈：
+
+    The authenticity of host 'github.com (207.97.227.239)' can't be established.
+    RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+    Are you sure you want to continue connecting (yes/no)?
+
+不要紧张，输入yes就好，然后会看到：
+
+    Hi 你的名字! You've successfully authenticated, but GitHub does not provide shell access.
+
+##### 设置用户信息
+现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。
+
+Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。
+    git config --global user.name "cnfeat"//用户名
+    git config --global user.email  "cnfeat@gmail.com"//填写自己的邮箱
+
+##### SSH Key配置成功
+本机已成功连接到github。
+
+若有问题，请重新设置。常见错误请参考：
+
+[GitHub Help - Generating SSH Keys](https://help.github.com/articles/connecting-to-github-with-ssh/)
+
+[GitHub Help - Error Permission denied (publickey)](https://help.github.com/articles/error-permission-denied-publickey/)
+
+<p id = "3"></p>
+----
+
+## 3.使用Jekyll搭建博客系统
+
+这里仅以MAC下的OSX系统为例,Jekyll是用ruby开发的，所以安装Jekyll之前需要执行下面的命令安装一些依赖。
+
+    sudo apt-get install ruby ruby1.9.1-dev nodejs
+
+    sudo gem install jekyll
+
+至此，你的MAC电脑上已经安装并配置了搭建博客需要的所有的依赖环境。
+
+去[jekyllthemes](http://jekyllthemes.org) 或者[知乎](https://www.zhihu.com/question/20223939)挑选一个Jekyll主题，并按照主题的README进行CLONE安装即可。
+
+以本站为例，我选用了[Huang Xuan](https://github.com/Huxpro)原创的[Jekyll主题](https://github.com/Huxpro/huxpro.github.io)，主题文档里有中英文的README，十分清晰可靠，强烈推荐。
+
+其他常见问题和基础知识可参见[Jekyll官网](http://jekyll.com.cn) ，有中文文档，也十分清晰可靠，强烈推荐。
+
+
+
+----
+# 后记
+
+配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。
+
+**关于Git基础知识**
+
+**此处强烈推荐[geeeeeeeeek-童仲毅](https://github.com/geeeeeeeeek)的[Git 中文教程](https://github.com/geeeeeeeeek/git-recipes/wiki)悉心细读，获益匪浅。**
 
 本地调试环境需要 `gem install jekyll`，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功
 
-Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些），**不过其实我一直觉得 Bootstrap 在移动端的体验做得相当一般，比我在淘宝参与的团队 CSS 框架差多了……**所以为了体验，也补了不少 CSS 进去
+Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了。
 
 最后就进入了耗时反而最长的**做图、写字**阶段，也算是进入了**写博客**的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。
 
 第二天考虑中文字体的渲染，fork 了 [Type is Beautiful](http://www.typeisbeautiful.com/) 的 `font` CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。
 
-
-## 后记
 
 回顾这个博客的诞生，纯粹是出于个人兴趣。
 
@@ -63,3 +214,15 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 跑起来了
 
 —— 龟龟 后记于 2017.02
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<td>
+<img src="http://image.lawootrip.com/1490878210.png"></td>
+</tr>
+</table>
+<table>
+
+<div><small class="img-hint">这不是收钱的  加个好友而已</small></div>
+
