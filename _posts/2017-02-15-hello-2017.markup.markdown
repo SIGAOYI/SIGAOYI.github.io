@@ -124,11 +124,14 @@ tags:
 在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。
 
 MAC下路径
+
     /Users/lizhimin/.ssh/id_rsa.pub.
+
 WINDOWS下路径
+
     C:\Documents and Settings\Administrator.ssh\id_rsa.pub
 
-此文件里面内容为刚才生成人密钥。如果看不到这个文件，你需要设置显示隐藏文件。准确的复制这个文件的内容，才能保证设置的成功。
+此文件里面内容为刚才生成的密钥。如果看不到这个文件，你需要设置显示[隐藏文件](http://jingyan.baidu.com/article/d2b1d1027c6dc65c7e37d435.html)。准确的复制这个文件的内容，才能保证设置的成功。
 
 登陆github系统。点击右上角的 Account Settings--->SSH Public keys ---> add another public keys
 
@@ -159,7 +162,9 @@ Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信�
 ##### SSH Key配置成功
 本机已成功连接到github。
 
-若有问题，请重新设置。常见错误请参考：
+若有问题，请[重新设置](#0)。
+
+常见错误请参考：
 
 [GitHub Help - Generating SSH Keys](https://help.github.com/articles/connecting-to-github-with-ssh/)
 
@@ -193,16 +198,11 @@ Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信�
 
 >此处强烈推荐[geeeeeeeeek-童仲毅](https://github.com/geeeeeeeeek)关于GitHub的[“Git 中文教程”](https://github.com/geeeeeeeeek/git-recipes/wiki)，悉心细读，获益匪浅。**
 
-本地调试环境需要 `gem install jekyll`，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功
+还有本地调试环境需要 `gem install jekyll`，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功
 
 Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了。
 
-最后就进入了耗时反而最长的**做图、写字**阶段，也算是进入了**写博客**的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。
-
-第二天考虑中文字体的渲染，fork 了 [Type is Beautiful](http://www.typeisbeautiful.com/) 的 `font` CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。
-
-
-回顾这个博客的诞生，纯粹是出于个人兴趣。
+**回顾这个博客的诞生，纯粹是出于个人兴趣。**
 
 我不是程序猿，也不是Github的重度用户，只是在找一些产品源码的时候偶遇了GitPages，前几次的碰壁愈发激起了我要攻克他的信念。
 
