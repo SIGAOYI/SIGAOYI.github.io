@@ -112,6 +112,7 @@ tags:
 `注意: 此处的「-C」的是大写的「C」`
 
 然后系统会要你输入密码：
+
     Enter passphrase (empty for no passphrase):<输入加密串>
     Enter same passphrase again:<再次输入加密串>
 
@@ -122,9 +123,9 @@ tags:
 ##### 添加SSH Key到GitHub
 在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。
 
-    MAC下路径
+MAC下路径
     /Users/lizhimin/.ssh/id_rsa.pub.
-    WINDOWS下路径
+WINDOWS下路径
     C:\Documents and Settings\Administrator.ssh\id_rsa.pub
 
 此文件里面内容为刚才生成人密钥。如果看不到这个文件，你需要设置显示隐藏文件。准确的复制这个文件的内容，才能保证设置的成功。
@@ -190,9 +191,7 @@ Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信�
 
 配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。
 
-**关于Git基础知识**
-
-**此处强烈推荐[geeeeeeeeek-童仲毅](https://github.com/geeeeeeeeek)的[Git 中文教程](https://github.com/geeeeeeeeek/git-recipes/wiki)悉心细读，获益匪浅。**
+>此处强烈推荐[geeeeeeeeek-童仲毅](https://github.com/geeeeeeeeek)关于GitHub的[“Git 中文教程”](https://github.com/geeeeeeeeek/git-recipes/wiki)，悉心细读，获益匪浅。**
 
 本地调试环境需要 `gem install jekyll`，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功
 
@@ -217,10 +216,7 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 <td>
 <img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
 <td>
-<img src="http://image.lawootrip.com/1490878210.png"></td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
 </tr>
 </table>
 <table>
-
-<div><small class="img-hint">这不是收钱的  加个好友而已</small></div>
-

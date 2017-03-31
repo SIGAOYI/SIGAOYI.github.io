@@ -5,8 +5,8 @@
     <description>龟龟的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 30 Mar 2017 13:01:06 +0000</pubDate>
-    <lastBuildDate>Thu, 30 Mar 2017 13:01:06 +0000</lastBuildDate>
+    <pubDate>Fri, 31 Mar 2017 01:49:58 +0000</pubDate>
+    <lastBuildDate>Fri, 31 Mar 2017 01:49:58 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -736,6 +736,7 @@ git merge temporary-branch
 
 &lt;p&gt;历时大半个月，断断续续的，终于把个人站搭建起来。&lt;/p&gt;
 
+&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;h1 id=&quot;目录&quot;&gt;目录&lt;/h1&gt;
@@ -746,7 +747,6 @@ git merge temporary-branch
 
 &lt;h3 id=&quot;3使用jekyll搭建博客系统&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3.使用Jekyll搭建博客系统&lt;/a&gt;&lt;/h3&gt;
 
-&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
 &lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
 &lt;hr /&gt;
 
@@ -793,9 +793,12 @@ Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注意: 此处的「-C」的是大写的「C」&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;然后系统会要你输入密码：
-    Enter passphrase (empty for no passphrase):&lt;输入加密串&gt;
-    Enter same passphrase again:&lt;再次输入加密串&gt;&lt;/再次输入加密串&gt;&lt;/输入加密串&gt;&lt;/p&gt;
+&lt;p&gt;然后系统会要你输入密码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Enter passphrase (empty for no passphrase):&amp;lt;输入加密串&amp;gt;
+Enter same passphrase again:&amp;lt;再次输入加密串&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。&lt;/p&gt;
 
@@ -804,12 +807,10 @@ Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
 &lt;h5 id=&quot;添加ssh-key到github&quot;&gt;添加SSH Key到GitHub&lt;/h5&gt;
 &lt;p&gt;在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;MAC下路径
-/Users/lizhimin/.ssh/id_rsa.pub.
+&lt;p&gt;MAC下路径
+    /Users/lizhimin/.ssh/id_rsa.pub.
 WINDOWS下路径
-C:\Documents and Settings\Administrator.ssh\id_rsa.pub
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+    C:\Documents and Settings\Administrator.ssh\id_rsa.pub&lt;/p&gt;
 
 &lt;p&gt;此文件里面内容为刚才生成人密钥。如果看不到这个文件，你需要设置显示隐藏文件。准确的复制这个文件的内容，才能保证设置的成功。&lt;/p&gt;
 
@@ -880,9 +881,9 @@ sudo gem install jekyll
 
 &lt;p&gt;配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;关于Git基础知识&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;此处强烈推荐&lt;a href=&quot;https://github.com/geeeeeeeeek&quot;&gt;geeeeeeeeek-童仲毅&lt;/a&gt;的&lt;a href=&quot;https://github.com/geeeeeeeeek/git-recipes/wiki&quot;&gt;Git 中文教程&lt;/a&gt;悉心细读，获益匪浅。&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;此处强烈推荐&lt;a href=&quot;https://github.com/geeeeeeeeek&quot;&gt;geeeeeeeeek-童仲毅&lt;/a&gt;关于GitHub的&lt;a href=&quot;https://github.com/geeeeeeeeek/git-recipes/wiki&quot;&gt;“Git 中文教程”&lt;/a&gt;，悉心细读，获益匪浅。**&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;本地调试环境需要 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll&lt;/code&gt;，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功&lt;/p&gt;
 
@@ -906,13 +907,10 @@ sudo gem install jekyll
 &lt;td&gt;
 &lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
 &lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490878210.png&quot; /&gt;&lt;/td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;table&gt;
-
-&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;
-
 &lt;/table&gt;
 </description>
         <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
