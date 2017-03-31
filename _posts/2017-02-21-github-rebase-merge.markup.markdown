@@ -214,3 +214,14 @@ git rebase 的用法和本地清理非常类似（而且可以同时使用），
 你使用rebase之前需要知道的知识点都在这了。如果你想要一个干净的、线性的提交历史，没有不必要的合并提交，你应该使用`git rebase` 而不是`git merge` 来并入其他分支上的更改。
 
 另一方面，如果你想要保存项目完整的历史，并且避免重写公共分支上的commit， 你可以使用`git merge`。两种选项都很好用，但至少你现在多了`git rebase`这个选择。
+<br /> 
+<br />
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
+<table>
