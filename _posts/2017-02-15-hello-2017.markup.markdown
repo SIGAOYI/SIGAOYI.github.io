@@ -11,50 +11,33 @@ tags:
 
 > “Yeah It's on. ”
 
+[跳过废话，直接看技术实现 ](#0)
 
 # 前言
 
-龟龟 的 Blog 就这么开通了。
+96年接触电脑，97年拨号上网，98年就是2017年才开始写博客，对于一个智商应该没有问题的人来说，似乎有些奇怪。
 
-[跳过废话，直接看技术实现 ](#0)
- 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
+中间的20年去哪里了？
 
+帝国、红警、星际、三角洲、跑跑卡丁车、石器时代....
 
-其实并没有废话
+实况、FIFA、CS、求生之路、战地、澄海3C、DOTA....
 
+科科
 
-………………………………
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
-<br /> 
+直到2013年阴差阳错的进入互联网公司，才知道原来程序是这样运行的，产品是这样设计的，我们是这样被玩大的。
 
+接触GitHub有2年了，但真正成为一名低频Giter还是最近的事情，为了找一些可复用的代码包，重新捡起800年没修炼维护的英语阅读，一头扎入Git，才发现这里原来是如此[一片纯净的乐土](https://www.zhihu.com/question/28976652) .....
 
-2017 年，龟龟 总算有个地方可以好好写点东西了。
+伙伴告诉我GitHub上可以直接搭建博客，一小股好奇就这么驱动着我从创建仓库开始无休止的百度、google、bing、知乎、简书、CSDN，终于在搞崩溃了1次MAC系统、重装2次环境配置、N次`git commit` `git push\pull` `git merge` `git fetch`之后
 
-历时大半个月，断断续续的，终于把个人站搭建起来。
+一个非程序员
+
+一个吃饱了撑的产(bei)品(guo)狗(xia)
+
+一个有鼻炎和偏头疼以及很多想法的少年
+
+历时大半个月，断断续续的，终于把个人博客站搭建起来。
 
 <p id = "0"></p>
 ----
@@ -99,7 +82,7 @@ tags:
 ##### 配置SSH keys
 首先我们需要检查你电脑上现有的ssh key：
 
-    cd ~/. ssh 检查本机的ssh密钥
+    cd ~/. ssh //检查本机的ssh密钥
 
 如果提示：No such file or directory 说明你是第一次使用git。
 
@@ -156,6 +139,7 @@ WINDOWS下路径
 现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。
 
 Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。
+    
     git config --global user.name "cnfeat"//用户名
     git config --global user.email  "cnfeat@gmail.com"//填写自己的邮箱
 
@@ -214,11 +198,10 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 <br /> 
 <br />
 <table>
-<tr>
 <td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> 
+</td>
 <td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
-</tr>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div>
+</td>
 </table>
-<table>

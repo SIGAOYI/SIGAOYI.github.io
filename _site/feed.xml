@@ -5,8 +5,8 @@
     <description>龟龟的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 31 Mar 2017 06:19:42 +0000</pubDate>
-    <lastBuildDate>Fri, 31 Mar 2017 06:19:42 +0000</lastBuildDate>
+    <pubDate>Mon, 03 Apr 2017 14:52:30 +0000</pubDate>
+    <lastBuildDate>Mon, 03 Apr 2017 14:52:30 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -779,46 +779,33 @@ git merge temporary-branch
   &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
-
-&lt;p&gt;龟龟 的 Blog 就这么开通了。&lt;/p&gt;
-
 &lt;p&gt;&lt;a href=&quot;#0&quot;&gt;跳过废话，直接看技术实现 &lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
 
-&lt;p&gt;其实并没有废话&lt;/p&gt;
+&lt;p&gt;96年接触电脑，97年拨号上网，98年就是2017年才开始写博客，对于一个智商应该没有问题的人来说，似乎有些奇怪。&lt;/p&gt;
 
-&lt;p&gt;………………………………
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt; 
-&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;中间的20年去哪里了？&lt;/p&gt;
 
-&lt;p&gt;2017 年，龟龟 总算有个地方可以好好写点东西了。&lt;/p&gt;
+&lt;p&gt;帝国、红警、星际、三角洲、跑跑卡丁车、石器时代….&lt;/p&gt;
 
-&lt;p&gt;历时大半个月，断断续续的，终于把个人站搭建起来。&lt;/p&gt;
+&lt;p&gt;实况、FIFA、CS、求生之路、战地、澄海3C、DOTA….&lt;/p&gt;
+
+&lt;p&gt;科科&lt;/p&gt;
+
+&lt;p&gt;直到2013年阴差阳错的进入互联网公司，才知道原来程序是这样运行的，产品是这样设计的，我们是这样被玩大的。&lt;/p&gt;
+
+&lt;p&gt;接触GitHub有2年了，但真正成为一名低频Giter还是最近的事情，为了找一些可复用的代码包，重新捡起800年没修炼维护的英语阅读，一头扎入Git，才发现这里原来是如此&lt;a href=&quot;https://www.zhihu.com/question/28976652&quot;&gt;一片纯净的乐土&lt;/a&gt; …..&lt;/p&gt;
+
+&lt;p&gt;伙伴告诉我GitHub上可以直接搭建博客，一小股好奇就这么驱动着我从创建仓库开始无休止的百度、google、bing、知乎、简书、CSDN，终于在搞崩溃了1次MAC系统、重装2次环境配置、N次&lt;code class=&quot;highlighter-rouge&quot;&gt;git commit&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;git push\pull&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;git fetch&lt;/code&gt;之后&lt;/p&gt;
+
+&lt;p&gt;一个非程序员&lt;/p&gt;
+
+&lt;p&gt;一个吃饱了撑的产(bei)品(guo)狗(xia)&lt;/p&gt;
+
+&lt;p&gt;一个有鼻炎和偏头疼以及很多想法的少年&lt;/p&gt;
+
+&lt;p&gt;历时大半个月，断断续续的，终于把个人博客站搭建起来。&lt;/p&gt;
 
 &lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
 &lt;hr /&gt;
@@ -861,7 +848,7 @@ git merge temporary-branch
 &lt;h5 id=&quot;配置ssh-keys&quot;&gt;配置SSH keys&lt;/h5&gt;
 &lt;p&gt;首先我们需要检查你电脑上现有的ssh key：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/. ssh 检查本机的ssh密钥
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/. ssh //检查本机的ssh密钥
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -933,9 +920,12 @@ Are you sure you want to continue connecting (yes/no)?
 &lt;h5 id=&quot;设置用户信息&quot;&gt;设置用户信息&lt;/h5&gt;
 &lt;p&gt;现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。&lt;/p&gt;
 
-&lt;p&gt;Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。
-    git config –global user.name “cnfeat”//用户名
-    git config –global user.email  “cnfeat@gmail.com”//填写自己的邮箱&lt;/p&gt;
+&lt;p&gt;Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config --global user.name &quot;cnfeat&quot;//用户名
+git config --global user.email  &quot;cnfeat@gmail.com&quot;//填写自己的邮箱
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;h5 id=&quot;ssh-key配置成功&quot;&gt;SSH Key配置成功&lt;/h5&gt;
 &lt;p&gt;本机已成功连接到github。&lt;/p&gt;
@@ -994,14 +984,12 @@ sudo gem install jekyll
 &lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 &lt;table&gt;
-&lt;tr&gt;
 &lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; 
+&lt;/td&gt;
 &lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;table&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;
+&lt;/td&gt;
 &lt;/table&gt;
 </description>
         <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
