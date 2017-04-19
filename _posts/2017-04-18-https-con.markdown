@@ -4,7 +4,7 @@ title:      "各种加密代理协议的简单对比"
 subtitle:   "科学上网的基本原理"
 date:       2017-04-18
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/2017-02-27-consumer-reports-history-1.png"
+header-img: "http://image.lawootrip.com/17-04-18-bg.png"
 tags:
     - 笔记
 ---
