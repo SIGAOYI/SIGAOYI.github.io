@@ -6,7 +6,6 @@ date:       2017-02-21
 author:     "龟龟"
 header-img: "http://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg"
 tags:
-    - github
     - 笔记
 ---
 
