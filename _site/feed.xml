@@ -5,17 +5,17 @@
     <description>龟龟的个人博客</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 26 Apr 2017 07:29:42 +0000</pubDate>
-    <lastBuildDate>Wed, 26 Apr 2017 07:29:42 +0000</lastBuildDate>
+    <pubDate>Wed, 26 Apr 2017 07:59:05 +0000</pubDate>
+    <lastBuildDate>Wed, 26 Apr 2017 07:59:05 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
         <title>浅析微信扫码登陆</title>
         <description>&lt;blockquote&gt;
-  &lt;p&gt;两个微信网页版：腾讯爸爸的，我的…&lt;/p&gt;
+  &lt;p&gt;实现微信登录，不一定要认证微信开放平台。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;话不多说，直接上图。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;话不多说，直接上图。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/25s.png&quot; alt=&quot;25s&quot; /&gt;&lt;/p&gt;
 
@@ -55,7 +55,17 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;从字面上来理解的话，第一个参数大概意思是，是否要有登录图标（true=&amp;gt;要，false=&amp;gt;不要）；第二个参数，是指二维码的值，随便测试下就知道了；第三个参数，应该是指是否要提示（1=&amp;gt;要，0=&amp;gt;不要）；第四个参数，应该是一个随机数（random）；第五个参数，不难看出这是个Unix时间戳。随机数和时间戳跟安全机制有关吧，防止相关的攻击，如重放攻击。&lt;/p&gt;
+&lt;p&gt;从字面上来理解的话，&lt;/p&gt;
+
+&lt;p&gt;第一个参数大概意思是，是否要有登录图标（true=&amp;gt;要，false=&amp;gt;不要）；&lt;/p&gt;
+
+&lt;p&gt;第二个参数，是指二维码的值，随便测试下就知道了；&lt;/p&gt;
+
+&lt;p&gt;第三个参数，应该是指是否要提示（1=&amp;gt;要，0=&amp;gt;不要）；&lt;/p&gt;
+
+&lt;p&gt;第四个参数，应该是一个随机数（random）；&lt;/p&gt;
+
+&lt;p&gt;第五个参数，不难看出这是个Unix时间戳。随机数和时间戳跟安全机制有关吧，防止相关的攻击，如重放攻击。&lt;/p&gt;
 
 &lt;p&gt;这几个参数当中，最重要的是当然是uuid了，因为这是用来向服务器请求授权状态的凭借。并且这个uuid必须是唯一不重复的，不然试想下，两个人在不同的电脑下浏览到了同一个二维码，有人授权登录了，可能会是在另一个人电脑上登录微信的网页版。所以说这个唯一的uuid是专门用来绑定一个微信账号的授权的。&lt;/p&gt;
 
