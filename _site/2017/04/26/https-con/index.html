@@ -42,7 +42,10 @@
   <link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
   <link href="/assets/css/style.css" rel="stylesheet">
-
+  <link rel="apple-touch-icon" href="http://image.lawootrip.com/guigui_32.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="http://image.lawootrip.com/guigui_152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="http://image.lawootrip.com/guigui_167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="http://image.lawootrip.com/guigui_180.png">
 <!-- Growing IO-->
     <script type='text/javascript'>
       var _vds = _vds || [];
@@ -187,7 +190,7 @@
                     <h1>浅析微信扫码登陆</h1>
                     
                     
-                    <h2 class="subheading">知其所以然的小乐趣</h2>
+                    <h2 class="subheading">How to scan scan Login by WECHAT?</h2>
                     
                      
                 </div>
@@ -225,7 +228,7 @@
 
 <p>由于监听和登录操作肯定是短时间内必须完成的，比如我扫完二维码确认登录了，这个页面就要在短时间内做出响应。如果要做到这样，最简单的方法就是通过Javascript定时器，每隔几秒请求服务器并获取状态（事实上我同时也研究过新浪微博的扫二维码登录，它就是这样做的，每隔3-4秒左右请求一次）。然而这样会直接导致的问题就是，服务器会产生非常高的并发，小用户级别的服务器还没什么，但是像微信这种需要服务庞大用户群的服务器，就必须做这方面的优化。</p>
 
-<p>所以微信的采用的做法就是减少请求并增加响应时间，实现的原理大概就是在服务器端接收到请求后，内部加个定时器不断检查用户授权的状态，如果检测到用户授权则马上响应给网页端；否则继续检查；当时间累积到27秒左右，不论成不成功都终止检测并立即响应给网页端。</p>
+<p>所以微信的采用的做法就是减少请求并增加响应时间，实现的原理大概就是在服务器端接收到请求后，内部加个定时器不断检查用户授权的状态，如果检测到用户授权则马上响应给网页端；否则继续检查；当时间累积到25秒左右，不论成不成功都终止检测并立即响应给网页端。</p>
 
 <p>好了，我们接下来继续观察这个请求的参数：</p>
 
