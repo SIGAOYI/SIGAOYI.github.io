@@ -35,7 +35,7 @@ tags:
 
 ---
 
-    我是看不见的分割线
+>我是看不见的分割线
 
 ---
 
@@ -86,19 +86,19 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 
 6. 若无，路由器以外网地址 202.202.202.202 向本地 DSN 服务器 （ISP DNS）发起 DNS 查询请求
 
-7. ISP DNS 接收到 DNS 查询请求后，发现自己不是权威 DNS ，且无对应的缓存数据，于是将请求转发给 其他 DNS 服务器 :happy:
+7. ISP DNS 接收到 DNS 查询请求后，发现自己不是权威 DNS ，且无对应的缓存数据，于是将请求转发给 其他 DNS 服务器
 
-8. 其他 DNS 服务器 接收到请求后，一样发现自己不是权威 DNS，且无对应的缓存数据，于是开始进行 DNS 迭代查询：将请求发送给 根域名服务器
+8. 其他 DNS 服务器 接收到请求后，一样发现自己不是权威 DNS，且无对应的缓存数据，于是开始进行 DNS 迭代查询：将请求发送给根域名服务器
 
-9. 根域名服务器 接收到请求后，将 顶级域名服务器 (.com) IP 发送给 其他 DNS 服务器
+9. 根域名服务器接收到请求后，将顶级域名服务器 (.com) IP 发送给其他 DNS 服务器
 
-10. 其他 DNS 服务器 根据 IP 将 DNS 查询请求发送给 顶级域名服务器
+10. 其他 DNS 服务器根据 IP 将 DNS 查询请求发送给 顶级域名服务器
 
-11. 顶级域名服务器 接收到请求后，将 二级域名服务器 (jianshu.com) IP 发送给 其他 DNS 服务器
+11. 顶级域名服务器接收到请求后，将 二级域名服务器 (jianshu.com) IP 发送给其他 DNS 服务器
 
-12. 其他域名服务器 根据 IP 将 DNS 查询请求发送给 二级域名服务器
+12. 其他域名服务器根据 IP 将 DNS 查询请求发送给二级域名服务器
 
-13. 二级域名服务器 接收到请求后，发现自己是权威 DNS 服务器，于是将 www.lawootrip.com 映射的 IP 151.101.72.133 发送给 其他域名服务器
+13. 二级域名服务器 接收到请求后，发现自己是权威 DNS 服务器，于是将 www.lawootrip.com 映射的 IP 151.101.72.133 发送给其他域名服务器
 
 14. 其他域名服务器 接收到解析结果后，将 151.101.72.133 逐层返回传递下去，最终直至 192.168.1.1
 
@@ -118,12 +118,14 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 <p id="2"></p>
 ### 三、合理利用DNS TTL值 增加域名的缓存命中率
 
-![DNS服务进程](http://image.lawootrip.com/2017-05-15-TTL.png)
-<small class="img-hint">TTL设置</small>
+
 
 1、DNS 服务器采用递归或迭代来处理客户端查询时，它们将发现并获得大量有关 DNS 命名空间的重要信息。然后这些信息由服务器缓存。缓存为 DNS 解析流行名称的后续查询提供了加速性能的方法，同时大大减少了网络上与 DNS 相关的查询通信量。
 
 2、TTL(Time-To-Live)即一条域名解析记录在DNS服务器上缓存时间。当信息缓存时，生存时间 (TTL) 值适用于所有缓存的 RR。只要缓存 RR 的 TTL 没有到期，DNS 服务器就可继续缓存并再次使用 RR 来应答与这些 RR 相匹配的客户端提出的查询。
+
+![DNS服务进程](http://image.lawootrip.com/2017-05-15-TTL.png)
+<small class="img-hint">TTL设置</small>
 
 3、适当地增大TTL值可以让DNS Server缓存该域名更长时间，增加缓存的命中率。TTL一般默认为一小时，可以根据实际情况设为一天甚至一周以上。当然，如果你域名的IP经常变化，则TTL不应过大，否则各地的DNS Server会暂时无法获得新的正确的IP地址。
 
@@ -135,14 +137,16 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 
 2、控制浏览器的DNS预读取就是DNS-prefetch标签了，DNS Prefetch应该尽量的放在网页的前面，
 
-格式类似是：`<link rel="dns-prefetch" href="//img.lawootrip.com">`
+格式类似是：
+
+    <link rel="dns-prefetch" href="//img.lawootrip.com">
 
 　
 很多网站都使用使用百度广告联盟代码，使用这个就可以预读取DNS了。
 
 3、默认情况下浏览器会有隐式的DNS Prefetch，即会对页面中和当前域名(正在浏览网页的域名)不在同一个域的域名进行预获取，并且缓存结果，我们可以通过下面的标签禁止隐式的DNS Prefetch：
 
-`<meta http-equiv=”x-dns-prefetch-control” content=”off”> `
+    <meta http-equiv=”x-dns-prefetch-control” content=”off”>
 
 4、需要注意的就是，DNS Prefetch只需要在用户在第一次打开网站时使用即可，没有必要每个页面都使用DNS Prefetch，否则就是重复DNS读取了，反而还无形中增加了DNS查询的次数，效果适得其反。
 
