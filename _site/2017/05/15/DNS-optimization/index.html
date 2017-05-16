@@ -10,7 +10,7 @@
     <meta name="keywords"  content="乐物旅行、乐物、龟龟、龟七爷、大头苗苗、尼泊尔逗逼、屁屁酱">
     <meta name="theme-color" content="">
     
-    <title>Welcome to LawooTrip - LawooTrip</title>
+    <title>关于DNS解析优化的一些细碎 - LawooTrip</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/02/15/hello-2017.markup/">
+    <link rel="canonical" href="http://localhost:4000/2017/05/15/DNS-optimization/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -165,7 +165,7 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url(http://image.lawootrip.com/post-bg-pt-turkey.jpg)
+        background-image: url(http://image.lawootrip.com/2017-05-15-bg.png)
     }
 
     
@@ -179,13 +179,13 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
                         
                     </div>
-                    <h1>Welcome to LawooTrip</h1>
+                    <h1>关于DNS解析优化的一些细碎</h1>
                     
                     
-                    <h2 class="subheading"> "Hello World, Hello Blog"</h2>
+                    <h2 class="subheading">How Domain Name Servers Work</h2>
                     
                      
                 </div>
@@ -206,222 +206,211 @@
                 post-container">
 
 				<blockquote>
-  <p>“Yeah It’s on. ”</p>
+  <p>DNS优化，从入门到放弃。</p>
 </blockquote>
 
-<p><a href="#0">跳过废话，直接看技术实现 </a></p>
+<p>前段时间掉进了网站加载缓慢，数据还会丢包的大坑。</p>
 
-<h1 id="前言">前言</h1>
+<p>在产品其他方面加紧优化的基础上，又赶紧研究了一下DNS的工作原理以及通常使用的优化技巧。</p>
 
-<p>96年接触电脑，97年拨号上网，2017年才开始写博客，对于一个智商应该没有问题的人来说，似乎有些奇怪。</p>
+<p>现在从坑里爬出来了。</p>
 
-<p>中间的20年去哪里了？</p>
+<p>喘口气</p>
 
-<p>帝国、红警、星际、三角洲、跑跑卡丁车、石器时代….</p>
+<p>本文将从以下六个方面对DNS优化进行了一些细碎的小结。</p>
 
-<p>草榴…</p>
+<p><a href="#0">一、域名DNS解析原理和过程</a></p>
 
-<p>实况、FIFA、CS、求生之路、战地、澄海3C、DOTA….</p>
+<p><a href="#1">二、浏览器加载网页的基本过程</a></p>
 
-<p><em>科科</em></p>
+<p><a href="#2">三、合理利用DNS</a></p>
 
-<p>直到2013年阴差阳错的进入互联网公司，才知道原来程序是这样运行的，产品是这样设计的，我们是这样被玩大的。</p>
+<p><a href="#3">四、合理使用DNS-prefetch让DNS预读取</a></p>
 
-<p>接触GitHub有2年了，但真正成为一名低频Giter还是最近的事情，为了找一些可复用的代码包，重新捡起800年没修炼维护的英语阅读，一头扎入Git，才发现这里原来是如此<a href="https://www.zhihu.com/question/28976652/answer/42804737">一片纯净的乐土</a> …..</p>
+<p><a href="#4">五、DNS域名解析拆分为多个域名增加并行下载量</a></p>
 
-<p>伙伴告诉我GitHub上可以直接搭建博客，一小股好奇就这么驱动着我从创建仓库开始无休止的百度、google、bing、知乎、简书、CSDN，终于在搞崩溃了1次MAC系统、重装2次环境配置、N次<code class="highlighter-rouge">git commit</code> <code class="highlighter-rouge">git push\pull</code> <code class="highlighter-rouge">git merge</code> <code class="highlighter-rouge">git fetch</code>之后</p>
+<p><a href="#5">六、加快域名DNS解析速度方法小结</a></p>
 
-<p>一个非程序员</p>
+<hr />
 
-<p>一个吃饱了撑的产(bei)品(guo)狗(xia)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>我是看不见的分割线
+</code></pre>
+</div>
 
-<p>一个有鼻炎和偏头疼以及很多想法的少年</p>
-
-<p>历时大半个月，断断续续的，终于把个人博客站搭建起来。</p>
+<hr />
 
 <p id="0"></p>
+<h3 id="一域名dns解析原理和过程">一、域名DNS解析原理和过程</h3>
+
+<h5 id="dns是怎么来的">DNS是怎么来的?</h5>
+
+<p>DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP地址之间是一对一(或者多对一)的，域名虽然便于人们记忆，但机器之间只能互相认识IP地址，它们之间的转换工作称为域名解析，域名解析需要由专门的域名解析服务器来完成，DNS就是进行域名解析的服务器。</p>
+
+<p><img src="http://image.lawootrip.com/2017-05-15-structure.PNG" alt="DNS服务结构" />
+<small class="img-hint">DNS的树形结构</small></p>
+
+<p>如上图所示，DNS服务器类型主要有：</p>
+
+<ul>
+  <li>
+    <p>内部 DNS ：位于内网中，提供内网 DNS 服务，也具备 Internet DNS 缓存与转发能力</p>
+  </li>
+  <li>
+    <p>外部 DNS：位于 Internet 中，提供 Internet 的 DNS 服务（包括 DNS 缓存与转发）</p>
+  </li>
+  <li>
+    <p>主 DNS：提供 DNS 服务（包括查询，缓存写入）</p>
+  </li>
+  <li>
+    <p>辅 DNS：只提供 DNS 查询服务，与主 DNS 同步数据库</p>
+  </li>
+  <li>
+    <p>唯缓存 DNS：自身不具备 DNS 解析能力，但具有 DNS 缓存数据库</p>
+  </li>
+  <li>
+    <p>转发 DNS：具备转发特性，能将 DNS 请求转发给其他 DNS 服务器</p>
+  </li>
+  <li>
+    <p>权威 DNS： 自身数据库中存在与 DNS 请求相对应的映射</p>
+  </li>
+  <li>
+    <p>非权威 DNS：不存在相对应的映射，而存在对应缓存查询结果</p>
+  </li>
+</ul>
+
+<p><img src="http://image.lawootrip.com/2017-05-15-DNS-process.png" alt="DNS服务进程" />
+<small class="img-hint">DNS解析进程</small></p>
+
+<p>上图的DNS解析过程如下：</p>
+
+<ol>
+  <li>
+    <p>龟龟(192.168.1.1) 在浏览器访问 http://www.lawootrip.com</p>
+  </li>
+  <li>
+    <p>192.168.1.1 检查本地 hosts 文件中是否存在 www.lawootrip.com 对应的 IP</p>
+  </li>
+  <li>
+    <p>若无，192.168.1.1 继续检查本地 DNS 缓存中是否存在 www.lawootrip.com 对应的 IP</p>
+  </li>
+  <li>
+    <p>若无， 192.168.1.1 向本地 DNS 服务器发起 DNS 查询请求</p>
+  </li>
+  <li>
+    <p>路由器接收到 DNS 查询请求后，检查路由器 DNS 缓存</p>
+  </li>
+  <li>
+    <p>若无，路由器以外网地址 202.202.202.202 向本地 DSN 服务器 （ISP DNS）发起 DNS 查询请求</p>
+  </li>
+  <li>
+    <p>ISP DNS 接收到 DNS 查询请求后，发现自己不是权威 DNS ，且无对应的缓存数据，于是将请求转发给 其他 DNS 服务器 :happy:</p>
+  </li>
+  <li>
+    <p>其他 DNS 服务器 接收到请求后，一样发现自己不是权威 DNS，且无对应的缓存数据，于是开始进行 DNS 迭代查询：将请求发送给 根域名服务器</p>
+  </li>
+  <li>
+    <p>根域名服务器 接收到请求后，将 顶级域名服务器 (.com) IP 发送给 其他 DNS 服务器</p>
+  </li>
+  <li>
+    <p>其他 DNS 服务器 根据 IP 将 DNS 查询请求发送给 顶级域名服务器</p>
+  </li>
+  <li>
+    <p>顶级域名服务器 接收到请求后，将 二级域名服务器 (jianshu.com) IP 发送给 其他 DNS 服务器</p>
+  </li>
+  <li>
+    <p>其他域名服务器 根据 IP 将 DNS 查询请求发送给 二级域名服务器</p>
+  </li>
+  <li>
+    <p>二级域名服务器 接收到请求后，发现自己是权威 DNS 服务器，于是将 www.lawootrip.com 映射的 IP 151.101.72.133 发送给 其他域名服务器</p>
+  </li>
+  <li>
+    <p>其他域名服务器 接收到解析结果后，将 151.101.72.133 逐层返回传递下去，最终直至 192.168.1.1</p>
+  </li>
+  <li>
+    <p>15.192.168.1.1 接收到 www.lawootrip.com 解析结果 151.101.72.133 ，根据 IP 与 www.lawootrip.com 建立 TCP 连接，然后发起 HTTP 请求主页内容</p>
+  </li>
+</ol>
+
 <hr />
-
-<h1 id="目录">目录</h1>
-
-<h3 id="1创建属于你的gitpages"><a href="#1">1.创建属于你的GitPages</a></h3>
-
-<h3 id="2配置和使用你的gitpages"><a href="#2">2.配置和使用你的GitPages</a></h3>
-
-<h3 id="3使用jekyll搭建博客系统"><a href="#3">3.使用Jekyll搭建博客系统</a></h3>
-
 <p id="1"></p>
+<h3 id="二浏览器加载网页的基本过程">二、浏览器加载网页的基本过程</h3>
+
+<p>1、从浏览器地址栏的请求链接开始，浏览器通过DNS解析查到域名映射的IP地址，成功之后浏览器端向此IP地址取得连接，成功连接之后，浏览器端将请求头信息通过HTTP协议向此IP地址所在服务器发起请求，服务器接受到请求之后等待处理。</p>
+
+<p>2、览器加载显示html的顺序是：从上到下，渲染的顺序也是从上到下，下载和渲染是同时进行的。如果遇到语义解释性的标签嵌入文件(JS脚本，CSS 下载过程会启用单独连接进行下载，并且在下载后进行解析，解析过程中，停止页面所有往下元素的下载。</p>
+
+<p>3、什么原因会导致网页加载过慢?浏览器可以在下载CSS资源的同时，并行解析HTML文件，但是，一旦发现有脚本文件的引用，则必须等待脚本文件完成下载并且执行后才能继续解析。内容下载时间主要取决于用户带宽、服务器带宽、文件大小、文件数量等。一般来说，将静态文件挂在CDN上，甚至全站CDN，往往能较好的解决这类问题。</p>
+
 <hr />
-
-<h2 id="1创建属于你的gitpages-1">1.创建属于你的GitPages</h2>
-
-<p>既然是在GitHub上搭建博客，当然要先去人家平台上<a href="https://github.com">注册</a>自己的账号。</p>
-
-<p>注册流程很简单，基本就是根据官方引导往下走就可以了。</p>
-
-<p>注册号账号后，创建一个属于自己的repository，如下图所示：</p>
-
-<p><code class="highlighter-rouge">注意：repository名称的格式必须是："ID.github.io"</code></p>
-
-<p><img src="http://image.lawootrip.com/2017-02-15-01" alt="" />
-<small class="img-hint"><a href="http://www.jianshu.com/p/0ea178531ac8">细节流程参考这个教程</a></small></p>
-
-<p>推荐勾选自带README的选项，免去日后还得添加README的麻烦。</p>
-
 <p id="2"></p>
+<h3 id="三合理利用dns-ttl值-增加域名的缓存命中率">三、合理利用DNS TTL值 增加域名的缓存命中率</h3>
+
+<p><img src="http://image.lawootrip.com/2017-05-15-TTL.png" alt="DNS服务进程" />
+<small class="img-hint">TTL设置</small></p>
+
+<p>1、DNS 服务器采用递归或迭代来处理客户端查询时，它们将发现并获得大量有关 DNS 命名空间的重要信息。然后这些信息由服务器缓存。缓存为 DNS 解析流行名称的后续查询提供了加速性能的方法，同时大大减少了网络上与 DNS 相关的查询通信量。</p>
+
+<p>2、TTL(Time-To-Live)即一条域名解析记录在DNS服务器上缓存时间。当信息缓存时，生存时间 (TTL) 值适用于所有缓存的 RR。只要缓存 RR 的 TTL 没有到期，DNS 服务器就可继续缓存并再次使用 RR 来应答与这些 RR 相匹配的客户端提出的查询。</p>
+
+<p>3、适当地增大TTL值可以让DNS Server缓存该域名更长时间，增加缓存的命中率。TTL一般默认为一小时，可以根据实际情况设为一天甚至一周以上。当然，如果你域名的IP经常变化，则TTL不应过大，否则各地的DNS Server会暂时无法获得新的正确的IP地址。</p>
+
 <hr />
-
-<h2 id="2配置和使用你的gitpages-1">2.配置和使用你的GitPages</h2>
-
-<h5 id="配置和使用github">配置和使用GitHub</h5>
-
-<p>本块教程主要参考wayne23的<a href="http://www.cnblogs.com/wayne23/p/4313630.html">Github的基本配置与使用</a></p>
-
-<h5 id="配置ssh-keys">配置SSH keys</h5>
-<p>首先我们需要检查你电脑上现有的ssh key：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/. ssh //检查本机的ssh密钥
-</code></pre>
-</div>
-
-<p>如果提示：No such file or directory 说明你是第一次使用git。</p>
-
-<h5 id="生成新的ssh-keys">生成新的SSH keys</h5>
-<div class="highlighter-rouge"><pre class="highlight"><code>ssh-keygen -t rsa -C "你用来注册的邮件地址@xxx.com"
-Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
-&lt;回车就好&gt;
-</code></pre>
-</div>
-
-<p><code class="highlighter-rouge">注意: 此处的「-C」的是大写的「C」</code></p>
-
-<p>然后系统会要你输入密码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Enter passphrase (empty for no passphrase):&lt;输入加密串&gt;
-Enter same passphrase again:&lt;再次输入加密串&gt;
-</code></pre>
-</div>
-
-<p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。</p>
-
-<p><code class="highlighter-rouge">注意：输入密码的时候没有*字样的，你直接输入就可以了。</code></p>
-
-<h5 id="添加ssh-key到github">添加SSH Key到GitHub</h5>
-<p>在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。</p>
-
-<p>MAC下路径</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>/Users/lizhimin/.ssh/id_rsa.pub.
-</code></pre>
-</div>
-
-<p>WINDOWS下路径</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>C:\Documents and Settings\Administrator.ssh\id_rsa.pub
-</code></pre>
-</div>
-
-<p>此文件里面内容为刚才生成的密钥。如果看不到这个文件，你需要设置显示<a href="http://jingyan.baidu.com/article/d2b1d1027c6dc65c7e37d435.html">隐藏文件</a>。准确的复制这个文件的内容，才能保证设置的成功。</p>
-
-<p>登陆github系统。点击右上角的 Account Settings—&gt;SSH Public keys —&gt; add another public keys</p>
-
-<p>把你本地生成的密钥复制到里面（key文本框中）， 点击 add key 就ok了</p>
-
-<h5 id="测试">测试</h5>
-<p>可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>ssh -T git@github.com
-</code></pre>
-</div>
-
-<p>如果是下面的反馈：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The authenticity of host 'github.com (207.97.227.239)' can't be established.
-RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
-Are you sure you want to continue connecting (yes/no)?
-</code></pre>
-</div>
-
-<p>不要紧张，输入yes就好，然后会看到：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Hi 你的名字! You've successfully authenticated, but GitHub does not provide shell access.
-</code></pre>
-</div>
-
-<h5 id="设置用户信息">设置用户信息</h5>
-<p>现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。</p>
-
-<p>Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>git config --global user.name "cnfeat"//用户名
-git config --global user.email  "cnfeat@gmail.com"//填写自己的邮箱
-</code></pre>
-</div>
-
-<h5 id="ssh-key配置成功">SSH Key配置成功</h5>
-<p>本机已成功连接到github。</p>
-
-<p>若有问题，请<a href="#0">重新设置</a>。</p>
-
-<p>常见错误请参考：</p>
-
-<p><a href="https://help.github.com/articles/connecting-to-github-with-ssh/">GitHub Help - Generating SSH Keys</a></p>
-
-<p><a href="https://help.github.com/articles/error-permission-denied-publickey/">GitHub Help - Error Permission denied (publickey)</a></p>
-
 <p id="3"></p>
-<hr />
+<h3 id="四合理使用dns-prefetch让dns预读取">四、合理使用DNS-prefetch让DNS预读取</h3>
 
-<h2 id="3使用jekyll搭建博客系统-1">3.使用Jekyll搭建博客系统</h2>
+<p>1、从上面浏览器加载网页的过程可以看出，网页的请求是可以多任务同时进行的，对于网页有多个DNS请求的情况，可以让浏览器在后台先把要使用的DNS请求默默地完成，这样当用户在打开新的网页时，就可以节省DNS查询的时间了。</p>
 
-<p>这里仅以MAC下的OSX系统为例,Jekyll是用ruby开发的，所以安装Jekyll之前需要执行下面的命令安装一些依赖。</p>
+<p>2、控制浏览器的DNS预读取就是DNS-prefetch标签了，DNS Prefetch应该尽量的放在网页的前面，</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby ruby1.9.1-dev nodejs
+<p>格式类似是：<code class="highlighter-rouge">&lt;link rel="dns-prefetch" href="//img.lawootrip.com"&gt;</code></p>
 
-sudo gem install jekyll
-</code></pre>
-</div>
+<p>　
+很多网站都使用使用百度广告联盟代码，使用这个就可以预读取DNS了。</p>
 
-<p>至此，你的MAC电脑上已经安装并配置了搭建博客需要的所有的依赖环境。</p>
+<p>3、默认情况下浏览器会有隐式的DNS Prefetch，即会对页面中和当前域名(正在浏览网页的域名)不在同一个域的域名进行预获取，并且缓存结果，我们可以通过下面的标签禁止隐式的DNS Prefetch：</p>
 
-<p>去<a href="http://jekyllthemes.org">jekyllthemes</a> 或者<a href="https://www.zhihu.com/question/20223939">知乎</a>挑选一个Jekyll主题，并按照主题的README进行CLONE安装即可。</p>
+<p><code class="highlighter-rouge">&lt;meta http-equiv=”x-dns-prefetch-control” content=”off”&gt; </code></p>
 
-<p>以本站为例，我选用了<a href="https://github.com/Huxpro">Huang Xuan</a>原创的<a href="https://github.com/Huxpro/huxpro.github.io">Jekyll主题</a>，主题文档里有中英文的README，十分清晰可靠，强烈推荐。</p>
-
-<p>其他常见问题和基础知识可参见<a href="http://jekyll.com.cn">Jekyll官网</a> ，有中文文档，也十分清晰可靠，强烈推荐。</p>
+<p>4、需要注意的就是，DNS Prefetch只需要在用户在第一次打开网站时使用即可，没有必要每个页面都使用DNS Prefetch，否则就是重复DNS读取了，反而还无形中增加了DNS查询的次数，效果适得其反。</p>
 
 <hr />
-<h1 id="后记">后记</h1>
+<p id="4"></p>
+<h3 id="五dns域名解析拆分为多个域名增加并行下载量">五、DNS域名解析拆分为多个域名增加并行下载量</h3>
 
-<p>配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。</p>
+<p>1、一般来说网页的内容加载时会发生多个域名请求服务，如果你的网站JS、CSS、图片等非常多的话，建议将这些文件分别放在不同的域名上，这样浏览器在打开某一个页面时就可以同时向这些域名发送DNS解析请求了，能在一定程度上减少DNS时间。</p>
 
-<blockquote>
-  <p>此处强烈推荐<a href="https://github.com/geeeeeeeeek">geeeeeeeeek-童仲毅</a>关于GitHub的<a href="https://github.com/geeeeeeeeek/git-recipes/wiki">“Git 中文教程”</a>，悉心细读，获益匪浅。**</p>
-</blockquote>
+<p>2、网页的内容越多，分析的域名应该尽量多一些。例如html、htm，js、css，jpg、png、gif，php、asp都可以放在不同的域名上。在实际应用上，使用全站CDN或者是静态文件CDN就可以实现上述效果，并且结合css sprite一起来使用的。</p>
 
-<p>还有本地调试环境需要 <code class="highlighter-rouge">gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
+<p>3、css sprite(雪碧图)的作用恰恰相反，它不是增加域名请求，而减少域名DNS请求，主要是用在图片上。它允许你将一个页面涉及到的所有零星图片都包含到一张大图中去，这样一来，当访问该页面时，载入的图片就不会像以前那样一幅一幅地慢慢显示出来了。</p>
 
-<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了。</p>
+<hr />
+<p id="5"></p>
+<h3 id="六加快域名dns解析速度方法小结">六、加快域名DNS解析速度方法小结</h3>
 
-<p><strong>回顾这个博客的诞生，纯粹是出于个人兴趣。</strong></p>
+<p>1、以上就是一些简单的优化DNS小技巧，即时对个人开发者来说也没有什么门槛和技术难度，但是对提升网站的响应速度却有着明显的功效，大家不妨一试。</p>
 
-<p>我不是程序猿，也不是Github的重度用户，只是在找一些产品源码的时候偶遇了GitPages，前几次的碰壁愈发激起了我要攻克他的信念。</p>
+<p>2、除了从网站本身的DNS解析来加快访问速度外，我们平常在选择DNS服务时尽量使用那些稳定可靠的DNS服务，这样的DNS服务响应速度和缓存率都是非常不错的。假如自己的网站分拆了多个二级域名，不妨好好用用CNAME，设置好TTL时间，保证网站的第一次解析，可以直接从运营商的DNS缓存中拿到。</p>
 
-<p>今日终于</p>
+<p>此处顺便推荐三个神器，两个神服务。</p>
 
-<p>跑起来了</p>
+<p>“DNSpod”作为NS服务商，免费稳定专业。</p>
 
-<p>—— 龟龟 后记于 2017.02
-<br /> 
+<p>“七牛云CDN”作为CDN服务商，免费稳定专业。</p>
+
+<p><img src="http://image.lawootrip.com/2017-05-15-shenqi.png" alt="Chrles+Dig+微信web工具" />
+<small class="img-hint">Chrles+Dig+微信web工具</small></p>
+
+<p>MAC环境下，推荐 <strong>Charles</strong>用来进行数据抓包，网络通讯分析；<strong>Dig</strong>用来检测DNS，GUI界面，简单直观好用；<strong>微信web工具</strong>作为辅助，尤其是你的产品需要在微信内打开时，必备工具。</p>
+
+<p><br /> 
 <br /></p>
 <table>
+<tr>
 <td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> 
-</td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
 <td>
-<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div>
-</td>
+<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
 </table>
 
 
@@ -430,7 +419,7 @@ sudo gem install jekyll
                 <a href="/">龟龟</a>
                 <span class="time">
                 /
-                <time>2017-02-15</time>
+                <time>2017-05-15</time>
                 <style>span.test {color: #0085A5;font-weight: bold;}</style>
                 </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
                 <br>
@@ -446,13 +435,13 @@ sudo gem install jekyll
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
-                        <a href="/2017/02/15/Kashmir-tear/" data-toggle="tooltip" data-placement="top" title="克什米尔之殇">
-                        Next<br>
-                        <span>克什米尔之殇</span>
+                    <li class="previous">
+                        <a href="/2017/04/26/https-con/" data-toggle="tooltip" data-placement="top" title="浅析微信扫码登陆">
+                        Previous<br>
+                        <span>浅析微信扫码登陆</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
