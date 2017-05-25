@@ -7,6 +7,7 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/travel-turkey.jpeg"
 tags:
     - 图集
+    - 旅行
 ---
 
 > “Türk Marşı”

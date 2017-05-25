@@ -7,6 +7,7 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
 tags:
     - 笔记
+    - DNS
 ---
 
 >DNS优化，从入门到放弃。

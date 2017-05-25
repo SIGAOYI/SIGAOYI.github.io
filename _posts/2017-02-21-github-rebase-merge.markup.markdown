@@ -7,6 +7,7 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg"
 tags:
     - 笔记
+    - GitHub
 ---
 
 <blockquote>

@@ -7,6 +7,7 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/17-04-26-bg.png"
 tags:
     - 笔记
+    - 微信
 ---
 
 >实现微信登录，不一定要认证微信开放平台。
