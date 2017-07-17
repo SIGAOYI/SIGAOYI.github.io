@@ -87,7 +87,11 @@ friends: [
     },{
         title: "龟龟的知乎",
         href: "https://www.zhihu.com/people/lawoo"
+    },{
+        title: "canjia",
+        href: "http://xucanjia.com"
     }
+
 ]
 # 时区
 timezone: CN
