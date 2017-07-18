@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Web缓存的一些细碎"
+title:      "Web缓存的一些细碎01"
 subtitle:   "The Story of localStorage..."
 date:       2017-07-17
 author:     "龟龟"
@@ -278,7 +278,7 @@ File System API 也是一种可选的缓存机制，和前面的 SQLDatabase、I
 3. [Web缓存机制系列
 ](http://www.alloyteam.com/2012/03/web-cache-1-web-cache-overview/)
 4. [Web 前端实现本地存储](https://segmentfault.com/a/1190000002701423)
-5. [H5 缓存机制浅析 - 移动端 Web 加载性能优化](https://segmentfault.com/a/1190000004132566)
+5. [H5 缓存机制浅析 - 移动端 Web 加载性能优化](http://www.lawootrip.com/2017/07/17/Vue.js-Volume02)
 6. [浏览器缓存机制](http://www.cnblogs.com/skynet/archive/2012/11/28/2792503.html)
 7. [浏览器缓存机制详解](http://mangguo.org/browser-cache-mechanism-detailed/)
 8. [透过浏览器看HTTP缓存](http://www.cnblogs.com/skylar/p/browser-http-caching.html)
