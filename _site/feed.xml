@@ -5,8 +5,8 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 18 Jul 2017 08:53:41 +0000</pubDate>
-    <lastBuildDate>Tue, 18 Jul 2017 08:53:41 +0000</lastBuildDate>
+    <pubDate>Tue, 18 Jul 2017 08:58:54 +0000</pubDate>
+    <lastBuildDate>Tue, 18 Jul 2017 08:58:54 +0000</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
@@ -46,7 +46,7 @@
   &lt;li&gt;负载优化，浏览器只从服务器下载更新过或更改过的资源&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;H5目前的6种缓存机制在&lt;a href=&quot;http://www.lawootrip.com/2017-07-17-web-localstorage-Volume01.markdown&quot;&gt;前一篇文章&lt;/a&gt;有提及。&lt;/p&gt;
+&lt;p&gt;H5目前的6种缓存机制在&lt;a href=&quot;http://www.lawootrip.com/2017/07/17/web-localstorage-Volume01/&quot;&gt;前一篇文章&lt;/a&gt;有提及。&lt;/p&gt;
 
 &lt;p&gt;下面将首先分析各种缓存机制的原理、用法及特点；然后针对 Anroid 移动端 Web 性能加载优化的需求，看如果利用适当缓存机制来提高 Web 的加载性能。&lt;/p&gt;
 
@@ -607,7 +607,7 @@ FALLBACK:
   &lt;li&gt;&lt;a href=&quot;http://www.alloyteam.com/2012/03/web-cache-1-web-cache-overview/&quot;&gt;Web缓存机制系列
 &lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000002701423&quot;&gt;Web 前端实现本地存储&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.lawootrip.com/2017/07/17/Vue.js-Volume02&quot;&gt;H5 缓存机制浅析 - 移动端 Web 加载性能优化&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.lawootrip.com/2017/07/18/web-localstorage-Volume02/&quot;&gt;H5 缓存机制浅析 - 移动端 Web 加载性能优化&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.cnblogs.com/skynet/archive/2012/11/28/2792503.html&quot;&gt;浏览器缓存机制&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://mangguo.org/browser-cache-mechanism-detailed/&quot;&gt;浏览器缓存机制详解&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.cnblogs.com/skylar/p/browser-http-caching.html&quot;&gt;透过浏览器看HTTP缓存&lt;/a&gt;&lt;/li&gt;

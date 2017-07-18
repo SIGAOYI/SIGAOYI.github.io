@@ -40,7 +40,7 @@ H5 应用程序缓存为应用带来三个优势：
 * 速度，已缓存的资源加载的更快
 * 负载优化，浏览器只从服务器下载更新过或更改过的资源
 
-H5目前的6种缓存机制在[前一篇文章](http://www.lawootrip.com/2017-07-17-web-localstorage-Volume01.markdown)有提及。
+H5目前的6种缓存机制在[前一篇文章](http://www.lawootrip.com/2017/07/17/web-localstorage-Volume01/)有提及。
 
 下面将首先分析各种缓存机制的原理、用法及特点；然后针对 Anroid 移动端 Web 性能加载优化的需求，看如果利用适当缓存机制来提高 Web 的加载性能。
 
