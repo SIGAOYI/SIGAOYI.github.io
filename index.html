@@ -1,42 +1,278 @@
----
-layout: page
-description: "龟龟的自留地-乐物旅行"
----
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>龟龟的个人博客</title>
+		<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.description }}">
+    <meta name="keywords"  content="{{ site.keyword }}">
+    <meta name="theme-color" content="{{ site.chrome-tab-theme-color }}">
 
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">
-            {{ post.title }}
-        </h2>
-        {% if post.subtitle %}
-        <h3 class="post-subtitle">
-            {{ post.subtitle }}
-        </h3>
-        {% endif %}
-        <div class="post-content-preview">
-            {{ post.content | strip_html | truncate:99 }}
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
-</div>
-<hr>
-{% endfor %}
+    <title>{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
-{% endif %}
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ "/css/hux-blog.min.css" | prepend: site.baseurl }}">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
+
+  <link rel="alternate" type="application/rss+xml" title="{{ site.SEOTitle }}" href="{{ site.BASE_PATH }}/feed.xml">
+  <!-- Le styles -->
+  <!--iphone-icon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" sizes="152x152" href="http://image.lawootrip.com/guigui_152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="http://image.lawootrip.com/guigui_167.png">
+
+	<style type="text/css">
+		body {
+			background-color: #193c6d;
+			filter: progid: DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#003073', endColorstr='#029797');
+			background-image: url(//img.alicdn.com/tps/TB1d.u8MXXXXXXuXFXXXXXXXXXX-1900-790.jpg);
+			background-size: 100%;
+			background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0, #003073), color-stop(100%, #029797));
+			background-image: -webkit-linear-gradient(135deg, #003073, #029797);
+			background-image: -moz-linear-gradient(45deg, #003073, #029797);
+			background-image: -ms-linear-gradient(45deg, #003073 0, #029797 100%);
+			background-image: -o-linear-gradient(45deg, #003073, #029797);
+			background-image: linear-gradient(135deg, #003073, #029797);
+			text-align: center;
+			margin: 0px;
+			overflow: hidden;
+		}
+		#headTitle {
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			width: 400px;
+			height: 112px;
+			margin-left: -200px;
+			font-size: 70px;
+			font-weight: bold;
+			color: #FFFFFF;
+			z-index: 3;
+		}
+		#subTitle {
+			position: absolute;
+			top: 45%;
+			left: 50%;
+			width: 280px;
+			height: 56px;
+			margin-left: -140px;
+			font-size: 30px;
+			font-weight: bold;
+			color: #FFFFFF;
+			z-index: 3;
+		}
+
+		a {
+			display: block;
+			text-align: center;
+	    background: #0776E4;
+	    font-size: 16px;
+	    font-weight: bold;
+			text-decoration: none;
+			color: #FFFFFF;
+		}
+		a:hover { background: green;}
+		#entry {
+			position: absolute;
+			top: 55%;
+			left: 50%;
+			width: 100px;
+			height: 50px;
+			margin-left: -50px;
+			background-color: #BD1D2B;
+			line-height: 50px;
+			text-align: center;
+			z-index: 2;
+		}
+	</style>
+	</head>
+
+	<body>
+		<div id="headTitle">
+			LawooTrip
+		</div>
+		<div id="subTitle">
+			龟龟的个人博客
+		</div>
+		<div id="entry">
+	    <a href="/home">进入博客</a>
+	  </div>
+	<!-- bigbigwave -->
+	<script src="js/three.min.js"></script>
+	<script>
+
+		var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
+
+		var container;
+		var camera, scene, renderer;
+
+		var particles, particle, count = 0;
+
+		var mouseX = 0, mouseY = 0;
+
+		var windowHalfX = window.innerWidth / 2;
+		var windowHalfY = window.innerHeight / 2;
+
+		init();
+		animate();
+
+		function init() {
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.z = 1000;
+
+			scene = new THREE.Scene();
+
+			particles = new Array();
+
+			var PI2 = Math.PI * 2;
+			var material = new THREE.ParticleCanvasMaterial( {
+
+				color: 0xffffff,
+				program: function ( context ) {
+
+					context.beginPath();
+					context.arc( 0, 0, 1, 0, PI2, true );
+					context.fill();
+
+				}
+
+			} );
+
+			var i = 0;
+
+			for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+				for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+					particle = particles[ i ++ ] = new THREE.Particle( material );
+					particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+					particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+					scene.add( particle );
+
+				}
+
+			}
+
+			renderer = new THREE.CanvasRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			container.appendChild( renderer.domElement );
+
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+			//
+
+			window.addEventListener( 'resize', onWindowResize, false );
+
+		}
+
+		function onWindowResize() {
+
+			windowHalfX = window.innerWidth / 2;
+			windowHalfY = window.innerHeight / 2;
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+		//
+
+		function onDocumentMouseMove( event ) {
+
+			mouseX = event.clientX - windowHalfX;
+			mouseY = event.clientY - windowHalfY;
+
+		}
+
+		function onDocumentTouchStart( event ) {
+
+			if ( event.touches.length === 1 ) {
+
+				event.preventDefault();
+
+				mouseX = event.touches[ 0 ].pageX - windowHalfX;
+				mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+			}
+
+		}
+
+		function onDocumentTouchMove( event ) {
+
+			if ( event.touches.length === 1 ) {
+
+				event.preventDefault();
+
+				mouseX = event.touches[ 0 ].pageX - windowHalfX;
+				mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+			}
+
+		}
+
+		//
+
+		function animate() {
+
+			requestAnimationFrame( animate );
+
+			render();
+
+
+		}
+
+		function render() {
+
+			camera.position.x += ( mouseX - camera.position.x ) * .05;
+			camera.position.y += ( - mouseY - camera.position.y ) * .05;
+			camera.lookAt( scene.position );
+
+			var i = 0;
+
+			for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+				for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+					particle = particles[ i++ ];
+					particle.position.y = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) + ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+					particle.scale.x = particle.scale.y = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 2 + ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 2;
+
+				}
+
+			}
+
+			renderer.render( scene, camera );
+
+			count += 0.1;
+
+		}
+	</script>
+	</body>
+</html>

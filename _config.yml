@@ -16,7 +16,7 @@ weibo_username:     abigidea
 zhihu_username:     lawoo
 github_username:    SIGAOYI
 #twitter_username:  huxpro
-#facebook_username:  
+#facebook_username:
 
 
 
@@ -24,7 +24,8 @@ github_username:    SIGAOYI
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
 highlighter: rouge
 permalink: pretty
-paginate: 9
+paginate: 8
+paginate_path: "home/page:num"
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
 #anchorjs: ture                          # if you want to customize anchor. check out line:181 of `post.html`
 
@@ -95,7 +96,3 @@ friends: [
 ]
 # 时区
 timezone: CN
-
-#deploy
-#source:      _source
-#destination: _deploy
