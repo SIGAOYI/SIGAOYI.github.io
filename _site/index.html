@@ -110,7 +110,7 @@
 		<div id="headTitle">
 			LawooTrip
 		</div>
-		<div id="subTitle">
+		<div id="subTitle" touchstart>
 			龟龟的个人博客
 		</div>
 		<div id="entry">
@@ -275,7 +275,7 @@
 		}
 	</script>
 	<script>
-		var a = document.getElementsByTagName('a');
+		var a = document.getElementsById('entry');
 		for(var i = 0; i < a.length; i++)
 		{
 		  a[i].addEventListener('touchstart',function(){},false);

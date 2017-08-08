@@ -90,7 +90,7 @@
 			text-decoration: none;
 			color: #FFFFFF;
 		}
-		a:hover { background: green;}
+		a:active { background: green;}
 		#entry {
 			position: absolute;
 			top: 55%;
@@ -110,12 +110,11 @@
 		<div id="headTitle">
 			LawooTrip
 		</div>
-		<div id="subTitle">
+		<div id="subTitle" touchstart>
 			龟龟的个人博客
 		</div>
-		<div id="entry">
-	    <a href="http://www.lawootrip.com/home/index.html">进入博客</a>
-	  </div>
+		<div id="inp">
+		</div>
 	<!-- bigbigwave -->
 	<script src="js/three.min.js"></script>
 	<script>
@@ -275,11 +274,45 @@
 		}
 	</script>
 	<script>
-		var a = document.getElementsByTagName('a');
-		for(var i = 0; i < a.length; i++)
-		{
-		  a[i].addEventListener('touchstart',function(){},false);
+		function IsPC() {
+		    var userAgentInfo = navigator.userAgent;
+		    var Agents = ["Android", "iPhone",
+		                "SymbianOS", "Windows Phone",
+		                "iPad", "iPod"];
+		    var flag = true;
+		    for (var v = 0; v < Agents.length; v++) {
+		        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+		            flag = false;
+		            break;
+		        }
+		    }
+		    return flag;
 		}
+
+		var flag = IsPC(); //true为PC端，false为手机端
+		console.log("flag",flag);
+		var pc = "<a href=' '>进入主页</a >";
+		var mb = "进入主页";
+		if (!flag) {
+		 document.getElementById("inp").innerHTML = mb;
+		}else{
+		 document.getElementById("inp").innerHTML = pc;
+		}
+		function load (){
+
+		    document.addEventListener('touchstart',touch, false);
+		    function touch (event){
+		        var event = event || window.event;
+
+		        var oInp = document.getElementById("inp");
+
+		        if (event.type == "touchstart") {
+		         window.location.href="http://www.lawootrip.com/home/";
+		        }
+		    }
+		}
+		window.addEventListener('load',load, false);
+
 	</script>
 
 	</body>
