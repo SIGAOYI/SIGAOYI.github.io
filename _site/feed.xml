@@ -5,9 +5,98 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 08 Aug 2017 09:21:45 +0000</pubDate>
-    <lastBuildDate>Tue, 08 Aug 2017 09:21:45 +0000</lastBuildDate>
+    <pubDate>Sat, 12 Aug 2017 05:05:44 +0000</pubDate>
+    <lastBuildDate>Sat, 12 Aug 2017 05:05:44 +0000</lastBuildDate>
     <generator>Jekyll v3.5.1</generator>
+    
+      <item>
+        <title>Mac下重置MySQL的权限、密码</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;每次重启Mac后，我的Navicat都会提示本地的MySQL服务密码不对。&lt;/p&gt;
+
+&lt;p&gt;每次都需要用sudo刷新MySQL权限才可以正常连接，即使重置密码，再次重启MySQL服务后，又提示密码不对。&lt;/p&gt;
+
+&lt;p&gt;所以暂时先把命令行强行重置MySQL密码的方法记录如下，日后再研究如何彻底解决。&lt;/p&gt;
+
+&lt;h2 id=&quot;mysql的三个基本命令&quot;&gt;MySQL的三个基本命令&lt;/h2&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/support-files/mysql.server start //启动
+
+    sudo /usr/local/mysql/support-files/mysql.server stop //停止
+
+    sudo /usr/local/mysql/support-files/mysql.server restart //重启
+
+    sudo pkill -9 mysql //强制关闭进程
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;-三步重置mysql权限和密码&quot;&gt;* 三步重置MySQL权限和密码&lt;/h2&gt;
+
+&lt;h4 id=&quot;第一步&quot;&gt;第一步&lt;/h4&gt;
+
+&lt;p&gt;停止 mysql server.  通常是在 ‘系统偏好设置’ &amp;gt; MySQL &amp;gt; ‘Stop MySQL Server’&lt;/p&gt;
+
+&lt;p&gt;也可以在命令行中用上面的命令终止MySQL。&lt;/p&gt;
+
+&lt;h4 id=&quot;第二步&quot;&gt;第二步&lt;/h4&gt;
+
+&lt;p&gt;新开一个终端，输入：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;此时MySQl应该又重新启动了。&lt;/p&gt;
+
+&lt;h4 id=&quot;第三步&quot;&gt;第三步&lt;/h4&gt;
+
+&lt;p&gt;再新开一个终端，依次输入并回车：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/bin/mysql -u root
+
+    UPDATE mysql.user SET authentication_string=PASSWORD('新密码') WHERE User='root';
+
+　　 FLUSH PRIVILEGES;
+
+ 　　\q
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;重启MySQL即可&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/WX20170812-125719@2x.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;清爽&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Sat, 12 Aug 2017 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/08/12/mysql-psw/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/12/mysql-psw/</guid>
+        
+        <category>笔记</category>
+        
+        <category>MySQL</category>
+        
+        <category>数据库</category>
+        
+        
+      </item>
     
       <item>
         <title>Web缓存的一些细碎02</title>
@@ -1857,207 +1946,6 @@ git merge temporary-branch
         <guid isPermaLink="true">http://localhost:4000/2017/02/15/Kashmir-tear/</guid>
         
         <category>旅行</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Welcome to LawooTrip</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;历时大半个月，断断续续的，终于把个人博客站搭建起来。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h1 id=&quot;目录&quot;&gt;目录&lt;/h1&gt;
-
-&lt;h3 id=&quot;1创建属于你的gitpages&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1.创建属于你的GitPages&lt;/a&gt;&lt;/h3&gt;
-
-&lt;h3 id=&quot;2配置和使用你的gitpages&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2.配置和使用你的GitPages&lt;/a&gt;&lt;/h3&gt;
-
-&lt;h3 id=&quot;3使用jekyll搭建博客系统&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3.使用Jekyll搭建博客系统&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;1创建属于你的gitpages-1&quot;&gt;1.创建属于你的GitPages&lt;/h2&gt;
-
-&lt;p&gt;既然是在GitHub上搭建博客，当然要先去人家平台上&lt;a href=&quot;https://github.com&quot;&gt;注册&lt;/a&gt;自己的账号。&lt;/p&gt;
-
-&lt;p&gt;注册流程很简单，基本就是根据官方引导往下走就可以了。&lt;/p&gt;
-
-&lt;p&gt;注册号账号后，创建一个属于自己的repository，如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注意：repository名称的格式必须是：&quot;ID.github.io&quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/2017-02-15-01&quot; alt=&quot;&quot; /&gt;
-&lt;small class=&quot;img-hint&quot;&gt;&lt;a href=&quot;http://www.jianshu.com/p/0ea178531ac8&quot;&gt;细节流程参考这个教程&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
-
-&lt;p&gt;推荐勾选自带README的选项，免去日后还得添加README的麻烦。&lt;/p&gt;
-
-&lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;2配置和使用你的gitpages-1&quot;&gt;2.配置和使用你的GitPages&lt;/h2&gt;
-
-&lt;h5 id=&quot;配置和使用github&quot;&gt;配置和使用GitHub&lt;/h5&gt;
-
-&lt;p&gt;本块教程主要参考wayne23的&lt;a href=&quot;http://www.cnblogs.com/wayne23/p/4313630.html&quot;&gt;Github的基本配置与使用&lt;/a&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;配置ssh-keys&quot;&gt;配置SSH keys&lt;/h5&gt;
-&lt;p&gt;首先我们需要检查你电脑上现有的ssh key：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/. ssh //检查本机的ssh密钥
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;如果提示：No such file or directory 说明你是第一次使用git。&lt;/p&gt;
-
-&lt;h5 id=&quot;生成新的ssh-keys&quot;&gt;生成新的SSH keys&lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-keygen -t rsa -C &quot;你用来注册的邮件地址@xxx.com&quot;
-Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):
-&amp;lt;回车就好&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注意: 此处的「-C」的是大写的「C」&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;然后系统会要你输入密码：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Enter passphrase (empty for no passphrase):&amp;lt;输入加密串&amp;gt;
-Enter same passphrase again:&amp;lt;再次输入加密串&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。这个设置是防止别人往你的项目里提交内容。&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注意：输入密码的时候没有*字样的，你直接输入就可以了。&lt;/code&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;添加ssh-key到github&quot;&gt;添加SSH Key到GitHub&lt;/h5&gt;
-&lt;p&gt;在本机设置SSH Key之后，需要添加到GitHub上，以完成SSH链接的设置。&lt;/p&gt;
-
-&lt;p&gt;MAC下路径&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Users/lizhimin/.ssh/id_rsa.pub.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;WINDOWS下路径&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\Documents and Settings\Administrator.ssh\id_rsa.pub
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;此文件里面内容为刚才生成的密钥。如果看不到这个文件，你需要设置显示&lt;a href=&quot;http://jingyan.baidu.com/article/d2b1d1027c6dc65c7e37d435.html&quot;&gt;隐藏文件&lt;/a&gt;。准确的复制这个文件的内容，才能保证设置的成功。&lt;/p&gt;
-
-&lt;p&gt;登陆github系统。点击右上角的 Account Settings—&amp;gt;SSH Public keys —&amp;gt; add another public keys&lt;/p&gt;
-
-&lt;p&gt;把你本地生成的密钥复制到里面（key文本框中）， 点击 add key 就ok了&lt;/p&gt;
-
-&lt;h5 id=&quot;测试&quot;&gt;测试&lt;/h5&gt;
-&lt;p&gt;可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh -T git@github.com
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;如果是下面的反馈：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The authenticity of host 'github.com (207.97.227.239)' can't be established.
-RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
-Are you sure you want to continue connecting (yes/no)?
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;不要紧张，输入yes就好，然后会看到：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Hi 你的名字! You've successfully authenticated, but GitHub does not provide shell access.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;设置用户信息&quot;&gt;设置用户信息&lt;/h5&gt;
-&lt;p&gt;现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。&lt;/p&gt;
-
-&lt;p&gt;Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config --global user.name &quot;cnfeat&quot;//用户名
-git config --global user.email  &quot;cnfeat@gmail.com&quot;//填写自己的邮箱
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;ssh-key配置成功&quot;&gt;SSH Key配置成功&lt;/h5&gt;
-&lt;p&gt;本机已成功连接到github。&lt;/p&gt;
-
-&lt;p&gt;若有问题，请&lt;a href=&quot;#0&quot;&gt;重新设置&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;常见错误请参考：&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/connecting-to-github-with-ssh/&quot;&gt;GitHub Help - Generating SSH Keys&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/error-permission-denied-publickey/&quot;&gt;GitHub Help - Error Permission denied (publickey)&lt;/a&gt;&lt;/p&gt;
-
-&lt;p id=&quot;3&quot;&gt;&lt;/p&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;3使用jekyll搭建博客系统-1&quot;&gt;3.使用Jekyll搭建博客系统&lt;/h2&gt;
-
-&lt;p&gt;这里仅以MAC下的OSX系统为例,Jekyll是用ruby开发的，所以安装Jekyll之前需要执行下面的命令安装一些依赖。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ruby ruby1.9.1-dev nodejs
-
-sudo gem install jekyll
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;至此，你的MAC电脑上已经安装并配置了搭建博客需要的所有的依赖环境。&lt;/p&gt;
-
-&lt;p&gt;去&lt;a href=&quot;http://jekyllthemes.org&quot;&gt;jekyllthemes&lt;/a&gt; 或者&lt;a href=&quot;https://www.zhihu.com/question/20223939&quot;&gt;知乎&lt;/a&gt;挑选一个Jekyll主题，并按照主题的README进行CLONE安装即可。&lt;/p&gt;
-
-&lt;p&gt;以本站为例，我选用了&lt;a href=&quot;https://github.com/Huxpro&quot;&gt;Huang Xuan&lt;/a&gt;原创的&lt;a href=&quot;https://github.com/Huxpro/huxpro.github.io&quot;&gt;Jekyll主题&lt;/a&gt;，主题文档里有中英文的README，十分清晰可靠，强烈推荐。&lt;/p&gt;
-
-&lt;p&gt;其他常见问题和基础知识可参见&lt;a href=&quot;http://jekyll.com.cn&quot;&gt;Jekyll官网&lt;/a&gt; ，有中文文档，也十分清晰可靠，强烈推荐。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h1 id=&quot;后记&quot;&gt;后记&lt;/h1&gt;
-
-&lt;p&gt;配置的过程中遇到了不少坑，毕竟不是码农，git从零入手，遇到了merge、fetch各种branch傻傻分不清楚。几度几乎放弃，缺总是被一丝丝的曙光召唤着继续坑自己。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;此处强烈推荐&lt;a href=&quot;https://github.com/geeeeeeeeek&quot;&gt;geeeeeeeeek-童仲毅&lt;/a&gt;关于GitHub的&lt;a href=&quot;https://github.com/geeeeeeeeek/git-recipes/wiki&quot;&gt;“Git 中文教程”&lt;/a&gt;，悉心细读，获益匪浅。**&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;还有本地调试环境需要 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem install jekyll&lt;/code&gt;，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功&lt;/p&gt;
-
-&lt;p&gt;Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;回顾这个博客的诞生，纯粹是出于个人兴趣。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;我不是程序猿，也不是Github的重度用户，只是在找一些产品源码的时候偶遇了GitPages，前几次的碰壁愈发激起了我要攻克他的信念。&lt;/p&gt;
-
-&lt;p&gt;今日终于&lt;/p&gt;
-
-&lt;p&gt;跑起来了&lt;/p&gt;
-
-&lt;p&gt;—— 龟龟 后记于 2017.02
-&lt;br /&gt; 
-&lt;br /&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; 
-&lt;/td&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;
-&lt;/td&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2017/02/15/hello-2017.markup/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/15/hello-2017.markup/</guid>
-        
-        <category>GitHub</category>
         
         
       </item>

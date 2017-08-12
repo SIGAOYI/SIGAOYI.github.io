@@ -3,19 +3,14 @@
 	<head>
 		<title>龟龟的个人博客</title>
 		<meta charset="utf-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ site.description }}">
-    <meta name="keywords"  content="{{ site.keyword }}">
-    <meta name="theme-color" content="{{ site.chrome-tab-theme-color }}">
-
-    <title>{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
-
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-app-status-bar-style" content="white" />
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
 
-    <!-- Favicon -->
+    <!-- Favicon, -->
     <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
 
     <!-- Canonical URL -->
@@ -81,6 +76,7 @@
 		a {
 			display: block;
 			text-align: center;
+			border-radius: 4%;
 	    background: #0776E4;
 	    font-size: 16px;
 	    font-weight: bold;

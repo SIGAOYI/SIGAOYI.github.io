@@ -1,0 +1,81 @@
+---
+layout:     post
+title:      "Mac下重置MySQL的权限、密码"
+subtitle:   "What you know you don't know Jon Snow"
+date:       2017-08-12
+author:     "龟龟"
+header-img: "http://image.lawootrip.com/IMG-20140125-00271.jpg"
+tags:
+    - 笔记
+    - MySQL
+    - 数据库
+---
+
+>Vue.js 放弃中...
+
+每次重启Mac后，我的Navicat都会提示本地的MySQL服务密码不对。
+
+每次都需要用sudo刷新MySQL权限才可以正常连接，即使重置密码，再次重启MySQL服务后，又提示密码不对。
+
+所以暂时先把命令行强行重置MySQL密码的方法记录如下，日后再研究如何彻底解决。
+
+## MySQL的三个基本命令
+
+<br>
+
+        sudo /usr/local/mysql/support-files/mysql.server start //启动
+
+        sudo /usr/local/mysql/support-files/mysql.server stop //停止
+
+        sudo /usr/local/mysql/support-files/mysql.server restart //重启
+
+        sudo pkill -9 mysql //强制关闭进程
+
+
+## * 三步重置MySQL权限和密码
+
+#### 第一步
+
+停止 mysql server.  通常是在 '系统偏好设置' > MySQL > 'Stop MySQL Server'
+
+也可以在命令行中用上面的命令终止MySQL。
+
+
+#### 第二步
+
+新开一个终端，输入：
+
+        sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+
+
+此时MySQl应该又重新启动了。
+
+#### 第三步
+
+再新开一个终端，依次输入并回车：
+
+        sudo /usr/local/mysql/bin/mysql -u root
+
+        UPDATE mysql.user SET authentication_string=PASSWORD('新密码') WHERE User='root';
+
+    　　 FLUSH PRIVILEGES;
+
+     　　\q
+
+重启MySQL即可
+
+![](http://image.lawootrip.com/WX20170812-125719@2x.png)
+
+清爽
+
+----
+<br />
+<br />
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>

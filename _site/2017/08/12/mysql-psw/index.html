@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-app-status-bar-style" content="white" />
 
-    <title>LawooTrip</title>
+    <title>Mac下重置MySQL的权限、密码 - LawooTrip</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/home/page2/">
+    <link rel="canonical" href="http://localhost:4000/2017/08/12/mysql-psw/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -146,272 +146,219 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(http://image.lawootrip.com/IMG-20140125-00271.jpg)
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <div class="header-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>LawooTrip</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">龟龟的自留地</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                        <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                        
+                        <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
+                        
+                    </div>
+                    <h1>Mac下重置MySQL的权限、密码</h1>
+                    
+                    
+                    <h2 class="subheading">What you know you don't know Jon Snow</h2>
+                    
+
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-        
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-<!-- USE SIDEBAR -->
-    <!-- PostList Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                postlist-container
-            ">
-    			
-<div class="post-preview">
-    <a href="/2017/02/19/turkey.markup/">
-        <h2 class="post-title">
-            土耳其图集
-        </h2>
-        
-        <h3 class="post-subtitle">
-             "伊斯坦布尔"
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Türk Marşı”
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+				<blockquote>
+  <p>Vue.js 放弃中…</p>
+</blockquote>
 
+<p>每次重启Mac后，我的Navicat都会提示本地的MySQL服务密码不对。</p>
 
- 烤肉！烤肉！烤肉！—-伊斯坦布尔
+<p>每次都需要用sudo刷新MySQL权限才可以正常连接，即使重置密码，再次重启MySQL服务后，又提示密码不对。</p>
 
+<p>所以暂时先把命令行强行重置MySQL密码的方法记录如下，日后再研究如何彻底解决。</p>
 
-啊啊啊啊啊—-伊斯坦布尔
+<h2 id="mysql的三个基本命令">MySQL的三个基本命令</h2>
 
+<p><br /></p>
 
-无声的表演—-伊斯坦布尔
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo /usr/local/mysql/support-files/mysql.server start //启动
 
+    sudo /usr/local/mysql/support-files/mysql.server stop //停止
 
-步行街—-伊斯坦布尔
+    sudo /usr/local/mysql/support-files/mysql.server restart //重启
 
-
-夜—-伊斯坦布尔
-
-
-水宫—...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on February 19, 2017
-    </p>
+    sudo pkill -9 mysql //强制关闭进程
+</code></pre>
 </div>
-<hr>
 
-<div class="post-preview">
-    <a href="/2017/02/15/Kashmir-tear/">
-        <h2 class="post-title">
-            克什米尔之殇
-        </h2>
-        
-        <h3 class="post-subtitle">
-             "披肩匠人Ghulam的故事"
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “اپ سے مل کر خوشی ہوی ”
+<h2 id="-三步重置mysql权限和密码">* 三步重置MySQL权限和密码</h2>
 
+<h4 id="第一步">第一步</h4>
 
-缘起
+<p>停止 mysql server.  通常是在 ‘系统偏好设置’ &gt; MySQL &gt; ‘Stop MySQL Server’</p>
 
+<p>也可以在命令行中用上面的命令终止MySQL。</p>
 
-　　这里的房屋大多是木质结构，尖顶，条件好的人家还带有一个进行穆斯林祈祷仪式的砖砌塔楼。Ghulam家算条件好的，但家中家具...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on February 15, 2017
-    </p>
+<h4 id="第二步">第二步</h4>
+
+<p>新开一个终端，输入：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+</code></pre>
 </div>
-<hr>
 
-<div class="post-preview">
-    <a href="/2017/02/15/hello-2017.markup/">
-        <h2 class="post-title">
-            Welcome to LawooTrip
-        </h2>
-        
-        <h3 class="post-subtitle">
-             "Hello World, Hello Blog"
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Yeah It’s on. ”
+<p>此时MySQl应该又重新启动了。</p>
 
+<h4 id="第三步">第三步</h4>
 
-历时大半个月，断断续续的，终于把个人博客站搭建起来。
+<p>再新开一个终端，依次输入并回车：</p>
 
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo /usr/local/mysql/bin/mysql -u root
 
+    UPDATE mysql.user SET authentication_string=PASSWORD('新密码') WHERE User='root';
 
-目录
+　　 FLUSH PRIVILEGES;
 
-1.创建属于你的GitPages
-
-2.配置和使用你的GitPages
-
-3.使...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on February 15, 2017
-    </p>
+ 　　\q
+</code></pre>
 </div>
-<hr>
+
+<p>重启MySQL即可</p>
+
+<p><img src="http://image.lawootrip.com/WX20170812-125719@2x.png" alt="" /></p>
+
+<p>清爽</p>
+
+<hr />
+<p><br />
+<br /></p>
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
 
 
-<!-- Pager -->
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">龟龟</a>
+                <span class="time">
+                /
+                <time>2017-08-12</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
 
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/home/">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
+                <hr style="visibility: hidden;">
 
-    		</div>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/07/18/web-localstorage-Volume02/" data-toggle="tooltip" data-placement="top" title="Web缓存的一些细碎02">
+                        Previous<br>
+                        <span>Web缓存的一些细碎02</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        
+        				
                             
-                                <a href="/tags/#GitHub" title="GitHub" rel="2">
+                				<a href="/tags/#GitHub" title="GitHub" rel="2">
                                     GitHub
                                 </a>
                             
-                        
+        				
                             
-                                <a href="/tags/#旅行" title="旅行" rel="2">
+                				<a href="/tags/#旅行" title="旅行" rel="2">
                                     旅行
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#笔记" title="笔记" rel="8">
+                				<a href="/tags/#笔记" title="笔记" rel="8">
                                     笔记
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#Web前端" title="Web前端" rel="2">
+                				<a href="/tags/#Web前端" title="Web前端" rel="2">
                                     Web前端
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
-                    </div>
+        				
+        			</div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/sidebar-pro.jpg" />
-                        
-                        
-                            <p>玩玩产品，看看设计，学学代码。世界那么大，多玩玩看看。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            <li>
-                                <a href="/feed.xml">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a href="https://twitter.com/LawooTrip">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.zhihu.com/people/lawoo">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/abigidea">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/SIGAOYI">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -426,11 +373,14 @@
                     
                 </ul>
                 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
 
+
+
+<script type="text/javascript" src="/assets/js/r-highlight.js"></script>
 
     <!-- Footer -->
 <footer>
