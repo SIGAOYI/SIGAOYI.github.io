@@ -130,11 +130,11 @@
     /**
      * Since Fastclick is used to delegate 'touchstart' globally
      * to hack 300ms delay in iOS by performing a fake 'click',
-     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
      * $toggle/$collapse will break global delegation.
-     * 
+     *
      * Instead, we use a 'e.target' filter to prevent handler
-     * added to document close HuxNav.  
+     * added to document close HuxNav.
      *
      * Also, we use 'click' instead of 'touchstart' as compromise
      */
@@ -143,6 +143,21 @@
         if(e.target.className == 'icon-bar') return;
         __HuxNav__.close();
     })
+</script>
+<!-- 百度链接推送 -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
 </script>
 
 
@@ -173,7 +188,7 @@
 				
 				<a href="#图集" title="图集" rel="1">图集</a>
 				
-				<a href="#笔记" title="笔记" rel="8">笔记</a>
+				<a href="#笔记" title="笔记" rel="9">笔记</a>
 				
 				<a href="#代理协议" title="代理协议" rel="1">代理协议</a>
 				
@@ -186,6 +201,10 @@
 				<a href="#MySQL" title="MySQL" rel="1">MySQL</a>
 				
 				<a href="#数据库" title="数据库" rel="1">数据库</a>
+				
+				<a href="#效率" title="效率" rel="1">效率</a>
+				
+				<a href="#前端" title="前端" rel="1">前端</a>
 				
 			</div>
 
@@ -311,6 +330,25 @@
 			  	<span class="fa fa-tag listing-seperator" id="笔记">
                     <span class="tag-text">笔记</span>
                 </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-17">2017-10-17</time>
+				  <a href="/2017/10/17/charles-ssl/" title="用Charles在iOS上抓包">用Charles在iOS上抓包</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2017/10/17/charles-ssl/">
+				        <h2 class="post-title">
+                            用Charles在iOS上抓包
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Wireshark is so easy MAMA no worry
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-17</p> -->
+				</div>
+				<hr>
 				
 				  <!-- <li class="listing-item">
 				  <time datetime="2017-08-12">2017-08-12</time>
@@ -641,6 +679,58 @@
 				
 			</div>
 			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="效率">
+                    <span class="tag-text">效率</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-17">2017-10-17</time>
+				  <a href="/2017/10/17/charles-ssl/" title="用Charles在iOS上抓包">用Charles在iOS上抓包</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2017/10/17/charles-ssl/">
+				        <h2 class="post-title">
+                            用Charles在iOS上抓包
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Wireshark is so easy MAMA no worry
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-17</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="前端">
+                    <span class="tag-text">前端</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-17">2017-10-17</time>
+				  <a href="/2017/10/17/charles-ssl/" title="用Charles在iOS上抓包">用Charles在iOS上抓包</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2017/10/17/charles-ssl/">
+				        <h2 class="post-title">
+                            用Charles在iOS上抓包
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Wireshark is so easy MAMA no worry
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-17</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
 
 		</div>
 	</div>
@@ -653,15 +743,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                    
-                    <li>
-                        <a href="/feed.xml">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
                     
                     
                     <li>

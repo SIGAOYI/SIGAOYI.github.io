@@ -130,11 +130,11 @@
     /**
      * Since Fastclick is used to delegate 'touchstart' globally
      * to hack 300ms delay in iOS by performing a fake 'click',
-     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
      * $toggle/$collapse will break global delegation.
-     * 
+     *
      * Instead, we use a 'e.target' filter to prevent handler
-     * added to document close HuxNav.  
+     * added to document close HuxNav.
      *
      * Also, we use 'click' instead of 'touchstart' as compromise
      */
@@ -143,6 +143,21 @@
         if(e.target.className == 'icon-bar') return;
         __HuxNav__.close();
     })
+</script>
+<!-- 百度链接推送 -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
 </script>
 
 
@@ -374,7 +389,7 @@ window.redirect_uri="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?tic
                             
         				
                             
-                				<a href="/tags/#笔记" title="笔记" rel="8">
+                				<a href="/tags/#笔记" title="笔记" rel="9">
                                     笔记
                                 </a>
                             
@@ -395,6 +410,10 @@ window.redirect_uri="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?tic
         				
                             
         				
+                            
+        				
+                            
+        				
         			</div>
                 </section>
                 
@@ -408,6 +427,8 @@ window.redirect_uri="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?tic
                         <li><a href="http://lawootrip.com">龟龟的Blog</a></li>
                     
                         <li><a href="https://www.zhihu.com/people/lawoo">龟龟的知乎</a></li>
+                    
+                        <li><a href="http://lawoo.cn">乐物手作</a></li>
                     
                         <li><a href="http://xucanjia.com">canjia</a></li>
                     
@@ -428,15 +449,6 @@ window.redirect_uri="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?tic
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                    
-                    <li>
-                        <a href="/feed.xml">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
                     
                     
                     <li>
