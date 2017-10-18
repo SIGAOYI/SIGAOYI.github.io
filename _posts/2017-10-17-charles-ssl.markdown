@@ -13,7 +13,7 @@ tags:
 
 >Vue.js 放弃中...
 
-来总结一下用Charles在MAC上抓包的方法。
+来总结一下用Charles在iOS上抓包的方法。
 
 本文分三部分：
 
