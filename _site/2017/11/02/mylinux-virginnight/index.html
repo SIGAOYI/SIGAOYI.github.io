@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="龟龟的个人博客-乐物旅行">
+    <meta name="keywords"  content="乐物旅行、乐物、龟龟、龟七爷、大头苗苗、尼泊尔逗逼、屁屁酱">
+    <meta name="theme-color" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-app-status-bar-style" content="white" />
+
+    <title>Ubuntu下Nginx配置笔记 - LawooTrip</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4444/2017/11/02/mylinux-virginnight/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+  <link rel="alternate" type="application/rss+xml" title="LawooTrip" href="/feed.xml">
+  <!-- Le styles -->
+  <link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <!--iphone-icon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" sizes="152x152" href="http://image.lawootrip.com/guigui_152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="http://image.lawootrip.com/guigui_167.png">
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">LawooTrip</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+<!-- 百度链接推送 -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(http://image.lawootrip.com/2017-05-15-bg.png)
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                        <a class="tag" href="/tags/#服务器" title="服务器">服务器</a>
+                        
+                        <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                        
+                    </div>
+                    <h1>Ubuntu下Nginx配置笔记</h1>
+                    
+                    
+                    <h2 class="subheading">The Story of Linux...</h2>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>Vue.js 放弃中…</p>
+</blockquote>
+
+<p>阿里云双十一活动还算良心,赶紧买个服务器自己玩.</p>
+
+<p>本着日后方便科学上网的原则,买了2核4G,1M带宽的香港节点3年,搭载Ubuntu 16.0402系统镜像.</p>
+
+<p>本地环境:MAC OS Sierra 10.12.3</p>
+
+<p><strong>本文分四个部分:</strong></p>
+
+<p><a href="#0">一、使用SSH通过MAC同Ubuntu建立连接</a></p>
+
+<p><a href="#1">二、Ubuntu服务器基本设置</a></p>
+
+<p><a href="#2">三、环境搭建</a></p>
+
+<p><a href="#3">四、配置多个站点</a></p>
+
+<p id="0"></p>
+<h3 id="一使用ssh通过mac同ubuntu建立连接">一、使用SSH通过MAC同Ubuntu建立连接</h3>
+
+<h4 id="1ubuntu端">1.Ubuntu端</h4>
+
+<p>在ubuntu终端上输入<code class="highlighter-rouge">root@ubuntu:~$ sudo apt-get install openssh-server</code>命令安装openssh-server.(阿里云生成的系统登陆后,默认是root角色)</p>
+
+<p>一般报错有两个可能的原因,一个是apt版本过老,办法是update一下;另一个是apt的lists损坏,办法是用如下命令来删除已经损坏的lists.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`root@ubuntu:~$ sudo rm /var/lib/apt/lists/* -vf`
+</code></pre>
+</div>
+
+<h4 id="2mac端">2.MAC端</h4>
+
+<p>在终端上输入</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh root@your_server_ip
+</code></pre>
+</div>
+
+<p>跟着指引输入服务器密码即可,是不是敲简单.</p>
+
+<p>如果不想每次输入IP,可以在 /.ssh/config 里进行配置,🌰如下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Host mylinux
+    HostName ***.***.***.***
+    Port 22
+    User root
+    IdentityFile /Users/***/.ssh/mylinux \\这里是ssh私钥的路径,不作不用动
+</code></pre>
+</div>
+
+<p>像上面这样配置后,每次只需要在终端敲入:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh mylinux
+</code></pre>
+</div>
+
+<p>即可!</p>
+
+<p>找不到<code class="highlighter-rouge">/Users/***/.ssh</code>文件夹?
+用下面的命令可以显示MAC隐藏文件.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>defaults write com.apple.finder AppleShowAllFiles -bool true
+</code></pre>
+</div>
+
+<p id="1"></p>
+<h3 id="二ubuntu服务器基本设置">二、Ubuntu服务器基本设置</h3>
+
+<h4 id="使用root登录服务器">使用root登录服务器</h4>
+
+<p>首先我们需要使用刚刚配置好的root用户ssh登录服务器:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>local$ ssh root@SERVER_IP_ADDRESS
+</code></pre>
+</div>
+
+<p>前面的local$表示是在本地机器操作,在服务器端,该提示符会类似<code class="highlighter-rouge">root@my-remote-server:~$</code>这种形式,后边会看到。</p>
+
+<blockquote>
+  <p>Tips: 如果使用的是腾讯云，其初始登录默认使用的是用户ubuntu，并不是root。因此，使用ssh ubuntu@your_server_ip登录之后可以修改下root的密码，然后就可以切换到用户root了。</p>
+</blockquote>
+
+<p>修改密码命令如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ubuntu@VM-42-158-ubuntu:~$ sudo passwd root
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+</code></pre>
+</div>
+
+<p>有可能还需要编辑配置文件/etc/ssh/sshd_config中的PermitRootLogin的设置。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>buntu@VM-42-158-ubuntu:~$ su
+Password:
+root@VM-42-158-ubuntu:/#
+</code></pre>
+</div>
+
+<h4 id="新增超级用户权限用户">新增超级用户权限用户</h4>
+
+<p>root用户虽然强大,但是正是由于太强大了,所以显得不够安全,因此通常情况下我们需要创建一个新的用户,然后给他设置超级用户(superuser)权限,这样就可以安全的进行各种操作了。</p>
+
+<p>使用root用户登录,做如下操作:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>root@my-remote-server:~$ adduser dennis
+root@my-remote-server:~$ usermod -aG sudo dennis
+</code></pre>
+</div>
+
+<p>这里就将新创建的用户加入了sudo用户组,就具有了超级用户的权限。更详细的信息可以参考<a href="https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos">这个教程</a>。</p>
+
+<p>然后我们就可以以新创建的用户登录了:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>root@my-remote-server:~# su - dennis
+dennis@my-remote-server:~$
+</code></pre>
+</div>
+
+<p id="2"></p>
+<h3 id="三环境搭建">三、环境搭建</h3>
+
+<h4 id="安装nginx">安装Nginx</h4>
+
+<p>在ubuntu上安装软件很简单,使用apt-get即可。注意由于权限问题,需要在前面加sudo。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install nginx
+</code></pre>
+</div>
+
+<blockquote>
+  <p><strong>踩坑提醒</strong></p>
+</blockquote>
+
+<h5 id="安装nginx时出现错误">安装Nginx时出现错误</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dennis@my-remote-server:~$ sudo apt-get install nginx
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+nginx is already the newest version (1.10.0-0ubuntu0.16.04.2).
+0 upgraded, 0 newly installed, 0 to remove and 42 not upgraded.
+2 not fully installed or removed.
+After this operation, 0 B of additional disk space will be used.
+Do you want to continue? [Y/n]
+Setting up nginx-core (1.10.0-0ubuntu0.16.04.2) ...
+Job for nginx.service failed because the control process exited with error code. See "systemctl status nginx.service" and "journalctl -xe" for details.
+invoke-rc.d: initscript nginx, action "start" failed.
+dpkg: error processing package nginx-core (--configure):
+ subprocess installed post-installation script returned error exit status 1
+dpkg: dependency problems prevent configuration of nginx:
+ nginx depends on nginx-core (&gt;= 1.10.0-0ubuntu0.16.04.2) | nginx-full (&gt;= 1.10.0-0ubuntu0.16.04.2) | nginx-light (&gt;= 1.10.0-0ubuntu0.16.04.2) | nginx-extras (&gt;= 1.10.0-0ubuntu0.16.04.2); however:
+  Package nginx-core is not configured yet.
+  Package nginx-full is not installed.
+  Package nginx-light is not installed.
+  Package nginx-extras is not installed.
+ nginx depends on nginx-core (&lt;&lt; 1.10.0-0ubuntu0.16.04.2.1~) | nginx-full (&lt;&lt; 1.10.0-0ubuntu0.16.04.2.1~) | nginx-light (&lt;&lt; 1.10.0-0ubuntu0.16.04.2.1~) | nginx-extras (&lt;&lt; 1.10.0-0ubuntu0.16.04.2.1~); however:
+  Package nginx-core is not configured yet.
+  Package nginx-full is not installed.
+  Package nginx-light is not installed.
+  Package nginx-extras is not installed.
+dpkg: error processing package nginx (--configure):
+ dependency problems - leaving unconfigured
+Errors were encountered while processing:
+ nginx-core
+ nginx
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+</code></pre>
+</div>
+
+<p>原因分析</p>
+
+<p>Google了一下,发现出现这种错误,一般应该是由于其他应用占用了80端口。可以这样来看下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dennis@myserver:~$ sudo netstat -nlp
+sudo: unable to resolve host myserver
+[sudo] password for dennis:
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      132/rpcbind
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      332/apache2
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      269/sshd
+tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      454/master
+tcp6       0      0 :::111                  :::*                    LISTEN      132/rpcbind
+tcp6       0      0 :::22                   :::*                    LISTEN      269/sshd
+</code></pre>
+</div>
+
+<p>果然80端口被默认安装的apache给占掉了,所以需要干掉占用80端口的apache2：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo kill -9 332
+</code></pre>
+</div>
+
+<p>运行apt-get命令更新或安装软件出现Setting locale failed错误</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "en_US.UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+</code></pre>
+</div>
+
+<p>解决办法：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo ap-get update
+apt-get install language-pack-en
+</code></pre>
+</div>
+
+<h5 id="nginx-常用目录">Nginx 常用目录</h5>
+
+<p>内容</p>
+
+<p>/var/www/html: 保存web网页内容的默认目录</p>
+
+<p>服务器配置</p>
+
+<p>/etc/nginx: nginx 配置目录。所有Nginx相关的配置文件都在这里。
+/etc/nginx/nginx.conf: Nginx主配置文件,进行全局默认设置。
+/etc/nginx/sites-available: 针对每个”server blocks”独立的配置文件。这里的配置文件并不被直接使用,只有软连接到site-enabled的配置才会真正生效。
+/etc/nginx/sites-enabled/: 针对每个”server blocks”独立的配置文件。由sites-available链接过来。
+/etc/nginx/snippets: 一些配置脚本片段。</p>
+
+<p>服务器日志</p>
+
+<p><code class="highlighter-rouge">/var/log/nginx/access.log: </code>默认保存所有与web服务交互的请求。
+<code class="highlighter-rouge">/var/log/nginx/error.log: </code>Nginx的错误日志</p>
+
+<h4 id="顺便安装一下mysql">顺便安装一下MySQL</h4>
+
+<h5 id="安装">安装</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install mysql-server
+</code></pre>
+</div>
+
+<h5 id="配置">配置</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo mysql_secure_installation
+</code></pre>
+</div>
+
+<h5 id="查看mysql的版本">查看MySQL的版本：</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql --version
+</code></pre>
+</div>
+
+<h5 id="初始化">初始化</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo mysqld --initialize
+</code></pre>
+</div>
+
+<p>如果是如上面那样通过apt-get安装的，这一步通常已经被做了。因此会有如下错误提示：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[ERROR] --initialize specified but the data directory has files in it. Aborting.
+</code></pre>
+</div>
+
+<h5 id="mysql的启动和停止">MySQL的启动和停止</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/mysql start
+sudo /etc/init.d/mysql stop
+sudo /etc/init.d/mysql restart
+</code></pre>
+</div>
+
+<p>或者</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo start mysql
+sudo stop mysql
+sudo restart mysql
+</code></pre>
+</div>
+
+<h5 id="测试连接">测试连接</h5>
+
+<p>可以通过<code class="highlighter-rouge">mysqladmin -p -u root version</code>命令来测试一下mysql连接是否正常。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dennis@my-remote-server:/var/www/html$ mysqladmin -p -u root version
+Enter password:
+mysqladmin  Ver 8.42 Distrib 5.7.13, for Linux on x86_64
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Server version		5.7.13-0ubuntu0.16.04.2
+Protocol version	10
+Connection		Localhost via UNIX socket
+UNIX socket		/var/run/mysqld/mysqld.sock
+Uptime:			19 min 14 sec
+Threads: 1  Questions: 8  Slow queries: 0  Opens: 115  Flush tables: 1  Open tables: 34  Queries per second avg: 0.006
+</code></pre>
+</div>
+
+<h5 id="创建数据库及新的数据库用户">创建数据库及新的数据库用户</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql -u root -p
+</code></pre>
+</div>
+
+<p>用密码登录成功之后执行下面的sql语句创建一个数据库，名叫lawootrip</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CREATE DATABASE lawootrip DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+</code></pre>
+</div>
+
+<p>安全起见，我们为这个数据库创建一个单独的用户：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>GRANT ALL ON wordpress.* TO 'lawootripuser'@'localhost' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+EXIT;
+</code></pre>
+</div>
+
+<p>在外网通过IP直接访问操作数据库</p>
+
+<p>默认情况下,我们只能在服务器上通过localhost访问MySQL,如果需要通过IP从外网访问,需要进行相应的设置。</p>
+
+<p>1) 修改授权</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>GRANT ALL ON lawootrip.* TO 'lawootripuser'@'%' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+EXIT;
+</code></pre>
+</div>
+
+<p>如果需要,还可以指定特定的IP地址(替换上面的%即可)。</p>
+
+<p>或者可以直接修改表:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql -u root -p
+mysql&gt; use mysql;
+mysql&gt; update user set host = '%' where user = 'root';
+mysql&gt; select user, host from user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| mysql.sys        | localhost |
+| root             | localhost |
+| wordpressuser    | %         |
++------------------+-----------+
+3 rows in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>2) 修改配置文件</p>
+
+<p>配置文件位置为/etc/mysql/mysql.conf.d/mysqld.cnf,注释掉其中一行:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bind-address  =127.0.0.1
+</code></pre>
+</div>
+
+<p>重启MySQL即可:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo service mysql restart
+</code></pre>
+</div>
+
+<h5 id="配置nginx">配置Nginx</h5>
+
+<p>打开配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/nginx/sites-available/default
+</code></pre>
+</div>
+
+<p>作如下修改（具体可以参考<a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-lemp-on-ubuntu-16-04">这里的说明</a>）</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    . . .
+    location = /favicon.ico { log_not_found off; access_log off; }
+    location = /robots.txt { log_not_found off; access_log off; allow all; }
+    location ~* \.(css|gif|ico|jpeg|jpg|js|png)$ {
+        expires max;
+        log_not_found off;
+    }
+    . . .
+}
+</code></pre>
+</div>
+
+<p>对try_files做如下修改：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    . . .
+    location / {
+        #try_files $uri $uri/ =404;
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+    . . .
+}
+</code></pre>
+</div>
+
+<p>然后检查配置文件的正确性，并重启Nginx：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nginx -t
+//If no errors were reported, reload Nginx by typing:
+sudo systemctl reload nginx
+</code></pre>
+</div>
+
+<p id="3"></p>
+<h3 id="四配置多个站点">四、配置多个站点</h3>
+
+<p>通常情况下我们需要在Web服务器上部署多个站点,使用多个不同的域名。</p>
+
+<h4 id="设置新的文档目录">设置新的文档目录</h4>
+
+<p>默认情况下,在Ubuntu上的Nginx已经默认创建了一个server block,其文档目录为/var/www/html(我们在上面安装wordpress的时候使用的就是这个默认的server block)。</p>
+
+<p>如果我们需要部署多个站点,那么就需要创建多个不同的server block。假如我们需要部署两个网站:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lawootrip.com
+lawoo.cn
+</code></pre>
+</div>
+
+<p>这样我们就需要设置两个新的文档目录。为统一起见,我们使用xxx.com/html这种目录结构形式:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo mkdir -p /var/www/lawootrip.com/html
+sudo mkdir -p /var/www/lawoo.cn/html
+</code></pre>
+</div>
+
+<p>修改一下这两个文档目录的权限:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo chown -R $USER:$USER /var/www/lawootrip.com/html
+sudo chown -R $USER:$USER /var/www/lawoo.cn/html
+</code></pre>
+</div>
+
+<p>这里用到了环境变量<code class="highlighter-rouge">$USER</code>,请确保没有使用root账号进行操作。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dennis@my-remote-server:~$ echo $USER
+dennis
+</code></pre>
+</div>
+
+<p>至此文档目录应该配置好了。如果需要,我们可以通过下面的命令设置一下上层目录的权限:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo chmod -R 755 /var/www
+</code></pre>
+</div>
+
+<p>需要提醒的是,暂时不需要担心这两个测试域名是否可以访问的问题,后边我们会介绍在本地浏览器如何访问这两个测试域名。</p>
+
+<h4 id="为每个站点创建测试文件">为每个站点创建测试文件</h4>
+
+<p>创建文件/var/www/lawootrip.com/html/index.html</p>
+
+<p>创建文件/var/www/lawoo.cn/html/index.html</p>
+
+<h4 id="为每个站点创建server-block文件">为每个站点创建server block文件</h4>
+
+<p>如前所述,默认情况下Nginx已经配置了一个默认的server block,因此我们可以将默认的server block配置文件拷贝过来稍作修改:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lawootrip.com
+</code></pre>
+</div>
+
+<p>打开文件:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/nginx/sites-available/lawootrip.com
+</code></pre>
+</div>
+
+<p>其内容如下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+</code></pre>
+</div>
+
+<p>对其内容稍作修改,修改之后内容如下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+        listen 80;
+        listen [::]:80;
+        root /var/www/lawootrip.com/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name lawootrip.com www.lawootrip.com;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+</code></pre>
+</div>
+
+<p>主要修改了几个地方:</p>
+
+<ul>
+  <li>去掉了default_server字眼。一台服务器上只能有一个default_server的配置,因此我们保留系统最初的设置为默认设置。</li>
+  <li>修改root目录.</li>
+  <li>修改server_name.</li>
+</ul>
+
+<p>针对第二个站点lawoo.cn也做类似修改。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo cp /etc/nginx/sites-available/lawoo.cn /etc/nginx/sites-available/lawoo.cn
+sudo vim /etc/nginx/sites-available/lawoo.cn
+</code></pre>
+</div>
+
+<h4 id="激活两个站点的server-block">激活两个站点的server block</h4>
+
+<p>使用如下命令:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo ln -s /etc/nginx/sites-available/lawootrip.com /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/lawoo.cn /etc/nginx/sites-enabled/
+</code></pre>
+</div>
+
+<p>这样这些文件(链接)就位于激活的目录内了。到目前为止我们有3个激活了的server block了。服务器根据listen指令和server_name来确定该访问那个目录。</p>
+
+<ul>
+  <li>lawootrip.com: 响应来自lawootrip.com以及www.lawootrip.com的请求</li>
+  <li>lawoo.cn: 响应来自lawoo.cn以及www.lawoo.cn的请求</li>
+  <li>default: 响应没有匹配到上面两个规则的80端口的请求。</li>
+</ul>
+
+<p>然后检查下nginx配置文件的正确性:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nginx -t
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">**重启一下nginx使修改生效:**</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl restart nginx
+</code></pre>
+</div>
+
+<p>关于Nginx更多的指令介绍可以参考<a href="https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms">这个教程</a>。</p>
+
+<h4 id="配置二级子域名及代理访问">配置二级子域名及代理访问</h4>
+
+<p>举例来说，比如我们在我的服务器上有两个web程序，一个是之前的 lawootrip.com，另一个程序是python应用，使用端口5555，需要映射到二级域名 demo.lawootrip.com。我们应该如何设置呢？</p>
+
+<h5 id="1添加域名解析">1）添加域名解析</h5>
+
+<p>这个步骤不多说了，在域名服务提供商网站添加一条A记录，设置域名demo.lawootrip.com。</p>
+
+<h5 id="2修改nginx配置文件">2）修改Nginx配置文件</h5>
+
+<p>就是我们上面提到的文件<code class="highlighter-rouge">/etc/nginx/sites-available/lawootrip.com</code>,添加如下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    listen 80;
+    server_name demo.example.com;
+    location / {
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   Host      $http_host;
+        proxy_pass         http://127.0.0.1:5555;
+    }
+}
+</code></pre>
+</div>
+
+<p>然后重启Nginx即可。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl restart nginx
+</code></pre>
+</div>
+
+<blockquote>
+  <p>Tips 阿里云特供</p>
+</blockquote>
+
+<p>Ubuntu 在每次执行命令的时候，会报如下错误：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sudo
+sudo: unable to resolve host iZj6cfyvsfiajdiy47qddhZ
+</code></pre>
+</div>
+
+<p>iZj6cfyvsfiajdiy47qddhZ是阿里云创建服务器默认的hostname，错误其实没有什么影响，但看起来很不爽，解决方式：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ vim /etc/hostname
+iZj6cfyvsfiajdiy47qddhZ
+$ vim /etc/hosts
+127.0.0.1       localhost iZj6cfyvsfiajdiy47qddhZ
+</code></pre>
+</div>
+
+<p>结尾处增加hostname.搞定.</p>
+
+<hr />
+<p><br />
+<br /></p>
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
+
+<p><a href="https://linghucong.js.org/2016/08/18/ubuntu_1604_web_server_config_LEMP/">主要参考教程</a></p>
+
+
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">龟龟</a>
+                <span class="time">
+                /
+                <time>2017-11-02</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
+
+                <hr style="visibility: hidden;">
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/10/17/charles-ssl/" data-toggle="tooltip" data-placement="top" title="用Charles在iOS上抓包">
+                        Previous<br>
+                        <span>用Charles在iOS上抓包</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#GitHub" title="GitHub" rel="2">
+                                    GitHub
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#旅行" title="旅行" rel="2">
+                                    旅行
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#笔记" title="笔记" rel="10">
+                                    笔记
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Web前端" title="Web前端" rel="2">
+                                    Web前端
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://lawootrip.com">龟龟的Blog</a></li>
+                    
+                        <li><a href="https://www.zhihu.com/people/lawoo">龟龟的知乎</a></li>
+                    
+                        <li><a href="http://lawoo.cn">乐物手作</a></li>
+                    
+                        <li><a href="http://xucanjia.com">canjia</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<script type="text/javascript" src="/assets/js/r-highlight.js"></script>
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/LawooTrip">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/lawoo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/abigidea">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/SIGAOYI">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LawooTrip 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                    <br>
+                    <a href="http://info.flagcounter.com/rsLN"><img src="http://s01.flagcounter.com/countxl/rsLN/bg_FFFFFF/txt_000000/border_FFFFFF/columns_8/maxflags_32/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'lawootrip.com';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<!-- back-to-top -->1
+<div id="back-top">
+  <a href="#section" data-toggle="tooltip" data-placement="top" title="top">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>
+<script type="text/javascript" src="/assets/resources/jquery/jquery-1.8.3.js"></script>
+<script>
+    $('#back-top').hide();
+    $(document).ready(function () {
+    $(window).scroll(function () {
+    if ($(this).scrollTop() > 250) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 800);
+    return false;
+  });
+});
+</script>
+</footer>
+
+
+<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/blog.js"></script>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+  <!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);  
+    })
+</script>
+
+<!--page views-->
+<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
+
+
+</body>
+
+</html>
