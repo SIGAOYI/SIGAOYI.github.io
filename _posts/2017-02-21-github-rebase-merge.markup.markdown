@@ -4,7 +4,7 @@ title:      "Merge、Rebase的选择"
 subtitle:   " \"GitHub笔记——代码合并\""
 date:       2017-02-21
 author:     "龟龟"
-header-img: "https://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg"
+header-img: "http://image.lawootrip.com/post-bg-hithub-rebase-merge.jpg"
 tags:
     - 笔记
     - GitHub
@@ -219,8 +219,8 @@ git rebase 的用法和本地清理非常类似（而且可以同时使用），
 <table>
 <tr>
 <td>
-<img src="https://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
 <td>
-<img src="https://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
 </tr>
 </table>

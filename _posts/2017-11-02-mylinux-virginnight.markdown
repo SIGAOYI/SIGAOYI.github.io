@@ -4,7 +4,7 @@ title:      "Ubuntu下Nginx配置笔记"
 subtitle:   "The Story of Linux..."
 date:       2017-11-02
 author:     "龟龟"
-header-img: "https://image.lawootrip.com/2017-05-15-bg.png"
+header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
 tags:
     - 笔记
     - 服务器
@@ -522,9 +522,9 @@ iZj6cfyvsfiajdiy47qddhZ是阿里云创建服务器默认的hostname，错误其�
 <table>
 <tr>
 <td>
-<img src="https://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
 <td>
-<img src="https://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
 </tr>
 </table>
 

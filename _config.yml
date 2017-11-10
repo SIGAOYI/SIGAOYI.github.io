@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: lawootrip@gmail.com
 description: "龟龟的个人博客-乐物旅行"
 keyword: "乐物旅行、乐物、龟龟、龟七爷、大头苗苗、尼泊尔逗逼、屁屁酱"
-url: "https://lawootrip.com"              # your host, for absolute URL
+url: "http://lawootrip.com"              # your host, for absolute URL
 baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
@@ -84,7 +84,7 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 friends: [
     {
         title: "龟龟的Blog",
-        href: "https://lawootrip.com"
+        href: "http://lawootrip.com"
     },{
         title: "龟龟的知乎",
         href: "https://www.zhihu.com/people/lawoo"
