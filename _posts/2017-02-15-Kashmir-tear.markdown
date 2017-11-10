@@ -4,7 +4,7 @@ title:      "克什米尔之殇"
 subtitle:   " \"披肩匠人Ghulam的故事\""
 date:       2017-02-15 19:05
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/post-bg-kashmir2017.jpg"
+header-img: "https://image.lawootrip.com/post-bg-kashmir2017.jpg"
 tags:
     - 旅行
 ---
@@ -78,8 +78,8 @@ tags:
 <table>
 <tr>
 <td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<img src="https://image.lawootrip.com/0%20%2837%29.gif"> </td>
 <td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+<img src="https://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
 </tr>
 </table>

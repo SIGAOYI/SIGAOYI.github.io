@@ -4,7 +4,7 @@ title:      "Web缓存的一些细碎01"
 subtitle:   "The Story of localStorage..."
 date:       2017-07-17
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+header-img: "https://image.lawootrip.com/2017-05-15-bg.png"
 tags:
     - 笔记
     - Web前端
@@ -138,10 +138,10 @@ Etag是服务器自动生成或者由开发者生成的对应资源在服务器�
 
 5. 小结
 
-![浏览器第一次请求01](http://image.lawootrip.com/web2017-07-17-01.png)
+![浏览器第一次请求01](https://image.lawootrip.com/web2017-07-17-01.png)
 <small class="img-hint">浏览器第一次请求</small>
 <br/>
-![浏览器第一次请求02](http://image.lawootrip.com/web-2017-07-17-02.png)
+![浏览器第一次请求02](https://image.lawootrip.com/web-2017-07-17-02.png)
 <small class="img-hint">浏览器第二次请求</small>
 
 
@@ -293,8 +293,8 @@ File System API 也是一种可选的缓存机制，和前面的 SQLDatabase、I
 <table>
 <tr>
 <td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<img src="https://image.lawootrip.com/0%20%2837%29.gif"> </td>
 <td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+<img src="https://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
 </tr>
 </table>
