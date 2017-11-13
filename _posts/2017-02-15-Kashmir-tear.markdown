@@ -7,6 +7,7 @@ author:     "龟龟"
 header-img: "http://image.lawootrip.com/post-bg-kashmir2017.jpg"
 tags:
     - 旅行
+    - 随想
 ---
 
 > “اپ سے مل کر خوشی ہوی ”
@@ -73,8 +74,8 @@ tags:
 
 　　住在地球小屋里的人们，烧漆黑的松枝照明，从前的一场场雪，炭火之光和燃烧的松枝——夜晚说故事，无需太亮。
 ![](http://p1.bqimg.com/567571/e18f0ca8b67baf1e.png)
-<br /> 
-<br /> 
+<br />
+<br />
 <table>
 <tr>
 <td>
