@@ -1,13 +1,13 @@
 ---
 layout:     post
-title:      "Ubuntu搭建Shadowsocks原来这么简单！！！"
+title:      "Ubuntu搭建Shadowsocks原来这么简单！！"
 subtitle:   "The Story of FUCK gfw..."
 date:       2017-11-14
 author:     "龟龟"
 header-img: "http://image.lawootrip.com/pexels-photo-175411.jpeg"
 tags:
     - 笔记
-    - Web前端
+    - Linux
 ---
 
 >Vue.js 放弃中...
@@ -22,6 +22,8 @@ tags:
 [三、配置文件](#2)
 
 [四、配置自动运行](#3)
+
+[五、常用命令](#4)
 
 
 <p id="0"></p>
@@ -120,11 +122,23 @@ Ctrl + O保存文件，Ctrl + X退出。
 
 至此，Shadowsock服务器端的基本配置已经全部完成了！
 
+
+<p id="4"></p>
 #### **常用命令：**
 
     systemctl start shadowsocks //启动SS
     systemctl enable shadowsocks //停止SS
     systemctl status shadowsocks//查看SS状态
+
+厉害的一个命令
+
+    tcpdump -i any -nn 'port 8338' -vv -X //监听端口数据
+
+>-i interface，网卡的名称，后面可以跟具体的网卡名称(ifconfig后者tcpdump -D)获取，笔者的电脑上看到any，似乎是指所有的网卡
+>-nn 监听host或者port名，这个网上解释有一大堆，什么src host，dist host  ，比如我要抓，ip地址为127.0.0.1，端口为9002的服务器的数据包，那么命令可以写成-nn 'src host 127.0.0.1 and >port 9002'.不过实际来讲，端口肯定是被一个ip地址使用的，而且对于我来说，服务器抓包比较有意义，所以，其实有没有ip地址，似乎显得不那么重要，有端口就可以。
+>-vv 详细信息
+>-X 以16进制的格式输出
+
 
 ## 附加题、优化吞吐量
 
