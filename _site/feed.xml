@@ -5,9 +5,317 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 13 Nov 2017 03:31:41 +0000</pubDate>
-    <lastBuildDate>Mon, 13 Nov 2017 03:31:41 +0000</lastBuildDate>
+    <pubDate>Wed, 22 Nov 2017 11:36:55 +0000</pubDate>
+    <lastBuildDate>Wed, 22 Nov 2017 11:36:55 +0000</lastBuildDate>
     <generator>Jekyll v3.5.2</generator>
+    
+      <item>
+        <title>Ubuntu搭建Shadowsocks原来这么简单！！</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;目录:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#0&quot;&gt;一、简述&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#1&quot;&gt;二、基本环境&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#2&quot;&gt;三、配置文件&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#3&quot;&gt;四、配置自动运行&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#4&quot;&gt;五、常用命令&lt;/a&gt;&lt;/p&gt;
+
+&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;一简述&quot;&gt;一、简述&lt;/h2&gt;
+
+&lt;p&gt;本教程旨在提供简明的Ubuntu 16.04下安装服务器端Shadowsocks。不同于Ubuntu 16.04之前的教程，本文抛弃initd，转而使用Ubuntu 16.04支持的Systemd管理Shadowsocks的启动与停止，显得更为便捷。优化部分包括BBR、TCP Fast Open以及吞吐量优化。&lt;/p&gt;
+
+&lt;p&gt;本教程仅适用于Ubuntu 16.04及之后的版本，基于Python 3，支持IPv6。&lt;/p&gt;
+
+&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;二基本环境&quot;&gt;二、基本环境&lt;/h2&gt;
+
+&lt;p&gt;本教程使用Python 3为载体，因Python 3对应的包管理器&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3&lt;/code&gt;并未预装，首先安装&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt install python3-pip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;因Shadowsocks作者不再维护pip中的Shadowsocks（定格在了2.8.2），我们使用下面的命令来安装最新版的Shadowsocks：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip3 install https://github.com/shadowsocks/shadowsocks/archive/master.zip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装完成后可以使用下面这个命令查看Shadowsocks版本：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo ssserver --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;目前会显示“Shadowsocks 3.0.0”。&lt;/p&gt;
+
+&lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;三配置文件&quot;&gt;三、配置文件&lt;/h2&gt;
+
+&lt;p&gt;创建Shadowsocks配置文件所在文件夹：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo mkdir /etc/shadowsocks
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后创建配置文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/shadowsocks/config.json
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;复制粘贴如下内容：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;server&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;your_server_ip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//注意：这里指本地IP或云服务器内网IP;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;server_port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8388&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;local_address&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;local_port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1080&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mypassword&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//注意修改密码“password”;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;timeout&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;method&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;aes-256-cfb&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;fast_open&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后按Ctrl + O保存文件，Ctrl + X退出。&lt;/p&gt;
+
+&lt;p&gt;测试下Shadowsocks能不能正常工作了：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssserver -c /etc/shadowsocks/config.json
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在Shadowsocks客户端添加服务器，如果你使用的是我提供的那个配置文件的话，地址填写你的IPv4地址或IPv6地址，端口号为8388，加密方法为aes-256-cfb，密码为你设置的密码。然后设置客户端使用全局模式，浏览器登录Google试试应该能直接打开了。&lt;/p&gt;
+
+&lt;p&gt;这时浏览器登录http://ip138.com/就会显示Shadowsocks服务器的IP啦！&lt;/p&gt;
+
+&lt;p&gt;测试完毕，按Ctrl + C关闭Shadowsocks。&lt;/p&gt;
+
+&lt;p id=&quot;3&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;四配置自动运行&quot;&gt;四、配置自动运行&lt;/h2&gt;
+
+&lt;p&gt;新建Shadowsocks管理文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/systemd/system/shadowsocks-server.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;复制粘贴：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ctrl + O保存文件，Ctrl + X退出。&lt;/p&gt;
+
+&lt;p&gt;启动Shadowsocks：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo systemctl start shadowsocks-server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;设置开机启动Shadowsocks：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo systemctl enable shadowsocks-server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;至此，Shadowsock服务器端的基本配置已经全部完成了！&lt;/p&gt;
+
+&lt;p id=&quot;4&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;常用命令&quot;&gt;&lt;strong&gt;常用命令：&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start shadowsocks //启动SS
+systemctl enable shadowsocks //停止SS
+systemctl status shadowsocks//查看SS状态
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;厉害的一个命令&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tcpdump -i any -nn 'port 8338' -vv -X //监听端口数据
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;-i interface，网卡的名称，后面可以跟具体的网卡名称(ifconfig后者tcpdump -D)获取，笔者的电脑上看到any，似乎是指所有的网卡&lt;/p&gt;
+
+  &lt;p&gt;-nn 监听host或者port名，这个网上解释有一大堆，什么src host，dist host  ，比如我要抓，ip地址为127.0.0.1，端口为9002的服务器的数据包，那么命令可以写成-nn ‘src host 127.0.0.1 and &amp;gt;port 9002’.不过实际来讲，端口肯定是被一个ip地址使用的，而且对于我来说，服务器抓包比较有意义，所以，其实有没有ip地址，似乎显得不那么重要，有端口就可以。&lt;/p&gt;
+
+  &lt;p&gt;-vv 详细信息&lt;/p&gt;
+
+  &lt;p&gt;-X 以16进制的格式输出&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;附加题优化吞吐量&quot;&gt;附加题、优化吞吐量&lt;/h2&gt;
+
+&lt;p&gt;新建配置文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/sysctl.d/local.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;复制粘贴：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# max open files
+fs.file-max = 51200
+# max read buffer
+net.core.rmem_max = 67108864
+# max write buffer
+net.core.wmem_max = 67108864
+# default read buffer
+net.core.rmem_default = 65536
+# default write buffer
+net.core.wmem_default = 65536
+# max processor input queue
+net.core.netdev_max_backlog = 4096
+# max backlog
+net.core.somaxconn = 4096
+
+# resist SYN flood attacks
+net.ipv4.tcp_syncookies = 1
+# reuse timewait sockets when safe
+net.ipv4.tcp_tw_reuse = 1
+# turn off fast timewait sockets recycling
+net.ipv4.tcp_tw_recycle = 0
+# short FIN timeout
+net.ipv4.tcp_fin_timeout = 30
+# short keepalive time
+net.ipv4.tcp_keepalive_time = 1200
+# outbound port range
+net.ipv4.ip_local_port_range = 10000 65000
+# max SYN backlog
+net.ipv4.tcp_max_syn_backlog = 4096
+# max timewait sockets held by system simultaneously
+net.ipv4.tcp_max_tw_buckets = 5000
+# turn on TCP Fast Open on both client and server side
+net.ipv4.tcp_fastopen = 3
+# TCP receive buffer
+net.ipv4.tcp_rmem = 4096 87380 67108864
+# TCP write buffer
+net.ipv4.tcp_wmem = 4096 65536 67108864
+# turn on path MTU discovery
+net.ipv4.tcp_mtu_probing = 1
+
+net.ipv4.tcp_congestion_control = bbr
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;运行：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sysctl --system
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;编辑之前的shadowsocks-server.service文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/systemd/system/shadowsocks-server.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;ExecStart&lt;/code&gt;前插入一行，内容为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ExecStartPre=/bin/sh -c 'ulimit -n 51200'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;即修改后的shadowsocks-server.service内容为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sh -c 'ulimit -n 51200'
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ctrl + O保存文件，Ctrl + X退出。&lt;/p&gt;
+
+&lt;p&gt;重载shadowsocks-server.service：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo systemctl daemon-reload
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;重启Shadowsocks：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo systemctl restart shadowsocks-server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上在上一步已经开启了TCP Fast Open，现在只需要在Shadowsocks配置中启用TCP Fast Open。&lt;/p&gt;
+
+&lt;p&gt;编辑config.json：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/shadowsocks/config.json
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;将fast_open的值由false修改为true。Ctrl + O保存文件，Ctrl + X退出。&lt;/p&gt;
+
+&lt;p&gt;重启Shadowsocks：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo systemctl restart shadowsocks-server
+
+注意：TCP Fast Open同时需要客户端的支持，即客户端Linux内核版本为3.7.1及以上；你可以在Shadowsocks客户端中启用TCP Fast Open。
+
+至此，Shadowsock服务器端的优化已经全部完成了！
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html&quot;&gt;启蒙教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Tue, 14 Nov 2017 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/11/14/shadowsocks-ubuntu/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/14/shadowsocks-ubuntu/</guid>
+        
+        <category>笔记</category>
+        
+        <category>Linux</category>
+        
+        
+      </item>
     
       <item>
         <title>Ubuntu下Nginx配置笔记</title>
@@ -2285,243 +2593,6 @@ shadowsocks：2 个 RTT
         <guid isPermaLink="true">http://localhost:4000/2017/02/21/consumer-reports-history.markup/</guid>
         
         <category>笔记</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Merge、Rebase的选择</title>
-        <description>&lt;blockquote&gt;
-&lt;p&gt;BY &lt;a href=&quot;https://github.com/geeeeeeeeek/git-recipes/&quot;&gt;童仲毅geeeeeeeeek@github&lt;/a&gt;——目前看到的关于Merge、Rebase最通俗易懂的wiki。&lt;/p&gt;
-&lt;p&gt;这是一篇在原文(&lt;a href=&quot;https://www.atlassian.com/git/tutorials/merging-vs-rebasing&quot;&gt;BY atlassian&lt;/a&gt;)基础上演绎的译文。除非另行注明，页面上所有内容采用知识共享-署名(&lt;a herf=&quot;https://creativecommons.org/licenses/by/2.5/au/deed.en&quot;&gt;CC BY 2.5 AU协议共享。&lt;/a&gt;)&lt;/p&gt; 
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 这个命令经常被人认为是一种Git巫术，初学者应该避而远之。但如果使用得当的话，它能给你的团队开发省去太多烦恼。在这篇文章中，我们会比较&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;和类似的&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt;命令，找到Git工作流中rebase的所有用法。&lt;/p&gt;
-
-&lt;h3 id=&quot;概述&quot;&gt;概述&lt;/h3&gt;
-&lt;p&gt;你要知道的第一件事是，&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 和&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 做的事其实是一样的。它们都被设计来将一个分支的更改并入另一个分支，只不过方式有些不同。&lt;/p&gt;
-
-&lt;p&gt;想象一下，你刚创建了一个专门的分支开发新功能，然后团队中另一个成员在master分支上添加了新的提交。这就会造成提交历史被Fork一份，用Git来协作的开发者应该都很清楚。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/919155232a162011b8a64a84872482034c0ce999/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30312e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;现在，如果master中新的提交和你的工作是相关的。为了将新的提交并入你的分支，你有两个选择：merge或rebase。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;merge&quot;&gt;Merge&lt;/h3&gt;
-&lt;p&gt;将master分支合并到feature分支最简单的办法就是用下面这些命令：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;　　git checkout feature
-　　git merge master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;或者，你也可以把它们压缩在一行里。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git merge master feature
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;feature分支中新的合并提交(merge　commit)将两个分支的历史连在了一起。你会得到下面这样的分支结构：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/266aef357af48c218b8779cd489bcb8839aa0a25/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30322e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Merge好在它是一个安全的操作。现有的分支不会被更改，避免了rebase潜在的缺点（后面会说）。&lt;/p&gt;
-
-&lt;p&gt;另一方面，这同样意味着每次合并上游更改时feature分支都会引入一个外来的合并提交。如果master非常活跃的话，这或多或少会污染你的分支历史。虽然高级的git log 选项可以减轻这个问题，但对于开发者来说，还是会增加理解项目历史的难度。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;rebase&quot;&gt;Rebase&lt;/h3&gt;
-&lt;p&gt;作为merge的替代选择，你可以像下面这样将feature分支并入master分支：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout feature
-git rebase master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;它会把整个feature分支移动到master分支的后面，有效地把所有master分支上新的提交并入过来。但是，rebase为原分支上每一个提交创建一个新的提交，重写了项目历史，并且不会带来合并提交。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/626197748d8d8493b194ce59874b71897c88c39f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30332e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;rebase最大的好处是你的项目历史会非常整洁。首先，它不像&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 那样引入不必要的合并提交。其次，如上图所示，rebase导致最后的项目历史呈现出完美的线性——你可以从项目终点到起点浏览而不需要任何的Fork。这让你更容易使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 、&lt;code class=&quot;highlighter-rouge&quot;&gt;git bisect&lt;/code&gt; 和&lt;code class=&quot;highlighter-rouge&quot;&gt;gitk&lt;/code&gt; 来查看项目历史。&lt;/p&gt;
-
-&lt;p&gt;不过，这种简单的提交历史会带来两个后果：安全性和可跟踪性。如果你违反了Rebase黄金法则，重写项目历史可能会给你的协作工作流带来灾难性的影响。此外，rebase不会有合并提交中附带的信息——你看不到feature分支中并入了上游的哪些更改。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;交互式的rebase&quot;&gt;交互式的rebase&lt;/h3&gt;
-&lt;p&gt;交互式的rebase允许你更改并入新分支的提交。这比自动的rebase更加强大，因为它提供了对分支上提交历史完整的控制。一般来说，这被用于将feature分支并入master分支之前，清理混乱的历史。&lt;/p&gt;
-
-&lt;p&gt;把&lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; 传入&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 选项来开始一个交互式的rebase过程：
-　　&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout feature
-git rebase -i master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;它会打开一个文本编辑器，显示所有将被移动的提交：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pick 33d5b7a Message for commit #1
-pick 9480b3d Message for commit #2
-pick 5c67e61 Message for commit #3
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;这个列表定义了rebase将被执行后分支会是什么样的。更改pick 命令或者重新排序，这个分支的历史就能如你所愿了。比如说，如果第二个提交修复了第一个提交中的小问题，你可以用fixup 命令把它们合到一个提交中：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pick 33d5b7a Message for commit #1
-fixup 9480b3d Message for commit #2
-pick 5c67e61 Message for commit #3
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;保存后关闭文件，Git会根据你的指令来执行rebase，项目历史看上去会是这样：
-　　
-&lt;img src=&quot;https://camo.githubusercontent.com/b685d6f2a7b4ecf6896fa2439e8da2fb958195fd/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30342e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;　　忽略不重要的提交会让你的feature分支的历史更清晰易读。这是git merge 做不到的。
-　　&lt;/p&gt;
-&lt;h3 id=&quot;rebase的黄金法则&quot;&gt;Rebase的黄金法则&lt;/h3&gt;
-&lt;p&gt;当你理解rebase是什么的时候，最重要的就是什么时候 不能 用rebase。git rebase 的黄金法则便是，绝不要在公共的分支上使用它。&lt;/p&gt;
-
-&lt;p&gt;比如说，如果你把master分支rebase到你的feature分支上会发生什么：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/b3d06635fdadff5863f94aa53b16bba69452f04f/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30352e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;这次rebase将master分支上的所有提交都移到了feature分支后面。问题是它只发生在你的代码仓库中，其他所有的开发者还在原来的master上工作。因为rebase引起了新的提交，Git会认为你的master分支和其他人的master已经分叉了。&lt;/p&gt;
-
-&lt;p&gt;同步两个master分支的唯一办法是把它们merge到一起，导致一个额外的合并提交和两堆包含同样更改的提交。不用说，这会让人非常困惑。&lt;/p&gt;
-
-&lt;p&gt;所以，在你运行git rebase 之前，一定要问问你自己“有没有别人正在这个分支上工作？”。如果答案是肯定的，那么把你的爪子放回去，重新找到一个无害的方式（如git revert）来提交你的更改。不然的话，你可以随心所欲地重写历史。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;强制推送&quot;&gt;强制推送&lt;/h3&gt;
-&lt;p&gt;如果你想把rebase之后的master分支推送到远程仓库，Git会阻止你这么做，因为两个分支包含冲突。但你可以传入&lt;code class=&quot;highlighter-rouge&quot;&gt;--force&lt;/code&gt; 标记来强行推送。就像下面一样：&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;小心使用这个命令！！！&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git push --force
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;它会重写远程的master分支来匹配你仓库中rebase之后的master分支，对于团队中其他成员来说这看上去很诡异。所以，务必小心这个命令，只有当你知道你在做什么的时候再使用。&lt;/p&gt;
-
-&lt;p&gt;仅有的几个强制推送的使用场景之一是，当你在想向远程仓库推送了一个私有分支之后，执行了一个本地的清理（比如说为了回滚）。这就像是在说“哦，其实我并不想推送之前那个feature分支的。用我现在的版本替换掉吧。”同样，你要注意没有别人正在这个feature分支上工作。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;工作流&quot;&gt;工作流&lt;/h3&gt;
-&lt;p&gt;rebase可以或多或少应用在你们团队的Git工作流中。在这一节中，我们来看看在feature分支开发的各个阶段中，rebase有哪些好处。&lt;/p&gt;
-
-&lt;p&gt;第一步是在任何和&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 有关的工作流中为每一个feature专门创建一个分支。它会给你带来安全使用rebase的分支结构：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/4b8c7e7855643d46885f8df41b4dc4de11dc89a3/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30362e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;本地清理&quot;&gt;本地清理&lt;/h3&gt;
-&lt;p&gt;在你工作流中使用rebase最好的用法之一就是清理本地正在开发的分支。隔一段时间执行一次交互式rebase，你可以保证你feature分支中的每一个提交都是专注和有意义的。你在写代码时不用担心造成孤立的提交——因为你后面一定能修复。&lt;/p&gt;
-
-&lt;p&gt;调用&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 的时候，你有两个基(base)可以选择：上游分支（比如master）或者你feature分支中早先的一个提交。我们在“交互式rebase”一节看到了第一种的例子。后一种在当你只需要修改最新几次提交时也很有用。比如说，下面的命令对最新的3次提交进行了交互式rebase：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout feature
-git rebase -i HEAD~3
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;通过指定&lt;code class=&quot;highlighter-rouge&quot;&gt;HEAD~3&lt;/code&gt;作为新的基提交，你实际上没有移动分支——你只是将之后的3次提交重写了。注意它不会把上游分支的更改并入到feature分支中。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/890e91bbd54876ff01865403164de70fe47b555b/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30372e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如果你想用这个方法重写整个feature分支，&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge-base&lt;/code&gt; 命令非常方便地找出feature分支开始分叉的基。下面这段命令返回基提交的ID，你可以接下来将它传给&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git merge-base feature master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;交互式rebase是在你工作流中引入git rebase 的的好办法，因为它只影响本地分支。其他开发者只能看到你已经完成的结果，那就是一个非常整洁、易于追踪的分支历史。&lt;/p&gt;
-
-&lt;p&gt;但同样的，这只能用在私有分支上。如果你在同一个feature分支和其他开发者合作的话，这个分支是公开的，你不能重写这个历史。&lt;/p&gt;
-
-&lt;p&gt;用带有交互式的rebase清理本地提交，这是无法用&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 命令代替的。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;将上游分支上的更改并入feature分支&quot;&gt;将上游分支上的更改并入feature分支&lt;/h3&gt;
-&lt;p&gt;在概览一节，我们看到了feature分支如何通过&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 或&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 来并入上游分支。merge是保留你完整历史的安全选择，rebase将你的feature分支移动到master分支后面，创建一个线性的历史。&lt;/p&gt;
-
-&lt;p&gt;git rebase 的用法和本地清理非常类似（而且可以同时使用），但之间并入了master上的上游更改。&lt;/p&gt;
-
-&lt;p&gt;记住，rebase到远程分支而不是master也是完全合法的。当你和另一个开发者在同一个feature分之上协作的时候，你会用到这个用法，将他们的更改并入你的项目。&lt;/p&gt;
-
-&lt;p&gt;比如说，如果你和另一个开发者——John——往feature分支上添加了几个提交，在从John的仓库中fetch之后，你的仓库可能会像下面这样：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/6758dd2be664491c52dc4c246939f1ad5a14fba9/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30382e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;就和并入master上的上游更改一样，你可以这样解决这个Fork：要么merge你的本地分支和John的分支，要不把你的本地分支rebase到John的分支后面。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;
-&lt;img src=&quot;https://camo.githubusercontent.com/c45e2609be5941aaedac397b08770be35d490db7/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f30392e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;注意，这里的rebase没有违反Rebase黄金法则，因为只有你的本地分支上的commit被移动了，之前的所有东西都没有变。这就像是在说“把我的改动加到John的后面去”。在大多数情况下，这比通过合并提交来同步远程分支更符合直觉。&lt;/p&gt;
-
-&lt;p&gt;默认情况下，&lt;code class=&quot;highlighter-rouge&quot;&gt;git pull&lt;/code&gt; 命令会执行一次merge，但你可以传入&lt;code class=&quot;highlighter-rouge&quot;&gt;--rebase&lt;/code&gt; 来强制它通过rebase来整合远程分支。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;通过pull-request进行审查&quot;&gt;通过Pull Request进行审查&lt;/h3&gt;
-&lt;p&gt;如果你将pull request作为你代码审查过程中的一环，你需要避免在创建pull request之后使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;。只要你发起了pull request，其他开发者能看到你的代码，也就是说这个分支变成了公共分支。重写历史会造成Git和你的同事难以找到这个分支接下来的任何提交。&lt;/p&gt;
-
-&lt;p&gt;来自其他开发者的任何更改都应该用&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 而不是&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 来并入。&lt;/p&gt;
-
-&lt;p&gt;因此，在提交pull request前用交互式的rebase进行代码清理通常是一个好的做法。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;h3 id=&quot;并入通过的功能分支&quot;&gt;并入通过的功能分支&lt;/h3&gt;
-
-&lt;p&gt;如果某个功能被你们团队通过了，你可以选择将这个分支rebase到master分支之后，或是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 来将这个功能并入主代码库中。&lt;/p&gt;
-
-&lt;p&gt;这和将上游改动并入feature分支很相似，但是你不可以在master分支重写提交，你最后需要用&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 来并入这个feature。但是，在merge之前执行一次rebase，你可以确保merge是一直向前的，最后生成的是一个完全线性的提交历史。这样你还可以加入pull request之后的提交。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;
-&lt;img src=&quot;https://camo.githubusercontent.com/7a158568c55aa3b65bc58a648aabb17b36573eaa/68747470733a2f2f7777772e61746c61737369616e2e636f6d2f6769742f696d616765732f7475746f7269616c732f616476616e6365642f6d657267696e672d76732d7265626173696e672f31302e737667&quot; alt=&quot;此处输入图片的描述&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如果你还没有完全熟悉git rebase，你还可以在一个临时分支中执行&lt;code class=&quot;highlighter-rouge&quot;&gt;rebase&lt;/code&gt;。这样的话，如果你意外地弄乱了你feature分支的历史，你还可以查看原来的分支然后重试。&lt;/p&gt;
-
-&lt;p&gt;比如说：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout feature
-git checkout -b temporary-branch
-git rebase -i master
-# [清理目录]
-git checkout master
-git merge temporary-branch
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-
-&lt;p&gt;你使用rebase之前需要知道的知识点都在这了。如果你想要一个干净的、线性的提交历史，没有不必要的合并提交，你应该使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt; 而不是&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt; 来并入其他分支上的更改。&lt;/p&gt;
-
-&lt;p&gt;另一方面，如果你想要保存项目完整的历史，并且避免重写公共分支上的commit， 你可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt;。两种选项都很好用，但至少你现在多了&lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;这个选择。
-&lt;br /&gt; 
-&lt;br /&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Tue, 21 Feb 2017 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2017/02/21/github-rebase-merge.markup/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/21/github-rebase-merge.markup/</guid>
-        
-        <category>笔记</category>
-        
-        <category>GitHub</category>
         
         
       </item>

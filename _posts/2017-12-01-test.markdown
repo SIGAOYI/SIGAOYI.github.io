@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "TEST"
+subtitle:   "The Story of localStorage..."
+date:       2017-07-18
+author:     "龟龟"
+header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+tags:
+    - 笔记
+    - Web前端
+---
+
+>Vue.js 放弃中...
+
+**TEST**
+
+----
+<br />
+<br />
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
