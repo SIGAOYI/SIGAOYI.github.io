@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="龟龟的个人博客-乐物旅行">
+    <meta name="keywords"  content="乐物旅行、乐物、龟龟、龟七爷、大头苗苗、尼泊尔逗逼、屁屁酱">
+    <meta name="theme-color" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-app-status-bar-style" content="white" />
+
+    <title>Ubuntu搭建Shadowsocks原来这么简单！！ - LawooTrip</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/11/14/shadowsocks-ubuntu/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+  <link rel="alternate" type="application/rss+xml" title="LawooTrip" href="/feed.xml">
+  <!-- Le styles -->
+  <link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <!--iphone-icon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" href="http://image.lawootrip.com/guigui_180.png">
+
+  <link rel="apple-touch-icon" sizes="152x152" href="http://image.lawootrip.com/guigui_152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="http://image.lawootrip.com/guigui_167.png">
+
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">LawooTrip</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+<!-- 百度链接推送 -->
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(http://image.lawootrip.com/pexels-photo-175411.jpeg)
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                        <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                        
+                    </div>
+                    <h1>Ubuntu搭建Shadowsocks原来这么简单！！</h1>
+                    
+                    
+                    <h2 class="subheading">The Story of FUCK gfw...</h2>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>Vue.js 放弃中…</p>
+</blockquote>
+
+<p><strong>目录:</strong></p>
+
+<p><a href="#0">一、简述</a></p>
+
+<p><a href="#1">二、基本环境</a></p>
+
+<p><a href="#2">三、配置文件</a></p>
+
+<p><a href="#3">四、配置自动运行</a></p>
+
+<p><a href="#4">五、常用命令</a></p>
+
+<p id="0"></p>
+
+<h2 id="一简述">一、简述</h2>
+
+<p>本教程旨在提供简明的Ubuntu 16.04下安装服务器端Shadowsocks。不同于Ubuntu 16.04之前的教程，本文抛弃initd，转而使用Ubuntu 16.04支持的Systemd管理Shadowsocks的启动与停止，显得更为便捷。优化部分包括BBR、TCP Fast Open以及吞吐量优化。</p>
+
+<p>本教程仅适用于Ubuntu 16.04及之后的版本，基于Python 3，支持IPv6。</p>
+
+<p id="1"></p>
+
+<h2 id="二基本环境">二、基本环境</h2>
+
+<p>本教程使用Python 3为载体，因Python 3对应的包管理器<code class="highlighter-rouge">pip3</code>并未预装，首先安装<code class="highlighter-rouge">pip3</code>：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt install python3-pip
+</code></pre>
+</div>
+
+<p>因Shadowsocks作者不再维护pip中的Shadowsocks（定格在了2.8.2），我们使用下面的命令来安装最新版的Shadowsocks：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip3 install https://github.com/shadowsocks/shadowsocks/archive/master.zip
+</code></pre>
+</div>
+
+<p>安装完成后可以使用下面这个命令查看Shadowsocks版本：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo ssserver --version
+</code></pre>
+</div>
+
+<p>目前会显示“Shadowsocks 3.0.0”。</p>
+
+<p id="2"></p>
+
+<h2 id="三配置文件">三、配置文件</h2>
+
+<p>创建Shadowsocks配置文件所在文件夹：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo mkdir /etc/shadowsocks
+</code></pre>
+</div>
+
+<p>然后创建配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/shadowsocks/config.json
+</code></pre>
+</div>
+
+<p>复制粘贴如下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="nt">"server"</span><span class="p">:</span><span class="s2">"your_server_ip"</span><span class="p">,</span><span class="err">//注意：这里指本地IP或云服务器内网IP;</span><span class="w">
+</span><span class="nt">"server_port"</span><span class="p">:</span><span class="mi">8388</span><span class="p">,</span><span class="w">
+</span><span class="nt">"local_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+</span><span class="nt">"local_port"</span><span class="p">:</span><span class="mi">1080</span><span class="p">,</span><span class="w">
+</span><span class="nt">"password"</span><span class="p">:</span><span class="s2">"mypassword"</span><span class="p">,</span><span class="err">//注意修改密码“password”;</span><span class="w">
+</span><span class="nt">"timeout"</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span><span class="w">
+</span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"aes-256-cfb"</span><span class="p">,</span><span class="w">
+</span><span class="nt">"fast_open"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>然后按Ctrl + O保存文件，Ctrl + X退出。</p>
+
+<p>测试下Shadowsocks能不能正常工作了：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssserver -c /etc/shadowsocks/config.json
+</code></pre>
+</div>
+
+<p>在Shadowsocks客户端添加服务器，如果你使用的是我提供的那个配置文件的话，地址填写你的IPv4地址或IPv6地址，端口号为8388，加密方法为aes-256-cfb，密码为你设置的密码。然后设置客户端使用全局模式，浏览器登录Google试试应该能直接打开了。</p>
+
+<p>这时浏览器登录http://ip138.com/就会显示Shadowsocks服务器的IP啦！</p>
+
+<p>测试完毕，按Ctrl + C关闭Shadowsocks。</p>
+
+<p id="3"></p>
+
+<h2 id="四配置自动运行">四、配置自动运行</h2>
+
+<p>新建Shadowsocks管理文件</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/systemd/system/shadowsocks-server.service
+</code></pre>
+</div>
+
+<p>复制粘贴：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+</div>
+
+<p>Ctrl + O保存文件，Ctrl + X退出。</p>
+
+<p>启动Shadowsocks：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl start shadowsocks-server
+</code></pre>
+</div>
+
+<p>设置开机启动Shadowsocks：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl enable shadowsocks-server
+</code></pre>
+</div>
+
+<p>至此，Shadowsock服务器端的基本配置已经全部完成了！</p>
+
+<p id="4"></p>
+<h4 id="常用命令"><strong>常用命令：</strong></h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>systemctl start shadowsocks //启动SS
+systemctl enable shadowsocks //停止SS
+systemctl status shadowsocks//查看SS状态
+</code></pre>
+</div>
+
+<p>厉害的一个命令</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>tcpdump -i any -nn 'port 8338' -vv -X //监听端口数据
+</code></pre>
+</div>
+
+<blockquote>
+  <p>-i interface，网卡的名称，后面可以跟具体的网卡名称(ifconfig后者tcpdump -D)获取，笔者的电脑上看到any，似乎是指所有的网卡</p>
+
+  <p>-nn 监听host或者port名，这个网上解释有一大堆，什么src host，dist host  ，比如我要抓，ip地址为127.0.0.1，端口为9002的服务器的数据包，那么命令可以写成-nn ‘src host 127.0.0.1 and &gt;port 9002’.不过实际来讲，端口肯定是被一个ip地址使用的，而且对于我来说，服务器抓包比较有意义，所以，其实有没有ip地址，似乎显得不那么重要，有端口就可以。</p>
+
+  <p>-vv 详细信息</p>
+
+  <p>-X 以16进制的格式输出</p>
+</blockquote>
+
+<h2 id="附加题优化吞吐量">附加题、优化吞吐量</h2>
+
+<p>新建配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/sysctl.d/local.conf
+</code></pre>
+</div>
+
+<p>复制粘贴：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># max open files
+fs.file-max = 51200
+# max read buffer
+net.core.rmem_max = 67108864
+# max write buffer
+net.core.wmem_max = 67108864
+# default read buffer
+net.core.rmem_default = 65536
+# default write buffer
+net.core.wmem_default = 65536
+# max processor input queue
+net.core.netdev_max_backlog = 4096
+# max backlog
+net.core.somaxconn = 4096
+
+# resist SYN flood attacks
+net.ipv4.tcp_syncookies = 1
+# reuse timewait sockets when safe
+net.ipv4.tcp_tw_reuse = 1
+# turn off fast timewait sockets recycling
+net.ipv4.tcp_tw_recycle = 0
+# short FIN timeout
+net.ipv4.tcp_fin_timeout = 30
+# short keepalive time
+net.ipv4.tcp_keepalive_time = 1200
+# outbound port range
+net.ipv4.ip_local_port_range = 10000 65000
+# max SYN backlog
+net.ipv4.tcp_max_syn_backlog = 4096
+# max timewait sockets held by system simultaneously
+net.ipv4.tcp_max_tw_buckets = 5000
+# turn on TCP Fast Open on both client and server side
+net.ipv4.tcp_fastopen = 3
+# TCP receive buffer
+net.ipv4.tcp_rmem = 4096 87380 67108864
+# TCP write buffer
+net.ipv4.tcp_wmem = 4096 65536 67108864
+# turn on path MTU discovery
+net.ipv4.tcp_mtu_probing = 1
+
+net.ipv4.tcp_congestion_control = bbr
+</code></pre>
+</div>
+
+<p>运行：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sysctl --system
+</code></pre>
+</div>
+
+<p>编辑之前的shadowsocks-server.service文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/systemd/system/shadowsocks-server.service
+</code></pre>
+</div>
+
+<p>在<code class="highlighter-rouge">ExecStart</code>前插入一行，内容为：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ExecStartPre=/bin/sh -c 'ulimit -n 51200'
+</code></pre>
+</div>
+
+<p>即修改后的shadowsocks-server.service内容为：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sh -c 'ulimit -n 51200'
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+</div>
+
+<p>Ctrl + O保存文件，Ctrl + X退出。</p>
+
+<p>重载shadowsocks-server.service：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl daemon-reload
+</code></pre>
+</div>
+
+<p>重启Shadowsocks：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl restart shadowsocks-server
+</code></pre>
+</div>
+
+<p>TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上在上一步已经开启了TCP Fast Open，现在只需要在Shadowsocks配置中启用TCP Fast Open。</p>
+
+<p>编辑config.json：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/shadowsocks/config.json
+</code></pre>
+</div>
+
+<p>将fast_open的值由false修改为true。Ctrl + O保存文件，Ctrl + X退出。</p>
+
+<p>重启Shadowsocks：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl restart shadowsocks-server
+
+注意：TCP Fast Open同时需要客户端的支持，即客户端Linux内核版本为3.7.1及以上；你可以在Shadowsocks客户端中启用TCP Fast Open。
+
+至此，Shadowsock服务器端的优化已经全部完成了！
+</code></pre>
+</div>
+
+<p><a href="https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html">启蒙教程</a></p>
+
+<hr />
+<p><br />
+<br /></p>
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
+
+
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">龟龟</a>
+                <span class="time">
+                /
+                <time>2017-11-14</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
+
+                <hr style="visibility: hidden;">
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/11/02/mylinux-virginnight/" data-toggle="tooltip" data-placement="top" title="Ubuntu下Nginx配置笔记">
+                        Previous<br>
+                        <span>Ubuntu下Nginx配置笔记</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#GitHub" title="GitHub" rel="2">
+                                    GitHub
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#旅行" title="旅行" rel="2">
+                                    旅行
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#笔记" title="笔记" rel="11">
+                                    笔记
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Web前端" title="Web前端" rel="2">
+                                    Web前端
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Linux" title="Linux" rel="2">
+                                    Linux
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://lawootrip.com">龟龟的Blog</a></li>
+                    
+                        <li><a href="https://www.zhihu.com/people/lawoo">龟龟的知乎</a></li>
+                    
+                        <li><a href="http://lawoo.cn">乐物手作</a></li>
+                    
+                        <li><a href="http://xucanjia.com">canjia</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<script type="text/javascript" src="/assets/js/r-highlight.js"></script>
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/LawooTrip">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/lawoo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/abigidea">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/SIGAOYI">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; LawooTrip 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                    <br>
+                    <a href="http://info.flagcounter.com/rsLN"><img src="http://s01.flagcounter.com/countxl/rsLN/bg_FFFFFF/txt_000000/border_FFFFFF/columns_3/maxflags_9/viewers_1/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'lawootrip.com';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<!-- back-to-top -->1
+<div id="back-top">
+  <a href="#section" data-toggle="tooltip" data-placement="top" title="top">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>
+<script type="text/javascript" src="/assets/resources/jquery/jquery-1.8.3.js"></script>
+<script>
+    $('#back-top').hide();
+    $(document).ready(function () {
+    $(window).scroll(function () {
+    if ($(this).scrollTop() > 250) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 800);
+    return false;
+  });
+});
+</script>
+</footer>
+
+
+<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/blog.js"></script>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+  <!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);  
+    })
+</script>
+
+<!--page views-->
+<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
+
+
+</body>
+
+</html>
