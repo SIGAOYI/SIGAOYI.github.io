@@ -94,8 +94,10 @@ friends: [
     },{
         title: "canjia",
         href: "http://xucanjia.com"
+    },{
+        title: "Jerry Qu",
+        href: "https://imququ.com/"
     }
-
 ]
 # 时区
 timezone: CN
