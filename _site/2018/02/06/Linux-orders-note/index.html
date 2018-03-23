@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-app-status-bar-style" content="white" />
 
-    <title>LawooTrip</title>
+    <title>Ubuntu 常用命令整理 - LawooTrip</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/home/">
+    <link rel="canonical" href="http://localhost:4000/2018/02/06/Linux-orders-note/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,434 +170,217 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url(http://image.lawootrip.com/pexels-photo-175411.jpeg)
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <div class="header-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>LawooTrip</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">龟龟的自留地</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                        <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                        
+                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                    </div>
+                    <h1>Ubuntu 常用命令整理</h1>
+                    
+                    
+                    <h2 class="subheading">Be lord of your Ubuntu</h2>
+                    
+
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>Vue.js 放弃中…</p>
+</blockquote>
+
+<h2 id="目录"><strong>目录:</strong></h2>
+
+<h2 id="一用户操作"><a href="#0">一、用户操作</a></h2>
+
+<h2 id="二文件操作"><a href="#1">二、文件操作</a></h2>
+
+<h2 id="三系统操作"><a href="#2">三、系统操作</a></h2>
+
+<p id="0"></p>
+
+<h2 id="一用户操作-1">一、用户操作</h2>
+
+<p>在root用户下，</p>
+
+<ol>
+  <li>使用<code class="highlighter-rouge">who</code>查看目前有哪些用户登录了服务器；</li>
+  <li>使用<code class="highlighter-rouge">pkill -kill -t pts/1</code>（数字1就是用户的<a href="https://en.wikipedia.org/wiki/Tty_(unix)">TTY</a>）强制退出对应用户的登陆；</li>
+  <li>增加用户：<code class="highlighter-rouge">useradd test</code>；为新增用户添加密码：<code class="highlighter-rouge">passwd test</code>;</li>
+  <li>删除用户：<code class="highlighter-rouge">userdel test</code>;</li>
+  <li>用户登陆记录：<code class="highlighter-rouge">last</code>;</li>
+  <li>用户登陆失败记录：<code class="highlighter-rouge">lastb</code>;</li>
+  <li>查看系统下所有用户：<code class="highlighter-rouge">cat /etc/passwd |awk -F \: '{print $1}'</code>;</li>
+</ol>
+
+<p id="1"></p>
+
+<h2 id="二文件操作-1">二、文件操作</h2>
+
+<p id="2"></p>
+
+<h2 id="三系统操作-1">三、系统操作</h2>
+
+<hr />
+<p><br />
+<br /></p>
+<table>
+<tr>
+<td>
+<img src="http://image.lawootrip.com/0%20%2837%29.gif" /> </td>
+<td>
+<img src="http://image.lawootrip.com/1490924677.png" /><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
+</tr>
+</table>
+
+
+<!-- 阅读量统计 -->
+                <p class="text-right">
+                <a href="/">龟龟</a>
+                <span class="time">
+                /
+                <time>2018-02-06</time>
+                <style>span.test {color: #0085A5;font-weight: bold;}</style>
+                </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
+                <br>
+                <span>
+                    <strong><em>Published under<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">(CC) BY-NC-SA 3.0 CN</a>.
+                    </em></strong>
+                </span>
+                </p>
+                 <!-- 阅读量统计结束 -->   
+
+                <hr style="visibility: hidden;">
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/22/Discuzu-Build-Config/" data-toggle="tooltip" data-placement="top" title="用DiscuzX3.2建站原来这么简单！">
+                        Previous<br>
+                        <span>用DiscuzX3.2建站原来这么简单！</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+            </div>  
+
+    <!-- Side Catalog Container -->
         
 
-<!-- USE SIDEBAR -->
-    <!-- PostList Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                postlist-container
-            ">
-    			
-<div class="post-preview">
-    <a href="/2018/02/06/Linux-orders-note/">
-        <h2 class="post-title">
-            Ubuntu 常用命令整理
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Be lord of your Ubuntu
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-目录:
-
-一、用户操作
-
-二、文件操作
-
-三、系统操作
-
-
-
-一、用户操作
-
-在root用户下，
-
-
-  使用who查看目前有哪些用户登录了服务器；
-  使用...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on February 6, 2018
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/12/22/Discuzu-Build-Config/">
-        <h2 class="post-title">
-            用DiscuzX3.2建站原来这么简单！
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Story of Enjoy Discuz
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-目录:
-
-一、简述
-
-二、安装配置
-
-三、配置文件
-
-
-
-一、简述
-
-Discuz是主流的社区论坛管理方案，小米论坛、威锋论坛等国内知名论坛均使用的是Disc...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on December 22, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/11/14/shadowsocks-ubuntu/">
-        <h2 class="post-title">
-            Ubuntu搭建Shadowsocks原来这么简单！！
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Story of FUCK gfw...
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-目录:
-
-一、简述
-
-二、基本环境
-
-三、配置文件
-
-四、配置自动运行
-
-五、常用命令
-
-
-
-一、简述
-
-本教程旨在提供简明的Ubuntu 16.04下安装服...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on November 14, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/11/02/mylinux-virginnight/">
-        <h2 class="post-title">
-            Ubuntu下Nginx配置笔记
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Story of Linux...
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-阿里云双十一活动还算良心,赶紧买个服务器自己玩.
-
-本着日后方便科学上网的原则,买了2核4G,1M带宽的香港节点3年,搭载Ubuntu 16.0402系统镜像...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on November 2, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/10/17/charles-ssl/">
-        <h2 class="post-title">
-            用Charles在iOS上抓包
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Wireshark is so easy MAMA no worry
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-来总结一下用Charles在iOS上抓包的方法。
-
-本文分三个部分：
-
-一、Mac客户端 下载安装激活
-
-二、Mac/iPhone证书 下载安装信任
-
-三、抓...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on October 17, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/08/12/mysql-psw/">
-        <h2 class="post-title">
-            Mac下重置MySQL的权限、密码
-        </h2>
-        
-        <h3 class="post-subtitle">
-            What you know you don't know Jon Snow
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-每次重启Mac后，我的Navicat都会提示本地的MySQL服务密码不对。
-
-每次都需要用sudo刷新MySQL权限才可以正常连接，即使重置密码，再次重启My...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on August 12, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/07/18/web-localstorage-Volume02/">
-        <h2 class="post-title">
-            Web缓存的一些细碎02
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Story of localStorage...
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-Web缓存是指一个Web资源（如html页面，图片，js，数据等）存在于Web服务器和客户端（浏览器）之间的副本。缓存会根据进来的请求保存输出内容的副本；当下...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on July 18, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/07/17/web-localstorage-Volume01/">
-        <h2 class="post-title">
-            Web缓存的一些细碎01
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Story of localStorage...
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  Vue.js 放弃中…
-
-
-Web缓存是指一个Web资源（如html页面，图片，js，数据等）存在于Web服务器和客户端（浏览器）之间的副本。缓存会根据进来的请求保存输出内容的副本；当下...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by 龟龟 on July 17, 2017
-    </p>
-</div>
-<hr>
-
-
-<!-- Pager -->
-
-<ul class="pager">
-    
-    
-    <li class="next">
-        <a href="/home/page2">Older Posts &rarr;</a>
-    </li>
-    
-</ul>
-
-    		</div>
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        
+        				
                             
-                                <a href="/tags/#GitHub" title="GitHub" rel="2">
+                				<a href="/tags/#GitHub" title="GitHub" rel="2">
                                     GitHub
                                 </a>
                             
-                        
+        				
                             
-                                <a href="/tags/#旅行" title="旅行" rel="2">
+                				<a href="/tags/#旅行" title="旅行" rel="2">
                                     旅行
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#笔记" title="笔记" rel="13">
+                				<a href="/tags/#笔记" title="笔记" rel="13">
                                     笔记
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#Web前端" title="Web前端" rel="2">
+                				<a href="/tags/#Web前端" title="Web前端" rel="2">
                                     Web前端
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#Linux" title="Linux" rel="3">
+                				<a href="/tags/#Linux" title="Linux" rel="3">
                                     Linux
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
-                    </div>
+        				
+        			</div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/sidebar-pro.jpg" />
-                        
-                        
-                            <p>玩玩产品，看看设计，学学代码。世界那么大，多玩玩看看。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            <li>
-                                <a href="https://twitter.com/LawooTrip">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.zhihu.com/people/lawoo">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/abigidea">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/SIGAOYI">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -616,11 +399,14 @@ Web缓存是指一个Web资源（如html页面，图片，js，数据等）存�
                     
                 </ul>
                 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
 
+
+
+<script type="text/javascript" src="/assets/js/r-highlight.js"></script>
 
     <!-- Footer -->
 <footer>

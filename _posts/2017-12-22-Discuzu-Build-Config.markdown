@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "用DiscuzX3.2建站原来这么简单！"
+title:      "用DiscuzX3.2建站玩耍"
 subtitle:   "The Story of Enjoy Discuz"
 date:       2017-12-22
 author:     "龟龟"

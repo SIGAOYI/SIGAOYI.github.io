@@ -5,9 +5,72 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 16 Jan 2018 12:35:00 +0000</pubDate>
-    <lastBuildDate>Tue, 16 Jan 2018 12:35:00 +0000</lastBuildDate>
+    <pubDate>Tue, 06 Feb 2018 11:40:23 +0000</pubDate>
+    <lastBuildDate>Tue, 06 Feb 2018 11:40:23 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Ubuntu 常用命令整理</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;目录&quot;&gt;&lt;strong&gt;目录:&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;一用户操作&quot;&gt;&lt;a href=&quot;#0&quot;&gt;一、用户操作&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;二文件操作&quot;&gt;&lt;a href=&quot;#1&quot;&gt;二、文件操作&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h2 id=&quot;三系统操作&quot;&gt;&lt;a href=&quot;#2&quot;&gt;三、系统操作&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;一用户操作-1&quot;&gt;一、用户操作&lt;/h2&gt;
+
+&lt;p&gt;在root用户下，&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;who&lt;/code&gt;查看目前有哪些用户登录了服务器；&lt;/li&gt;
+  &lt;li&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;pkill -kill -t pts/1&lt;/code&gt;（数字1就是用户的&lt;a href=&quot;https://en.wikipedia.org/wiki/Tty_(unix)&quot;&gt;TTY&lt;/a&gt;）强制退出对应用户的登陆；&lt;/li&gt;
+  &lt;li&gt;增加用户：&lt;code class=&quot;highlighter-rouge&quot;&gt;useradd test&lt;/code&gt;；为新增用户添加密码：&lt;code class=&quot;highlighter-rouge&quot;&gt;passwd test&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;删除用户：&lt;code class=&quot;highlighter-rouge&quot;&gt;userdel test&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;用户登陆记录：&lt;code class=&quot;highlighter-rouge&quot;&gt;last&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;用户登陆失败记录：&lt;code class=&quot;highlighter-rouge&quot;&gt;lastb&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;查看系统下所有用户：&lt;code class=&quot;highlighter-rouge&quot;&gt;cat /etc/passwd |awk -F \: '{print $1}'&lt;/code&gt;;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;二文件操作-1&quot;&gt;二、文件操作&lt;/h2&gt;
+
+&lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;三系统操作-1&quot;&gt;三、系统操作&lt;/h2&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Tue, 06 Feb 2018 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2018/02/06/Linux-orders-note/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/02/06/Linux-orders-note/</guid>
+        
+        <category>笔记</category>
+        
+        <category>Linux</category>
+        
+        <category>Ubuntu</category>
+        
+        
+      </item>
     
       <item>
         <title>用DiscuzX3.2建站原来这么简单！</title>
@@ -175,7 +238,15 @@
 
 &lt;p&gt;本教程使用Python 3为载体，因Python 3对应的包管理器&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3&lt;/code&gt;并未预装，首先安装&lt;code class=&quot;highlighter-rouge&quot;&gt;pip3&lt;/code&gt;：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt install python3-pip
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 获取root权限
+sudo -s
+
+# 更新apt-get
+apt-get update
+
+# 安装python包管理工具
+apt-get install python-setuptools
+sudo apt install python3-pip
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -192,6 +263,16 @@
 &lt;/div&gt;
 
 &lt;p&gt;目前会显示“Shadowsocks 3.0.0”。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;注意！&lt;/strong&gt;如果报错&lt;code class=&quot;highlighter-rouge&quot;&gt;unsupported locale setting&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;只需要转化一下语言配置即可：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export LC_ALL=C
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
 
@@ -2306,145 +2387,6 @@ window.redirect_uri=&quot;https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpag
         <category>笔记</category>
         
         <category>微信</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>各种加密代理协议的简单对比</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;目前我们常用的加密代理有协议有 HTTPS，SOCKS5-TLS 和 shadowsocks,此文从各个角度简单分析各个协议的优劣，以帮助各位选择合适的协议。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;本文将从&lt;a href=&quot;#0&quot;&gt;性能&lt;/a&gt;、&lt;a href=&quot;#1&quot;&gt;数据安全性&lt;/a&gt;、&lt;a href=&quot;#2&quot;&gt;抗识别&lt;/a&gt;、&lt;a href=&quot;#3&quot;&gt;部署难度&lt;/a&gt;、&lt;a href=&quot;#4&quot;&gt;功能&lt;/a&gt;，五个方面对各类协议进行对比阐述。&lt;/p&gt;
-
-&lt;p&gt;先简单说些背景知识，以上协议都是基于 TCP 的代理协议，代理协议（Proxy Procotol）与 VPN 不同，仅可被用于通过代理服务器转发 TCP 连接（shadowsocks 支持代理 UDP），而 VPN 可被用于 IP 层上的所有协议，如 TCP、UDP、ICMP 等。所以在使用代理时，ping 等 ICMP 应用是不可以被代理的。&lt;/p&gt;
-
-&lt;p&gt;然后简单解释一下什么是 TLS，TLS 又名 SSL，是针对数据流的安全传输协议。简单来说，一个 TCP 链接，把其中原本要传输的数据，按照 TLS 协议去进行加密传输，那么即可保证其中传输的数据安全。这个安全至少体现在以下几个方面：&lt;/p&gt;
-
-&lt;p&gt;数据被加密，任何可以截取到 TCP 数据流的人，无法解密出原始数据；
-数据不可被篡改，一旦篡改会导致解密失败，连接断开；
-服务器身份验证，基于 X509 的证书体系去确认目标服务器是否为真实的服务器。
-明文的 HTTP 套上一层 TLS，也就变成了 HTTPS，SOCKS5 套上 TLS，就变成了 SOCKS5-TLS。TLS 协议是整个互联网安全的基石，几乎所有需要安全传输的地方都使用了 TLS，如银行、政府等等。&lt;/p&gt;
-
-&lt;p&gt;当被用作代理协议时，HTTP 层和 SOCKS5 层去进行具体的代理连接控制，如进行身份验证、告知需要转发的目标主机名等。所以不需要 TLS 他们也可以用作代理，只不过所有数据都是明文传输，不具备安全性。加上 TLS 后，由 TLS 去保证安全。而 shadowsocks 协议则融合了代理控制和安全保证。所以后文的很多对比实际上是 shadowsocks 和 TLS 的对比。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;性能&quot;&gt;性能&lt;/h1&gt;
-
-&lt;p&gt;TLS 协议由于承担了一项额外的功能，需要验证目标服务器身份，导致其握手时会比较复杂。&lt;/p&gt;
-
-&lt;p&gt;ping 的时间表示，一个 IP 层数据包从本地发出，到服务器再返回的来回时间，即 RTT（round-trip time）。&lt;/p&gt;
-
-&lt;p&gt;在发起代理连接时，首先我们需要进行 TCP 3 次握手，耗时为 1 个 RTT。（此处把最后的 ACK 直接并入后续的数据传输部分）。&lt;/p&gt;
-
-&lt;p&gt;然后进行 TLS 握手，因为服务端和客户端需要进行身份验证并协商协议版本号、加密方式等细节，第一次连接时需要 2 个 RTT。当然 TLS 的制定者也发现这太慢了，于是引入了 TLS Session Resumption，当服务端和客户端服务器连接过一次后，之后的连接可以直接复用先前的协商结果，使得 RTT 降低到 1 个 RTT。但这需要服务器和客户端的支持。（这是为什么 Surge benchmark 时，对于 TLS 代理第一次的测试结果可能较慢的原因之一）&lt;/p&gt;
-
-&lt;p&gt;对于 HTTPS 协议，当 TLS 连接建立后，客户端通过 HTTP 层发起代理请求，服务端回应连接建立，此后进入正常的代理通讯环节，再耗费 1 个 RTT。&lt;/p&gt;
-
-&lt;p&gt;对于 SOCKS5-TLS 协议，当 TLS 连接建立后，如果没有验证的环节，那么需要再耗费 1 个 RTT，如果有验证（用户名密码），那么需要耗费 2 个 RTT。&lt;/p&gt;
-
-&lt;p&gt;而对于 shadowsocks，由于使用的是预共享密钥（pre-shared key, PSK），加密方式也是预先约定好的，所以不需要进行协商，只需要在 TCP 建立之后，再耗费一个 1 个 RTT 告知目标主机名。&lt;/p&gt;
-
-&lt;p&gt;总结如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HTTPS（TLS Session Resumption）：3 个 RTT
-
-SOCKS5-TLS 无验证：3 个 RTT
-
-SOCKS5-TLS 有验证：4 个 RTT
-
-shadowsocks：2 个 RTT
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;（注：最后一个 RTT 并不严谨，因为客户端可以在最后一个 RTT 产生响应前，直接开始后续传输。另外如果使用了 TCP Fast Open，可以看作 TCP 阶段 RTT 为 0。）&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;对于日常使用，最影响性能的就是握手速度，后续传输过程中的加解密性能，对于现代 CPU 来说基本都不会构成瓶颈。 shadowsocks 由于有 PSK 的特点，在 TCP 协议基础上已经达到极限，不可能有协议能再低于 2 个 RTT。&lt;/p&gt;
-
-&lt;p&gt;所以，同等网络环境下，shadowsocks 是明显快于 HTTPS 的。（体现在延迟上，而不是带宽）&lt;/p&gt;
-
-&lt;p&gt;另外，最新的 TLS 1.3 协议正力图解决这个问题，由于目前还处于草案阶段，各种工具链不完善，现在不太好评估实际效果。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;数据安全性&quot;&gt;数据安全性&lt;/h1&gt;
-
-&lt;p&gt;（此处说的数据安全性，指的是加密后的流量是否会被截取并破解的问题。）&lt;/p&gt;
-
-&lt;p&gt;对于 TLS，作为个人用户，丝毫不用担心，TLS 协议如果真的不安全了，世界早就乱套了…&lt;/p&gt;
-
-&lt;p&gt;对于 shadowsocks，使用的加密方法也都是工业上成熟的算法，从数据安全性角度考虑也基本不用担心。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;抗识别&quot;&gt;抗识别&lt;/h1&gt;
-
-&lt;p&gt;这个问题有两个角度需要考虑：&lt;/p&gt;
-
-&lt;p&gt;观察一段数据流量，是否能判别这是一个代理协议的流量；
-对于一个仅暴露出 TCP 端口的黑箱，能否判断这个端口提供了代理服务。
-对于 shadowsocks 协议，在第一点上，观察者只能判定这个数据流为未知的协议。而第二点，shadowsocks 的几次修改，都是因为在这出了问题，目前最新的 AEAD 加密方式，应该已经解决了这个问题，但还需要时间去检验。&lt;/p&gt;
-
-&lt;p&gt;对于 HTTPS 协议，在第一点上，观察者是无法去区分这是一个代理还是一个标准的 HTTPS 网页访问的。而第二点，在妥善配置的情况下，也是完全无法判别。&lt;/p&gt;
-
-&lt;p&gt;但在实践中，大部分 HTTPS 代理服务器为了兼容浏览器行为，在直接被当做 HTTPS Web 服务器访问时，会返回代理错误页或者 407 Proxy authentication required，直接暴露了自己是一个代理，如果要抗击第二点，可以将服务端的行为修改为，如果请求的 Header 中，不包含一个有效的 Auth，那么就返回一个标准的 200 页面，这样从理论上杜绝了被嗅探的可能。&lt;/p&gt;
-
-&lt;p&gt;总结一下，最新的 shadowsocks 已经能满足抗识别的两个要求，但是观察者得到结论是“未知协议”。而使用 HTTPS，观察者无法判断这是一个 HTTPS 代理还是 HTTPS Web 服务器，这是更优的结果。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Hiding true identities inside a seemingly ordinary. — Person of Interest S03E23&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-&lt;p id=&quot;3&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;部署难度&quot;&gt;部署难度&lt;/h1&gt;
-
-&lt;p&gt;HTTPS 协议使用广泛，有众多成熟的工业级工具，如 squid，haproxy，nghttp2 等等，但是由于 HTTPS 协议本身比较复杂，配置起来参数众多，有很多性能相关参数需要自己调优，所以一般用户配置起来会有难度。&lt;/p&gt;
-
-&lt;p&gt;shadowsocks 经过多年发展，目前也已经有众多的软件支持，但是对于不同特性的支持度不一。由于参数简单，部署配置起来极其方便。&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p id=&quot;4&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;功能&quot;&gt;功能&lt;/h1&gt;
-
-&lt;p&gt;shadowsocks 目前还存在一些功能上的缺陷：&lt;/p&gt;
-
-&lt;p&gt;1.shadowsocks 没有设计错误回报机制，对于以下错误，客户端看到的行为都是服务器主动断开 TCP 连接：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;密钥或者加密方法错误&lt;/li&gt;
-  &lt;li&gt;目标主机名 DNS 解析失败&lt;/li&gt;
-  &lt;li&gt;目标主机不可达&lt;/li&gt;
-  &lt;li&gt;目标主机拒绝连接&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;2.这使得客户端没办法根据不同的错误采取进一步的动作，只能简单的向用户返回 Socket closed by remote 错误。&lt;/p&gt;
-
-&lt;p&gt;3.shadowsocks 没有考虑用户鉴别，使得服务端 ACL 或者流量统计等功能无法实现，主流的 workaround 是通过不同的端口号去识别不同的用户，但这极其浪费资源且很不优雅。
-部分 ISP 对于非 HTTP 和 TLS 的未知流量，会进行降速限制，这个可以通过配置 obfs 解决。&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt; 
-&lt;br /&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2017/04/18/https-con/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/04/18/https-con/</guid>
-        
-        <category>笔记</category>
-        
-        <category>代理协议</category>
         
         
       </item>

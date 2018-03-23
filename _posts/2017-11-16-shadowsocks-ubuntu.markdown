@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Ubuntu搭建Shadowsocks原来这么简单！！"
+title:      "用Ubuntu爱国原来这么简单！"
 subtitle:   "The Story of FUCK gfw..."
 date:       2017-11-14
 author:     "龟龟"
@@ -40,6 +40,14 @@ tags:
 
 本教程使用Python 3为载体，因Python 3对应的包管理器`pip3`并未预装，首先安装`pip3`：
 
+    # 获取root权限
+    sudo -s
+
+    # 更新apt-get
+    apt-get update
+
+    # 安装python包管理工具
+    apt-get install python-setuptools
     sudo apt install python3-pip
 
 因Shadowsocks作者不再维护pip中的Shadowsocks（定格在了2.8.2），我们使用下面的命令来安装最新版的Shadowsocks：
@@ -51,6 +59,13 @@ tags:
     sudo ssserver --version
 
 目前会显示“Shadowsocks 3.0.0”。
+
+>**注意！**如果报错`unsupported locale setting`
+
+只需要转化一下语言配置即可：
+
+    export LC_ALL=C
+
 
 <p id="2"></p>
 
@@ -245,6 +260,8 @@ TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上�
 
     至此，Shadowsock服务器端的优化已经全部完成了！
 
+
+推荐AWS新注册绑信用卡送一年EC2，东京节点不错，俄亥俄亲测慢成狗。
 
 [启蒙教程](https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html)
 

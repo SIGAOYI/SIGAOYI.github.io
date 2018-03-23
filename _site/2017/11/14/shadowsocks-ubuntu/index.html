@@ -246,7 +246,15 @@
 
 <p>本教程使用Python 3为载体，因Python 3对应的包管理器<code class="highlighter-rouge">pip3</code>并未预装，首先安装<code class="highlighter-rouge">pip3</code>：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt install python3-pip
+<div class="highlighter-rouge"><pre class="highlight"><code># 获取root权限
+sudo -s
+
+# 更新apt-get
+apt-get update
+
+# 安装python包管理工具
+apt-get install python-setuptools
+sudo apt install python3-pip
 </code></pre>
 </div>
 
@@ -263,6 +271,16 @@
 </div>
 
 <p>目前会显示“Shadowsocks 3.0.0”。</p>
+
+<blockquote>
+  <p><strong>注意！</strong>如果报错<code class="highlighter-rouge">unsupported locale setting</code></p>
+</blockquote>
+
+<p>只需要转化一下语言配置即可：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export LC_ALL=C
+</code></pre>
+</div>
 
 <p id="2"></p>
 
@@ -586,7 +604,7 @@ WantedBy=multi-user.target
                             
         				
                             
-                				<a href="/tags/#笔记" title="笔记" rel="12">
+                				<a href="/tags/#笔记" title="笔记" rel="13">
                                     笔记
                                 </a>
                             
@@ -614,9 +632,11 @@ WantedBy=multi-user.target
                             
         				
                             
-                				<a href="/tags/#Linux" title="Linux" rel="2">
+                				<a href="/tags/#Linux" title="Linux" rel="3">
                                     Linux
                                 </a>
+                            
+        				
                             
         				
                             
