@@ -83,8 +83,8 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "龟龟的Blog",
-        href: "http://lawootrip.com"
+        title: "龟龟的淘宝",
+        href: "http://lawoo.taobao.com"
     },{
         title: "龟龟的知乎",
         href: "https://www.zhihu.com/people/lawoo"
