@@ -135,6 +135,20 @@ rm -rf 非空文件夹名 --/删除一个非空文件夹下的一切
 
 太多了，每次还是查[官方wiki](https://wiki.ubuntu.com.cn/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%8C%87%E5%8D%97#.E5.B8.B8.E7.94.A8.E6.8C.87.E4.BB.A4)快一点
 
+Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用& 在程序结尾来让程序自动运行。比如我们要运行mysql在后台：
+
+    /usr/local/mysql/bin/mysqld_safe --user=mysql &
+
+但是加入我们很多程序并不象mysqld一样做成守护进程，可能我们的程序只是普通程序而已，一般这种程序使用& 结尾，但是如果终端关闭，那么程序也会被关闭。但是为了能够后台运行，那么我们就可以使用nohup这个命令，比如我们有个test.php需要在后台运行，并且希望在后台能够定期运行，那么就使用nohup：
+
+    nohup /root/test.php &
+　　
+提示：
+
+    　[~]$ appending output to nohup.out
+
+　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。
+
 ## 四、MAC环境常用命令备份(plus)
 
 结束php-fpm进程:

@@ -250,9 +250,147 @@
 
 <h2 id="二文件操作-1">二、文件操作</h2>
 
+<p>文件操作命令：</p>
+
+<p>1、ls</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：ls 目录
+
+ ls命令用于显示文件下有哪些文件。a
+</code></pre>
+</div>
+
+<p>2、touch</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：touch test1 test2 test3
+
+ touch命令用于创建文件，可以同一时间创建多个文件。
+</code></pre>
+</div>
+
+<p>3、rm</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：rm 文件    
+
+ rm命令用于删除文件，当文件不能够被删除时可以加上 -f 选项，强制将文件删除。
+</code></pre>
+</div>
+
+<p>4、cat</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：cat /proc/cpuinfo
+
+ cat命令用于查看文件内的信息。如果只想查看某一项内容时，要加上grep选项。
+
+ 例如：cat /proc/meminfo |grep MemTotal
+</code></pre>
+</div>
+
+<p>5、less</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：less /proc/meminfo
+
+ less命令也是用来查看文件的内容的命令，但是他显示时是一屏一屏的显示地。
+
+      a、按下空格键后进入到下一屏。
+
+      b、还可以通过上下键来上下移动行。
+
+      c、按下 q 键后退出查看。
+</code></pre>
+</div>
+
+<p>6、more</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：more /proc/meminfo
+
+ more命令与less命令一样用于查看文件内的内容，同样是分屏显示的。
+
+      a、按下空格键后进入到下一屏
+
+      b、按下 q 键后退出查看
+</code></pre>
+</div>
+
+<p>7、cp</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：cp /etc/apt/sources.list /etc/aptsources.listbacker
+
+ cp是copy的缩写用于复制文件。
+</code></pre>
+</div>
+
+<p>8、mv</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：mv /home/user1/桌面/ruijie/xrgsu /usr/share/local/bin/xrgsu
+
+ mv命令是用于移动文件的。
+</code></pre>
+</div>
+
+<p>9、find</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 格式：sudo find / -name ls
+
+ find命令是用于查找文件：
+
+      a、／ 表示的是查找的起始目录，
+
+      b、-name 有了这个选项，在显示只有找到的结果才会显示出来。
+
+      c、ls 为你要找的目录文件。
+</code></pre>
+</div>
+
+<p>mkdir 文件夹 –/创建一个文件夹</p>
+
+<p>rmdir 空文件夹名 –/删除一个空文件夹</p>
+
+<p>rm 文件名 文件名 –/删除一个文件或多个文件</p>
+
+<p>rm -rf 非空文件夹名 –/删除一个非空文件夹下的一切</p>
+
 <p id="2"></p>
 
 <h2 id="三系统操作-1">三、系统操作</h2>
+
+<p>太多了，每次还是查<a href="https://wiki.ubuntu.com.cn/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%8C%87%E5%8D%97#.E5.B8.B8.E7.94.A8.E6.8C.87.E4.BB.A4">官方wiki</a>快一点</p>
+
+<p>Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用&amp; 在程序结尾来让程序自动运行。比如我们要运行mysql在后台：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/mysql/bin/mysqld_safe --user=mysql &amp;
+</code></pre>
+</div>
+
+<p>但是加入我们很多程序并不象mysqld一样做成守护进程，可能我们的程序只是普通程序而已，一般这种程序使用&amp; 结尾，但是如果终端关闭，那么程序也会被关闭。但是为了能够后台运行，那么我们就可以使用nohup这个命令，比如我们有个test.php需要在后台运行，并且希望在后台能够定期运行，那么就使用nohup：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nohup /root/test.php &amp; 　　 提示：
+
+　[~]$ appending output to nohup.out
+</code></pre>
+</div>
+
+<p>　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。</p>
+
+<h2 id="四mac环境常用命令备份plus">四、MAC环境常用命令备份(plus)</h2>
+
+<p>结束php-fpm进程:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo kill -INT `cat /usr/local/var/run/php-fpm.pid`
+</code></pre>
+</div>
+
+<p>开始php-fpm进程：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo php-fpm
+</code></pre>
+</div>
+
+<p>设置本地80端口虚拟域名</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo vim /private/etc/hosts
+</code></pre>
+</div>
 
 <hr />
 <p><br />
@@ -289,9 +427,9 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/12/22/Discuzu-Build-Config/" data-toggle="tooltip" data-placement="top" title="用DiscuzX3.2建站原来这么简单！">
+                        <a href="/2017/12/22/Discuzu-Build-Config/" data-toggle="tooltip" data-placement="top" title="用DiscuzX3.2建站玩耍">
                         Previous<br>
-                        <span>用DiscuzX3.2建站原来这么简单！</span>
+                        <span>用DiscuzX3.2建站玩耍</span>
                         </a>
                     </li>
                     
@@ -387,7 +525,7 @@
                 <h5>FRIENDS</h5>
                 <ul class="list-inline">
                     
-                        <li><a href="http://lawootrip.com">龟龟的Blog</a></li>
+                        <li><a href="http://lawoo.taobao.com">龟龟的淘宝</a></li>
                     
                         <li><a href="https://www.zhihu.com/people/lawoo">龟龟的知乎</a></li>
                     

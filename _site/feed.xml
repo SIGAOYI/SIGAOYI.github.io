@@ -5,8 +5,8 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Feb 2018 11:40:23 +0000</pubDate>
-    <lastBuildDate>Tue, 06 Feb 2018 11:40:23 +0000</lastBuildDate>
+    <pubDate>Wed, 28 Mar 2018 03:50:49 +0000</pubDate>
+    <lastBuildDate>Wed, 28 Mar 2018 03:50:49 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -43,9 +43,147 @@
 
 &lt;h2 id=&quot;二文件操作-1&quot;&gt;二、文件操作&lt;/h2&gt;
 
+&lt;p&gt;文件操作命令：&lt;/p&gt;
+
+&lt;p&gt;1、ls&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：ls 目录
+
+ ls命令用于显示文件下有哪些文件。a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;2、touch&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：touch test1 test2 test3
+
+ touch命令用于创建文件，可以同一时间创建多个文件。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;3、rm&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：rm 文件    
+
+ rm命令用于删除文件，当文件不能够被删除时可以加上 -f 选项，强制将文件删除。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;4、cat&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：cat /proc/cpuinfo
+
+ cat命令用于查看文件内的信息。如果只想查看某一项内容时，要加上grep选项。
+
+ 例如：cat /proc/meminfo |grep MemTotal
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;5、less&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：less /proc/meminfo
+
+ less命令也是用来查看文件的内容的命令，但是他显示时是一屏一屏的显示地。
+
+      a、按下空格键后进入到下一屏。
+
+      b、还可以通过上下键来上下移动行。
+
+      c、按下 q 键后退出查看。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;6、more&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：more /proc/meminfo
+
+ more命令与less命令一样用于查看文件内的内容，同样是分屏显示的。
+
+      a、按下空格键后进入到下一屏
+
+      b、按下 q 键后退出查看
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;7、cp&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：cp /etc/apt/sources.list /etc/aptsources.listbacker
+
+ cp是copy的缩写用于复制文件。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;8、mv&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：mv /home/user1/桌面/ruijie/xrgsu /usr/share/local/bin/xrgsu
+
+ mv命令是用于移动文件的。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;9、find&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 格式：sudo find / -name ls
+
+ find命令是用于查找文件：
+
+      a、／ 表示的是查找的起始目录，
+
+      b、-name 有了这个选项，在显示只有找到的结果才会显示出来。
+
+      c、ls 为你要找的目录文件。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;mkdir 文件夹 –/创建一个文件夹&lt;/p&gt;
+
+&lt;p&gt;rmdir 空文件夹名 –/删除一个空文件夹&lt;/p&gt;
+
+&lt;p&gt;rm 文件名 文件名 –/删除一个文件或多个文件&lt;/p&gt;
+
+&lt;p&gt;rm -rf 非空文件夹名 –/删除一个非空文件夹下的一切&lt;/p&gt;
+
 &lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;三系统操作-1&quot;&gt;三、系统操作&lt;/h2&gt;
+
+&lt;p&gt;太多了，每次还是查&lt;a href=&quot;https://wiki.ubuntu.com.cn/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%8C%87%E5%8D%97#.E5.B8.B8.E7.94.A8.E6.8C.87.E4.BB.A4&quot;&gt;官方wiki&lt;/a&gt;快一点&lt;/p&gt;
+
+&lt;p&gt;Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用&amp;amp; 在程序结尾来让程序自动运行。比如我们要运行mysql在后台：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/mysql/bin/mysqld_safe --user=mysql &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;但是加入我们很多程序并不象mysqld一样做成守护进程，可能我们的程序只是普通程序而已，一般这种程序使用&amp;amp; 结尾，但是如果终端关闭，那么程序也会被关闭。但是为了能够后台运行，那么我们就可以使用nohup这个命令，比如我们有个test.php需要在后台运行，并且希望在后台能够定期运行，那么就使用nohup：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nohup /root/test.php &amp;amp; 　　 提示：
+
+　[~]$ appending output to nohup.out
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。&lt;/p&gt;
+
+&lt;h2 id=&quot;四mac环境常用命令备份plus&quot;&gt;四、MAC环境常用命令备份(plus)&lt;/h2&gt;
+
+&lt;p&gt;结束php-fpm进程:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo kill -INT `cat /usr/local/var/run/php-fpm.pid`
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;开始php-fpm进程：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo php-fpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;设置本地80端口虚拟域名&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo vim /private/etc/hosts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;hr /&gt;
 &lt;p&gt;&lt;br /&gt;
@@ -73,7 +211,7 @@
       </item>
     
       <item>
-        <title>用DiscuzX3.2建站原来这么简单！</title>
+        <title>用DiscuzX3.2建站玩耍</title>
         <description>&lt;blockquote&gt;
   &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -207,7 +345,7 @@
       </item>
     
       <item>
-        <title>Ubuntu搭建Shadowsocks原来这么简单！！</title>
+        <title>用Ubuntu爱国原来这么简单！</title>
         <description>&lt;blockquote&gt;
   &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -506,6 +644,8 @@ WantedBy=multi-user.target
 至此，Shadowsock服务器端的优化已经全部完成了！
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;推荐AWS新注册绑信用卡送一年EC2，东京节点不错，俄亥俄亲测慢成狗。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html&quot;&gt;启蒙教程&lt;/a&gt;&lt;/p&gt;
 
