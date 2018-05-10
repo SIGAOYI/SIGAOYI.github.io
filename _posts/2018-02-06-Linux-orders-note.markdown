@@ -179,7 +179,7 @@ Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用&
 
 　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。
 
-## 四、MAC环境常用命令备份(plus)
+## 四、MAC常用命令备份(plus)
 
 结束php-fpm进程:
 
@@ -194,8 +194,13 @@ Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用&
         sudo vim /private/etc/hosts
 
 
+git记住所有的https账号密码，长期
 
+        git config --global credential.helper store
 
+git记住所有的https账号密码，临时
+
+        git config credential.helper 'cache --timeout=3600'
 
 ----
 <br />
