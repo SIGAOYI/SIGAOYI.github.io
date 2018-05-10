@@ -5,8 +5,8 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 28 Mar 2018 03:50:49 +0000</pubDate>
-    <lastBuildDate>Wed, 28 Mar 2018 03:50:49 +0000</lastBuildDate>
+    <pubDate>Thu, 10 May 2018 02:51:23 +0000</pubDate>
+    <lastBuildDate>Thu, 10 May 2018 02:51:23 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -143,6 +143,46 @@
 
 &lt;p&gt;rm -rf 非空文件夹名 –/删除一个非空文件夹下的一切&lt;/p&gt;
 
+&lt;p&gt;——————&lt;/p&gt;
+
+&lt;p&gt;通过ssh终端从本地拷贝文件到服务器：&lt;/p&gt;
+
+&lt;p&gt;使用方式如下：&lt;/p&gt;
+
+&lt;p&gt;1、上传本地文件到服务器&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp /path/filename username@servername:/path/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如scp /var/www/test.php root@192.168.0.101:/var/www/ 把本机/var/www/目录下的test.php文件上传到192.168.0.101这台服务器上的/var/www/目录中&lt;/p&gt;
+
+&lt;p&gt;2、从服务器上下载文件&lt;/p&gt;
+
+&lt;p&gt;下载文件我们经常使用wget，但是如果没有http服务，如何从服务器上下载文件呢?&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp username@servername:/path/filename /var/www/local_dir(本地目录)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如scp root@192.168.0.101:/var/www/test.txt 把192.168.0.101上的/var/www/test.txt 的文件下载到/var/www/local_dir(本地目录)&lt;/p&gt;
+
+&lt;p&gt;3、从服务器下载整个目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp -r username@servername:/var/www/remote_dir/(远程目录) /var/www/local_dir(本地目录)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如:scp -r root@192.168.0.101:/var/www/test /var/www/&lt;/p&gt;
+
+&lt;p&gt;4、上传目录到服务器&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp -r local_dir username@servername:remote_dir
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如：scp -r test root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的/var/www/ 目录&lt;/p&gt;
+
 &lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;三系统操作-1&quot;&gt;三、系统操作&lt;/h2&gt;
@@ -165,7 +205,7 @@
 
 &lt;p&gt;　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。&lt;/p&gt;
 
-&lt;h2 id=&quot;四mac环境常用命令备份plus&quot;&gt;四、MAC环境常用命令备份(plus)&lt;/h2&gt;
+&lt;h2 id=&quot;四mac常用命令备份plus&quot;&gt;四、MAC常用命令备份(plus)&lt;/h2&gt;
 
 &lt;p&gt;结束php-fpm进程:&lt;/p&gt;
 
@@ -182,6 +222,18 @@
 &lt;p&gt;设置本地80端口虚拟域名&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo vim /private/etc/hosts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;git记住所有的https账号密码，长期&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    git config --global credential.helper store
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;git记住所有的https账号密码，临时&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    git config credential.helper 'cache --timeout=3600'
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -2508,7 +2560,7 @@ window.redirect_uri=&quot;https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpag
 
 &lt;p&gt;至于如何利用在此剖析的原理进行二次开发和利用，就尽情发挥你的聪明才智吧。&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt; 
+&lt;p&gt;&lt;br /&gt;
 &lt;br /&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;tr&gt;
@@ -2518,6 +2570,8 @@ window.redirect_uri=&quot;https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpag
 &lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
+
+&lt;p&gt;、&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 26 Apr 2017 00:00:00 +0000</pubDate>
