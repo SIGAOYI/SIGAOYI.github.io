@@ -97,6 +97,9 @@ friends: [
     },{
         title: "Jerry Qu",
         href: "https://imququ.com/"
+    },{
+        title: "dbanotes",
+        href: "http://dbanotes.net/"
     }
 ]
 # 时区

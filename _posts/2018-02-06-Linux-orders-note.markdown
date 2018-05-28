@@ -179,6 +179,12 @@ Unix/Linux下一般比如想让某个程序在后台运行，很多都是使用&
 
 　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。
 
+        tcpdump -i any -nn 'port 8338' -vv -X //监听端口数据
+
+        lsof -i:端口号 //查看特定端口占用情况
+
+        lsof -i //查看所有端口占用情况
+
 ## 四、MAC常用命令备份(plus)
 
 结束php-fpm进程:
@@ -201,6 +207,11 @@ git记住所有的https账号密码，长期
 git记住所有的https账号密码，临时
 
         git config credential.helper 'cache --timeout=3600'
+
+在dock创建一个透明icon，分割dock
+
+        defaults write com.apple.dock persistent-apps -array-add '{ "tile-type" = "spacer-tile"; }' killall Dock
+
 
 ----
 <br />
