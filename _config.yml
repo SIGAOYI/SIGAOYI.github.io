@@ -100,6 +100,9 @@ friends: [
     },{
         title: "dbanotes",
         href: "http://dbanotes.net/"
+    },{
+        title: "凤凰山笔记",
+        href: "http://www.jarjar.cn/tags/"
     }
 ]
 # 时区
