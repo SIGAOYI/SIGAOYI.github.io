@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "《足球往事》"
-subtitle:   "Be lord of your Ubuntu"
+subtitle:   "Eduardo Galeano"
 date:       2018-08-29
 author:     "龟龟"
 header-img: "http://image.lawootrip.com/pexels-photo-175411.jpeg"
