@@ -103,6 +103,12 @@ friends: [
     },{
         title: "凤凰山笔记",
         href: "http://www.jarjar.cn/tags/"
+    },{
+        title: "LOBATT",
+        href: "https://lobatt.pw/"
+    },{
+        title: "Single",
+        href: "https://lazymanl.github.io/"
     }
 ]
 # 时区
