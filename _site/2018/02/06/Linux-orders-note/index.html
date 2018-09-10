@@ -412,6 +412,23 @@
 
 <p>　　嗯，证明运行成功，同时把程序运行的输出信息放到当前目录的nohup.out 文件中去。</p>
 
+<div class="highlighter-rouge"><pre class="highlight"><code>    tcpdump -i any -nn 'port 8338' -vv -X //监听端口数据
+
+    lsof -i:端口号 //查看特定端口占用情况
+
+    lsof -i //查看所有端口占用情况
+</code></pre>
+</div>
+
+<p>查看系统进程&amp;启动项：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    top //查看当前所有进程，敲p可以按CPU占用率排序
+    ls -l /etc/init.d //查看所有开启启动项，此处可以检查是否有恶意程序和木马
+</code></pre>
+</div>
+
+<p><a href="http://www.cnblogs.com/myitm/archive/2011/10/16/2214448.html">其它相关参考</a></p>
+
 <h2 id="四mac常用命令备份plus">四、MAC常用命令备份(plus)</h2>
 
 <p>结束php-fpm进程:</p>
@@ -441,6 +458,12 @@
 <p>git记住所有的https账号密码，临时</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>    git config credential.helper 'cache --timeout=3600'
+</code></pre>
+</div>
+
+<p>在dock创建一个透明icon，分割dock</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    defaults write com.apple.dock persistent-apps -array-add '{ "tile-type" = "spacer-tile"; }' killall Dock
 </code></pre>
 </div>
 
@@ -486,6 +509,13 @@
                     </li>
                     
                     
+                    <li class="next">
+                        <a href="/2018/06/27/Linux-Vim-Git%E7%AC%94%E8%AE%B0/" data-toggle="tooltip" data-placement="top" title="Ubuntu Vim Git日常问题汇总">
+                        Next<br>
+                        <span>Ubuntu Vim Git日常问题汇总</span>
+                        </a>
+                    </li>
+                    
                 </ul>
 
 
@@ -524,7 +554,7 @@
                             
         				
                             
-                				<a href="/tags/#笔记" title="笔记" rel="13">
+                				<a href="/tags/#笔记" title="笔记" rel="14">
                                     笔记
                                 </a>
                             
@@ -552,11 +582,23 @@
                             
         				
                             
-                				<a href="/tags/#Linux" title="Linux" rel="3">
+                				<a href="/tags/#Linux" title="Linux" rel="4">
                                     Linux
                                 </a>
                             
         				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Ubuntu" title="Ubuntu" rel="2">
+                                    Ubuntu
+                                </a>
                             
         				
                             
@@ -586,6 +628,10 @@
                         <li><a href="http://xucanjia.com">canjia</a></li>
                     
                         <li><a href="https://imququ.com/">Jerry Qu</a></li>
+                    
+                        <li><a href="http://dbanotes.net/">dbanotes</a></li>
+                    
+                        <li><a href="http://www.jarjar.cn/tags/">凤凰山笔记</a></li>
                     
                 </ul>
                 
