@@ -5,9 +5,181 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 29 Aug 2018 03:21:29 +0000</pubDate>
-    <lastBuildDate>Wed, 29 Aug 2018 03:21:29 +0000</lastBuildDate>
+    <pubDate>Mon, 17 Sep 2018 03:53:29 +0000</pubDate>
+    <lastBuildDate>Mon, 17 Sep 2018 03:53:29 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Mac-Mysql8.0-Yii2的一点小坑</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在Mac Sierra 10.13.6部署Yii2+Mysql8.0+Nginx，遇到几个小坑，备忘如下：&lt;/p&gt;
+
+&lt;h3 id=&quot;1-mysql报错the-server-quit-without-updating-pid-file&quot;&gt;1. Mysql报错：&lt;code class=&quot;highlighter-rouge&quot;&gt;The server quit without updating PID file&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;一把梭：完全卸载Mysql，并用brew install mysql重新安装;&lt;/p&gt;
+
+&lt;h2 id=&quot;卸载&quot;&gt;卸载&lt;/h2&gt;
+
+&lt;p&gt;依次执行：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    brew uninstall mysql 
+
+    sudo rm /usr/local/var/mysql 
+
+    sudo rm -rf /usr/local/mysql* 
+
+    sudo rm -rf /Library/LaunchDaemons/com.oracle 
+
+    brew cleanup 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;===我只用了上面这五行====&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo rm -rf /Library/StartupItems/MySQLCOM 
+
+    sudo rm -rf /Library/PreferencePanes/My* 
+
+    rm -rf ~/Library/PreferencePanes/My* 
+
+    sudo rm -rf /Library/Receipts/mysql* 
+
+    sudo rm -rf /Library/LaunchDaemons/com.oracle 
+
+    sudo rm -rf /var/db/receipts/com.mysql.* 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其实不同的安装方式有些东西的存储位置不一样，删除完检查一下下面这些文件是否删除了，没有的话则删除掉：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/Cellar&lt;/code&gt; 里的mysql文件&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/var&lt;/code&gt; 里的mysql文件&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/tmp&lt;/code&gt; 里的mysql.sock, mysql.sock.lock, my.cnf文件&lt;/p&gt;
+
+&lt;p&gt;pid文件和err文件都在&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/var/mysql&lt;/code&gt;里确保删除了&lt;/p&gt;
+
+&lt;p&gt;brew安装的安装包存储在&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/Library/Cache/Homebrew&lt;/code&gt;也可以一并删除&lt;/p&gt;
+
+&lt;p&gt;执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    brew cleanup
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    brew install mysql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mysql.server start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果报错，99%的可能是老版本的mysql没有卸载干净，重新检查卸载流程；&lt;/p&gt;
+
+&lt;p&gt;接下来执行配置脚本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    /usr/local/opt/mysql/bin/mysql_secure_installation //mysql 提供的配置向导
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;安装成功&lt;/p&gt;
+
+&lt;h3 id=&quot;2-yii2报错sqlstatehy000-2054-the-server-requested-authentication-method-unknown-to-the-client&quot;&gt;2. Yii2报错：&lt;code class=&quot;highlighter-rouge&quot;&gt;SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;发生这种错误，是由于MySQL 8默认使用了新的密码验证插件：caching_sha2_password，而之前的PHP版本中所带的mysqlnd无法支持这种验证。解决这个问题，有两种办法。&lt;/p&gt;
+
+&lt;p&gt;一种办法是升级PHP支持MySQL 8的新验证插件。&lt;/p&gt;
+
+&lt;p&gt;PHP 7.2.8和PHP 7.1.20已经可以支持caching_sha2_password，直接连接MySQL 8。&lt;/p&gt;
+
+&lt;p&gt;目前PHP 7.0.31和PHP 5.6.37还无法支持caching_sha2_password，不知道后续版本是否会做出支持。&lt;/p&gt;
+
+&lt;p&gt;可以通过phpinfo()函数了解当前安装的PHP是否支持caching_sha2_password：&lt;/p&gt;
+
+&lt;p&gt;如果不能升级PHP，可以在MySQL 8中创建（或修改）使用caching_sha2_password插件的账户，使之使用mysql_native_password，这样先前版本的PHP就可以连接使用了。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;在CREATE USER时，使用IDENTIFIED WITH xxx_plugin BY ‘password’，比如：&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CREATE USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password!2#4';
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用ALTER USER修改已有账户的验证插件：&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; ALTER USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;或&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ALTER USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password BY '123123';
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;采用前一种方式，账户的密码将被清除；&lt;code class=&quot;highlighter-rouge&quot;&gt;123123&lt;/code&gt;将为账户设置的新密码。&lt;/p&gt;
+
+&lt;p&gt;/etc/my.cnf配置文件中，有一行：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;# default-authentication-plugin=mysql_native_password&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;请删除注释符号“#”并重新启动mysqld使之生效，此后创建的账户均默认使用mysql_native_password。&lt;/p&gt;
+
+&lt;p&gt;如果完成MySQL Server的安装之后，在没有启动过mysqld服务的情况下修改/etc/my.cnf配置，那么启动mysqld之后创建的’root’@’localhost’账户也是使用mysql_native_password插件的。&lt;/p&gt;
+
+&lt;h3 id=&quot;3-yii2报错sqlstate42000-syntax-error-or-access-violation-1055-expression&quot;&gt;3. Yii2报错&lt;code class=&quot;highlighter-rouge&quot;&gt;SQLSTATE[42000]: Syntax error or access violation: 1055 Expression&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/1667825/15820229/6b9a7286-2be8-11e6-90a7-bf31332dddcf.png&quot; alt=&quot;&quot; /&gt;&lt;small class=&quot;img-hint&quot;&gt;分组问题报错&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;这个就非常简单了&lt;/p&gt;
+
+&lt;p&gt;在Mysql的配置文件my.cnf设置中，添加：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sql_mode=TRADITIONAL
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html&quot;&gt;参考资料&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
+&lt;td&gt;
+&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2018/09/17/mysql-Yii-mac/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/09/17/mysql-Yii-mac/</guid>
+        
+        <category>Mysql</category>
+        
+        <category>Yii2</category>
+        
+        <category>Mac</category>
+        
+        <category>环境配置</category>
+        
+        
+      </item>
     
       <item>
         <title>《足球往事》</title>
@@ -175,109 +347,6 @@
         <category>《足球往事》</category>
         
         <category>书摘</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Ubuntu Vim Git日常问题汇总</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;目录&quot;&gt;&lt;strong&gt;目录:&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;h2 id=&quot;一vim&quot;&gt;&lt;a href=&quot;#0&quot;&gt;一、Vim&lt;/a&gt;&lt;/h2&gt;
-
-&lt;h2 id=&quot;二ubuntu&quot;&gt;&lt;a href=&quot;#1&quot;&gt;二、Ubuntu&lt;/a&gt;&lt;/h2&gt;
-
-&lt;h2 id=&quot;三git&quot;&gt;&lt;a href=&quot;#2&quot;&gt;三、Git&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;一vim-1&quot;&gt;一、Vim&lt;/h2&gt;
-
-&lt;p&gt;配置文件的路径：&lt;code class=&quot;highlighter-rouge&quot;&gt;etc/vim/vimrc&lt;/code&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;基本配置&quot;&gt;基本配置&lt;/h4&gt;
-
-&lt;p&gt;“开启语法高亮&lt;/p&gt;
-
-&lt;p&gt;syntax on&lt;/p&gt;
-
-&lt;p&gt;“依文件类型设置自动缩进&lt;/p&gt;
-
-&lt;p&gt;filetype indent plugin on&lt;/p&gt;
-
-&lt;p&gt;“显示当前的行号列号：&lt;/p&gt;
-
-&lt;p&gt;set ruler&lt;/p&gt;
-
-&lt;p&gt;“在状态栏显示正在输入的命令&lt;/p&gt;
-
-&lt;p&gt;set showcmd&lt;/p&gt;
-
-&lt;p&gt;“关闭/打开配对括号高亮&lt;/p&gt;
-
-&lt;p&gt;“NoMatchParen&lt;/p&gt;
-
-&lt;p&gt;DoMatchParen&lt;/p&gt;
-
-&lt;p&gt;行号的显示与隐藏[3]：&lt;/p&gt;
-
-&lt;p&gt;“显示行号：&lt;/p&gt;
-
-&lt;p&gt;set number&lt;/p&gt;
-
-&lt;p&gt;“为方便复制，用&lt;F2&gt;开启/关闭行号显示:&lt;/F2&gt;&lt;/p&gt;
-
-&lt;p&gt;nnoremap &lt;F2&gt; :set nonumber!&lt;CR&gt;:set foldcolumn=0&lt;CR&gt;&lt;/CR&gt;&lt;/CR&gt;&lt;/F2&gt;&lt;/p&gt;
-
-&lt;p&gt;启用Modeline（即允许被编辑的文件以注释的形式设置Vim选项，详见Vim Wiki: Modeline magic）[4]：&lt;/p&gt;
-
-&lt;p&gt;set modeline&lt;/p&gt;
-
-&lt;p&gt;如果终端使用的是深色背景：&lt;/p&gt;
-
-&lt;p&gt;“为深色背景调整配色&lt;/p&gt;
-
-&lt;p&gt;set background=dark&lt;/p&gt;
-
-&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;二ubuntu-1&quot;&gt;二、Ubuntu&lt;/h2&gt;
-
-&lt;p id=&quot;2&quot;&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;三git-1&quot;&gt;三、Git&lt;/h2&gt;
-
-&lt;p&gt;参考1：&lt;a href=&quot;https://mp.weixin.qq.com/s/CeGtTDxpFxRBQ0zJrqxSQg&quot;&gt;如何克服解决Git冲突的恐惧症？（Git分支策略）&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p&gt;&lt;br /&gt;
-&lt;br /&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt; &lt;/td&gt;
-&lt;td&gt;
-&lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;&lt;div&gt;&lt;small class=&quot;img-hint&quot;&gt;这不是收钱的  加个好友而已&lt;/small&gt;&lt;/div&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Wed, 27 Jun 2018 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2018/06/27/Linux-Vim-Git%E7%AC%94%E8%AE%B0/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/06/27/Linux-Vim-Git%E7%AC%94%E8%AE%B0/</guid>
-        
-        <category>笔记</category>
-        
-        <category>Linux</category>
-        
-        <category>Ubuntu</category>
-        
-        <category>Git</category>
-        
-        <category>Vim</category>
         
         
       </item>
@@ -1861,7 +1930,7 @@ $ vim /etc/hosts
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/bin/mysql -u root
 
-    UPDATE mysql.user SET authentication_string=PASSWORD('新密码') WHERE User='root';
+    UPDATE mysql.user SET authentication_string=PASSWORD('123123') WHERE User='root';
 
 　　 FLUSH PRIVILEGES;
 

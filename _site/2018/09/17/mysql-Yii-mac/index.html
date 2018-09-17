@@ -11,7 +11,7 @@
     <!-- <meta name="apple-mobile-web-app-capable" content="yes" /> -->
     <meta name="apple-mobile-app-status-bar-style" content="white" />
 
-    <title>Ubuntu Vim Git日常问题汇总 - LawooTrip</title>
+    <title>Mac-Mysql8.0-Yii2的一点小坑 - LawooTrip</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/06/27/Linux-Vim-Git%E7%AC%94%E8%AE%B0/">
+    <link rel="canonical" href="http://localhost:4000/2018/09/17/mysql-Yii-mac/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -174,7 +174,7 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url(http://image.lawootrip.com/pexels-photo-175411.jpeg)
+        background-image: url(http://image.lawootrip.com/2017-05-15-bg.png)
     }
 
     
@@ -188,21 +188,19 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        <a class="tag" href="/tags/#Mysql" title="Mysql">Mysql</a>
                         
-                        <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+                        <a class="tag" href="/tags/#Yii2" title="Yii2">Yii2</a>
                         
-                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
                         
-                        <a class="tag" href="/tags/#Git" title="Git">Git</a>
-                        
-                        <a class="tag" href="/tags/#Vim" title="Vim">Vim</a>
+                        <a class="tag" href="/tags/#环境配置" title="环境配置">环境配置</a>
                         
                     </div>
-                    <h1>Ubuntu Vim Git日常问题汇总</h1>
+                    <h1>Mac-Mysql8.0-Yii2的一点小坑</h1>
                     
                     
-                    <h2 class="subheading">Be lord of your Ubuntu</h2>
+                    <h2 class="subheading">...</h2>
                     
 
                 </div>
@@ -226,73 +224,144 @@
   <p>Vue.js 放弃中…</p>
 </blockquote>
 
-<h2 id="目录"><strong>目录:</strong></h2>
+<p>在Mac Sierra 10.13.6部署Yii2+Mysql8.0+Nginx，遇到几个小坑，备忘如下：</p>
 
-<h2 id="一vim"><a href="#0">一、Vim</a></h2>
+<h3 id="1-mysql报错the-server-quit-without-updating-pid-file">1. Mysql报错：<code class="highlighter-rouge">The server quit without updating PID file</code></h3>
 
-<h2 id="二ubuntu"><a href="#1">二、Ubuntu</a></h2>
+<p>一把梭：完全卸载Mysql，并用brew install mysql重新安装;</p>
 
-<h2 id="三git"><a href="#2">三、Git</a></h2>
+<h2 id="卸载">卸载</h2>
 
-<p id="0"></p>
+<p>依次执行：</p>
 
-<h2 id="一vim-1">一、Vim</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>    brew uninstall mysql 
 
-<p>配置文件的路径：<code class="highlighter-rouge">etc/vim/vimrc</code></p>
+    sudo rm /usr/local/var/mysql 
 
-<h4 id="基本配置">基本配置</h4>
+    sudo rm -rf /usr/local/mysql* 
 
-<p>“开启语法高亮</p>
+    sudo rm -rf /Library/LaunchDaemons/com.oracle 
 
-<p>syntax on</p>
+    brew cleanup 
+</code></pre>
+</div>
 
-<p>“依文件类型设置自动缩进</p>
+<p>===我只用了上面这五行====</p>
 
-<p>filetype indent plugin on</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    sudo rm -rf /Library/StartupItems/MySQLCOM 
 
-<p>“显示当前的行号列号：</p>
+    sudo rm -rf /Library/PreferencePanes/My* 
 
-<p>set ruler</p>
+    rm -rf ~/Library/PreferencePanes/My* 
 
-<p>“在状态栏显示正在输入的命令</p>
+    sudo rm -rf /Library/Receipts/mysql* 
 
-<p>set showcmd</p>
+    sudo rm -rf /Library/LaunchDaemons/com.oracle 
 
-<p>“关闭/打开配对括号高亮</p>
+    sudo rm -rf /var/db/receipts/com.mysql.* 
+</code></pre>
+</div>
 
-<p>“NoMatchParen</p>
+<p>其实不同的安装方式有些东西的存储位置不一样，删除完检查一下下面这些文件是否删除了，没有的话则删除掉：</p>
 
-<p>DoMatchParen</p>
+<p><code class="highlighter-rouge">/usr/local/Cellar</code> 里的mysql文件</p>
 
-<p>行号的显示与隐藏[3]：</p>
+<p><code class="highlighter-rouge">/usr/local/var</code> 里的mysql文件</p>
 
-<p>“显示行号：</p>
+<p><code class="highlighter-rouge">/tmp</code> 里的mysql.sock, mysql.sock.lock, my.cnf文件</p>
 
-<p>set number</p>
+<p>pid文件和err文件都在<code class="highlighter-rouge">/usr/local/var/mysql</code>里确保删除了</p>
 
-<p>“为方便复制，用<F2>开启/关闭行号显示:</F2></p>
+<p>brew安装的安装包存储在<code class="highlighter-rouge">/usr/local/Library/Cache/Homebrew</code>也可以一并删除</p>
 
-<p>nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR></CR></CR></F2></p>
+<p>执行</p>
 
-<p>启用Modeline（即允许被编辑的文件以注释的形式设置Vim选项，详见Vim Wiki: Modeline magic）[4]：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    brew cleanup
+</code></pre>
+</div>
 
-<p>set modeline</p>
+<h2 id="安装">安装</h2>
 
-<p>如果终端使用的是深色背景：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    brew install mysql
+</code></pre>
+</div>
 
-<p>“为深色背景调整配色</p>
+<p>执行</p>
 
-<p>set background=dark</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    mysql.server start
+</code></pre>
+</div>
 
-<p id="1"></p>
+<p>如果报错，99%的可能是老版本的mysql没有卸载干净，重新检查卸载流程；</p>
 
-<h2 id="二ubuntu-1">二、Ubuntu</h2>
+<p>接下来执行配置脚本</p>
 
-<p id="2"></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    /usr/local/opt/mysql/bin/mysql_secure_installation //mysql 提供的配置向导
+</code></pre>
+</div>
 
-<h2 id="三git-1">三、Git</h2>
+<p>安装成功</p>
 
-<p>参考1：<a href="https://mp.weixin.qq.com/s/CeGtTDxpFxRBQ0zJrqxSQg">如何克服解决Git冲突的恐惧症？（Git分支策略）</a></p>
+<h3 id="2-yii2报错sqlstatehy000-2054-the-server-requested-authentication-method-unknown-to-the-client">2. Yii2报错：<code class="highlighter-rouge">SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client</code></h3>
+
+<p>发生这种错误，是由于MySQL 8默认使用了新的密码验证插件：caching_sha2_password，而之前的PHP版本中所带的mysqlnd无法支持这种验证。解决这个问题，有两种办法。</p>
+
+<p>一种办法是升级PHP支持MySQL 8的新验证插件。</p>
+
+<p>PHP 7.2.8和PHP 7.1.20已经可以支持caching_sha2_password，直接连接MySQL 8。</p>
+
+<p>目前PHP 7.0.31和PHP 5.6.37还无法支持caching_sha2_password，不知道后续版本是否会做出支持。</p>
+
+<p>可以通过phpinfo()函数了解当前安装的PHP是否支持caching_sha2_password：</p>
+
+<p>如果不能升级PHP，可以在MySQL 8中创建（或修改）使用caching_sha2_password插件的账户，使之使用mysql_native_password，这样先前版本的PHP就可以连接使用了。</p>
+
+<ol>
+  <li>
+    <p>在CREATE USER时，使用IDENTIFIED WITH xxx_plugin BY ‘password’，比如：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> CREATE USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password!2#4';
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>使用ALTER USER修改已有账户的验证插件：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> ALTER USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<p>或</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    ALTER USER 'native'@'localhost' IDENTIFIED WITH mysql_native_password BY '123123';
+</code></pre>
+</div>
+
+<p>采用前一种方式，账户的密码将被清除；<code class="highlighter-rouge">123123</code>将为账户设置的新密码。</p>
+
+<p>/etc/my.cnf配置文件中，有一行：</p>
+
+<p><code class="highlighter-rouge"># default-authentication-plugin=mysql_native_password</code></p>
+
+<p>请删除注释符号“#”并重新启动mysqld使之生效，此后创建的账户均默认使用mysql_native_password。</p>
+
+<p>如果完成MySQL Server的安装之后，在没有启动过mysqld服务的情况下修改/etc/my.cnf配置，那么启动mysqld之后创建的’root’@’localhost’账户也是使用mysql_native_password插件的。</p>
+
+<h3 id="3-yii2报错sqlstate42000-syntax-error-or-access-violation-1055-expression">3. Yii2报错<code class="highlighter-rouge">SQLSTATE[42000]: Syntax error or access violation: 1055 Expression</code></h3>
+
+<p><img src="https://cloud.githubusercontent.com/assets/1667825/15820229/6b9a7286-2be8-11e6-90a7-bf31332dddcf.png" alt="" /><small class="img-hint">分组问题报错</small></p>
+
+<p>这个就非常简单了</p>
+
+<p>在Mysql的配置文件my.cnf设置中，添加：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sql_mode=TRADITIONAL
+</code></pre>
+</div>
+
+<p><a href="http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html">参考资料</a></p>
 
 <hr />
 <p><br />
@@ -312,7 +381,7 @@
                 <a href="/">龟龟</a>
                 <span class="time">
                 /
-                <time>2018-06-27</time>
+                <time>2018-09-17</time>
                 <style>span.test {color: #0085A5;font-weight: bold;}</style>
                 </span>/&nbsp;<span data-hk-page="current" class="test"> - </span>&nbsp;阅读量
                 <br>
@@ -329,19 +398,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/02/06/Linux-orders-note/" data-toggle="tooltip" data-placement="top" title="Ubuntu 常用命令整理">
-                        Previous<br>
-                        <span>Ubuntu 常用命令整理</span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li class="next">
                         <a href="/2018/08/29/zuqiuwangshi-1/" data-toggle="tooltip" data-placement="top" title="《足球往事》">
-                        Next<br>
+                        Previous<br>
                         <span>《足球往事》</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
@@ -381,7 +443,7 @@
                             
         				
                             
-                				<a href="/tags/#笔记" title="笔记" rel="14">
+                				<a href="/tags/#笔记" title="笔记" rel="13">
                                     笔记
                                 </a>
                             
@@ -409,7 +471,7 @@
                             
         				
                             
-                				<a href="/tags/#Linux" title="Linux" rel="4">
+                				<a href="/tags/#Linux" title="Linux" rel="3">
                                     Linux
                                 </a>
                             
@@ -423,9 +485,9 @@
                             
         				
                             
-                				<a href="/tags/#Ubuntu" title="Ubuntu" rel="2">
-                                    Ubuntu
-                                </a>
+        				
+                            
+        				
                             
         				
                             
@@ -459,6 +521,10 @@
                         <li><a href="http://dbanotes.net/">dbanotes</a></li>
                     
                         <li><a href="http://www.jarjar.cn/tags/">凤凰山笔记</a></li>
+                    
+                        <li><a href="https://lobatt.pw/">LOBATT</a></li>
+                    
+                        <li><a href="https://lazymanl.github.io/">Single</a></li>
                     
                 </ul>
                 
