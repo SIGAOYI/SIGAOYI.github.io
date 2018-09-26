@@ -109,6 +109,9 @@ friends: [
     },{
         title: "Single",
         href: "https://lazymanl.github.io/"
+    },{
+        title: "语义化版本控制",
+        href: "https://semver.org/lang/zh-CN/#spec-item-9"
     }
 ]
 # 时区
