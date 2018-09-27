@@ -14,13 +14,13 @@ tags:
 >Vue.js 放弃中...
 
 
-[川普首秀2016](http://image.lawootrip.com/Trump-UN-70th.MP4)
+[川普首秀2017](http://image.lawootrip.com/Trump-UN-70th.MP4)
 
 [川普二秀2018](http://image.lawootrip.com/Trump-UN-72th.MP4)
 
-[嗯，首秀2017](http://image.lawootrip.com/Xi-UN-70th.MP4)
+[嗯，首秀2015](http://image.lawootrip.com/Xi-UN-70th.MP4)
 
-[普京2016](http://image.lawootrip.com/Putin-UN-70th.MP4)
+[普京2015](http://image.lawootrip.com/Putin-UN-70th.MP4)
 
 <!-- <iframe 
     width="800" 
