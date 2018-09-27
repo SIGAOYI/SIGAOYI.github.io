@@ -163,3 +163,25 @@ tags:
 
 >［1］1863年10月26日，英国人在伦敦成立了世界第一个足球协会，同时制定和通过了世界第一部较为统一的足球竞赛规则，并以文字形式记载下来。这一天被公认为现代足球的诞生日。<br/>
 >［2］“to score a goal”本意为刻上一个进球，“score”有“刻”的意思。
+
+
+----
+<br />
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
+</table>

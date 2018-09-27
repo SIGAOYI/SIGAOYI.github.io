@@ -120,14 +120,23 @@ shadowsocks 目前还存在一些功能上的缺陷：
 部分 ISP 对于非 HTTP 和 TLS 的未知流量，会进行降速限制，这个可以通过配置 obfs 解决。
 
 
-
-<br /> 
+----
 <br />
-<table>
-<tr>
-<td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
-<td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
-</tr>
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
 </table>

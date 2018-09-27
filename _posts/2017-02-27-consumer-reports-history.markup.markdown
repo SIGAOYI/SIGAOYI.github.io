@@ -252,13 +252,23 @@ CR 不仅爱打官司， 还好管「闲事」。为保护消费者利益，2011
 * [Consumer Reports - Kevin P. Manion](https://books.google.co.jp/books/about/Consumer_Reports.html?id=lCAiVjC6Sp8C&redir_esc=y)
 * [An Inventory to the Records of Consumers' Research, Inc. - Gregory L. Williams](http://www2.scc.rutgers.edu/ead/manuscripts/consumers_introf.html)
 
-<br /> 
+----
 <br />
-<table>
-<tr>
-<td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
-<td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
-</tr>
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
 </table>

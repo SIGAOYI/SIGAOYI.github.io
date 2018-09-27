@@ -180,13 +180,23 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 
 MAC环境下，推荐 **Charles**用来进行数据抓包，网络通讯分析；**Dig**用来检测DNS，GUI界面，简单直观好用；**微信web工具**作为辅助，尤其是你的产品需要在微信内打开时，必备工具。
 
-<br /> 
+----
 <br />
-<table>
-<tr>
-<td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
-<td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
-</tr>
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
 </table>

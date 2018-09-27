@@ -286,15 +286,22 @@ File System API 也是一种可选的缓存机制，和前面的 SQLDatabase、I
 10. [浏览器缓存机制浅析](http://www.cnblogs.com/zichi/p/4685822.html)
 
 ----
-
-
-<br /> 
 <br />
-<table>
-<tr>
-<td>
-<img src="http://image.lawootrip.com/0%20%2837%29.gif"> </td>
-<td>
-<img src="http://image.lawootrip.com/1490924677.png"><div><small class="img-hint">这不是收钱的  加个好友而已</small></div></td>
-</tr>
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
 </table>
