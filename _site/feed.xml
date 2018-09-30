@@ -5,9 +5,99 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 28 Sep 2018 02:02:56 +0000</pubDate>
-    <lastBuildDate>Fri, 28 Sep 2018 02:02:56 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Sep 2018 04:20:44 +0000</pubDate>
+    <lastBuildDate>Sun, 30 Sep 2018 04:20:44 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Adobe和windows虚拟机是Mac启动速度的天敌</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;最近还在纠结升不升Mojave，毕竟多了一些有的没的新功能，手痒；&lt;/p&gt;
+
+&lt;p&gt;另一方面，又担心苹果新系统必bug定律在我身上应验；&lt;/p&gt;
+
+&lt;p&gt;但更重要的是，本身现在登陆就会卡三秒，新系统是否会变本加厉?&lt;/p&gt;
+
+&lt;p&gt;直到国庆前闲的没事干的今天，突然醒悟过来，开机后登陆用户卡三秒，是否是因为……&lt;/p&gt;
+
+&lt;p&gt;开机自动启动项，太多？！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/Xnip2018-09-30_11-58-25.png&quot; alt=&quot;系统启动项管理&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这是什么情况，就一个启动项啊！！简直见鬼了。&lt;/p&gt;
+
+&lt;p&gt;但，稍微研究一下就发现，mac系统有2个地方储存开启项文件，后缀都是&lt;code class=&quot;highlighter-rouge&quot;&gt;.plist&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/Preferences&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/LaunchAgents&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/System/Library/LaunchAgents&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;用来储存当前用户的启动项，只和用户有关，不在系统的启动项内。&lt;/p&gt;
+
+&lt;p&gt;cd过去一看，惊呆了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/Xnip2018-09-30_12-05-49.png&quot; alt=&quot;&quot; /&gt;
+&lt;small class=&quot;img-hint&quot;&gt;这仅仅是&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/Preferences&lt;/code&gt;一个路径下的垃圾文件&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;Adobe全家桶赤果果的自动启动了，他们是八百年一用的PR&amp;amp;AE，八千年一用的PS&amp;amp;AI……&lt;/p&gt;
+
+&lt;p&gt;果断删除&lt;/p&gt;
+
+&lt;h1 id=&quot;还有&quot;&gt;还有&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/LaunchDaemons&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/System/Library/LaunchDaemons&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/Xnip2018-09-30_12-06-15.png&quot; alt=&quot;&quot; /&gt;
+&lt;small class=&quot;img-hint&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/LaunchDaemons&lt;/code&gt;一个路径下的垃圾文件&lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;这是系统守护进程，换句话说就是随系统启动，不是用户登陆时启动的。&lt;/p&gt;
+
+&lt;p&gt;一样删除&lt;/p&gt;
+
+&lt;p&gt;真的是motherfuck了，95%的冗余启动项是adobe全家桶还有windows虚拟机未经告知的强奸。&lt;/p&gt;
+
+&lt;p&gt;再次重启系统，开机秒，登陆1秒。&lt;/p&gt;
+
+&lt;p&gt;完美。&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;table border=&quot;0&quot;&gt;
+    &lt;tr border=&quot;0&quot;&gt;
+        &lt;td&gt;
+            &lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt;
+        &lt;/td&gt;
+        &lt;td&gt;
+            &lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td style=&quot;text-align:center&quot;&gt;
+            &lt;span&gt;不收钱&lt;/span&gt;
+        &lt;/td&gt;
+        &lt;td style=&quot;text-align:center&quot;&gt;
+            &lt;span&gt;加好友&lt;/span&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</description>
+        <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2018/09/30/mac-fuck-the-auto-start-off/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/09/30/mac-fuck-the-auto-start-off/</guid>
+        
+        <category>mac优化</category>
+        
+        <category>启动项优化</category>
+        
+        
+      </item>
     
       <item>
         <title>3位大人物的联合国大会演讲合集</title>
@@ -2075,104 +2165,6 @@ $ vim /etc/hosts
         <category>效率</category>
         
         <category>前端</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Mac下重置MySQL的权限、密码</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;Vue.js 放弃中…&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;每次重启Mac后，我的Navicat都会提示本地的MySQL服务密码不对。&lt;/p&gt;
-
-&lt;p&gt;每次都需要用sudo刷新MySQL权限才可以正常连接，即使重置密码，再次重启MySQL服务后，又提示密码不对。&lt;/p&gt;
-
-&lt;p&gt;所以暂时先把命令行强行重置MySQL密码的方法记录如下，日后再研究如何彻底解决。&lt;/p&gt;
-
-&lt;h2 id=&quot;mysql的三个基本命令&quot;&gt;MySQL的三个基本命令&lt;/h2&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/support-files/mysql.server start //启动
-
-    sudo /usr/local/mysql/support-files/mysql.server stop //停止
-
-    sudo /usr/local/mysql/support-files/mysql.server restart //重启
-
-    sudo pkill -9 mysql //强制关闭进程
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;-三步重置mysql权限和密码&quot;&gt;* 三步重置MySQL权限和密码&lt;/h2&gt;
-
-&lt;h4 id=&quot;第一步&quot;&gt;第一步&lt;/h4&gt;
-
-&lt;p&gt;停止 mysql server.  通常是在 ‘系统偏好设置’ &amp;gt; MySQL &amp;gt; ‘Stop MySQL Server’&lt;/p&gt;
-
-&lt;p&gt;也可以在命令行中用上面的命令终止MySQL。&lt;/p&gt;
-
-&lt;h4 id=&quot;第二步&quot;&gt;第二步&lt;/h4&gt;
-
-&lt;p&gt;新开一个终端，输入：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;此时MySQl应该又重新启动了。&lt;/p&gt;
-
-&lt;h4 id=&quot;第三步&quot;&gt;第三步&lt;/h4&gt;
-
-&lt;p&gt;再新开一个终端，依次输入并回车：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo /usr/local/mysql/bin/mysql -u root
-
-    UPDATE mysql.user SET authentication_string=PASSWORD('123123') WHERE User='root';
-
-　　 FLUSH PRIVILEGES;
-
- 　　\q
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;重启MySQL即可&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://image.lawootrip.com/WX20170812-125719@2x.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;清爽&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;table border=&quot;0&quot;&gt;
-    &lt;tr border=&quot;0&quot;&gt;
-        &lt;td&gt;
-            &lt;img src=&quot;http://image.lawootrip.com/0%20%2837%29.gif&quot; /&gt;
-        &lt;/td&gt;
-        &lt;td&gt;
-            &lt;img src=&quot;http://image.lawootrip.com/1490924677.png&quot; /&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td style=&quot;text-align:center&quot;&gt;
-            &lt;span&gt;不收钱&lt;/span&gt;
-        &lt;/td&gt;
-        &lt;td style=&quot;text-align:center&quot;&gt;
-            &lt;span&gt;加好友&lt;/span&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Sat, 12 Aug 2017 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2017/08/12/mysql-psw/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/12/mysql-psw/</guid>
-        
-        <category>笔记</category>
-        
-        <category>MySQL</category>
-        
-        <category>数据库</category>
         
         
       </item>
