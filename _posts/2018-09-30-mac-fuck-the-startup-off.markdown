@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Adobe和windows虚拟机是Mac启动速度的天敌"
-subtitle:   "Adobe plist piss off please..."
+subtitle:   "Adobe startup piss off please..."
 date:       2018-09-30
 author:     "龟龟"
 header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
@@ -67,7 +67,7 @@ Adobe全家桶赤果果的自动启动了，他们是八百年一用的PR&AE，�
 
 完美。
 
-
+[参考资料](https://blog.csdn.net/astarring/article/details/69055218)
 
 
 
