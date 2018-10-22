@@ -5,8 +5,8 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 30 Sep 2018 04:20:44 +0000</pubDate>
-    <lastBuildDate>Sun, 30 Sep 2018 04:20:44 +0000</lastBuildDate>
+    <pubDate>Mon, 22 Oct 2018 11:18:40 +0000</pubDate>
+    <lastBuildDate>Mon, 22 Oct 2018 11:18:40 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -67,6 +67,8 @@
 
 &lt;p&gt;完美。&lt;/p&gt;
 
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/astarring/article/details/69055218&quot;&gt;参考资料&lt;/a&gt;&lt;/p&gt;
+
 &lt;hr /&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;table border=&quot;0&quot;&gt;
@@ -89,8 +91,8 @@
 &lt;/table&gt;
 </description>
         <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2018/09/30/mac-fuck-the-auto-start-off/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/09/30/mac-fuck-the-auto-start-off/</guid>
+        <link>http://localhost:4000/2018/09/30/mac-fuck-the-startup-off/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/09/30/mac-fuck-the-startup-off/</guid>
         
         <category>mac优化</category>
         
@@ -1041,6 +1043,8 @@
 
 &lt;p&gt;&lt;a href=&quot;#4&quot;&gt;五、常用命令&lt;/a&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;a href=&quot;#5&quot;&gt;六、常用命令&lt;/a&gt;&lt;/p&gt;
+
 &lt;p id=&quot;0&quot;&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;一简述&quot;&gt;一、简述&lt;/h2&gt;
@@ -1325,6 +1329,22 @@ WantedBy=multi-user.target
 &lt;/div&gt;
 
 &lt;p&gt;推荐AWS新注册绑信用卡送一年EC2，东京节点不错，俄亥俄亲测慢成狗。&lt;/p&gt;
+
+&lt;p id=&quot;5&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;六放大招&quot;&gt;六、放大招&lt;/h2&gt;
+
+&lt;p&gt;时至今日，上面的教程全部都已经过时了&lt;/p&gt;
+
+&lt;p&gt;下面放大招&lt;/p&gt;
+
+&lt;h3 id=&quot;1ssr一键脚本&quot;&gt;1.SSR一键脚本&lt;/h3&gt;
+
+&lt;p&gt;用root身份运行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html&quot;&gt;启蒙教程&lt;/a&gt;&lt;/p&gt;
 

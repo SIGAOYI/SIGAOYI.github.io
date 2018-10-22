@@ -25,6 +25,8 @@ tags:
 
 [五、常用命令](#4)
 
+[六、常用命令](#5)
+
 
 <p id="0"></p>
 
@@ -262,6 +264,27 @@ TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上�
 
 
 推荐AWS新注册绑信用卡送一年EC2，东京节点不错，俄亥俄亲测慢成狗。
+
+<p id="5"></p>
+
+## 六、放大招
+
+时至今日，上面的教程全部都已经过时了
+
+下面放大招
+
+### 1.SSR一键脚本
+
+用root身份运行
+
+        wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+
+
+
+
+
+
+
 
 [启蒙教程](https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html)
 
