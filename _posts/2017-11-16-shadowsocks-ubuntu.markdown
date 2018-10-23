@@ -277,16 +277,93 @@ TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上�
 
 用root身份运行
 
-        wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+        wget --no-check-certificate -O shadowsocks-all.sh http://image.lawootrip.com/shadowsocks-all.sh
+        //右手中指按下回车
+        chmod +x shadowsocks-all.sh
+        //左手中指按下回车
+        ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
+        //嗯
 
+如果成功，你会看到
 
+        Congratulations, your_shadowsocks_version install completed!
+        Your Server IP        :your_server_ip
+        Your Server Port      :your_server_port
+        Your Password         :your_password
+        Your Encryption Method:your_encryption_method
 
+        Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)
+        ss://your_encryption_method:your_password@your_server_ip:your_server_port
+        Your QR Code has been saved as a PNG file path:
+        your_path.png
 
+        Enjoy it!
 
+#### 卸载方法：
+
+        ./shadowsocks-all.sh uninstall
+
+#### 启动脚本：
+
+启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。
+
+Shadowsocks-Python 版：
+/etc/init.d/shadowsocks-python start | stop | restart | status
+
+ShadowsocksR 版：
+/etc/init.d/shadowsocks-r start | stop | restart | status
+
+Shadowsocks-Go 版：
+/etc/init.d/shadowsocks-go start | stop | restart | status
+
+Shadowsocks-libev 版：
+/etc/init.d/shadowsocks-libev start | stop | restart | status
+
+#### 各版本默认配置文件
+
+Shadowsocks-Python 版：
+/etc/shadowsocks-python/config.json
+
+ShadowsocksR 版：
+/etc/shadowsocks-r/config.json
+
+Shadowsocks-Go 版：
+/etc/shadowsocks-go/config.json
+
+Shadowsocks-libev 版：
+/etc/shadowsocks-libev/config.json
+
+### 2.BBR一键脚本
+
+        wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+
+运行完成后，执行
+
+        sysctl net.ipv4.tcp_available_congestion_control
+
+若看到`bbr`字样
+
+        net.ipv4.tcp_available_congestion_control = bbr cubic reno
+
+成功！
+
+## 七、大招的大招
+
+root身份运行
+
+        wget --no-check-certificate http://www.suiyuanjian.com/sb.sh
+
+        chmod +x sb.sh
+
+        ./sb.sh
+
+自动运行完成后，按y重启
 
 
 
 [启蒙教程](https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html)
+[大招教程1](https://github.com/teddysun/shadowsocks_install)
+[大招教程2](https://suiyuanjian.com/139.html)
 
 
 ----

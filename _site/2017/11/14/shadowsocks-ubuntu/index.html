@@ -531,11 +531,105 @@ WantedBy=multi-user.target
 
 <p>用root身份运行</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+<div class="highlighter-rouge"><pre class="highlight"><code>    wget --no-check-certificate -O shadowsocks-all.sh http://image.lawootrip.com/shadowsocks-all.sh
+    //右手中指按下回车
+    chmod +x shadowsocks-all.sh
+    //左手中指按下回车
+    ./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log
+    //嗯
 </code></pre>
 </div>
 
-<p><a href="https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html">启蒙教程</a></p>
+<p>如果成功，你会看到</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    Congratulations, your_shadowsocks_version install completed!
+    Your Server IP        :your_server_ip
+    Your Server Port      :your_server_port
+    Your Password         :your_password
+    Your Encryption Method:your_encryption_method
+
+    Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)
+    ss://your_encryption_method:your_password@your_server_ip:your_server_port
+    Your QR Code has been saved as a PNG file path:
+    your_path.png
+
+    Enjoy it!
+</code></pre>
+</div>
+
+<h4 id="卸载方法">卸载方法：</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    ./shadowsocks-all.sh uninstall
+</code></pre>
+</div>
+
+<h4 id="启动脚本">启动脚本：</h4>
+
+<p>启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。</p>
+
+<p>Shadowsocks-Python 版：
+/etc/init.d/shadowsocks-python start | stop | restart | status</p>
+
+<p>ShadowsocksR 版：
+/etc/init.d/shadowsocks-r start | stop | restart | status</p>
+
+<p>Shadowsocks-Go 版：
+/etc/init.d/shadowsocks-go start | stop | restart | status</p>
+
+<p>Shadowsocks-libev 版：
+/etc/init.d/shadowsocks-libev start | stop | restart | status</p>
+
+<h4 id="各版本默认配置文件">各版本默认配置文件</h4>
+
+<p>Shadowsocks-Python 版：
+/etc/shadowsocks-python/config.json</p>
+
+<p>ShadowsocksR 版：
+/etc/shadowsocks-r/config.json</p>
+
+<p>Shadowsocks-Go 版：
+/etc/shadowsocks-go/config.json</p>
+
+<p>Shadowsocks-libev 版：
+/etc/shadowsocks-libev/config.json</p>
+
+<h3 id="2bbr一键脚本">2.BBR一键脚本</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh &amp;&amp; chmod +x bbr.sh &amp;&amp; ./bbr.sh
+</code></pre>
+</div>
+
+<p>运行完成后，执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    sysctl net.ipv4.tcp_available_congestion_control
+</code></pre>
+</div>
+
+<p>若看到<code class="highlighter-rouge">bbr</code>字样</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    net.ipv4.tcp_available_congestion_control = bbr cubic reno
+</code></pre>
+</div>
+
+<p>成功！</p>
+
+<h2 id="七大招的大招">七、大招的大招</h2>
+
+<p>root身份运行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    wget --no-check-certificate http://www.suiyuanjian.com/sb.sh
+
+    chmod +x sb.sh
+
+    ./sb.sh
+</code></pre>
+</div>
+
+<p>自动运行完成后，按y重启</p>
+
+<p><a href="https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html">启蒙教程</a>
+<a href="https://github.com/teddysun/shadowsocks_install">大招教程1</a>
+<a href="https://suiyuanjian.com/139.html">大招教程2</a></p>
 
 <hr />
 <p><br /></p>

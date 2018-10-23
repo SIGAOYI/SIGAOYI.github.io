@@ -5,8 +5,8 @@
     <description>龟龟的个人博客-乐物旅行</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 22 Oct 2018 11:18:40 +0000</pubDate>
-    <lastBuildDate>Mon, 22 Oct 2018 11:18:40 +0000</lastBuildDate>
+    <pubDate>Mon, 22 Oct 2018 11:45:07 +0000</pubDate>
+    <lastBuildDate>Mon, 22 Oct 2018 11:45:07 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -1342,11 +1342,105 @@ WantedBy=multi-user.target
 
 &lt;p&gt;用root身份运行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    wget --no-check-certificate -O shadowsocks-all.sh http://image.lawootrip.com/shadowsocks-all.sh
+    //右手中指按下回车
+    chmod +x shadowsocks-all.sh
+    //左手中指按下回车
+    ./shadowsocks-all.sh 2&amp;gt;&amp;amp;1 | tee shadowsocks-all.log
+    //嗯
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html&quot;&gt;启蒙教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果成功，你会看到&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    Congratulations, your_shadowsocks_version install completed!
+    Your Server IP        :your_server_ip
+    Your Server Port      :your_server_port
+    Your Password         :your_password
+    Your Encryption Method:your_encryption_method
+
+    Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)
+    ss://your_encryption_method:your_password@your_server_ip:your_server_port
+    Your QR Code has been saved as a PNG file path:
+    your_path.png
+
+    Enjoy it!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;卸载方法&quot;&gt;卸载方法：&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ./shadowsocks-all.sh uninstall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;启动脚本&quot;&gt;启动脚本：&lt;/h4&gt;
+
+&lt;p&gt;启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。&lt;/p&gt;
+
+&lt;p&gt;Shadowsocks-Python 版：
+/etc/init.d/shadowsocks-python start | stop | restart | status&lt;/p&gt;
+
+&lt;p&gt;ShadowsocksR 版：
+/etc/init.d/shadowsocks-r start | stop | restart | status&lt;/p&gt;
+
+&lt;p&gt;Shadowsocks-Go 版：
+/etc/init.d/shadowsocks-go start | stop | restart | status&lt;/p&gt;
+
+&lt;p&gt;Shadowsocks-libev 版：
+/etc/init.d/shadowsocks-libev start | stop | restart | status&lt;/p&gt;
+
+&lt;h4 id=&quot;各版本默认配置文件&quot;&gt;各版本默认配置文件&lt;/h4&gt;
+
+&lt;p&gt;Shadowsocks-Python 版：
+/etc/shadowsocks-python/config.json&lt;/p&gt;
+
+&lt;p&gt;ShadowsocksR 版：
+/etc/shadowsocks-r/config.json&lt;/p&gt;
+
+&lt;p&gt;Shadowsocks-Go 版：
+/etc/shadowsocks-go/config.json&lt;/p&gt;
+
+&lt;p&gt;Shadowsocks-libev 版：
+/etc/shadowsocks-libev/config.json&lt;/p&gt;
+
+&lt;h3 id=&quot;2bbr一键脚本&quot;&gt;2.BBR一键脚本&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh &amp;amp;&amp;amp; chmod +x bbr.sh &amp;amp;&amp;amp; ./bbr.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;运行完成后，执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sysctl net.ipv4.tcp_available_congestion_control
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;若看到&lt;code class=&quot;highlighter-rouge&quot;&gt;bbr&lt;/code&gt;字样&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    net.ipv4.tcp_available_congestion_control = bbr cubic reno
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;成功！&lt;/p&gt;
+
+&lt;h2 id=&quot;七大招的大招&quot;&gt;七、大招的大招&lt;/h2&gt;
+
+&lt;p&gt;root身份运行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    wget --no-check-certificate http://www.suiyuanjian.com/sb.sh
+
+    chmod +x sb.sh
+
+    ./sb.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;自动运行完成后，按y重启&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html&quot;&gt;启蒙教程&lt;/a&gt;
+&lt;a href=&quot;https://github.com/teddysun/shadowsocks_install&quot;&gt;大招教程1&lt;/a&gt;
+&lt;a href=&quot;https://suiyuanjian.com/139.html&quot;&gt;大招教程2&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
