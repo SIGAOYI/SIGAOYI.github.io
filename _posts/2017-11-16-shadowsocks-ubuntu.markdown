@@ -25,7 +25,7 @@ tags:
 
 [五、常用命令](#4)
 
-[六、常用命令](#5)
+[六、放大招](#5)
 
 
 <p id="0"></p>
@@ -362,7 +362,9 @@ root身份运行
 
 
 [启蒙教程](https://www.polarxiong.com/archives/Ubuntu-16-04%E4%B8%8BShadowsocks%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96.html)
+
 [大招教程1](https://github.com/teddysun/shadowsocks_install)
+
 [大招教程2](https://suiyuanjian.com/139.html)
 
 
