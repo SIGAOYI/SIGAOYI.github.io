@@ -112,6 +112,9 @@ friends: [
     },{
         title: "语义化版本控制",
         href: "https://semver.org/lang/zh-CN/#spec-item-9"
+    },{
+        title: "傅志彬的文章",
+        href: "https://fuzhibin.blogspot.com/"
     }
 ]
 # 时区
