@@ -1,0 +1,45 @@
+---
+layout:     post
+title:      "新疆行记"
+subtitle:   "Be lord of your Ubuntu"
+date:       2018-06-27
+author:     "龟龟"
+header-img: "http://image.lawootrip.com/pexels-photo-175411.jpeg"
+tags:
+    - 笔记
+    - Linux
+    - Ubuntu
+    - Git
+    - Vim
+---
+
+>Vue.js 放弃中...
+
+
+
+#对大多内地人而言遥似天边，而于我而言却有种奇特的情愫。
+
+
+
+当年屁爸和好友就是从乌鲁木齐出发，环疆徒步搭车后一路向南，扎进了喜马拉雅南麓的尼泊尔，在加德满都的咖啡馆遇见了屁妈。我一直相信命运，当乘坐的T69次列车从北京进入新疆的那一刻起，命运就为我此行的终点安排了一份大彩蛋。
+
+----
+<br />
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
+</table>

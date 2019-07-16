@@ -1,0 +1,38 @@
+---
+layout:     post
+title:      "Web缓存的一些细碎02"
+subtitle:   "The Story of localStorage..."
+date:       2017-07-18
+author:     "龟龟"
+header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+tags:
+    - 笔记
+    - Web前端
+---
+
+>Vue.js 放弃中...
+
+
+
+
+
+----
+<br />
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://image.lawootrip.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
+</table>
