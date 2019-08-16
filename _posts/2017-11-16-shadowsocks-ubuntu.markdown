@@ -277,7 +277,7 @@ TCP Fast Open可以降低Shadowsocks服务器和客户端的延迟。实际上�
 
 用root身份运行
 
-        wget --no-check-certificate -O shadowsocks-all.sh http://image.lawootrip.com/shadowsocks-all.sh
+        wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
         //右手中指按下回车
         chmod +x shadowsocks-all.sh
         //左手中指按下回车
