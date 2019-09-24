@@ -4,7 +4,7 @@ title:      "用Ubuntu爱国原来这么简单！"
 subtitle:   "The Story of FUCK gfw..."
 date:       2017-11-14
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.tdagroup.cn/pexels-photo-175411.jpeg"
 tags:
     - 笔记
     - Linux
@@ -373,10 +373,10 @@ root身份运行
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

@@ -4,7 +4,7 @@ title:      "Adobe和windows虚拟机是Mac启动速度的天敌"
 subtitle:   "Adobe startup piss off please..."
 date:       2018-09-30
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+header-img: "http://cdn.tdagroup.cn/2017-05-15-bg.png"
 tags:
     - mac优化
     - 启动项优化
@@ -24,7 +24,7 @@ tags:
 
 
 
-![系统启动项管理](http://image.lawootrip.com/Xnip2018-09-30_11-58-25.png)
+![系统启动项管理](http://cdn.tdagroup.cn/Xnip2018-09-30_11-58-25.png)
 
 这是什么情况，就一个启动项啊！！简直见鬼了。
 
@@ -40,7 +40,7 @@ tags:
 
 cd过去一看，惊呆了
 
-![](http://image.lawootrip.com/Xnip2018-09-30_12-05-49.png)
+![](http://cdn.tdagroup.cn/Xnip2018-09-30_12-05-49.png)
 <small class="img-hint">这仅仅是`/Library/Preferences`一个路径下的垃圾文件</small>
 
 
@@ -54,7 +54,7 @@ Adobe全家桶赤果果的自动启动了，他们是八百年一用的PR&AE，�
 
 `/System/Library/LaunchDaemons`
 
-![](http://image.lawootrip.com/Xnip2018-09-30_12-06-15.png)
+![](http://cdn.tdagroup.cn/Xnip2018-09-30_12-06-15.png)
 <small class="img-hint">`/Library/LaunchDaemons`一个路径下的垃圾文件</small>
 
 这是系统守护进程，换句话说就是随系统启动，不是用户登陆时启动的。
@@ -77,10 +77,10 @@ Adobe全家桶赤果果的自动启动了，他们是八百年一用的PR&AE，�
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

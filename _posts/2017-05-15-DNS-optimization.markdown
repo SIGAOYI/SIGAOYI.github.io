@@ -4,7 +4,7 @@ title:      "关于DNS解析优化的一些细碎"
 subtitle:   "How Domain Name Servers Work"
 date:       2017-05-15
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+header-img: "http://cdn.tdagroup.cn/2017-05-15-bg.png"
 tags:
     - 笔记
     - DNS
@@ -47,7 +47,7 @@ tags:
 
 DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP地址之间是一对一(或者多对一)的，域名虽然便于人们记忆，但机器之间只能互相认识IP地址，它们之间的转换工作称为域名解析，域名解析需要由专门的域名解析服务器来完成，DNS就是进行域名解析的服务器。
 
-![DNS服务结构](http://image.lawootrip.com/2017-05-15-structure.PNG)
+![DNS服务结构](http://cdn.tdagroup.cn/2017-05-15-structure.PNG)
 <small class="img-hint">DNS的树形结构</small>
 
 如上图所示，DNS服务器类型主要有：
@@ -69,7 +69,7 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 * 非权威 DNS：不存在相对应的映射，而存在对应缓存查询结果
 
 
-![DNS服务进程](http://image.lawootrip.com/2017-05-15-DNS-process.png)
+![DNS服务进程](http://cdn.tdagroup.cn/2017-05-15-DNS-process.png)
 <small class="img-hint">DNS解析进程</small>
 
 
@@ -125,7 +125,7 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 
 2、TTL(Time-To-Live)即一条域名解析记录在DNS服务器上缓存时间。当信息缓存时，生存时间 (TTL) 值适用于所有缓存的 RR。只要缓存 RR 的 TTL 没有到期，DNS 服务器就可继续缓存并再次使用 RR 来应答与这些 RR 相匹配的客户端提出的查询。
 
-![DNS服务进程](http://image.lawootrip.com/2017-05-15-TTL.png)
+![DNS服务进程](http://cdn.tdagroup.cn/2017-05-15-TTL.png)
 <small class="img-hint">TTL设置</small>
 
 3、适当地增大TTL值可以让DNS Server缓存该域名更长时间，增加缓存的命中率。TTL一般默认为一小时，可以根据实际情况设为一天甚至一周以上。当然，如果你域名的IP经常变化，则TTL不应过大，否则各地的DNS Server会暂时无法获得新的正确的IP地址。
@@ -175,7 +175,7 @@ DNS 是域名系统 (Domain Name System) 的缩写。在Internet上域名与IP�
 
 "七牛云CDN"作为CDN服务商，免费稳定专业。
 
-![Chrles+Dig+微信web工具](http://image.lawootrip.com/2017-05-15-shenqi.png)
+![Chrles+Dig+微信web工具](http://cdn.tdagroup.cn/2017-05-15-shenqi.png)
 <small class="img-hint">Chrles+Dig+微信web工具</small>
 
 MAC环境下，推荐 **Charles**用来进行数据抓包，网络通讯分析；**Dig**用来检测DNS，GUI界面，简单直观好用；**微信web工具**作为辅助，尤其是你的产品需要在微信内打开时，必备工具。
@@ -185,10 +185,10 @@ MAC环境下，推荐 **Charles**用来进行数据抓包，网络通讯分析�
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

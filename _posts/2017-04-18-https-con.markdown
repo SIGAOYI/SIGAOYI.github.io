@@ -4,7 +4,7 @@ title:      "各种加密代理协议的简单对比"
 subtitle:   "科学上网的基本原理"
 date:       2017-04-18
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/17-04-18-bg.png"
+header-img: "http://cdn.tdagroup.cn/17-04-18-bg.png"
 tags:
     - 笔记
     - 代理协议
@@ -125,10 +125,10 @@ shadowsocks 目前还存在一些功能上的缺陷：
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

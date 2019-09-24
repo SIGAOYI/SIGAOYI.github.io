@@ -4,7 +4,7 @@ title:      "用DiscuzX3.2建站玩耍"
 subtitle:   "The Story of Enjoy Discuz"
 date:       2017-12-22
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.tdagroup.cn/pexels-photo-175411.jpeg"
 tags:
     - 笔记
     - Discuz
@@ -124,10 +124,10 @@ UCenter 表前缀:pre_ucenter_ 　　define('UC_DBTABLEPRE', '`x2`.pre_ucenter_'
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

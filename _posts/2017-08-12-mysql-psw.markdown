@@ -4,7 +4,7 @@ title:      "Mac下重置MySQL的权限、密码"
 subtitle:   "What you know you don't know Jon Snow"
 date:       2017-08-12
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/IMG-20140125-00271.jpg"
+header-img: "http://cdn.tdagroup.cn/IMG-20140125-00271.jpg"
 tags:
     - 笔记
     - MySQL
@@ -64,7 +64,7 @@ tags:
 
 重启MySQL即可
 
-![](http://image.lawootrip.com/WX20170812-125719@2x.png)
+![](http://cdn.tdagroup.cn/WX20170812-125719@2x.png)
 
 清爽
 
@@ -73,10 +73,10 @@ tags:
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>

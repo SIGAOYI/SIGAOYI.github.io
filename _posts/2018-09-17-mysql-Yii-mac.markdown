@@ -4,7 +4,7 @@ title:      "Mac-Mysql8.0-Yii2的一点小坑"
 subtitle:   "..."
 date:       2018-09-17
 author:     "龟龟"
-header-img: "http://image.lawootrip.com/2017-05-15-bg.png"
+header-img: "http://cdn.tdagroup.cn/2017-05-15-bg.png"
 tags:
     - Mysql
     - Yii2
@@ -139,10 +139,10 @@ PHP 7.2.8和PHP 7.1.20已经可以支持caching_sha2_password，直接连接MySQ
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://image.lawootrip.com/0%20%2837%29.gif">
+            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://image.lawootrip.com/1490924677.png">
+            <img src="http://cdn.tdagroup.cn/1490924677.png">
         </td>
     </tr>
     <tr>
