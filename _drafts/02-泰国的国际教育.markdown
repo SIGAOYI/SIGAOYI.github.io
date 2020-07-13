@@ -4,7 +4,7 @@ title:      "泰国的国际教育"
 subtitle:   ""
 date:       2019-06-10
 author:     "屁爸"
-header-img: "http://cdn.tdagroup.cn/pexels-photo-175411.jpeg"
+header-img: "http://oneonebao.com/pexels-photo-175411.jpeg"
 tags:
     - 泰国
     - 教育
@@ -67,10 +67,10 @@ grace简介.png插图
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
+            <img src="http://oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://cdn.tdagroup.cn/1490924677.png">
+            <img src="http://oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

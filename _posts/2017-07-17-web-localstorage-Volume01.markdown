@@ -4,7 +4,7 @@ title:      "Web缓存的一些细碎01"
 subtitle:   "The Story of localStorage..."
 date:       2017-07-17
 author:     "龟龟"
-header-img: "http://cdn.tdagroup.cn/2017-05-15-bg.png"
+header-img: "http://oneonebao.com/2017-05-15-bg.png"
 tags:
     - 笔记
     - Web前端
@@ -138,10 +138,10 @@ Etag是服务器自动生成或者由开发者生成的对应资源在服务器�
 
 5. 小结
 
-![浏览器第一次请求01](http://cdn.tdagroup.cn/web2017-07-17-01.png)
+![浏览器第一次请求01](http://oneonebao.com/web2017-07-17-01.png)
 <small class="img-hint">浏览器第一次请求</small>
 <br/>
-![浏览器第一次请求02](http://cdn.tdagroup.cn/web-2017-07-17-02.png)
+![浏览器第一次请求02](http://oneonebao.com/web-2017-07-17-02.png)
 <small class="img-hint">浏览器第二次请求</small>
 
 
@@ -290,10 +290,10 @@ File System API 也是一种可选的缓存机制，和前面的 SQLDatabase、I
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
+            <img src="http://oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://cdn.tdagroup.cn/1490924677.png">
+            <img src="http://oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

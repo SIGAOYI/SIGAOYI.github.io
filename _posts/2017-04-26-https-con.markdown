@@ -4,7 +4,7 @@ title:      "浅析微信扫码登陆"
 subtitle:   "How to scan scan Login by WECHAT?"
 date:       2017-04-26
 author:     "龟龟"
-header-img: "http://cdn.tdagroup.cn/17-04-26-bg.png"
+header-img: "http://oneonebao.com/17-04-26-bg.png"
 tags:
     - 笔记
     - 微信
@@ -15,7 +15,7 @@ tags:
 
 **话不多说，直接上图。**
 
-![25s](http://cdn.tdagroup.cn/25s.png)
+![25s](http://oneonebao.com/25s.png)
 
 先看登录二维码的分析，可以清楚看到页面先后加载了网页、图片、CSS、Javascript等资源文件，包括二维码图片。
 
@@ -33,7 +33,7 @@ tags:
 
 好了，我们接下来继续观察这个请求的参数：
 
-![query](http://cdn.tdagroup.cn/17-04-26-query.png)
+![query](http://oneonebao.com/17-04-26-query.png)
 
 可以看到总共有五个参数：
 
@@ -65,7 +65,7 @@ tags:
 
 接下来我们看看这个请求的返回值：
 
- ![response](http://cdn.tdagroup.cn/17-04-26-response.png)
+ ![response](http://oneonebao.com/17-04-26-response.png)
 
 从图中我们可以看到返回的是一条Javascript语句，有个状态码408，这个就是表示用户还没有用微信客户端APP授权，需要继续请求监听状态。如果是授权成功，则返回200，然后登录页会跳转到后台：
 
@@ -76,7 +76,7 @@ ticket值就是服务器生成的用户签名，理解为access_token即可。
 
 再来看看微信客户端APP扫描二维码后的页面：
 
-![app](http://cdn.tdagroup.cn/17-04-26-app.PNG)
+![app](http://oneonebao.com/17-04-26-app.PNG)
 
 当扫描成功二维码后，会弹出授权窗口，询问是否授权登录。
 
@@ -92,7 +92,7 @@ ticket值就是服务器生成的用户签名，理解为access_token即可。
 
 完整的流程图：
 
-![flow-chart](http://cdn.tdagroup.cn/17-04-26-flow-chart.jpg)
+![flow-chart](http://oneonebao.com/17-04-26-flow-chart.jpg)
 
 至此，整个的扫二维码登录流程就完成了。
 
@@ -104,10 +104,10 @@ ticket值就是服务器生成的用户签名，理解为access_token即可。
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://cdn.tdagroup.cn/0%20%2837%29.gif">
+            <img src="http://oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://cdn.tdagroup.cn/1490924677.png">
+            <img src="http://oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

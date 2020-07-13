@@ -1,0 +1,44 @@
+---
+layout:     post
+title:      "理想的生活"
+subtitle:   "en heng"
+date:       2019-09-24
+author:     "龟龟"
+header-img: "http://cdn.oneonebao.com/2017-05-15-bg.png"
+tags:
+    - 笔记
+    - Web前端
+---
+>献给我自己——拖更2个月的重度拖延症
+
+泰北的清晨，清冽静谧，和煦的阳光洒在西边的素贴山上，在清迈的一天又开始了。
+
+
+
+[配图]
+
+
+
+
+
+
+----
+<br />
+<table border="0">
+    <tr border="0">
+        <td>
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
+        </td>
+        <td>
+            <img src="http://cdn.oneonebao.com/1490924677.png">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">
+            <span>不收钱</span>
+        </td>
+        <td style="text-align:center">
+            <span>加好友</span>
+        </td>
+    </tr>
+</table>
