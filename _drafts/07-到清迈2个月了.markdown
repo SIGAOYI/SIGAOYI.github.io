@@ -4,7 +4,7 @@ title:      "理想的生活"
 subtitle:   "en heng"
 date:       2019-09-24
 author:     "龟龟"
-header-img: "http://cdn.oneonebao.com/2017-05-15-bg.png"
+header-img: "http://cdn.cdn.oneonebao.com/2017-05-15-bg.png"
 tags:
     - 笔记
     - Web前端
@@ -27,10 +27,10 @@ tags:
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://cdn.oneonebao.com/1490924677.png">
+            <img src="http://cdn.cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

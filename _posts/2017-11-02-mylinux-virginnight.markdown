@@ -4,7 +4,7 @@ title:      "Ubuntu下Nginx配置笔记"
 subtitle:   "The Story of Linux..."
 date:       2017-11-02
 author:     "龟龟"
-header-img: "http://oneonebao.com/2017-05-15-bg.png"
+header-img: "http://cdn.oneonebao.com/2017-05-15-bg.png"
 tags:
     - 笔记
     - 服务器
@@ -521,10 +521,10 @@ iZj6cfyvsfiajdiy47qddhZ是阿里云创建服务器默认的hostname，错误其�
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

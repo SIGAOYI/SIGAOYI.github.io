@@ -4,7 +4,7 @@ title:      "Welcome to LawooTrip"
 subtitle:   " \"Hello World, Hello Blog\""
 date:       2017-02-15
 author:     "龟龟"
-header-img: "http://oneonebao.com/post-bg-pt-turkey.jpg"
+header-img: "http://cdn.oneonebao.com/post-bg-pt-turkey.jpg"
 tags:
     - GitHub
 ---
@@ -41,7 +41,7 @@ tags:
 
 `注意：repository名称的格式必须是："ID.github.io"`
 
-![](http://oneonebao.com/2017-02-15-01)
+![](http://cdn.oneonebao.com/2017-02-15-01)
 <small class="img-hint">[细节流程参考这个教程](http://www.jianshu.com/p/0ea178531ac8)</small>
 
 推荐勾选自带README的选项，免去日后还得添加README的麻烦。
@@ -177,10 +177,10 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

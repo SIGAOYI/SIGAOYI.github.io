@@ -4,7 +4,7 @@ title:      "Ubuntu 常用命令整理"
 subtitle:   "Be lord of your Ubuntu"
 date:       2018-02-06
 author:     "龟龟"
-header-img: "http://oneonebao.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.oneonebao.com/pexels-photo-175411.jpeg"
 tags:
     - 笔记
     - Linux
@@ -226,10 +226,10 @@ git记住所有的https账号密码，临时
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

@@ -4,7 +4,7 @@ title:      "克什米尔之殇"
 subtitle:   " \"披肩匠人Ghulam的故事\""
 date:       2017-02-15 19:05
 author:     "龟龟"
-header-img: "http://oneonebao.com/post-bg-kashmir2017.jpg"
+header-img: "http://cdn.oneonebao.com/post-bg-kashmir2017.jpg"
 tags:
     - 旅行
     - 随想
@@ -81,10 +81,10 @@ tags:
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

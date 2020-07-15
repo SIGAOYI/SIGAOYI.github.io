@@ -4,7 +4,7 @@ title:      "用DiscuzX3.2建站玩耍"
 subtitle:   "The Story of Enjoy Discuz"
 date:       2017-12-22
 author:     "龟龟"
-header-img: "http://oneonebao.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.oneonebao.com/pexels-photo-175411.jpeg"
 tags:
     - 笔记
     - Discuz
@@ -124,10 +124,10 @@ UCenter 表前缀:pre_ucenter_ 　　define('UC_DBTABLEPRE', '`x2`.pre_ucenter_'
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

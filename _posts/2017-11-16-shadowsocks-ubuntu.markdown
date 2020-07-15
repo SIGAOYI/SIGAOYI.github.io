@@ -4,7 +4,7 @@ title:      "用Ubuntu爱国原来这么简单！"
 subtitle:   "The Story of FUCK gfw..."
 date:       2017-11-14
 author:     "龟龟"
-header-img: "http://oneonebao.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.oneonebao.com/pexels-photo-175411.jpeg"
 tags:
     - 笔记
     - Linux
@@ -373,10 +373,10 @@ root身份运行
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>

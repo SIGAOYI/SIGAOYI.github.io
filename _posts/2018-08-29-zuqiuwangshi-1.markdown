@@ -4,7 +4,7 @@ title:      "《足球往事》"
 subtitle:   "Eduardo Galeano"
 date:       2018-08-29
 author:     "龟龟"
-header-img: "http://oneonebao.com/pexels-photo-175411.jpeg"
+header-img: "http://cdn.oneonebao.com/pexels-photo-175411.jpeg"
 tags:
     - 《足球往事》
     - 书摘
@@ -170,10 +170,10 @@ tags:
 <table border="0">
     <tr border="0">
         <td>
-            <img src="http://oneonebao.com/0%20%2837%29.gif">
+            <img src="http://cdn.oneonebao.com/0%20%2837%29.gif">
         </td>
         <td>
-            <img src="http://oneonebao.com/1490924677.png">
+            <img src="http://cdn.oneonebao.com/1490924677.png">
         </td>
     </tr>
     <tr>
