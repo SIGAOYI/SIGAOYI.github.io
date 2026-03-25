@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f4f8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dce8f0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="camGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7bafc4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5a92ab;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="url(#bg)" rx="12"/>
+
+  <!-- Dotted border -->
+  <rect x="18" y="18" width="764" height="444" rx="8" fill="none" stroke="#b0cdd9" stroke-width="2" stroke-dasharray="10,6"/>
+
+  <!-- Camera body -->
+  <rect x="290" y="130" width="220" height="160" rx="18" fill="url(#camGrad)"/>
+
+  <!-- Camera top bump (viewfinder) -->
+  <rect x="340" y="112" width="60" height="26" rx="8" fill="#5a92ab"/>
+
+  <!-- Camera lens outer ring -->
+  <circle cx="400" cy="210" r="52" fill="#3d7a96"/>
+  <!-- Camera lens middle ring -->
+  <circle cx="400" cy="210" r="40" fill="#2d6070"/>
+  <!-- Camera lens inner -->
+  <circle cx="400" cy="210" r="26" fill="#1a4a5c"/>
+  <!-- Lens shine -->
+  <circle cx="388" cy="198" r="8" fill="white" opacity="0.18"/>
+  <circle cx="384" cy="194" r="3" fill="white" opacity="0.35"/>
+
+  <!-- Flash dot -->
+  <circle cx="470" cy="150" r="10" fill="#f7c948"/>
+  <circle cx="470" cy="150" r="6" fill="#ffe98a"/>
+
+  <!-- Shutter button -->
+  <rect x="352" y="118" width="28" height="10" rx="5" fill="#4a8099"/>
+
+  <!-- X cross over camera (broken) -->
+  <line x1="298" y1="138" x2="502" y2="282" stroke="#e05a5a" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+  <line x1="502" y1="138" x2="298" y2="282" stroke="#e05a5a" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- 404 text -->
+  <text x="400" y="360" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#3d6e85" text-anchor="middle" letter-spacing="6" opacity="0.9">404</text>
+
+  <!-- Subtitle -->
+  <text x="400" y="400" font-family="Arial, sans-serif" font-size="18" fill="#7a9faf" text-anchor="middle" letter-spacing="2">Photo Not Found</text>
+
+  <!-- Small stars/sparkles decoration -->
+  <text x="175" y="200" font-family="Arial" font-size="22" fill="#b0cdd9" text-anchor="middle">✦</text>
+  <text x="625" y="160" font-family="Arial" font-size="16" fill="#b0cdd9" text-anchor="middle">✦</text>
+  <text x="150" y="320" font-family="Arial" font-size="12" fill="#c8dde6" text-anchor="middle">✦</text>
+  <text x="650" y="300" font-family="Arial" font-size="20" fill="#c0d8e4" text-anchor="middle">✦</text>
+
+  <!-- Tiny plane decoration -->
+  <g transform="translate(90, 390) rotate(-20)">
+    <polygon points="0,0 40,10 0,20" fill="#a8c8d8" opacity="0.6"/>
+    <polygon points="8,8 20,4 20,16" fill="#c0dae6" opacity="0.6"/>
+  </g>
+  <g transform="translate(660, 80) rotate(15)">
+    <polygon points="0,0 40,10 0,20" fill="#a8c8d8" opacity="0.5"/>
+    <polygon points="8,8 20,4 20,16" fill="#c0dae6" opacity="0.5"/>
+  </g>
+</svg>
