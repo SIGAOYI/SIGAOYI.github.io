@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI半导体三雄（英伟达 / AMD / 博通）月K线、前瞻PE与市销率(P/S)全景对齐看板 (2023-2026)</title>
+    <!-- Apache ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --bg-body: #090d16;
+            --bg-card: #131b2e;
+            --bg-elevated: #1e293b;
+            --border-color: #2e3d5b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --nvda-color: #76b900; /* NVIDIA Green */
+            --amd-color: #38bdf8;  /* AMD Cyan/Blue */
+            --avgo-color: #10b981; /* Broadcom Emerald */
+            --pe-color: #f59e0b;
+            --ps-color: #ec4899;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container { max-width: 1480px; margin: 0 auto; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-title h1 { font-size: 24px; font-weight: 700; color: #fff; }
+        .header-title p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+        .header-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #25334d; color: #fff; }
+        .btn.active { background: #2563eb; color: #fff; border-color: #3b82f6; box-shadow: 0 0 10px rgba(37,99,235,0.4); }
+        .btn.active-nvda { background: #15803d; color: #fff; border-color: #76b900; box-shadow: 0 0 10px rgba(118,185,0,0.4); }
+
+        /* Dashboard Grid */
+        .chart-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .chart-title { font-size: 17px; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
+        .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+        .badge-nvda { background: rgba(118, 185, 0, 0.15); color: #84cc16; border: 1px solid #65a30d; }
+        .badge-amd { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid #0284c7; }
+        .badge-avgo { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid #059669; }
+
+        .chart-container { height: 500px; width: 100%; }
+
+        /* Detail Inspector Card */
+        .inspector-card {
+            background: linear-gradient(135deg, #162238 0%, #101827 100%);
+            border: 1px solid #3b82f6;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 240px 1fr 320px;
+            gap: 20px;
+            align-items: center;
+        }
+        @media (max-width: 960px) {
+            .inspector-card { grid-template-columns: 1fr; }
+        }
+        .inspector-col-title { font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+        .inspector-val { font-size: 22px; font-weight: 700; color: #fff; }
+        .inspector-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+        .inspector-desc { font-size: 14px; color: #e2e8f0; line-height: 1.5; border-left: 3px solid #38bdf8; padding-left: 12px; }
+        
+        .metric-badges { display: flex; gap: 10px; margin-top: 6px; }
+        .metric-pill { font-size: 13px; font-weight: 700; padding: 4px 8px; border-radius: 6px; }
+        .pill-pe { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid #f59e0b; }
+        .pill-ps { background: rgba(236, 72, 153, 0.15); color: #ec4899; border: 1px solid #ec4899; }
+        .analyst-highlight { font-size: 12px; font-weight: 600; color: #34d399; background: rgba(16, 185, 129, 0.12); padding: 4px 8px; border-radius: 6px; margin-top: 6px; display: inline-block; }
+
+        /* Full Data Table */
+        .table-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .table-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        table.kline-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        table.kline-table th {
+            background: #0d1322;
+            color: #94a3b8;
+            padding: 10px 8px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        table.kline-table td {
+            padding: 8px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #cbd5e1;
+            white-space: nowrap;
+        }
+        table.kline-table tr:hover {
+            background: rgba(255,255,255,0.04);
+            cursor: pointer;
+        }
+        .table-date { font-family: monospace; font-weight: 700; color: #fff; }
+        .pe-tag { font-weight: 700; font-family: monospace; }
+        .pe-nvda { color: #84cc16; }
+        .pe-amd { color: #38bdf8; }
+        .pe-avgo { color: #34d399; }
+        .ps-nvda { color: #a3e635; font-weight: 700; }
+        .ps-amd { color: #ec4899; font-weight: 700; }
+        .ps-avgo { color: #f472b6; font-weight: 700; }
+        .driver-text { max-width: 420px; white-space: normal; font-size: 12px; color: #94a3b8; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>AI半导体三雄（英伟达 / AMD / 博通）月K线、前瞻市盈率与市销率全景看板</h1>
+            <p>覆盖周期：2023年1月 – 2026年9月（共45个月） | 英伟达(NVDA)、AMD、博通(AVGO)点对点K线、前瞻PE与市销率(P/S)及Seeking Alpha观点全映射</p>
+        </div>
+        <div class="header-controls">
+            <button class="btn active-nvda" id="btnNvda" onclick="switchStock('nvda')">👑 英伟达 (NVDA) K线 + PE/PS</button>
+            <button class="btn" id="btnAmd" onclick="switchStock('amd')">📈 AMD K线 + PE/PS</button>
+            <button class="btn" id="btnAvgo" onclick="switchStock('avgo')">📊 博通 (AVGO) K线 + PE/PS</button>
+            <button class="btn" id="btnDualPe" onclick="switchStock('tri-pe')">⚡ 三雄前瞻PE走势对决</button>
+            <button class="btn" id="btnDualPs" onclick="switchStock('tri-ps')">🏢 三雄市销率(P/S)走势对决</button>
+        </div>
+    </header>
+
+    <!-- Interactive Inspector Panel -->
+    <div class="inspector-card" id="inspectorCard">
+        <div>
+            <div class="inspector-col-title" id="inspDateTitle">当前选定：英伟达 (NVDA) · 2026-09</div>
+            <div class="inspector-val" id="inspPrice">$223.67</div>
+            <div class="inspector-sub" id="inspSub">开 $218.00 | 高 $230.36 | 低 $215.00</div>
+        </div>
+        <div>
+            <div class="inspector-col-title">当月核心催化事件 / 市场背景</div>
+            <div class="inspector-desc" id="inspDriver">稳立$220平台（市值突破5.2万亿美元），前瞻PE仅25.7x，依靠无敌EPS增长充分消化估值。</div>
+        </div>
+        <div>
+            <div class="inspector-col-title">估值双指标 (P/E & P/S)</div>
+            <div class="metric-badges">
+                <span class="metric-pill pill-pe" id="inspPe">前瞻PE: 25.7x</span>
+                <span class="metric-pill pill-ps" id="inspPs">市销率P/S: 21.0x</span>
+            </div>
+            <div class="analyst-highlight" id="inspAnalyst">Seeking Alpha 观点: TAI: Hugging Face合作利好</div>
+        </div>
+    </div>
+
+    <!-- Chart Box -->
+    <div class="chart-box">
+        <div class="chart-header">
+            <div class="chart-title" id="chartMainTitle">
+                <span>英伟达 (NVDA) 拆股后月K线（蜡烛图）与前瞻PE（橙）、市销率P/S（粉）综合走势</span>
+                <span class="badge badge-nvda">NASDAQ: NVDA</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">
+                💡 交互提示：鼠标悬停K线可查看当月PE、PS与核心事件；支持底部滑块拖拽缩放
+            </div>
+        </div>
+        <div class="chart-container" id="klineChart"></div>
+    </div>
+
+    <!-- 45-Month Full Data Table -->
+    <div class="table-card">
+        <div class="table-title-row">
+            <div style="font-size: 16px; font-weight: 600; color: #fff;">📋 2023.01 – 2026.09 全量 45 个月三雄月K线、前瞻PE与市销率P/S对照全景大表</div>
+            <div style="font-size: 12px; color: var(--text-muted);">点击任意行可在上方图表高亮查看详情</div>
+        </div>
+        <table class="kline-table">
+            <thead>
+                <tr>
+                    <th>月份</th>
+                    <th>NVDA 收盘</th>
+                    <th>NVDA PE</th>
+                    <th>NVDA PS</th>
+                    <th>AMD 收盘</th>
+                    <th>AMD PE</th>
+                    <th>AMD PS</th>
+                    <th>博通 收盘</th>
+                    <th>博通 PE</th>
+                    <th>博通 PS</th>
+                    <th>当月三雄核心驱动事件与 Seeking Alpha 专栏观点</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const nvdaData = [{"date": "2023-01", "open": 14.86, "close": 17.84, "low": 14.0, "high": 18.2, "eps": 0.45, "pe": 39.6, "ps": 16.5, "driver": "ChatGPT点燃生成式AI算力需求，A100/H100开始遭遇抢购，估值自底部修复", "analyst": "SFC: 持续关注AI算力池扩张"}, {"date": "2023-02", "open": 17.9, "close": 21.39, "low": 17.5, "high": 22.0, "eps": 0.48, "pe": 44.6, "ps": 19.8, "driver": "Q4财报确立AI基础设施拐点，黄仁勋宣布'AI的iPhone时刻已经到来'", "analyst": ""}, {"date": "2023-03", "open": 21.5, "close": 27.78, "low": 21.2, "high": 28.0, "eps": 0.52, "pe": 53.4, "ps": 25.8, "driver": "GTC 2023大会发布DGX Cloud及H100 NVL，全面奠定大模型训练垄断地位", "analyst": ""}, {"date": "2023-04", "open": 27.8, "close": 27.75, "low": 26.0, "high": 28.5, "eps": 0.55, "pe": 50.5, "ps": 25.7, "driver": "财报前夕大盘休整，股价在$27-$28区间平台蓄势", "analyst": ""}, {"date": "2023-05", "open": 27.8, "close": 39.33, "low": 27.5, "high": 41.9, "eps": 0.85, "pe": 46.3, "ps": 28.0, "driver": "历史级Q1业绩指引$110亿超预期50%，单日暴涨24%，市值破万亿；TAI在$39发文'Sell The Greed'下调评级", "analyst": "TAI: Sell The Greed (降级)"}, {"date": "2023-06", "open": 39.5, "close": 42.3, "low": 38.0, "high": 43.9, "eps": 1.05, "pe": 40.3, "ps": 25.5, "driver": "H100供不应求交期拉长至40周以上，台积电CoWoS先进封装产能成为全球瓶颈", "analyst": "Khaveen: 拆解CUDA生态护城河"}, {"date": "2023-07", "open": 42.5, "close": 46.75, "low": 41.5, "high": 48.0, "eps": 1.15, "pe": 40.7, "ps": 26.8, "driver": "云巨头大幅上修AI资本开支预算，机构争抢筹码", "analyst": ""}, {"date": "2023-08", "open": 46.8, "close": 46.02, "low": 40.0, "high": 50.2, "eps": 1.35, "pe": 34.1, "ps": 22.0, "driver": "Q2数据中心收入暴增171%达103亿美元，超强EPS增长迅速拉低前瞻PE至34x", "analyst": "SFC: 英伟达业绩验证AMD潜力"}, {"date": "2023-09", "open": 46.0, "close": 41.61, "low": 40.5, "high": 49.0, "eps": 1.4, "pe": 29.7, "ps": 19.5, "driver": "宏观利率飙升，白宫酝酿升级对华先进制程芯片出口管制", "analyst": ""}, {"date": "2023-10", "open": 41.5, "close": 41.39, "low": 39.2, "high": 46.0, "eps": 1.45, "pe": 28.5, "ps": 19.0, "driver": "美商务部正式发布更严格的对华AI芯片管制细则，特供版芯片受限", "analyst": ""}, {"date": "2023-11", "open": 41.5, "close": 49.3, "low": 41.0, "high": 50.5, "eps": 1.65, "pe": 29.9, "ps": 20.2, "driver": "发布针对中国市场的合规版HGX H20，Q3净利暴增超10倍达92亿美元", "analyst": ""}, {"date": "2023-12", "open": 49.2, "close": 48.83, "low": 45.5, "high": 50.4, "eps": 1.75, "pe": 27.9, "ps": 19.2, "driver": "年末高位盘整，AMD正式发布MI300X挑战英伟达，市场关注竞争格局", "analyst": "Beyond the Wall: 对比NVDA"}, {"date": "2024-01", "open": 48.9, "close": 59.49, "low": 47.5, "high": 62.8, "eps": 1.95, "pe": 30.5, "ps": 21.0, "driver": "发布GeForce RTX 40 Super系列，Meta扎克伯格宣布采购35万块H100", "analyst": ""}, {"date": "2024-02", "open": 59.5, "close": 72.61, "low": 62.0, "high": 82.4, "eps": 2.2, "pe": 33.0, "ps": 24.5, "driver": "Q4业绩再次炸裂，单季度营收超220亿美元，带动纳斯达克突破历史新高", "analyst": "Maurer: 业绩驱动型长牛"}, {"date": "2024-03", "open": 73.0, "close": 90.36, "low": 72.0, "high": 97.4, "eps": 2.45, "pe": 36.9, "ps": 28.2, "driver": "GTC 2024重磅推出新一代Blackwell架构（B200/GB200），算力提升5倍", "analyst": ""}, {"date": "2024-04", "open": 90.0, "close": 87.74, "low": 75.6, "high": 90.6, "eps": 2.55, "pe": 34.4, "ps": 26.5, "driver": "大盘高位调整，英伟达月线首度收阴，市场担忧Blackwell上市前出现采购观望", "analyst": ""}, {"date": "2024-05", "open": 88.0, "close": 106.47, "low": 85.0, "high": 110.0, "eps": 2.8, "pe": 38.0, "ps": 30.2, "driver": "Q1营收突破260亿美元，宣布10:1拆股计划，股价首次在拆股前站上$1000（拆后$100）", "analyst": ""}, {"date": "2024-06", "open": 106.5, "close": 120.89, "low": 105.0, "high": 140.76, "eps": 3.0, "pe": 40.3, "ps": 33.0, "driver": "正式执行10:1拆股，盘中市值达3.34万亿美元短暂超越微软成为全球第一", "analyst": "OTP: 警惕短期估值乘数压缩"}, {"date": "2024-07", "open": 121.0, "close": 113.06, "low": 106.0, "high": 136.0, "eps": 3.15, "pe": 35.9, "ps": 29.5, "driver": "大盘资金从巨型科技股轮动撤出，市场传言Blackwell存在设计瑕疵将延期发货", "analyst": ""}, {"date": "2024-08", "open": 113.0, "close": 129.37, "low": 90.69, "high": 131.0, "eps": 3.35, "pe": 38.6, "ps": 31.8, "driver": "8月5日日元套利平仓闪崩砸至$90.69后 V 型反弹，Q2季报营收超300亿超预期", "analyst": ""}, {"date": "2024-09", "open": 129.0, "close": 116.0, "low": 102.0, "high": 130.0, "eps": 3.5, "pe": 33.1, "ps": 27.2, "driver": "美联储降息50BP，市场消化Blackwell良率改版消息，股价震荡整理", "analyst": ""}, {"date": "2024-10", "open": 116.5, "close": 138.0, "low": 115.0, "high": 144.0, "eps": 3.7, "pe": 37.3, "ps": 30.5, "driver": "黄仁勋接受采访称Blackwell需求‘极其疯狂’，全产业链订单全面加单", "analyst": ""}, {"date": "2024-11", "open": 138.0, "close": 138.25, "low": 130.0, "high": 150.0, "eps": 3.9, "pe": 35.4, "ps": 28.8, "driver": "Q3营收达350亿美元，单季净利润近200亿，Blackwell如期于四季度出货", "analyst": ""}, {"date": "2024-12", "open": 138.5, "close": 137.01, "low": 128.0, "high": 143.0, "eps": 4.1, "pe": 33.4, "ps": 27.0, "driver": "博通等定制ASIC分流部分关注度，英伟达维持高位平台强势换手", "analyst": ""}, {"date": "2025-01", "open": 137.0, "close": 142.62, "low": 125.0, "high": 153.0, "eps": 4.3, "pe": 33.2, "ps": 26.5, "driver": "CES 2025推出RTX 50系列显卡，DeepSeek开源引发对推理算力成本讨论", "analyst": ""}, {"date": "2025-02", "open": 142.5, "close": 124.92, "low": 115.0, "high": 145.0, "eps": 4.4, "pe": 28.4, "ps": 22.0, "driver": "全行业遭遇AI资本开支质疑，股价下探，但管理层重申Blackwell供不应求", "analyst": ""}, {"date": "2025-03", "open": 125.0, "close": 109.67, "low": 105.0, "high": 128.0, "eps": 4.5, "pe": 24.4, "ps": 18.5, "driver": "触及2025年周期低点，前瞻PE被压缩至24.4x历史极佳性价比区间", "analyst": "OTP: 逢低关注估值消化"}, {"date": "2025-04", "open": 109.5, "close": 111.01, "low": 106.0, "high": 118.0, "eps": 4.7, "pe": 23.6, "ps": 18.0, "driver": "悲观情绪见底，超大规模云巨头宣布2025年总CapEx不降反升，基本面企稳", "analyst": ""}, {"date": "2025-05", "open": 111.5, "close": 131.29, "low": 110.0, "high": 135.0, "eps": 5.0, "pe": 26.3, "ps": 20.2, "driver": "Q1财报证实Blackwell全面放量，GB200 NVL72整机柜成为云厂商标配", "analyst": ""}, {"date": "2025-06", "open": 131.5, "close": 143.85, "low": 130.0, "high": 148.0, "eps": 5.25, "pe": 27.4, "ps": 21.0, "driver": "推理端Token爆发式增长，通用GPU在动态长上下文模型中依旧牢不可破", "analyst": ""}, {"date": "2025-07", "open": 144.0, "close": 172.41, "low": 142.0, "high": 175.0, "eps": 5.5, "pe": 31.3, "ps": 24.2, "driver": "突破2024年高点，市值突破4万亿美元，大模型厂商大举追加预订", "analyst": ""}, {"date": "2025-08", "open": 172.5, "close": 174.18, "low": 165.0, "high": 185.0, "eps": 5.75, "pe": 30.3, "ps": 23.8, "driver": "Q2单季净利润突破250亿美元，自由现金流利润率维持在50%以上超高水平", "analyst": ""}, {"date": "2025-09", "open": 174.5, "close": 178.19, "low": 168.0, "high": 185.0, "eps": 6.0, "pe": 29.7, "ps": 23.5, "driver": "平稳整固，市场开始定价下一代Rubin架构（3nm制程及HBM4）", "analyst": ""}, {"date": "2025-10", "open": 178.5, "close": 202.49, "low": 176.0, "high": 205.0, "eps": 6.3, "pe": 32.1, "ps": 25.5, "driver": "突破$200历史大关，与各大主权AI（中东、欧洲、日韩）签署国家级超算大单", "analyst": ""}, {"date": "2025-11", "open": 202.5, "close": 177.0, "low": 172.0, "high": 208.0, "eps": 6.5, "pe": 27.2, "ps": 21.5, "driver": "宏观债市收益率反弹，高位获利盘技术性回吐，估值合理消化", "analyst": ""}, {"date": "2025-12", "open": 177.5, "close": 190.53, "low": 173.0, "high": 195.0, "eps": 6.7, "pe": 28.4, "ps": 22.8, "driver": "年末圣诞反弹，全年净利润突破800亿美元大关，确立全球硬件霸主地位", "analyst": ""}, {"date": "2026-01", "open": 190.5, "close": 187.67, "low": 180.0, "high": 196.0, "eps": 7.0, "pe": 26.8, "ps": 21.5, "driver": "资金布局春季GTC大会，估值倍数回落至26x低位", "analyst": ""}, {"date": "2026-02", "open": 188.0, "close": 189.82, "low": 182.0, "high": 198.0, "eps": 7.25, "pe": 26.2, "ps": 21.0, "driver": "Q4业绩稳健增长，展示下一代Rubin架构实物样品", "analyst": ""}, {"date": "2026-03", "open": 190.0, "close": 172.7, "low": 168.0, "high": 192.0, "eps": 7.45, "pe": 23.2, "ps": 18.5, "driver": "半导体板块整体假摔洗盘，英伟达前瞻PE再次下探至23x超值区间", "analyst": ""}, {"date": "2026-04", "open": 173.0, "close": 201.68, "low": 172.0, "high": 205.0, "eps": 7.7, "pe": 26.2, "ps": 21.2, "driver": "GTC 2026公布Rubin Ultra及量子混合计算平台，单月暴涨16%收复失地", "analyst": ""}, {"date": "2026-05", "open": 202.0, "close": 225.32, "low": 200.0, "high": 232.0, "eps": 8.0, "pe": 28.2, "ps": 23.0, "driver": "Q1财报再超预期，单季营收向450亿美元迈进，创下拆后$230+历史极值", "analyst": ""}, {"date": "2026-06", "open": 225.5, "close": 210.69, "low": 202.0, "high": 228.0, "eps": 8.15, "pe": 25.8, "ps": 21.0, "driver": "AMD发布Helios 72-GPU整机柜加剧竞争，英伟达股价高位良性盘整", "analyst": ""}, {"date": "2026-07", "open": 211.0, "close": 200.75, "low": 192.0, "high": 218.0, "eps": 8.3, "pe": 24.2, "ps": 19.8, "driver": "夏季财报前瞻，全行业聚焦HBM4供应与电力瓶颈", "analyst": ""}, {"date": "2026-08", "open": 201.0, "close": 217.55, "low": 198.0, "high": 225.0, "eps": 8.5, "pe": 25.6, "ps": 20.8, "driver": "TAI发文指出英伟达在当前估值倍数下堪称'A Crime in Progress'力挺加仓", "analyst": "TAI: A Crime in Progress (极力看多)"}, {"date": "2026-09", "open": 218.0, "close": 223.67, "low": 215.0, "high": 230.36, "eps": 8.7, "pe": 25.7, "ps": 21.0, "driver": "稳立$220平台（市值突破5.2万亿美元），前瞻PE仅25.7x，依靠无敌EPS增长充分消化估值", "analyst": "TAI: Hugging Face合作利好"}];
+    const amdData = [{"date": "2023-01", "open": 64.0, "close": 75.14, "low": 62.0, "high": 76.5, "eps": 2.8, "pe": 26.8, "driver": "PC消费级市场去库存底部；Stone Fox Capital在$75发布'Don't Sweat The Intel Quarter'看好EPYC对Intel份额侵蚀", "analyst": "SFC: Buy ($75)", "ps": 5.4}, {"date": "2023-02", "open": 75.5, "close": 78.5, "low": 74.0, "high": 88.0, "eps": 2.82, "pe": 27.8, "driver": "ChatGPT引爆生成式AI算力讨论；The Asian Investor在$80唱多'Cashing In On The AI Buzz'", "analyst": "TAI: Buy ($80)", "ps": 5.6}, {"date": "2023-03", "open": 78.8, "close": 98.01, "low": 77.5, "high": 100.5, "eps": 2.85, "pe": 34.4, "driver": "AI算力预期初次重估，半导体板块迎来流动性溢价扩张", "analyst": "", "ps": 7.0}, {"date": "2023-04", "open": 97.5, "close": 89.37, "low": 85.0, "high": 98.2, "eps": 2.85, "pe": 31.4, "driver": "Q1财报前夕大盘避险，股价短暂回踩消化涨幅", "analyst": "", "ps": 6.4}, {"date": "2023-05", "open": 89.8, "close": 117.86, "low": 81.5, "high": 125.0, "eps": 2.95, "pe": 40.0, "driver": "英伟达业绩炸裂引爆全行业硬件采购狂潮；SFC在$108维持Strong Buy；TAI在$118恐高降级至Sell", "analyst": "SFC: Strong Buy | TAI: Sell(降级)", "ps": 8.4}, {"date": "2023-06", "open": 118.0, "close": 113.91, "low": 107.0, "high": 132.8, "eps": 3.0, "pe": 38.0, "driver": "发布MI300系列详细架构，明确对标英伟达商用替代定位", "analyst": "", "ps": 8.1}, {"date": "2023-07", "open": 114.5, "close": 112.96, "low": 109.0, "high": 122.0, "eps": 3.05, "pe": 37.0, "driver": "美债利率攀升压制科技股，股价于高位平台窄幅整固", "analyst": "", "ps": 7.9}, {"date": "2023-08", "open": 113.0, "close": 102.25, "low": 101.0, "high": 118.5, "eps": 3.1, "pe": 33.0, "driver": "Q2财报确认MI300正被顶尖云厂商测试，SFC发文指出AI GPU浪潮远未结束", "analyst": "SFC: Strong Buy ($102)", "ps": 7.1}, {"date": "2023-09", "open": 102.5, "close": 102.82, "low": 94.0, "high": 111.0, "eps": 3.15, "pe": 32.6, "driver": "非AI传统业务去库存拖累短期表观增速，估值维持中枢", "analyst": "", "ps": 7.0}, {"date": "2023-10", "open": 102.0, "close": 98.5, "low": 93.1, "high": 111.5, "eps": 3.25, "pe": 30.3, "driver": "美债收益率突破5%引发成长股普跌，AMD探至下半年低点", "analyst": "", "ps": 6.7}, {"date": "2023-11", "open": 99.0, "close": 121.39, "low": 98.0, "high": 124.0, "eps": 3.45, "pe": 35.2, "driver": "宏观流动性转向宽松，SFC发文'Promising Upside By 2025'预期MI300出货放量", "analyst": "SFC: Strong Buy ($118)", "ps": 8.1}, {"date": "2023-12", "open": 121.5, "close": 147.41, "low": 116.0, "high": 150.0, "eps": 3.65, "pe": 40.4, "driver": "Advancing AI大会正式推出MI300X/A，Beyond the Wall反思空头观点翻多升级", "analyst": "Beyond the Wall: Upgrade", "ps": 9.8}, {"date": "2024-01", "open": 147.0, "close": 167.69, "low": 135.0, "high": 184.0, "eps": 3.9, "pe": 43.0, "driver": "华尔街加速上修MI300全年出货预期至35亿美元以上，动量资金扎堆进场", "analyst": "", "ps": 11.0}, {"date": "2024-02", "open": 168.0, "close": 192.53, "low": 163.0, "high": 193.0, "eps": 4.1, "pe": 47.0, "driver": "情绪狂热，前瞻市盈率触及近4年最高峰47.0x，市场计入完美预期", "analyst": "", "ps": 12.4}, {"date": "2024-03", "open": 193.0, "close": 180.49, "low": 174.0, "high": 202.64, "eps": 4.25, "pe": 42.5, "driver": "创下2024年盘中高点$202.64后获利盘涌出，开启中期估值去泡沫化", "analyst": "", "ps": 11.5}, {"date": "2024-04", "open": 180.0, "close": 157.4, "low": 145.0, "high": 187.0, "eps": 4.3, "pe": 36.6, "driver": "Q1指引相对平淡，资金向英伟达集中，AMD估值逐级挤出水分", "analyst": "", "ps": 9.9}, {"date": "2024-05", "open": 158.0, "close": 166.36, "low": 148.0, "high": 174.0, "eps": 4.45, "pe": 37.4, "driver": "Computex展会前夕技术性脉冲反弹", "analyst": "", "ps": 10.4}, {"date": "2024-06", "open": 166.5, "close": 162.21, "low": 154.0, "high": 172.0, "eps": 4.6, "pe": 35.3, "driver": "宣布年度GPU迭代节奏（MI325X/MI350），但市场观望情绪渐浓", "analyst": "", "ps": 10.0}, {"date": "2024-07", "open": 163.0, "close": 144.48, "low": 137.0, "high": 187.0, "eps": 4.7, "pe": 30.7, "driver": "美股大盘科技股大幅轮动，半导体全线回撤", "analyst": "", "ps": 8.8}, {"date": "2024-08", "open": 144.0, "close": 148.56, "low": 121.8, "high": 160.0, "eps": 4.8, "pe": 31.0, "driver": "日元套利交易平仓引发全球闪崩后反弹，宣布49亿美元收购ZT Systems", "analyst": "", "ps": 8.9}, {"date": "2024-09", "open": 148.0, "close": 162.02, "low": 133.0, "high": 164.0, "eps": 4.95, "pe": 32.7, "driver": "美联储开启降息周期50BP，科技成长板块估值修复", "analyst": "", "ps": 9.6}, {"date": "2024-10", "open": 162.5, "close": 144.15, "low": 143.0, "high": 174.0, "eps": 5.05, "pe": 28.5, "driver": "华尔街热议云厂商AI资本开支ROI，Khaveen发文看好增长拐点但估值承压破30x", "analyst": "Khaveen: Strong Buy ($156)", "ps": 8.5}, {"date": "2024-11", "open": 144.0, "close": 137.18, "low": 132.0, "high": 152.0, "eps": 5.1, "pe": 26.9, "driver": "跌破200日线，On the Pulse发文'Why AMD Stock Is A Gift At $138'技术抄底", "analyst": "OTP: Buy ($137)", "ps": 8.0}, {"date": "2024-12", "open": 137.0, "close": 125.19, "low": 121.0, "high": 142.0, "eps": 5.2, "pe": 24.1, "driver": "年底机构避险调仓，前瞻PE被压缩至24.1x年度最低点", "analyst": "", "ps": 7.2}, {"date": "2025-01", "open": 125.0, "close": 118.9, "low": 114.0, "high": 132.0, "eps": 5.25, "pe": 22.6, "driver": "DeepSeek R1模型发布引发行业对算力过度投资的强烈担忧，SFC呼吁逆向加仓", "analyst": "SFC: Strong Buy ($116)", "ps": 6.7}, {"date": "2025-02", "open": 118.0, "close": 99.86, "low": 98.0, "high": 121.0, "eps": 5.15, "pe": 19.4, "driver": "股价跌破$100关口，Bill Maurer因指引偏弱降级至Hold割肉", "analyst": "Maurer: Hold(降级 $107)", "ps": 5.5}, {"date": "2025-03", "open": 100.0, "close": 103.22, "low": 98.5, "high": 112.0, "eps": 5.2, "pe": 19.8, "driver": "恐慌盘彻底出清，On the Pulse逆向高呼Strong Buy抓住周期历史大底", "analyst": "OTP: Strong Buy ($99.8)", "ps": 5.6}, {"date": "2025-04", "open": 103.0, "close": 96.65, "low": 93.4, "high": 106.0, "eps": 5.3, "pe": 18.2, "driver": "触及近4年前瞻PE绝对最低点18.2x，悲观预期被极度拉满", "analyst": "", "ps": 5.0}, {"date": "2025-05", "open": 97.0, "close": 110.31, "low": 95.0, "high": 115.0, "eps": 5.6, "pe": 19.7, "driver": "Q1财报证实云厂商CapEx未减反增，Maurer虽抨击回购但股价强劲止跌反弹", "analyst": "Maurer: Hold", "ps": 5.6}, {"date": "2025-06", "open": 110.5, "close": 128.24, "low": 108.0, "high": 132.0, "eps": 6.1, "pe": 21.0, "driver": "SFC发布'Future AI Inference Monster'，论证MI355X推理端40%成本优势，启动超级主升浪", "analyst": "SFC: Strong Buy ($120)", "ps": 6.4}, {"date": "2025-07", "open": 128.5, "close": 156.99, "low": 126.0, "high": 160.0, "eps": 6.7, "pe": 23.4, "driver": "OpenAI正式宣布规模化采购AMD硬件，OTP确认为生态破局里程碑", "analyst": "OTP: Strong Buy ($137)", "ps": 7.6}, {"date": "2025-08", "open": 157.0, "close": 162.63, "low": 150.0, "high": 182.0, "eps": 7.1, "pe": 22.9, "driver": "Q2财报虽然毛利短期扰动，但积压订单激增，基本面全面向好", "analyst": "", "ps": 7.7}, {"date": "2025-09", "open": 162.5, "close": 159.46, "low": 152.0, "high": 170.0, "eps": 7.3, "pe": 21.8, "driver": "主升浪加速前的最后一次深蹲洗盘，估值依然处于21.8x健康区间", "analyst": "", "ps": 7.4}, {"date": "2025-10", "open": 160.0, "close": 256.12, "low": 158.0, "high": 262.0, "eps": 7.9, "pe": 32.4, "driver": "云巨头多吉瓦（GW）采购订单传闻落地，股价单月暴涨60%破$250，SFC建立$600目标价", "analyst": "SFC: 目标$600 ($233)", "ps": 11.6}, {"date": "2025-11", "open": 256.0, "close": 217.53, "low": 210.0, "high": 268.0, "eps": 8.2, "pe": 26.5, "driver": "暴涨之后的技术性获利回吐，估值健康回归至26.5x", "analyst": "", "ps": 9.7}, {"date": "2025-12", "open": 218.0, "close": 214.99, "low": 205.0, "high": 230.0, "eps": 8.5, "pe": 25.3, "driver": "合规版MI308获准恢复出货中国市场，业绩下限被显著抬升", "analyst": "SFC: Buy ($215)", "ps": 9.4}, {"date": "2026-01", "open": 215.0, "close": 259.68, "low": 200.0, "high": 265.0, "eps": 9.2, "pe": 28.2, "driver": "年初流动性充裕，资金重新大举回流高成长AI龙头", "analyst": "", "ps": 11.1}, {"date": "2026-02", "open": 260.0, "close": 208.44, "low": 195.0, "high": 265.0, "eps": 9.6, "pe": 21.7, "driver": "Q4财报因私下过高传闻假摔，Bill Maurer果断认错升级Buy，Khaveen重申制程领先", "analyst": "Maurer: 升级Buy | Khaveen: Strong Buy", "ps": 8.7}, {"date": "2026-03", "open": 208.0, "close": 192.43, "low": 185.0, "high": 215.0, "eps": 10.2, "pe": 18.9, "driver": "上半年最后一次空头陷阱，前瞻PE再度砸至18.9x超跌区间", "analyst": "SFC: 维持$600目标", "ps": 7.9}, {"date": "2026-04", "open": 193.0, "close": 278.39, "low": 191.0, "high": 285.0, "eps": 11.5, "pe": 24.2, "driver": "宣布Advancing AI 2026盛会，展示6th Gen EPYC与Helios整机柜方案，暴拉44%", "analyst": "SFC: $600 Bullseye", "ps": 11.1}, {"date": "2026-05", "open": 279.0, "close": 424.1, "low": 275.0, "high": 435.0, "eps": 13.0, "pe": 32.6, "driver": "Q1连续14季超预期，单季FCF达25.6亿，股价突破$400，Maurer称新高不绝", "analyst": "Maurer: Buy ($400) | SFC: 目标太低", "ps": 16.3}, {"date": "2026-06", "open": 425.0, "close": 537.37, "low": 418.0, "high": 540.0, "eps": 14.2, "pe": 37.8, "driver": "触及$537.37历史最高峰！Helios 72-GPU整机柜性能正式叫板NVL72", "analyst": "", "ps": 19.8}, {"date": "2026-07", "open": 535.0, "close": 476.15, "low": 460.0, "high": 545.0, "eps": 15.1, "pe": 31.5, "driver": "Meta与OpenAI确认12 GW（1200亿美元）长期订单，SFC将远期目标升至$1000", "analyst": "Khaveen: 12GW大单 | SFC: 目标$1000", "ps": 17.0}, {"date": "2026-08", "open": 475.0, "close": 465.58, "low": 450.0, "high": 520.0, "eps": 15.6, "pe": 29.8, "driver": "Q2营收超115亿，Non-GAAP EPS达$1.66创纪录，业绩消化估值进入30x以内", "analyst": "", "ps": 16.1}, {"date": "2026-09", "open": 466.0, "close": 485.0, "low": 465.0, "high": 512.0, "eps": 15.9, "pe": 30.5, "driver": "高位平台健康换手，稳立$480-$500价值中枢，前瞻PE稳定在30.5x", "analyst": "", "ps": 16.5}];
+    const avgoData = [{"date": "2023-01", "open": 56.5, "close": 58.84, "low": 54.5, "high": 59.8, "eps": 4.2, "pe": 14.0, "driver": "VMware反垄断审批拉锯期，市场视其为传统低估值分红股，前瞻PE仅14.0x", "analyst": "", "ps": 6.9}, {"date": "2023-02", "open": 58.8, "close": 59.56, "low": 57.0, "high": 61.5, "eps": 4.25, "pe": 14.0, "driver": "传统企业基础设施支出平稳，自由现金流转换率持续优异", "analyst": "", "ps": 7.0}, {"date": "2023-03", "open": 59.6, "close": 64.15, "low": 58.5, "high": 65.5, "eps": 4.3, "pe": 14.9, "driver": "生成式AI讨论初起，部分资金关注其数据中心高速以太网网络芯片", "analyst": "", "ps": 7.5}, {"date": "2023-04", "open": 64.0, "close": 62.65, "low": 60.5, "high": 65.0, "eps": 4.35, "pe": 14.4, "driver": "大盘震荡，估值维持低位", "analyst": "", "ps": 7.2}, {"date": "2023-05", "open": 62.8, "close": 68.22, "low": 60.0, "high": 72.0, "eps": 4.45, "pe": 15.3, "driver": "英伟达AI季报引爆，月末发布Tomahawk 5交换芯片消息，资金开始入场", "analyst": "", "ps": 7.8}, {"date": "2023-06", "open": 68.5, "close": 86.74, "low": 68.0, "high": 90.0, "eps": 4.65, "pe": 18.7, "driver": "单月暴拉27%，市场重新评估Google TPU等定制ASIC代工的巨大价值", "analyst": "", "ps": 9.8}, {"date": "2023-07", "open": 86.8, "close": 89.98, "low": 84.0, "high": 92.5, "eps": 4.75, "pe": 18.9, "driver": "高位平台强势整理，AI网络订单开始体现在积压中", "analyst": "", "ps": 10.1}, {"date": "2023-08", "open": 90.0, "close": 85.18, "low": 81.0, "high": 91.0, "eps": 4.8, "pe": 17.7, "driver": "宏观利率上行，非AI半导体业务去库存导致阶段性估值消化", "analyst": "", "ps": 9.5}, {"date": "2023-09", "open": 85.0, "close": 82.91, "low": 79.5, "high": 89.0, "eps": 4.85, "pe": 17.1, "driver": "宽带与存储适配器传统业务疲软，股价横盘筑底", "analyst": "", "ps": 9.1}, {"date": "2023-10", "open": 83.0, "close": 85.36, "low": 80.0, "high": 88.5, "eps": 4.95, "pe": 17.2, "driver": "VMware审批临近尾声，不确定性逐步出清", "analyst": "", "ps": 9.3}, {"date": "2023-11", "open": 85.5, "close": 97.77, "low": 85.0, "high": 99.5, "eps": 5.1, "pe": 19.2, "driver": "正式获得监管批准完成对VMware的610亿美元并购，跨入云软件巨头行列", "analyst": "", "ps": 10.5}, {"date": "2023-12", "open": 98.0, "close": 112.2, "low": 96.0, "high": 115.0, "eps": 5.3, "pe": 21.2, "driver": "并购并表初期，管理层提出激进的削减成本与转订阅计划，估值升破20x", "analyst": "", "ps": 11.9}, {"date": "2024-01", "open": 112.0, "close": 121.12, "low": 104.0, "high": 124.0, "eps": 5.5, "pe": 22.0, "driver": "云巨头自研芯片规划加速，博通被确认为核心ASIC代工支柱", "analyst": "", "ps": 12.6}, {"date": "2024-02", "open": 121.5, "close": 124.55, "low": 118.0, "high": 131.0, "eps": 5.7, "pe": 21.9, "driver": "VMware协同初步展现，企业端订阅制转化顺利", "analyst": "", "ps": 12.8}, {"date": "2024-03", "open": 125.0, "close": 132.54, "low": 120.0, "high": 144.0, "eps": 5.9, "pe": 22.5, "driver": "Q1季报AI营收同比翻倍，管理层大幅调高全年AI半导体收入指引", "analyst": "", "ps": 13.4}, {"date": "2024-04", "open": 132.5, "close": 134.41, "low": 126.0, "high": 139.0, "eps": 6.05, "pe": 22.2, "driver": "科技股回调背景下，博通凭借充沛自由现金流展现强劲防御性", "analyst": "", "ps": 13.3}, {"date": "2024-05", "open": 134.5, "close": 140.78, "low": 128.0, "high": 144.0, "eps": 6.25, "pe": 22.5, "driver": "以太网方案在大规模数据中心组网渗透率持续攀升", "analyst": "", "ps": 13.8}, {"date": "2024-06", "open": 141.0, "close": 165.86, "low": 138.0, "high": 185.0, "eps": 6.5, "pe": 25.5, "driver": "宣布10:1拆股计划，Q2 AI收入再创纪录，单月暴拉18%跨入25x估值", "analyst": "", "ps": 16.1}, {"date": "2024-07", "open": 166.0, "close": 151.63, "low": 145.0, "high": 173.0, "eps": 6.65, "pe": 22.8, "driver": "正式执行10:1拆股，大盘成长股获利回吐导致技术性下修", "analyst": "", "ps": 14.4}, {"date": "2024-08", "open": 152.0, "close": 166.36, "low": 139.0, "high": 168.0, "eps": 6.75, "pe": 24.6, "driver": "全球市场流动性冲击后强劲反弹，收复失地", "analyst": "", "ps": 15.6}, {"date": "2024-09", "open": 166.5, "close": 171.1, "low": 136.0, "high": 174.0, "eps": 6.85, "pe": 25.0, "driver": "Khaveen发布重磅报告升级Strong Buy，首次系统性论证以太网替代与ASIC爆发", "analyst": "Khaveen: Strong Buy ($171)", "ps": 15.8}, {"date": "2024-10", "open": 171.5, "close": 179.89, "low": 168.0, "high": 183.0, "eps": 7.0, "pe": 25.7, "driver": "三季报显示AI芯片营收逼近35亿美元单季，高确定性吸引机构持续配置", "analyst": "", "ps": 16.4}, {"date": "2024-11", "open": 180.0, "close": 162.08, "low": 158.0, "high": 182.0, "eps": 7.15, "pe": 22.7, "driver": "大盘科技股短暂整理，为主升浪积蓄动能", "analyst": "", "ps": 14.6}, {"date": "2024-12", "open": 162.5, "close": 241.75, "low": 160.0, "high": 245.0, "eps": 7.35, "pe": 32.9, "driver": "超预期季报与狂飙的指引引爆行情，单月暴涨49%，前瞻PE突破32x历史性反超AMD", "analyst": "", "ps": 21.6}, {"date": "2025-01", "open": 242.0, "close": 244.7, "low": 218.0, "high": 252.0, "eps": 7.55, "pe": 32.4, "driver": "On the Pulse在VYM策略中高调推崇其为14%股息增长的现金流基石", "analyst": "OTP: VYM核心推荐", "ps": 21.5}, {"date": "2025-02", "open": 244.0, "close": 199.43, "low": 195.0, "high": 248.0, "eps": 7.75, "pe": 25.7, "driver": "DeepSeek冲击蔓延至全行业硬件股，博通从高位回调消化估值", "analyst": "", "ps": 17.2}, {"date": "2025-03", "open": 199.0, "close": 169.12, "low": 165.0, "high": 208.0, "eps": 7.8, "pe": 21.7, "driver": "苹果自研C1基带传闻引发非理性砸盘至$169；Khaveen硬核拆解射频壁垒绝地抄底", "analyst": "Khaveen: 抄底Strong Buy ($185)", "ps": 14.3}, {"date": "2025-04", "open": 169.5, "close": 192.31, "low": 168.0, "high": 195.0, "eps": 8.1, "pe": 23.7, "driver": "恐慌消退，市场认清其Wi-Fi/RF不可替代性，估值迅速反弹", "analyst": "", "ps": 16.0}, {"date": "2025-05", "open": 192.5, "close": 228.72, "low": 190.0, "high": 235.0, "eps": 8.45, "pe": 27.1, "driver": "超额兑现业绩，单季自由现金流暴增，恢复估值扩张", "analyst": "", "ps": 18.7}, {"date": "2025-06", "open": 229.0, "close": 249.99, "low": 225.0, "high": 258.0, "eps": 8.9, "pe": 28.1, "driver": "谷歌第六代TPU放量，Meta MTIA协同深化", "analyst": "", "ps": 20.0}, {"date": "2025-07", "open": 250.0, "close": 283.34, "low": 248.0, "high": 290.0, "eps": 9.4, "pe": 30.1, "driver": "OTP在SCHG成长策略中力挺，前瞻PE重回30x以上", "analyst": "OTP: SCHG成长力挺", "ps": 22.1}, {"date": "2025-08", "open": 283.5, "close": 297.39, "low": 275.0, "high": 312.0, "eps": 9.85, "pe": 30.2, "driver": "Khaveen发布研报量化其独占定制ASIC市场75%份额，AI半导体占比过半", "analyst": "Khaveen: Strong Buy ($288)", "ps": 22.7}, {"date": "2025-09", "open": 297.5, "close": 334.53, "low": 295.0, "high": 365.0, "eps": 10.2, "pe": 32.8, "driver": "SFC首次覆盖博通发文'AI Boom Might Pop'，估值谨慎评级Hold", "analyst": "SFC: Hold ($360)", "ps": 25.1}, {"date": "2025-10", "open": 335.0, "close": 349.33, "low": 320.0, "high": 372.0, "eps": 10.6, "pe": 33.0, "driver": "OpenAI定制芯片合作见报，SFC评级Neutral认为短期已反映利好", "analyst": "SFC: Neutral", "ps": 25.7}, {"date": "2025-11", "open": 350.0, "close": 402.96, "low": 340.0, "high": 408.0, "eps": 11.0, "pe": 36.6, "driver": "股价首破$400大关，单季现金流与以太网组网渗透达到阶段性狂热", "analyst": "", "ps": 29.2}, {"date": "2025-12", "open": 403.0, "close": 352.13, "low": 345.0, "high": 405.0, "eps": 11.4, "pe": 30.9, "driver": "高位获利盘回吐，SFC转多升级Buy，Khaveen测算1210亿美元OpenAI/Anthropic大单", "analyst": "SFC: 升级Buy | Khaveen: 1210亿大单", "ps": 25.0}, {"date": "2026-01", "open": 352.0, "close": 344.97, "low": 330.0, "high": 365.0, "eps": 12.1, "pe": 28.5, "driver": "经历高位震荡后，估值压缩回落至28x健康区间", "analyst": "", "ps": 23.9}, {"date": "2026-02", "open": 345.0, "close": 332.65, "low": 325.0, "high": 355.0, "eps": 12.7, "pe": 26.2, "driver": "Q1业绩强劲但基数扩大，边际估值倍数逐步常态化", "analyst": "", "ps": 22.5}, {"date": "2026-03", "open": 333.0, "close": 330.48, "low": 310.0, "high": 348.0, "eps": 13.2, "pe": 25.0, "driver": "半导体板块整体回踩，估值稳步下降至25.0x", "analyst": "", "ps": 21.9}, {"date": "2026-04", "open": 330.5, "close": 314.55, "low": 305.0, "high": 340.0, "eps": 13.8, "pe": 22.8, "driver": "SFC趁利率调整在$314果断抄底'Riding The Anthropic Boom'抓住终极大波段", "analyst": "SFC: Buy抄底 ($314)", "ps": 20.3}, {"date": "2026-05", "open": 315.0, "close": 421.28, "low": 312.0, "high": 425.19, "eps": 14.8, "pe": 28.5, "driver": "单月暴涨34%，创下$425.19历史天花板！Meta MTIA多吉瓦协议落地", "analyst": "", "ps": 26.5}, {"date": "2026-06", "open": 421.5, "close": 411.35, "low": 380.0, "high": 425.0, "eps": 15.5, "pe": 26.5, "driver": "财报后未上调2027年预期短暂回调$100，SFC力挺'AI故事出现裂痕纯属夸大'", "analyst": "SFC: Buy", "ps": 25.2}, {"date": "2026-07", "open": 411.0, "close": 389.28, "low": 360.0, "high": 420.0, "eps": 16.2, "pe": 24.0, "driver": "SFC在历史高位发文'Why We Keep Loading Up At ATHs'强调46% FCF利润率", "analyst": "SFC: Strong Buy ($370)", "ps": 23.3}, {"date": "2026-08", "open": 389.5, "close": 368.79, "low": 355.0, "high": 400.0, "eps": 16.8, "pe": 22.0, "driver": "单季营收突破222亿美元，体量庞大后增速回归平稳，估值消化至22x", "analyst": "", "ps": 21.6}, {"date": "2026-09", "open": 369.0, "close": 360.0, "low": 355.0, "high": 372.7, "eps": 17.1, "pe": 21.1, "driver": "The Asian Investor发文'The Valuation Is Absurdly Inadequate'目标价$484", "analyst": "TAI: Strong Buy ($358)", "ps": 20.8}];
+
+    let currentMode = 'nvda';
+    const chartDom = document.getElementById('klineChart');
+    const myChart = echarts.init(chartDom);
+
+    const dates = nvdaData.map(d => d.date);
+
+    const nvdaKline = nvdaData.map(d => [d.open, d.close, d.low, d.high]);
+    const amdKline = amdData.map(d => [d.open, d.close, d.low, d.high]);
+    const avgoKline = avgoData.map(d => [d.open, d.close, d.low, d.high]);
+
+    const nvdaPe = nvdaData.map(d => d.pe);
+    const amdPe = amdData.map(d => d.pe);
+    const avgoPe = avgoData.map(d => d.pe);
+
+    const nvdaPs = nvdaData.map(d => d.ps);
+    const amdPs = amdData.map(d => d.ps);
+    const avgoPs = avgoData.map(d => d.ps);
+
+    function getOption(mode) {
+        if (mode === 'nvda') {
+            return {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'cross', crossStyle: { color: '#94a3b8' } },
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    borderColor: '#76b900',
+                    borderWidth: 1,
+                    textStyle: { color: '#f8fafc', fontSize: 13 },
+                    formatter: function (params) {
+                        const idx = params[0].dataIndex;
+                        const item = nvdaData[idx];
+                        updateInspector('英伟达 (NVDA)', item);
+                        return `
+                            <div style="font-weight:700; color:#84cc16; margin-bottom:4px;">${item.date} · 英伟达 (NVDA) 拆股后月K线</div>
+                            <div>开: $${item.open.toFixed(2)} | 收: <strong>$${item.close.toFixed(2)}</strong> | 低: $${item.low.toFixed(2)} | 高: $${item.high.toFixed(2)}</div>
+                            <div style="margin-top:4px; color:#f59e0b; font-weight:700;">★ 前瞻PE: ${item.pe.toFixed(1)}x (NTM EPS $${item.eps.toFixed(2)})</div>
+                            <div style="color:#ec4899; font-weight:700;">★ 市销率 (P/S): ${item.ps.toFixed(1)}x</div>
+                            <div style="margin-top:6px; max-width:320px; color:#cbd5e1; font-size:12px; line-height:1.4;">
+                                <strong>核心驱动:</strong> ${item.driver}
+                            </div>
+                            ${item.analyst ? `<div style="margin-top:4px; color:#38bdf8; font-weight:700;">SA专栏: ${item.analyst}</div>` : ''}
+                        `;
+                    }
+                },
+                legend: {
+                    data: ['NVDA 月K线', '前瞻市盈率 (P/E)', '市销率 (P/S)'],
+                    textStyle: { color: '#94a3b8' },
+                    right: 20
+                },
+                grid: { left: '50', right: '65', top: '45', bottom: '60' },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#334155' } }, axisLabel: { color: '#94a3b8' } },
+                yAxis: [
+                    { type: 'value', name: '股价 ($)', nameTextStyle: { color: '#84cc16' }, position: 'left', splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } }, axisLabel: { color: '#84cc16', formatter: '${value}' } },
+                    { type: 'value', name: '倍数 (P/E & P/S)', nameTextStyle: { color: '#f59e0b' }, position: 'right', min: 0, max: 60, splitLine: { show: false }, axisLabel: { color: '#f59e0b', formatter: '{value}x' } }
+                ],
+                dataZoom: [{ type: 'inside', start: 0, end: 100 }, { type: 'slider', bottom: 10, height: 20, borderColor: '#334155', textStyle: { color: '#94a3b8' } }],
+                series: [
+                    { name: 'NVDA 月K线', type: 'candlestick', data: nvdaKline, itemStyle: { color: '#ef4444', color0: '#22c55e', borderColor: '#ef4444', borderColor0: '#22c55e' },
+                      markPoint: {
+                          data: [
+                              { name: '2023Q1引爆', coord: ['2023-05', 39.33], value: '破万亿', itemStyle: { color: '#76b900' } },
+                              { name: '2024拆股首超微软', coord: ['2024-06', 120.89], value: '3.34万亿', itemStyle: { color: '#38bdf8' } },
+                              { name: '2026极值', coord: ['2026-05', 225.32], value: '$225顶', itemStyle: { color: '#84cc16' } }
+                          ]
+                      }
+                    },
+                    { name: '前瞻市盈率 (P/E)', type: 'line', yAxisIndex: 1, data: nvdaPe, smooth: true, lineStyle: { color: '#f59e0b', width: 3 }, itemStyle: { color: '#f59e0b' } },
+                    { name: '市销率 (P/S)', type: 'line', yAxisIndex: 1, data: nvdaPs, smooth: true, lineStyle: { color: '#ec4899', width: 2, type: 'dashed' }, itemStyle: { color: '#ec4899' } }
+                ]
+            };
+        } else if (mode === 'amd') {
+            return {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'cross', crossStyle: { color: '#94a3b8' } },
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    borderColor: '#38bdf8',
+                    borderWidth: 1,
+                    textStyle: { color: '#f8fafc', fontSize: 13 },
+                    formatter: function (params) {
+                        const idx = params[0].dataIndex;
+                        const item = amdData[idx];
+                        updateInspector('AMD', item);
+                        return `
+                            <div style="font-weight:700; color:#38bdf8; margin-bottom:4px;">${item.date} · AMD 月度指标</div>
+                            <div>开: $${item.open.toFixed(2)} | 收: <strong>$${item.close.toFixed(2)}</strong> | 低: $${item.low.toFixed(2)} | 高: $${item.high.toFixed(2)}</div>
+                            <div style="margin-top:4px; color:#f59e0b; font-weight:700;">★ 前瞻PE: ${item.pe.toFixed(1)}x (NTM EPS $${item.eps.toFixed(2)})</div>
+                            <div style="color:#ec4899; font-weight:700;">★ 市销率 (P/S): ${item.ps.toFixed(1)}x</div>
+                            <div style="margin-top:6px; max-width:320px; color:#cbd5e1; font-size:12px; line-height:1.4;">
+                                <strong>核心驱动:</strong> ${item.driver}
+                            </div>
+                            ${item.analyst ? `<div style="margin-top:4px; color:#34d399; font-weight:700;">SA专栏: ${item.analyst}</div>` : ''}
+                        `;
+                    }
+                },
+                legend: { data: ['AMD 月K线', '前瞻市盈率 (P/E)', '市销率 (P/S)'], textStyle: { color: '#94a3b8' }, right: 20 },
+                grid: { left: '50', right: '65', top: '45', bottom: '60' },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#334155' } }, axisLabel: { color: '#94a3b8' } },
+                yAxis: [
+                    { type: 'value', name: '股价 ($)', nameTextStyle: { color: '#38bdf8' }, position: 'left', splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } }, axisLabel: { color: '#38bdf8', formatter: '${value}' } },
+                    { type: 'value', name: '倍数 (P/E & P/S)', nameTextStyle: { color: '#f59e0b' }, position: 'right', min: 0, max: 55, splitLine: { show: false }, axisLabel: { color: '#f59e0b', formatter: '{value}x' } }
+                ],
+                dataZoom: [{ type: 'inside', start: 0, end: 100 }, { type: 'slider', bottom: 10, height: 20, borderColor: '#334155', textStyle: { color: '#94a3b8' } }],
+                series: [
+                    { name: 'AMD 月K线', type: 'candlestick', data: amdKline, itemStyle: { color: '#ef4444', color0: '#22c55e', borderColor: '#ef4444', borderColor0: '#22c55e' } },
+                    { name: '前瞻市盈率 (P/E)', type: 'line', yAxisIndex: 1, data: amdPe, smooth: true, lineStyle: { color: '#f59e0b', width: 3 }, itemStyle: { color: '#f59e0b' } },
+                    { name: '市销率 (P/S)', type: 'line', yAxisIndex: 1, data: amdPs, smooth: true, lineStyle: { color: '#ec4899', width: 2, type: 'dashed' }, itemStyle: { color: '#ec4899' } }
+                ]
+            };
+        } else if (mode === 'avgo') {
+            return {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'cross', crossStyle: { color: '#94a3b8' } },
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    borderColor: '#10b981',
+                    borderWidth: 1,
+                    textStyle: { color: '#f8fafc', fontSize: 13 },
+                    formatter: function (params) {
+                        const idx = params[0].dataIndex;
+                        const item = avgoData[idx];
+                        updateInspector('博通 (AVGO)', item);
+                        return `
+                            <div style="font-weight:700; color:#10b981; margin-bottom:4px;">${item.date} · 博通 (AVGO) 拆股后指标</div>
+                            <div>开: $${item.open.toFixed(2)} | 收: <strong>$${item.close.toFixed(2)}</strong> | 低: $${item.low.toFixed(2)} | 高: $${item.high.toFixed(2)}</div>
+                            <div style="margin-top:4px; color:#f59e0b; font-weight:700;">★ 前瞻PE: ${item.pe.toFixed(1)}x (NTM EPS $${item.eps.toFixed(2)})</div>
+                            <div style="color:#ec4899; font-weight:700;">★ 市销率 (P/S): ${item.ps.toFixed(1)}x</div>
+                            <div style="margin-top:6px; max-width:320px; color:#cbd5e1; font-size:12px; line-height:1.4;">
+                                <strong>核心驱动:</strong> ${item.driver}
+                            </div>
+                            ${item.analyst ? `<div style="margin-top:4px; color:#38bdf8; font-weight:700;">SA专栏: ${item.analyst}</div>` : ''}
+                        `;
+                    }
+                },
+                legend: { data: ['博通 月K线', '前瞻市盈率 (P/E)', '市销率 (P/S)'], textStyle: { color: '#94a3b8' }, right: 20 },
+                grid: { left: '50', right: '65', top: '45', bottom: '60' },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#334155' } }, axisLabel: { color: '#94a3b8' } },
+                yAxis: [
+                    { type: 'value', name: '股价 ($)', nameTextStyle: { color: '#10b981' }, position: 'left', splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } }, axisLabel: { color: '#10b981', formatter: '${value}' } },
+                    { type: 'value', name: '倍数 (P/E & P/S)', nameTextStyle: { color: '#f59e0b' }, position: 'right', min: 0, max: 45, splitLine: { show: false }, axisLabel: { color: '#f59e0b', formatter: '{value}x' } }
+                ],
+                dataZoom: [{ type: 'inside', start: 0, end: 100 }, { type: 'slider', bottom: 10, height: 20, borderColor: '#334155', textStyle: { color: '#94a3b8' } }],
+                series: [
+                    { name: '博通 月K线', type: 'candlestick', data: avgoKline, itemStyle: { color: '#ef4444', color0: '#22c55e', borderColor: '#ef4444', borderColor0: '#22c55e' } },
+                    { name: '前瞻市盈率 (P/E)', type: 'line', yAxisIndex: 1, data: avgoPe, smooth: true, lineStyle: { color: '#f59e0b', width: 3 }, itemStyle: { color: '#f59e0b' } },
+                    { name: '市销率 (P/S)', type: 'line', yAxisIndex: 1, data: avgoPs, smooth: true, lineStyle: { color: '#ec4899', width: 2, type: 'dashed' }, itemStyle: { color: '#ec4899' } }
+                ]
+            };
+        } else if (mode === 'tri-pe') {
+            return {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+                legend: { data: ['英伟达 前瞻PE', 'AMD 前瞻PE', '博通 前瞻PE'], textStyle: { color: '#94a3b8' }, right: 20 },
+                grid: { left: '50', right: '65', top: '45', bottom: '60' },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#334155' } }, axisLabel: { color: '#94a3b8' } },
+                yAxis: [
+                    { type: 'value', name: '前瞻PE (倍)', nameTextStyle: { color: '#e2e8f0' }, axisLabel: { color: '#e2e8f0', formatter: '{value}x' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } } }
+                ],
+                dataZoom: [{ type: 'inside' }, { type: 'slider', bottom: 10, height: 20 }],
+                series: [
+                    { name: '英伟达 前瞻PE', type: 'line', data: nvdaPe, smooth: true, lineStyle: { color: '#84cc16', width: 3 }, itemStyle: { color: '#84cc16' } },
+                    { name: 'AMD 前瞻PE', type: 'line', data: amdPe, smooth: true, lineStyle: { color: '#38bdf8', width: 3 }, itemStyle: { color: '#38bdf8' } },
+                    { name: '博通 前瞻PE', type: 'line', data: avgoPe, smooth: true, lineStyle: { color: '#10b981', width: 3 }, itemStyle: { color: '#10b981' } }
+                ]
+            };
+        } else {
+            // Tri P/S mode
+            return {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+                legend: { data: ['英伟达 市销率 (P/S)', 'AMD 市销率 (P/S)', '博通 市销率 (P/S)'], textStyle: { color: '#94a3b8' }, right: 20 },
+                grid: { left: '50', right: '65', top: '45', bottom: '60' },
+                xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#334155' } }, axisLabel: { color: '#94a3b8' } },
+                yAxis: [
+                    { type: 'value', name: '市销率 (P/S)', nameTextStyle: { color: '#ec4899' }, axisLabel: { color: '#ec4899', formatter: '{value}x' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } } }
+                ],
+                dataZoom: [{ type: 'inside' }, { type: 'slider', bottom: 10, height: 20 }],
+                series: [
+                    { name: '英伟达 市销率 (P/S)', type: 'line', data: nvdaPs, smooth: true, lineStyle: { color: '#84cc16', width: 3 }, itemStyle: { color: '#84cc16' } },
+                    { name: 'AMD 市销率 (P/S)', type: 'line', data: amdPs, smooth: true, lineStyle: { color: '#38bdf8', width: 3 }, itemStyle: { color: '#38bdf8' } },
+                    { name: '博通 市销率 (P/S)', type: 'line', data: avgoPs, smooth: true, lineStyle: { color: '#10b981', width: 3 }, itemStyle: { color: '#10b981' } }
+                ]
+            };
+        }
+    }
+
+    myChart.setOption(getOption('nvda'));
+
+    function switchStock(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.btn').forEach(b => {
+            b.classList.remove('active');
+            b.classList.remove('active-nvda');
+        });
+
+        const titleSpan = document.getElementById('chartMainTitle');
+        if (mode === 'nvda') {
+            document.getElementById('btnNvda').classList.add('active-nvda');
+            titleSpan.innerHTML = '<span>英伟达 (NVDA) 拆股后月K线与前瞻PE（橙）、市销率P/S（粉）综合走势</span> <span class="badge badge-nvda">NASDAQ: NVDA</span>';
+            updateInspector('英伟达 (NVDA)', nvdaData[nvdaData.length - 1]);
+        } else if (mode === 'amd') {
+            document.getElementById('btnAmd').classList.add('active');
+            titleSpan.innerHTML = '<span>AMD 月K线与前瞻PE（橙）、市销率P/S（粉）综合走势</span> <span class="badge badge-amd">NASDAQ: AMD</span>';
+            updateInspector('AMD', amdData[amdData.length - 1]);
+        } else if (mode === 'avgo') {
+            document.getElementById('btnAvgo').classList.add('active');
+            titleSpan.innerHTML = '<span>博通 (AVGO) 拆股后月K线与前瞻PE（橙）、市销率P/S（粉）综合走势</span> <span class="badge badge-avgo">NASDAQ: AVGO</span>';
+            updateInspector('博通 (AVGO)', avgoData[avgoData.length - 1]);
+        } else if (mode === 'tri-pe') {
+            document.getElementById('btnDualPe').classList.add('active');
+            titleSpan.innerHTML = '<span>三雄前瞻市盈率 (Forward P/E) 走势直观横向对决</span> <span class="badge badge-nvda">NVDA</span> <span class="badge badge-amd">AMD</span> <span class="badge badge-avgo">AVGO</span>';
+        } else {
+            document.getElementById('btnDualPs').classList.add('active');
+            titleSpan.innerHTML = '<span>三雄市销率 (P/S Ratio) 走势直观横向对决</span> <span class="badge badge-nvda">NVDA</span> <span class="badge badge-amd">AMD</span> <span class="badge badge-avgo">AVGO</span>';
+        }
+
+        myChart.clear();
+        myChart.setOption(getOption(mode));
+    }
+
+    function updateInspector(stockName, item) {
+        document.getElementById('inspDateTitle').innerText = `${stockName} · ${item.date}`;
+        document.getElementById('inspPrice').innerText = `$${item.close.toFixed(2)}`;
+        document.getElementById('inspSub').innerText = `开 $${item.open.toFixed(2)} | 高 $${item.high.toFixed(2)} | 低 $${item.low.toFixed(2)}`;
+        document.getElementById('inspDriver').innerText = item.driver;
+        document.getElementById('inspPe').innerText = `前瞻PE: ${item.pe.toFixed(1)}x`;
+        document.getElementById('inspPs').innerText = `市销率P/S: ${item.ps.toFixed(1)}x`;
+        document.getElementById('inspAnalyst').innerText = item.analyst ? `Seeking Alpha 观点: ${item.analyst}` : '当月无重大分析师异动';
+    }
+
+    // Populate Table
+    const tbody = document.getElementById('tableBody');
+    nvdaData.forEach((nd, i) => {
+        const ad = amdData[i];
+        const bd = avgoData[i];
+        const tr = document.createElement('tr');
+        tr.onclick = function() {
+            if (currentMode === 'nvda') updateInspector('英伟达 (NVDA)', nd);
+            else if (currentMode === 'avgo') updateInspector('博通 (AVGO)', bd);
+            else updateInspector('AMD', ad);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        tr.innerHTML = `
+            <td class="table-date">${nd.date}</td>
+            <td>$${nd.close.toFixed(2)}</td>
+            <td class="pe-tag pe-nvda">${nd.pe.toFixed(1)}x</td>
+            <td class="ps-nvda">${nd.ps.toFixed(1)}x</td>
+            <td>$${ad.close.toFixed(2)}</td>
+            <td class="pe-tag pe-amd">${ad.pe.toFixed(1)}x</td>
+            <td class="ps-amd">${ad.ps.toFixed(1)}x</td>
+            <td>$${bd.close.toFixed(2)}</td>
+            <td class="pe-tag pe-avgo">${bd.pe.toFixed(1)}x</td>
+            <td class="ps-avgo">${bd.ps.toFixed(1)}x</td>
+            <td class="driver-text">
+                <div><strong>NVDA:</strong> ${nd.driver}</div>
+                ${nd.analyst ? `<span style="color:#84cc16; font-weight:700;">[NVDA: ${nd.analyst}] </span>` : ''}
+                ${ad.analyst ? `<span style="color:#38bdf8; font-weight:700;">[AMD: ${ad.analyst}] </span>` : ''}
+                ${bd.analyst ? `<span style="color:#34d399; font-weight:700;">[AVGO: ${bd.analyst}]</span>` : ''}
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    window.addEventListener('resize', () => myChart.resize());
+</script>
+</body>
+</html>

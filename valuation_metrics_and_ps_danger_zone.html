@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心估值指标全景解析与高市销率(P/S)风险深度看板</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --bg-card: #131c2e;
+            --bg-elevated: #1e293b;
+            --border-color: #2d3b55;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-pink: #ec4899;
+            --accent-purple: #a855f7;
+            --accent-red: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .header-title h1 { font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .header-title p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+        /* Navigation Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover { background: #22304a; color: #fff; }
+        .tab-btn.active {
+            background: #2563eb;
+            color: #fff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 16px rgba(37, 99, 235, 0.4);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Card styles */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 12px;
+        }
+        .card-title { font-size: 18px; font-weight: 700; color: #f1f5f9; display: flex; align-items: center; gap: 8px; }
+
+        /* 6 Metric Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+        .metric-box {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .metric-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .metric-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-family: monospace;
+        }
+        .metric-name { font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .metric-fullname { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+        
+        .formula-box {
+            background: #0d1322;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: "Fira Code", monospace;
+            font-size: 13px;
+            color: #38bdf8;
+            margin-bottom: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        .metric-desc { font-size: 13px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5; }
+        .metric-props { font-size: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
+        .prop-item { margin-bottom: 6px; }
+        .prop-label { font-weight: 600; color: #94a3b8; }
+        .prop-value { color: #e2e8f0; }
+        .prop-risk { color: #f87171; }
+
+        /* Full Comparison Table */
+        .table-responsive { overflow-x: auto; margin-top: 14px; }
+        table.styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+        table.styled-table th {
+            background: #0d1322;
+            color: #94a3b8;
+            padding: 12px 14px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+        table.styled-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #cbd5e1;
+        }
+        table.styled-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Quote Box */
+        .quote-banner {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border-left: 4px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .quote-speaker { font-weight: 700; color: #fca5a5; margin-bottom: 6px; font-size: 15px; }
+
+        /* Interactive Calculator Card */
+        .calc-card {
+            background: linear-gradient(135deg, #18233c 0%, #0f172a 100%);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+        @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
+        
+        .slider-group { margin-bottom: 18px; }
+        .slider-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #cbd5e1; }
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #334155;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .calc-result-box {
+            background: #090d16;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .calc-result-title { font-size: 13px; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; }
+        .calc-result-value { font-size: 40px; font-weight: 800; color: #38bdf8; font-family: monospace; }
+        .calc-result-sub { font-size: 12px; color: #94a3b8; margin-top: 6px; line-height: 1.4; }
+
+        /* Section Layouts */
+        .deep-dive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .deep-dive-grid { grid-template-columns: 1fr; } }
+        .firm-card { background: var(--bg-elevated); border-radius: 10px; padding: 20px; border-top: 4px solid #fff; }
+        .firm-avgo { border-top-color: var(--accent-green); }
+        .firm-amd { border-top-color: var(--accent-blue); }
+        .firm-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .firm-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+        .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .tag-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+
+        .firm-points { list-style: none; margin-top: 12px; font-size: 13px; color: #cbd5e1; }
+        .firm-points li { margin-bottom: 10px; position: relative; padding-left: 18px; }
+        .firm-points li::before { content: "▪"; position: absolute; left: 0; color: #38bdf8; font-size: 16px; top: -2px; }
+
+        .danger-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .danger-title { font-size: 15px; font-weight: 700; color: #f87171; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">
+            <h1>📊 核心估值指标全景解析与高市销率(P/S)风险深度看板</h1>
+            <p>全景解构 FPE、PE、PB、PS、PCF、EPS | 深度思辨：硬件厂商 10 倍 P/S 死亡线 vs 博通 20.8x & AMD 16x 到底有多危险？</p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-metrics')">📐 六大核心财务指标全景库</button>
+        <button class="tab-btn" onclick="switchTab('tab-ps-risk')">🔥 深度专题：博通 20.8x 与 AMD 16x 是危险区间吗？</button>
+        <button class="tab-btn" onclick="switchTab('tab-calculator')">🧮 麦克尼利 P/S ➔ P/E 换算模拟器</button>
+        <button class="tab-btn" onclick="switchTab('tab-history')">🏛 历史超级巨头估值大对决 (思科 vs 现代芯片)</button>
+    </div>
+
+    <!-- TAB 1: 6 Metrics -->
+    <div id="tab-metrics" class="tab-content active">
+        <div class="metrics-grid">
+            <!-- 1. EPS -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">EARNINGS POWER</span>
+                <div class="metric-name">EPS 每股收益</div>
+                <div class="metric-fullname">Earnings Per Share</div>
+                <div class="formula-box">EPS = (净利润 - 优先股股息) ÷ 流通普通股数</div>
+                <div class="metric-desc">企业的<strong>“每股绝对盈利造血能力”</strong>。它是所有相对估值乘数（PE、PEG）的基石。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">直观衡量股东每一股实际能分摊到的经营净利。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">易被大额股权激励(SBC)、并购无形资产摊销(GAAP口径)扭曲。</span></div>
+                </div>
+            </div>
+
+            <!-- 2. PE -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">HISTORICAL MULTIPLE</span>
+                <div class="metric-name">PE 市盈率 (TTM/静态)</div>
+                <div class="metric-fullname">Price-to-Earnings Ratio</div>
+                <div class="formula-box">PE = 当前股价 ÷ 过去12个月(TTM)每股收益</div>
+                <div class="metric-desc">企业的<strong>“历史业绩回本期限”</strong>。按公司过去一年赚的钱计算，需要多少年收回买入本金。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">适用于盈利成熟、现金流稳定的消费、金融与公用事业蓝筹。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">滞后性极强，在科技暴发期或半导体周期拐点时毫无指引力。</span></div>
+                </div>
+            </div>
+
+            <!-- 3. FPE -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">GROWTH EXPECTATION</span>
+                <div class="metric-name">FPE 前瞻市盈率</div>
+                <div class="metric-fullname">Forward Price-to-Earnings Ratio</div>
+                <div class="formula-box">FPE = 当前股价 ÷ 未来12个月(NTM)预期EPS</div>
+                <div class="metric-desc">企业的<strong>“未来盈利增长预期定价”</strong>。市场愿意为未来 1 美元净利润支付的溢价。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">华尔街交易科技成长股（如英伟达、AMD）时最通用的中枢指标。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">完全依赖分析师预测。一旦遭遇砍单，分母下调会导致估值被动暴涨。</span></div>
+                </div>
+            </div>
+
+            <!-- 4. PS -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">SCALE & PENETRATION</span>
+                <div class="metric-name">PS 市销率</div>
+                <div class="metric-fullname">Price-to-Sales Ratio</div>
+                <div class="formula-box">PS = 总市值 ÷ 营业收入 = 股价 ÷ 每股营收</div>
+                <div class="metric-desc">企业的<strong>“商业扩张野心与市场占有率”</strong>。完全抛开赚不赚钱，看其吞吐流水规模。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">衡量早期亏损 SaaS、研发期生物医药或周期底部亏损硬件股。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">对成本与利润完全盲目，无法区分 10% 毛利代工与 90% 毛利软件。</span></div>
+                </div>
+            </div>
+
+            <!-- 5. PB -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">BOOK SAFETY NET</span>
+                <div class="metric-name">PB 市净率</div>
+                <div class="metric-fullname">Price-to-Book Ratio</div>
+                <div class="formula-box">PB = 当前股价 ÷ 每股账面净资产 (Net Asset)</div>
+                <div class="metric-desc">企业的<strong>“清算安全垫与重置成本”</strong>。反映市值相对资产负债表真金白银的溢价。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">适用于银行、保险、重资产制造、房地产等资产驱动型传统行业。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">对轻资产科技股完全失效，无法评估算法代码、专利 IP 与生态护城河。</span></div>
+                </div>
+            </div>
+
+            <!-- 6. PCF -->
+            <div class="metric-box">
+                <span class="metric-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">CASH VERIFICATION</span>
+                <div class="metric-name">PCF / P-FCF 市现率</div>
+                <div class="metric-fullname">Price-to-Cash Flow Ratio</div>
+                <div class="formula-box">P/FCF = 总市值 ÷ 自由现金流 (Free Cash Flow)</div>
+                <div class="metric-desc">企业的<strong>“真实造血防伪能力”</strong>。扣除全部资本开支后，实际装进股东口袋的纯现金倍数。</div>
+                <div class="metric-props">
+                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">防范会计利润造假的最强防线，看透高折旧半导体巨头的真金白银。</span></div>
+                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">单季度受大型 CapEx 结算影响较大，必须拉长至连续 12 个月（TTM）评估。</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">📋 六大指标综合联动横向对照矩阵</div>
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>中文名称</th>
+                            <th>核心计算要素</th>
+                            <th>本质衡量什么</th>
+                            <th>对科技股适用度</th>
+                            <th>健康参考区间</th>
+                            <th>危险泡沫信号</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>EPS</strong></td>
+                            <td>每股收益</td>
+                            <td>净利润 / 总股本</td>
+                            <td>终极每股盈利额</td>
+                            <td>★★★★★ (必看基准)</td>
+                            <td>持续季度同比加速增长</td>
+                            <td>依靠非经常损益粉饰、负数</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PE</strong></td>
+                            <td>历史市盈率</td>
+                            <td>股价 / 历史EPS</td>
+                            <td>历史回本周期</td>
+                            <td>★★☆☆☆ (滞后严重)</td>
+                            <td>15x – 25x (成熟期)</td>
+                            <td>> 60x 且无高成长支撑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FPE</strong></td>
+                            <td>前瞻市盈率</td>
+                            <td>股价 / 预期EPS</td>
+                            <td>远期成长性定价</td>
+                            <td>★★★★★ (机构核心)</td>
+                            <td>20x – 35x (高增长芯片)</td>
+                            <td>> 45x – 50x (透支未来2年)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PS</strong></td>
+                            <td>市销率</td>
+                            <td>市值 / 总营收</td>
+                            <td>市场份额扩张度</td>
+                            <td>★★★★☆ (顶层规模)</td>
+                            <td>3x – 8x (硬件) | 8x-15x(软件)</td>
+                            <td>> 15x – 20x (硬件极限杀)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PB</strong></td>
+                            <td>市净率</td>
+                            <td>股价 / 每股净资产</td>
+                            <td>资产重置成本</td>
+                            <td>★☆☆☆☆ (基本失真)</td>
+                            <td>N/A (科技股常态>5x)</td>
+                            <td>轻资产科技股不参考此项</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PCF</strong></td>
+                            <td>市现率(P/FCF)</td>
+                            <td>市值 / 自由现金流</td>
+                            <td>真实真金白银沉淀</td>
+                            <td>★★★★★ (穿透真相)</td>
+                            <td>20x – 35x</td>
+                            <td>> 50x 或经营现金流为负</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: P/S Risk Deep Dive -->
+    <div id="tab-ps-risk" class="tab-content">
+        <div class="quote-banner">
+            <div class="quote-speaker">⚠️ 2002年太阳微系统 (Sun Microsystems) CEO 斯科特·麦克尼利 (Scott McNealy) 的历史名言：</div>
+            “当年在 10 倍市销率（P/S）下买入我们股票的投资者，你们到底在想什么？如果要想让你们在 10 年内收回本金，我必须在未来的整整 10 年里，把公司 100% 的营业收入全部以股息发给你们——不扣除任何税收、不投入任何研发、不支付任何销售提成、不给工程师发一分钱工资！这可能吗？如果按 10% 净利率算，10 倍 P/S 就等同于 100 倍市盈率！”
+        </div>
+
+        <div class="card">
+            <div class="card-title">🔍 拷问现实：博通 20.8 倍、AMD 16.5 倍 P/S 是不是危险区间？</div>
+            <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 20px;">
+                <strong>直截了当的结论：是的，无论怎么包装，16x–21x 的市销率在半导体历史上都属于“容错率为零”的极端危险定价区间（Pricing for Perfection）。</strong>
+                但市场之所以目前没有直接崩盘，是因为两家巨头在用截然不同的“底层异变”在抗衡传统硬件的引力法则：
+            </p>
+
+            <div class="deep-dive-grid">
+                <!-- AVGO Box -->
+                <div class="firm-card firm-avgo">
+                    <div class="firm-title">
+                        <span>博通 (AVGO)：20.8x P/S</span>
+                        <span class="firm-tag tag-green">现金流印钞机内核</span>
+                    </div>
+                    <div style="font-size: 13px; color: #34d399; margin-bottom: 8px; font-weight: 600;">为什么它能撑住 20 倍 P/S？</div>
+                    <ul class="firm-points">
+                        <li><strong>披着芯片外皮的企业软件帝国</strong>：合并 VMware 后，软件业务占比超 35%，毛利率超过 90%，拥有绝对的提价权与极高的粘性。</li>
+                        <li><strong>变态级的自由现金流利润率（46%~50% FCF Margin）</strong>：传统硬件公司做 100 块生意只能赚 10 块钱纯利，而博通每做 100 块能直接沉淀 46~50 块纯现金流！</li>
+                        <li><strong>换算成现金流倍数并不夸张</strong>：P/FCF = 20.8 ÷ 0.48 ≈ <strong>43x</strong>，前瞻 PE 仅约 <strong>21x</strong>。市场支付高 P/S，买的是垄断定制 ASIC 和以太网换来的极致现金转化。</li>
+                    </ul>
+                </div>
+
+                <!-- AMD Box -->
+                <div class="firm-card firm-amd">
+                    <div class="firm-title">
+                        <span>AMD：16.5x P/S</span>
+                        <span class="firm-tag tag-blue">远期翻倍与经营杠杆对赌</span>
+                    </div>
+                    <div style="font-size: 13px; color: #38bdf8; margin-bottom: 8px; font-weight: 600;">为什么它敢交易在 16 倍 P/S？</div>
+                    <ul class="firm-points">
+                        <li><strong>分母（营收）正在发生非线性暴增</strong>：16.5x 是基于过去 12 个月 300 亿营收计算的，而市场预期 2026-2027 年在 Meta/OpenAI 12 GW 大单驱动下年营收冲刺 500 亿以上。</li>
+                        <li><strong>前瞻市销率在被高速稀释</strong>：若按 2027 财年预期营收测算，AMD 的前瞻 P/S 实际上快速降至 <strong>9x~10x 左右</strong>。</li>
+                        <li><strong>高毛利数据中心占比破 60%</strong>：毛利率向 57% 挺进，经营杠杆启动后，利润增速远高于收入增速，通过前瞻盈利（Forward PE ~30x）来消化高 P/S。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Danger Alert -->
+            <div class="danger-box">
+                <div class="danger-title">🚨 为什么说依然极度危险？（三大致命爆点）</div>
+                <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 8px;">
+                    1. <strong>降速杀估值的断头台效应</strong>：在 16x–21x P/S 下，只要任何一个季度云厂商 AI 资本开支出现“消化间歇期”，增速从 50% 跌到 15%，市场会瞬间将市销率斩到 6x–8x。即使利润没暴跌，仅估值倍数腰斩就会造成 <strong>50%–60% 的惨烈股价跌幅</strong>。<br>
+                    2. <strong>客户极端集中的买方垄断</strong>：微软、Meta、谷歌既是大客户，又是自研芯片的竞争对手。巨头们自研初衷就是“去中间商化”，一旦自研落地或削减外采，高 P/S 将瞬间失去支撑。<br>
+                    3. <strong>不可撤销长约（Take-or-Pay）的折旧反噬</strong>：整机厂为了抢 HBM 和芯片签了不可撤销长约并大额垫资，一旦下游大模型商业化 ROI 无法变现，巨头将背负恐怖的设备无形折旧压力，后续新订单将被极度冷酷地斩断。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: Interactive Calculator -->
+    <div id="tab-calculator" class="tab-content">
+        <div class="calc-card">
+            <div class="card-title" style="color: #38bdf8; margin-bottom: 14px;">🧮 麦克尼利方程式：市销率 (P/S) 与净利率 ➔ 真实隐含市盈率 (P/E) 换算器</div>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+                底层公式：<strong>隐含市盈率 P/E = 市销率 P/S ÷ 净利润率 (Net Margin)</strong>。拖动滑块，亲眼见证为什么低利润率的硬件公司拥有高 P/S 是一场灾难：
+            </p>
+            
+            <div class="calc-grid">
+                <div>
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>市销率 (P/S Ratio)：</span>
+                            <span id="labelPs" style="color: #ec4899; font-size: 16px; font-weight: 700;">16.5x</span>
+                        </div>
+                        <input type="range" id="inputPs" min="1" max="35" step="0.5" value="16.5" oninput="calculatePE()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>预期净利润率 (Net Profit Margin)：</span>
+                            <span id="labelMargin" style="color: #34d399; font-size: 16px; font-weight: 700;">20%</span>
+                        </div>
+                        <input type="range" id="inputMargin" min="2" max="60" step="1" value="20" oninput="calculatePE()">
+                    </div>
+
+                    <div style="font-size: 12px; color: #94a3b8; line-height: 1.4;">
+                        典型参考：<br>
+                        • 传统 PC / 服务器代工：净利率 3% – 8%<br>
+                        • 传统成熟半导体硬件：净利率 15% – 20%<br>
+                        • AMD 综合目标净利率：20% – 25%<br>
+                        • 博通自由现金流转化率：45% – 50%
+                    </div>
+                </div>
+
+                <div class="calc-result-box">
+                    <div class="calc-result-title">该假设下真实的隐含市盈率 (Implied P/E)</div>
+                    <div class="calc-result-value" id="resPe">82.5x</div>
+                    <div class="calc-result-sub" id="resStatus" style="color: #f87171; font-weight: 700;">
+                        处于极度昂贵的高风险泡沫区间！
+                    </div>
+                    <div class="calc-result-sub" id="resExplain">
+                        意味着买入这只股票，按当前净利率需要 82.5 年收回本金。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: History Giants -->
+    <div id="tab-history" class="tab-content">
+        <div class="card">
+            <div class="card-title">🏛 跨时代“卖铲人”极值指标大对决 (2000 泡沫巨头 vs 2026 算力先锋)</div>
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>公司名称</th>
+                            <th>时代背景</th>
+                            <th>主营业务属性</th>
+                            <th>顶峰 P/S</th>
+                            <th>顶峰 Forward P/E</th>
+                            <th>自由现金流利润率</th>
+                            <th>随后结局 / 历史命运</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color:#f87171;">思科 (Cisco)</strong></td>
+                            <td>2000年3月泡沫峰值</td>
+                            <td>网络路由器 / 交换机硬件</td>
+                            <td><span style="color:#f87171; font-weight:700;">~38.0x</span></td>
+                            <td><strong>100x – 130x</strong></td>
+                            <td>~15% (虚假买方信贷支撑)</td>
+                            <td>股价暴跌 89%，计提 22 亿库存减值，耗时 20 年未重返巅峰</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#f87171;">太阳微系统 (Sun)</strong></td>
+                            <td>2000年3月泡沫峰值</td>
+                            <td>网络服务器硬件 / Unix工作站</td>
+                            <td><span style="color:#f87171; font-weight:700;">~11.0x</span></td>
+                            <td><strong>80x – 100x</strong></td>
+                            <td>< 10% (硬件低毛利)</td>
+                            <td>股价暴跌超 95%，最终在 2009 年被甲骨文以白菜价贱卖收购</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#38bdf8;">英伟达 (Nvidia)</strong></td>
+                            <td>2024-2026 算力主升期</td>
+                            <td>通用 GPU 算力 + CUDA 软件垄断</td>
+                            <td><strong>25.0x – 35.0x</strong></td>
+                            <td><strong>28x – 40x</strong></td>
+                            <td><strong>48% – 55%</strong> (神仙级现金流)</td>
+                            <td>虽 P/S 奇高，但净利率超 50%，实际依靠超强 EPS 狂飙消化估值</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#34d399;">博通 (Broadcom)</strong></td>
+                            <td>2026年9月当前水平</td>
+                            <td>定制 ASIC 芯片 + VMware 软件</td>
+                            <td><span style="color:#f59e0b; font-weight:700;">20.8x</span></td>
+                            <td><strong>21x – 26x</strong></td>
+                            <td><strong>46% – 50%</strong> (高毛利软件驱动)</td>
+                            <td>P/S 虽高但 P/FCF 仅约 43x，已处于估值天花板，未来全靠纯业绩驱动</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#38bdf8;">AMD</strong></td>
+                            <td>2026年9月当前水平</td>
+                            <td>CPU + 商用 GPU + 整机柜系统</td>
+                            <td><span style="color:#f59e0b; font-weight:700;">16.5x</span></td>
+                            <td><strong>28x – 32x</strong></td>
+                            <td><strong>22% – 28%</strong> (正在扩张期)</td>
+                            <td>对赌 12 GW 大单与数据中心放量，容错率极低，处于敏感高估区间</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        event.currentTarget.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    function calculatePE() {
+        const ps = parseFloat(document.getElementById('inputPs').value);
+        const margin = parseFloat(document.getElementById('inputMargin').value);
+        
+        document.getElementById('labelPs').innerText = ps.toFixed(1) + 'x';
+        document.getElementById('labelMargin').innerText = margin + '%';
+        
+        const pe = ps / (margin / 100);
+        document.getElementById('resPe').innerText = pe.toFixed(1) + 'x';
+        
+        const statusBox = document.getElementById('resStatus');
+        const explainBox = document.getElementById('resExplain');
+        
+        if (pe > 60) {
+            statusBox.innerText = '🚨 处于极度昂贵的高风险泡沫区间！';
+            statusBox.style.color = '#ef4444';
+            explainBox.innerText = `在 ${margin}% 的净利率下，按 ${ps}x 市销率买入，等同于花费 ${pe.toFixed(1)} 倍市盈率接盘，极易发生戴维斯双杀！`;
+        } else if (pe > 35) {
+            statusBox.innerText = '⚠️ 处于溢价偏高的强透支成长区间';
+            statusBox.style.color = '#f59e0b';
+            explainBox.innerText = `需要未来数年保持 40%+ 的复合高增长，才能逐步消化 ${pe.toFixed(1)}x 的隐含市盈率。`;
+        } else {
+            statusBox.innerText = '✔ 处于相对健康的合理成长定价区间';
+            statusBox.style.color = '#10b981';
+            explainBox.innerText = `隐含市盈率 ${pe.toFixed(1)}x 与净利率匹配良好，拥有较充足的估值安全垫。`;
+        }
+    }
+</script>
+</body>
+</html>
