@@ -4,7 +4,7 @@ title:      "AI半导体三雄分析师观点演变与股价后视镜"
 subtitle:   "顶级卖方与独立分析师评级变迁及股价复盘 (2023-2026)"
 date:       2026-09-12
 author:     "龟龟"
-header-img: "img/post-bg-unix-linux.jpg"
+header-img: "/img/home-bg.jpg"
 tags:
     - 投资
     - 研报复盘

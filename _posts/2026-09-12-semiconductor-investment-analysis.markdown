@@ -4,7 +4,7 @@ title:      "半导体与科技股投资分析综合报告"
 subtitle:   "Cavenagh Research 观点复盘、博通论据审视与资产配置策略"
 date:       2026-09-12
 author:     "龟龟"
-header-img: "img/post-bg-2015.jpg"
+header-img: "/img/home-bg.jpg"
 tags:
     - 投资
     - 半导体

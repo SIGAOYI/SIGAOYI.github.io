@@ -4,7 +4,7 @@ title:      "核心估值指标全景解析与高市销率(P/S)风险看板"
 subtitle:   "从市销率预警区间看成长科技股的安全边际"
 date:       2026-09-12
 author:     "龟龟"
-header-img: "img/post-bg-debug.png"
+header-img: "/img/home-bg.jpg"
 tags:
     - 投资
     - 估值模型

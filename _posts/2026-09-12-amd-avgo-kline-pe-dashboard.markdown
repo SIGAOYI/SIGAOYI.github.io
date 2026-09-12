@@ -4,7 +4,7 @@ title:      "AI半导体三雄月K线与前瞻估值对齐看板"
 subtitle:   "英伟达、AMD 与博通 2023-2026 月K线、前瞻PE与市销率(P/S)对比"
 date:       2026-09-12
 author:     "龟龟"
-header-img: "img/post-bg-rwd.jpg"
+header-img: "/img/home-bg.jpg"
 tags:
     - 投资
     - 看板
