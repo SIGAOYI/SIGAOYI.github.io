@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全球顶级对冲基金与主权基金2026年美股持仓全景透视 (13F深度图鉴)</title>
+  <!-- 微信/社交分享适配：缩略图、标题、描述（图片绝对路径，300x300，<32K） -->
+  <meta name="description" content="全球顶级对冲基金与主权基金 2026 年美股 13F 持仓全景透视与重仓股深度图鉴。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="全球顶级对冲基金与主权基金2026年美股持仓全景透视 (13F深度图鉴)">
+  <meta property="og:description" content="全球顶级对冲基金与主权基金 2026 年美股 13F 持仓全景透视与重仓股深度图鉴。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/top_hedge_funds_portfolio_2026.html">
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-inner: #0f172a;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --accent-purple: #c084fc;
+      --border-color: #334155;
+      --border-subtle: #1e293b;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+      --shadow-md: 0 4px 12px -1px rgb(0 0 0 / 0.3);
+      --shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 2rem 1.25rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    header h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p.lead {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 950px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    .stat-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Section Styles */
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1.25rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 4px;
+      height: 1.4rem;
+      background: var(--accent-blue);
+      border-radius: 2px;
+    }
+
+    /* Consensus Box */
+    .consensus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .consensus-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.25rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .consensus-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-blue);
+    }
+
+    .consensus-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+    }
+
+    .consensus-ticker {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .consensus-count {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      font-weight: 600;
+    }
+
+    .consensus-name {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .consensus-funds {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Fund Cards Grid */
+    .funds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .fund-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .fund-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: var(--shadow-md);
+    }
+
+    .fund-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 1rem;
+    }
+
+    .fund-title-group h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .fund-title-group .manager {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      font-weight: 500;
+    }
+
+    .fund-meta {
+      text-align: right;
+    }
+
+    .fund-aum {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent-emerald);
+    }
+
+    .fund-stocks-count {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Holdings Table */
+    .holdings-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem 0;
+      font-size: 0.875rem;
+    }
+
+    .holdings-table th {
+      text-align: left;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      text-transform: uppercase;
+    }
+
+    .holdings-table th:last-child {
+      text-align: right;
+    }
+
+    .holdings-table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+    }
+
+    .holdings-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .ticker-pill {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-right: 0.4rem;
+    }
+
+    .weight-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .weight-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-indigo));
+    }
+
+    .fund-analysis {
+      margin-top: auto;
+      background: var(--bg-card-inner);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+      border-left: 3px solid var(--accent-indigo);
+    }
+
+    .fund-analysis strong {
+      color: var(--text-primary);
+    }
+
+    /* Comparison Section */
+    .table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 2.5rem;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+      font-size: 0.875rem;
+    }
+
+    .compare-table th {
+      background: var(--bg-card-inner);
+      color: var(--text-primary);
+      font-weight: 700;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .compare-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+    }
+
+    .compare-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 0 1rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<!-- 微信分享兜底：正文顶部放一张符合规格(300x300,<32K)的图，部分微信版本据此取缩略图；离屏隐藏不影响页面 -->
+<div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+  <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+</div>
+
+<div class="container">
+
+  <!-- Header Section -->
+  <header>
+    <div class="tag-row">
+      <span class="tag">13F 持仓透视</span>
+      <span class="tag">全球顶流基金</span>
+      <span class="tag">美股资产配置</span>
+      <span class="tag">2026 最新持仓图鉴</span>
+    </div>
+    <h1>华尔街与顶级主权基金 2026 美股持仓全景透视</h1>
+    <p class="lead">
+      汇聚全球 11 家顶级对冲基金与主权财富基金（涵盖沙特 PIF、淡马锡、比尔·阿克曼、德鲁肯米勒、李录、老虎环球、寇图资本等）最新 13F 披露季度持仓数据。解析顶级资本在科技、AI算力芯片、商业航空航天与价值资产中的重仓布局逻辑。
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">跟踪机构总数</div>
+        <div class="stat-value">11 家</div>
+        <div class="stat-desc">对冲基金、家族办、主权基金</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">监测持仓总市值 (13F)</div>
+        <div class="stat-value">$248.97B</div>
+        <div class="stat-desc">约合 1.8 万亿人民币</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">重仓头号共识</div>
+        <div class="stat-value">Alphabet (谷歌)</div>
+        <div class="stat-desc">5 家顶级机构位列前十大</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">最硬核芯片共识</div>
+        <div class="stat-value">TSMC (台积电)</div>
+        <div class="stat-desc">四大对冲巨头共同核心重仓</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Consensus Section -->
+  <div class="section-title">核心共识资产：顶级资本共同锁定的四大主线</div>
+  <div class="consensus-grid">
+    <div class="consensus-card">
+      <div class="consensus-header">
+        <span class="consensus-ticker">GOOGL / GOOG</span>
+        <span class="consensus-count">5 家机构配置</span>
+      </div>
+      <div class="consensus-name">Alphabet (谷歌) - AI生态与搜索壁垒</div>
+      <div class="consensus-funds">
+        <strong>重仓机构：</strong> 喜马拉雅李录 (47.94% 终极重仓)、Third Point (7.83%)、淡马锡 (6.79%)、老虎环球 (6.95%)、TCI 基金 (1.66%)。
+      </div>
+    </div>
+
+    <div class="consensus-card">
+      <div class="consensus-header">
+        <span class="consensus-ticker">TSM</span>
+        <span class="consensus-count">4 家顶级重仓</span>
+      </div>
+      <div class="consensus-name">台积电 (TSMC) - 全球AI算力物理底座</div>
+      <div class="consensus-funds">
+        <strong>重仓机构：</strong> 老虎环球 (9.72% 第一大)、寇图资本 (8.76% 第一大)、德鲁肯米勒 (5.40% 第三重仓)、Third Point (4.69%)。
+      </div>
+    </div>
+
+    <div class="consensus-card">
+      <div class="consensus-header">
+        <span class="consensus-ticker">AMZN</span>
+        <span class="consensus-count">5 家顶级重仓</span>
+      </div>
+      <div class="consensus-name">亚马逊 (Amazon) - 云计算AWS与电商现金流</div>
+      <div class="consensus-funds">
+        <strong>重仓机构：</strong> 潘兴广场 (17.39%)、老虎环球 (9.62%)、Third Point (8.91%)、寇图资本 (5.80%)、德鲁肯米勒 (4.58%)。
+      </div>
+    </div>
+
+    <div class="consensus-card">
+      <div class="consensus-header">
+        <span class="consensus-ticker">SPCX (SpaceX)</span>
+        <span class="consensus-count">超级巨头集结</span>
+      </div>
+      <div class="consensus-name">太空探索技术 - 商业航天与星链垄断</div>
+      <div class="consensus-funds">
+        <strong>重仓机构：</strong> 沙特公共投资基金 PIF (69.48% 压倒性第一)、寇图资本 (6.52%)、淡马锡控股 (4.51%)。
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Funds Grid -->
+  <div class="section-title">11 家顶尖投资机构持仓详析 (按照代表性分类)</div>
+  <div class="funds-grid">
+
+    <!-- Fund 1: PIF -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>沙特公共投资基金 (PIF)</h3>
+          <div class="manager">Public Investment Fund · 主权财富基金</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$37.91B</div>
+          <div class="fund-stocks-count">5 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">SPCX</span></td><td>SpaceX (太空探索)</td><td>69.48%</td></tr>
+          <tr><td><span class="ticker-pill">UBER</span></td><td>Uber (优步科技)</td><td>13.87%</td></tr>
+          <tr><td><span class="ticker-pill">EA</span></td><td>Electronic Arts (艺电互动)</td><td>13.42%</td></tr>
+          <tr><td><span class="ticker-pill">LCID</span></td><td>Lucid Group (豪华电动车)</td><td>3.12%</td></tr>
+          <tr><td><span class="ticker-pill">CTEV</span></td><td>Clarivate (科睿唯安)</td><td>0.11%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 极度超级集中化！仅 SpaceX 独角兽单票资产即占美股持仓近七成，展现沙特国家资本在航天技术与数字出行业务的深层国家级重注。
+      </div>
+    </div>
+
+    <!-- Fund 2: Himalaya Capital -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>喜马拉雅资本 (李录)</h3>
+          <div class="manager">Himalaya Capital · 查理·芒格门徒 / 深度价值</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$3.70B</div>
+          <div class="fund-stocks-count">8 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">GOOGL</span></td><td>Alphabet Class A (谷歌)</td><td>24.55%</td></tr>
+          <tr><td><span class="ticker-pill">GOOG</span></td><td>Alphabet Class C (谷歌)</td><td>23.39%</td></tr>
+          <tr><td><span class="ticker-pill">PDD</span></td><td>PDD Holdings (拼多多)</td><td>22.17%</td></tr>
+          <tr><td><span class="ticker-pill">BRK.B</span></td><td>Berkshire Hathaway (伯克希尔B)</td><td>14.98%</td></tr>
+          <tr><td><span class="ticker-pill">EWBC</span></td><td>East West Bancorp (华美银行)</td><td>9.68%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余3只持股 (CROX, TME, AAPL)</td><td>5.23%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 典型巴菲特-芒格正统打法。前四大持仓（Alphabet合计 47.94%、拼多多、伯克希尔、华美银行）占组合近 95%，“少而精”的极高置信度配置。
+      </div>
+    </div>
+
+    <!-- Fund 3: Pershing Square -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>潘兴广场资本 (比尔·阿克曼)</h3>
+          <div class="manager">Pershing Square Capital · 激进价值投资者</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$13.71B</div>
+          <div class="fund-stocks-count">11 只股票 · Q1 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">BN</span></td><td>Brookfield Corp (博枫资产)</td><td>17.62%</td></tr>
+          <tr><td><span class="ticker-pill">AMZN</span></td><td>Amazon.com (亚马逊)</td><td>17.39%</td></tr>
+          <tr><td><span class="ticker-pill">UBER</span></td><td>Uber Technologies (优步)</td><td>15.71%</td></tr>
+          <tr><td><span class="ticker-pill">MSFT</span></td><td>Microsoft (微软)</td><td>15.26%</td></tr>
+          <tr><td><span class="ticker-pill">QSR</span></td><td>Restaurant Brands (汉堡王母公司)</td><td>12.20%</td></tr>
+          <tr><td><span class="ticker-pill">META</span></td><td>Meta Platforms (脸书/Meta)</td><td>11.10%</td></tr>
+          <tr><td><span class="ticker-pill">HHH</span></td><td>Howard Hughes (休斯地产控股)</td><td>8.70%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 仅持有具备强大垄断特许经营权与超大自由现金流的龙头。高配云计算双雄（Amazon与微软），辅以高确定性平台（Uber、博枫与消费龙头）。
+      </div>
+    </div>
+
+    <!-- Fund 4: Tiger Global -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>老虎环球基金 (蔡斯·科尔曼)</h3>
+          <div class="manager">Tiger Global Management · 科技成长股标杆</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$23.98B</div>
+          <div class="fund-stocks-count">46 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">TSM</span></td><td>TSMC (台积电)</td><td>9.72%</td></tr>
+          <tr><td><span class="ticker-pill">AMZN</span></td><td>Amazon (亚马逊)</td><td>9.62%</td></tr>
+          <tr><td><span class="ticker-pill">NVDA</span></td><td>NVIDIA (英伟达)</td><td>9.34%</td></tr>
+          <tr><td><span class="ticker-pill">GOOGL</span></td><td>Alphabet (谷歌)</td><td>6.95%</td></tr>
+          <tr><td><span class="ticker-pill">META</span></td><td>Meta Platforms (Meta)</td><td>6.63%</td></tr>
+          <tr><td><span class="ticker-pill">SE</span></td><td>Sea Limited (冬海集团)</td><td>5.72%</td></tr>
+          <tr><td><span class="ticker-pill">LRCX</span></td><td>Lam Research (泛林半导体)</td><td>5.02%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 39 只股票</td><td>45.30%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 顶流科技成长捕手。前五大持仓全面覆盖算力芯片基石（台积电、英伟达）、设备制造（泛林）与生成式 AI 应用核心商业化巨头。
+      </div>
+    </div>
+
+    <!-- Fund 5: Coatue Management -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>寇图资本 (菲利普·拉丰)</h3>
+          <div class="manager">Coatue Management · 科技与半导体硬科技对冲</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$48.63B</div>
+          <div class="fund-stocks-count">66 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">TSM</span></td><td>TSMC (台积电)</td><td>8.76%</td></tr>
+          <tr><td><span class="ticker-pill">LRCX</span></td><td>Lam Research (泛林集团)</td><td>8.41%</td></tr>
+          <tr><td><span class="ticker-pill">MU</span></td><td>Micron Technology (美光科技)</td><td>7.46%</td></tr>
+          <tr><td><span class="ticker-pill">SPCX</span></td><td>SpaceX (太空探索)</td><td>6.52%</td></tr>
+          <tr><td><span class="ticker-pill">AMAT</span></td><td>Applied Materials (应用材料)</td><td>6.26%</td></tr>
+          <tr><td><span class="ticker-pill">GEV</span></td><td>GE Vernova (绿色能源设备)</td><td>6.18%</td></tr>
+          <tr><td><span class="ticker-pill">AMZN</span></td><td>Amazon (亚马逊)</td><td>5.80%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 59 只股票</td><td>50.61%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 半导体制造全产业链布局最激进的基金！重度配置台积电、泛林、美光（存储周期复苏）与应用材料，并高比重持有 SpaceX 与电力能源装备 GEV。
+      </div>
+    </div>
+
+    <!-- Fund 6: Duquesne (Druckenmiller) -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>杜肯家族办 (德鲁肯米勒)</h3>
+          <div class="manager">Duquesne Family Office · 传奇全球宏观大师</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$5.21B</div>
+          <div class="fund-stocks-count">90 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">NTRA</span></td><td>Natera (基因无创检测龙头)</td><td>16.60%</td></tr>
+          <tr><td><span class="ticker-pill">INSM</span></td><td>Insmed (罕见肺病新药)</td><td>5.68%</td></tr>
+          <tr><td><span class="ticker-pill">TSM</span></td><td>TSMC (台积电)</td><td>5.40%</td></tr>
+          <tr><td><span class="ticker-pill">EWZ</span></td><td>iShares Brazil ETF (巴西指数ETF)</td><td>5.07%</td></tr>
+          <tr><td><span class="ticker-pill">AMZN</span></td><td>Amazon (亚马逊)</td><td>4.58%</td></tr>
+          <tr><td><span class="ticker-pill">STM</span></td><td>STMicroelectronics (意法半导体)</td><td>4.46%</td></tr>
+          <tr><td><span class="ticker-pill">RSP</span></td><td>S&P 500 Equal Weight (标普等权ETF)</td><td>3.66%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 83 只股票</td><td>54.55%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 极具个性的宏观/特异性alpha组合。重仓医疗创新先锋 Natera 展现其对结构性突破赛道的偏好，同时布局半导体龙头台积电与新兴市场（巴西）。
+      </div>
+    </div>
+
+    <!-- Fund 7: Temasek Holdings -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>淡马锡控股 (Temasek)</h3>
+          <div class="manager">Temasek Holdings · 新加坡国家主权投资巨擘</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$37.25B</div>
+          <div class="fund-stocks-count">177 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">BLK</span></td><td>BlackRock (贝莱德集团)</td><td>13.41%</td></tr>
+          <tr><td><span class="ticker-pill">GOOGL</span></td><td>Alphabet (谷歌)</td><td>6.79%</td></tr>
+          <tr><td><span class="ticker-pill">V</span></td><td>Visa (维萨卡支付网络)</td><td>6.08%</td></tr>
+          <tr><td><span class="ticker-pill">NVDA</span></td><td>NVIDIA (英伟达)</td><td>4.64%</td></tr>
+          <tr><td><span class="ticker-pill">SPCX</span></td><td>SpaceX (太空探索)</td><td>4.51%</td></tr>
+          <tr><td><span class="ticker-pill">MA</span></td><td>Mastercard (万事达支付网络)</td><td>4.49%</td></tr>
+          <tr><td><span class="ticker-pill">AVGO</span></td><td>Broadcom (博通芯片)</td><td>3.79%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 170 只股票</td><td>56.29%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 资产管理+支付基础设施垄断双轮驱动（贝莱德、Visa、万事达），并与前沿算力霸主（谷歌、英伟达、博通）及 SpaceX 商业航天紧密捆绑。
+      </div>
+    </div>
+
+    <!-- Fund 8: TCI Fund Management -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>儿童投资基金 (TCI Fund)</h3>
+          <div class="manager">TCI Fund (Chris Hohn) · 英国顶级长线维权基金</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$52.77B</div>
+          <div class="fund-stocks-count">11 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">GE</span></td><td>GE Aerospace (通用电气航发)</td><td>33.59%</td></tr>
+          <tr><td><span class="ticker-pill">CP</span></td><td>Canadian Pacific (加美跨国铁路)</td><td>19.83%</td></tr>
+          <tr><td><span class="ticker-pill">MCO</span></td><td>Moody's (穆迪评级)</td><td>12.30%</td></tr>
+          <tr><td><span class="ticker-pill">SPGI</span></td><td>S&P Global (标普全球评级)</td><td>10.87%</td></tr>
+          <tr><td><span class="ticker-pill">FER</span></td><td>Ferrovial (交通基建与特许机场)</td><td>7.44%</td></tr>
+          <tr><td><span class="ticker-pill">CNI</span></td><td>Canadian National (加拿大国铁)</td><td>2.13%</td></tr>
+          <tr><td><span class="ticker-pill">GOOGL</span></td><td>Alphabet (谷歌)</td><td>1.66%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 极其罕见的“自然垄断”护城河极度聚集。航空发动机（GE）、北美铁路干线（CP、CNI）与全球信用评级寡头（穆迪+标普双寡头合计占 23%）。
+      </div>
+    </div>
+
+    <!-- Fund 9: Elliott Investment Management -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>埃利奥特管理 (保罗·辛格)</h3>
+          <div class="manager">Elliott Management · 华尔街对冲激进维权旗手</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$22.67B</div>
+          <div class="fund-stocks-count">28 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">TFPM</span></td><td>Triple Flag (贵金属特许权版税)</td><td>17.61%</td></tr>
+          <tr><td><span class="ticker-pill">PSX</span></td><td>Phillips 66 (大型炼油与石化)</td><td>14.36%</td></tr>
+          <tr><td><span class="ticker-pill">QQQ</span></td><td>Invesco QQQ Trust (纳指100 ETF)</td><td>11.30%</td></tr>
+          <tr><td><span class="ticker-pill">SU</span></td><td>Suncor Energy (加拿大油砂巨头)</td><td>6.97%</td></tr>
+          <tr><td><span class="ticker-pill">HPE</span></td><td>HP Enterprise (慧与科技企业级IT)</td><td>6.42%</td></tr>
+          <tr><td><span class="ticker-pill">IGM</span></td><td>iShares Tech Software ETF (软件ETF)</td><td>6.29%</td></tr>
+          <tr><td><span class="ticker-pill">LUV</span></td><td>Southwest Airlines (西南航空)</td><td>5.51%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 21 只股票</td><td>31.54%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 侧重实物资产抗通胀与治理改造标的。重仓贵金属版税、炼化能源巨头 Phillips 66、油砂霸主森科与正在推进董事会激进治理改革的西南航空。
+      </div>
+    </div>
+
+    <!-- Fund 10: Third Point (Dan Loeb) -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>第三点基金 (丹·勒伯)</h3>
+          <div class="manager">Third Point · 事件驱动与催化剂投资</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$4.68B</div>
+          <div class="fund-stocks-count">43 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">WBD</span></td><td>Warner Bros. Discovery (华纳兄弟探索)</td><td>11.39%</td></tr>
+          <tr><td><span class="ticker-pill">AMZN</span></td><td>Amazon (亚马逊)</td><td>8.91%</td></tr>
+          <tr><td><span class="ticker-pill">GOOGL</span></td><td>Alphabet (谷歌)</td><td>7.83%</td></tr>
+          <tr><td><span class="ticker-pill">CRH</span></td><td>CRH plc (全球建材水泥龙头)</td><td>5.02%</td></tr>
+          <tr><td><span class="ticker-pill">TDS</span></td><td>Telephone and Data Systems (电信运营商)</td><td>4.96%</td></tr>
+          <tr><td><span class="ticker-pill">TSM</span></td><td>TSMC (台积电)</td><td>4.69%</td></tr>
+          <tr><td><span class="ticker-pill">LYV</span></td><td>Live Nation (现场娱乐与票务龙头)</td><td>4.44%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 36 只股票</td><td>52.76%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 兼顾“低估值催化剂资产”与科技龙头。重仓流媒体整合博弈的华纳兄弟探索、特种电信与建材巨头 CRH，同步锁定亚马逊与谷歌的稳健增长。
+      </div>
+    </div>
+
+    <!-- Fund 11: Greenlight Capital -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title-group">
+          <h3>绿光资本 (大卫·埃因霍恩)</h3>
+          <div class="manager">Greenlight Capital · 著名逆向价值投资者</div>
+        </div>
+        <div class="fund-meta">
+          <div class="fund-aum">$3.91B</div>
+          <div class="fund-stocks-count">46 只股票 · Q2 2026</div>
+        </div>
+      </div>
+      <table class="holdings-table">
+        <thead><tr><th>代码</th><th>公司全称</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ticker-pill">GRBK</span></td><td>Green Brick Partners (优质住宅建造商)</td><td>19.39%</td></tr>
+          <tr><td><span class="ticker-pill">FLR</span></td><td>Fluor Corp (工程总包与能源基建)</td><td>6.24%</td></tr>
+          <tr><td><span class="ticker-pill">CNR</span></td><td>Canadian National (加拿大国家铁路)</td><td>4.67%</td></tr>
+          <tr><td><span class="ticker-pill">BHF</span></td><td>Brighthouse Financial (人寿年金保险)</td><td>4.60%</td></tr>
+          <tr><td><span class="ticker-pill">ACHC</span></td><td>Acadia Healthcare (精神心理医疗连锁)</td><td>3.32%</td></tr>
+          <tr><td><span class="ticker-pill">PENN</span></td><td>Penn Entertainment (区域赌场与博彩)</td><td>3.20%</td></tr>
+          <tr><td><span class="ticker-pill">FBIN</span></td><td>Fortune Brands (安防与智能家居建材)</td><td>3.15%</td></tr>
+          <tr><td><span class="ticker-pill">Other</span></td><td>其余 39 只股票</td><td>55.43%</td></tr>
+        </tbody>
+      </table>
+      <div class="fund-analysis">
+        <strong>持仓特征：</strong> 绝不跟风拥挤赛道。重注低估值美国本土住宅建造（Green Brick 近两成仓位）、工程基建（Fluor）与特种防御型价值资产（保险、医疗与铁路）。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Comprehensive Comparison Table -->
+  <div class="section-title">全景横向对照：11 家机构资产配置哲学对比</div>
+  <div class="table-container">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>机构名称</th>
+          <th>掌舵人 / 属性</th>
+          <th>美股 AUM</th>
+          <th>持股只数</th>
+          <th>集中度特征</th>
+          <th>头号重仓标的</th>
+          <th>核心风格标签</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>沙特公共投资基金 (PIF)</strong></td>
+          <td>沙特阿拉伯主权基金</td>
+          <td>$37.91B</td>
+          <td>5 只</td>
+          <td>前3大持股 > 96%</td>
+          <td>SPCX (SpaceX - 69.5%)</td>
+          <td>主权战略战略重注 · 航天出行</td>
+        </tr>
+        <tr>
+          <td><strong>喜马拉雅资本 (Himalaya)</strong></td>
+          <td>李录 (Li Lu)</td>
+          <td>$3.70B</td>
+          <td>8 只</td>
+          <td>前4大持股 ~ 95%</td>
+          <td>GOOGL+GOOG (谷歌 - 47.9%)</td>
+          <td>深度价值投资 · 芒格长线复利</td>
+        </tr>
+        <tr>
+          <td><strong>潘兴广场资本 (Pershing Sq)</strong></td>
+          <td>比尔·阿克曼 (Bill Ackman)</td>
+          <td>$13.71B</td>
+          <td>11 只</td>
+          <td>前5大持股 > 78%</td>
+          <td>BN (博枫资产 - 17.6%)</td>
+          <td>大盘护城河寡头 · 优质自由现金流</td>
+        </tr>
+        <tr>
+          <td><strong>儿童投资基金 (TCI)</strong></td>
+          <td>克里斯·霍恩 (Chris Hohn)</td>
+          <td>$52.77B</td>
+          <td>11 只</td>
+          <td>前4大持股 > 76%</td>
+          <td>GE (通用电气航发 - 33.6%)</td>
+          <td>自然垄断基建 · 评级与航空垄断</td>
+        </tr>
+        <tr>
+          <td><strong>老虎环球 (Tiger Global)</strong></td>
+          <td>蔡斯·科尔曼 (Chase Coleman)</td>
+          <td>$23.98B</td>
+          <td>46 只</td>
+          <td>前5大持股 > 42%</td>
+          <td>TSM (台积电 - 9.7%)</td>
+          <td>全球顶流科技成长捕手 · AI 算力</td>
+        </tr>
+        <tr>
+          <td><strong>寇图资本 (Coatue)</strong></td>
+          <td>菲利普·拉丰 (Philippe Laffont)</td>
+          <td>$48.63B</td>
+          <td>66 只</td>
+          <td>前5大持股 > 37%</td>
+          <td>TSM (台积电 - 8.8%)</td>
+          <td>硬科技对冲 · 半导体供应链全面配置</td>
+        </tr>
+        <tr>
+          <td><strong>淡马锡控股 (Temasek)</strong></td>
+          <td>新加坡国家主权基金</td>
+          <td>$37.25B</td>
+          <td>177 只</td>
+          <td>前3大持股 ~ 26%</td>
+          <td>BLK (贝莱德 - 13.4%)</td>
+          <td>全球宏观分散 · 金融科技基石</td>
+        </tr>
+        <tr>
+          <td><strong>埃利奥特管理 (Elliott)</strong></td>
+          <td>保罗·辛格 (Paul Singer)</td>
+          <td>$22.67B</td>
+          <td>28 只</td>
+          <td>前3大持股 > 43%</td>
+          <td>TFPM (Triple Flag - 17.6%)</td>
+          <td>激进维权对冲 · 实物资产抗通胀</td>
+        </tr>
+        <tr>
+          <td><strong>第三点基金 (Third Point)</strong></td>
+          <td>丹·勒伯 (Dan Loeb)</td>
+          <td>$4.68B</td>
+          <td>43 只</td>
+          <td>前3大持股 ~ 28%</td>
+          <td>WBD (华纳兄弟探索 - 11.4%)</td>
+          <td>事件驱动重组 · 价值催化剂</td>
+        </tr>
+        <tr>
+          <td><strong>杜肯家族办 (Duquesne)</strong></td>
+          <td>德鲁肯米勒 (Druckenmiller)</td>
+          <td>$5.21B</td>
+          <td>90 只</td>
+          <td>前3大持股 ~ 28%</td>
+          <td>NTRA (Natera - 16.6%)</td>
+          <td>全球宏观变奏 · 特异性 Alpha 捕捉</td>
+        </tr>
+        <tr>
+          <td><strong>绿光资本 (Greenlight)</strong></td>
+          <td>大卫·埃因霍恩 (David Einhorn)</td>
+          <td>$3.91B</td>
+          <td>46 只</td>
+          <td>前3大持股 ~ 30%</td>
+          <td>GRBK (Green Brick - 19.4%)</td>
+          <td>逆向深度价值 · 避开拥挤交易</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>数据源自各机构提交至美国证券交易委员会 (SEC) 的 13F 季度申报公开数据整理制表。</p>
+    <p style="margin-top: 0.5rem;">制作与归档：<a href="https://axelrod.lawootrip.com">龟龟的博客 (LawooTrip)</a> · 2026年9月</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
