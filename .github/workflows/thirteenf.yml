@@ -1,0 +1,40 @@
+name: 13F value investors quarterly post
+
+# 每周一检查一次 SEC EDGAR，一旦段永平/李录有新一季 13F 就自动发布一篇（去重按报告季）。
+# 13F 为季度报、滞后约 45 天，故用“每周检查 + 去重”稳妥捕获新申报；平时不发。
+# 仅提交 _posts/ 与 _scripts/state/ 与 ark-data/，绝不影响其它内容。
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'    # 每周一 12:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thirteenf-post
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate 13F post if new quarter
+        run: python3 _scripts/thirteenf_post.py
+      - name: Commit if created
+        run: |
+          if [ -n "$(git status --porcelain _posts _scripts/state ark-data)" ]; then
+            git config user.name  "ark-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add _posts _scripts/state ark-data
+            git commit -m "chore(13f): 自动发布段永平/李录季度 13F [skip ci]"
+            git push
+            echo "13F post published."
+          else
+            echo "No new 13F quarter."
+          fi

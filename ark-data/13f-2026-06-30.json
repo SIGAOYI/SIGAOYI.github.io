@@ -1,0 +1,328 @@
+{
+  "quarter": "2026 Q2",
+  "report_date": "2026-06-30",
+  "generated_at": "2026-09-15T10:06:59",
+  "investors": {
+    "duan-yongping": {
+      "name": "段永平",
+      "entity": "H&H International Investment",
+      "report": "2026-06-30",
+      "total_value": 19100584155.0,
+      "holdings": [
+        {
+          "issuer": "APPLE INC",
+          "cls": "COM",
+          "value": 7841281858.0,
+          "shares": 27098707.0,
+          "weight": 41.05
+        },
+        {
+          "issuer": "BERKSHIRE HATHAWAY INC DEL",
+          "cls": "CL B NEW",
+          "value": 4618447581.0,
+          "shares": 9229696.0,
+          "weight": 24.18
+        },
+        {
+          "issuer": "PDD HOLDINGS INC",
+          "cls": "SPONSORED ADS",
+          "value": 1908685330.0,
+          "shares": 25022094.0,
+          "weight": 9.99
+        },
+        {
+          "issuer": "TESLA INC",
+          "cls": "COM",
+          "value": 1421796240.0,
+          "shares": 3380400.0,
+          "weight": 7.44
+        },
+        {
+          "issuer": "NVIDIA CORPORATION",
+          "cls": "COM",
+          "value": 1256700261.0,
+          "shares": 6280675.0,
+          "weight": 6.58
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "cls": "CAP STK CL C",
+          "value": 695565438.0,
+          "shares": 1968600.0,
+          "weight": 3.64
+        },
+        {
+          "issuer": "OCCIDENTAL PETE CORP",
+          "cls": "COM",
+          "value": 498401055.0,
+          "shares": 10261500.0,
+          "weight": 2.61
+        },
+        {
+          "issuer": "MICROSOFT CORP",
+          "cls": "COM",
+          "value": 281294382.0,
+          "shares": 754100.0,
+          "weight": 1.47
+        },
+        {
+          "issuer": "CREDO TECHNOLOGY GROUP HOLDI",
+          "cls": "ORDINARY SHARES",
+          "value": 190691340.0,
+          "shares": 701200.0,
+          "weight": 1.0
+        },
+        {
+          "issuer": "UNITEDHEALTH GROUP INC",
+          "cls": "COM",
+          "value": 166085748.0,
+          "shares": 399600.0,
+          "weight": 0.87
+        },
+        {
+          "issuer": "DISNEY WALT CO",
+          "cls": "COM",
+          "value": 164260250.0,
+          "shares": 1706600.0,
+          "weight": 0.86
+        },
+        {
+          "issuer": "ALIBABA GROUP HLDG LTD",
+          "cls": "SPONSORED ADS",
+          "value": 28928372.0,
+          "shares": 301400.0,
+          "weight": 0.15
+        },
+        {
+          "issuer": "CIRCLE INTERNET GROUP INC",
+          "cls": "COM CL A",
+          "value": 12526000.0,
+          "shares": 200000.0,
+          "weight": 0.07
+        },
+        {
+          "issuer": "PALANTIR TECHNOLOGIES INC",
+          "cls": "CL A",
+          "value": 7000200.0,
+          "shares": 60000.0,
+          "weight": 0.04
+        },
+        {
+          "issuer": "SYNOPSYS INC",
+          "cls": "COM",
+          "value": 4460700.0,
+          "shares": 10000.0,
+          "weight": 0.02
+        },
+        {
+          "issuer": "SNOWFLAKE INC",
+          "cls": "COM SHS",
+          "value": 2545000.0,
+          "shares": 10000.0,
+          "weight": 0.01
+        },
+        {
+          "issuer": "TEMPUS AI INC",
+          "cls": "CL A",
+          "value": 1158600.0,
+          "shares": 20000.0,
+          "weight": 0.01
+        },
+        {
+          "issuer": "INNODATA INC",
+          "cls": "COM NEW",
+          "value": 755800.0,
+          "shares": 10000.0,
+          "weight": 0.0
+        }
+      ],
+      "changes": {
+        "new": [
+          {
+            "issuer": "ALIBABA GROUP HLDG LTD",
+            "shares": 301400.0,
+            "value": 28928372.0
+          }
+        ],
+        "exited": [
+          {
+            "issuer": "TAIWAN SEMICONDUCTOR MANUFAC",
+            "shares": 151200.0,
+            "value": 51098040.0
+          },
+          {
+            "issuer": "CROWDSTRIKE HLDGS INC",
+            "shares": 10000.0,
+            "value": 3904100.0
+          }
+        ],
+        "inc": [
+          {
+            "issuer": "PDD HOLDINGS INC",
+            "shares": 5273800.0,
+            "value": 1908685330.0
+          },
+          {
+            "issuer": "DISNEY WALT CO",
+            "shares": 194800.0,
+            "value": 164260250.0
+          },
+          {
+            "issuer": "BERKSHIRE HATHAWAY INC DEL",
+            "shares": 81900.0,
+            "value": 4618447581.0
+          }
+        ],
+        "dec": [
+          {
+            "issuer": "NVIDIA CORPORATION",
+            "shares": -7563100.0,
+            "value": 1256700261.0
+          },
+          {
+            "issuer": "ALPHABET INC",
+            "shares": -1737400.0,
+            "value": 695565438.0
+          },
+          {
+            "issuer": "UNITEDHEALTH GROUP INC",
+            "shares": -201800.0,
+            "value": 166085748.0
+          },
+          {
+            "issuer": "MICROSOFT CORP",
+            "shares": -261900.0,
+            "value": 281294382.0
+          },
+          {
+            "issuer": "CREDO TECHNOLOGY GROUP HOLDI",
+            "shares": -50000.0,
+            "value": 190691340.0
+          },
+          {
+            "issuer": "APPLE INC",
+            "shares": -1846900.0,
+            "value": 7841281858.0
+          },
+          {
+            "issuer": "TESLA INC",
+            "shares": -28500.0,
+            "value": 1421796240.0
+          }
+        ]
+      }
+    },
+    "li-lu": {
+      "name": "李录",
+      "entity": "Himalaya Capital Management",
+      "report": "2026-06-30",
+      "total_value": 3702921099.0,
+      "holdings": [
+        {
+          "issuer": "ALPHABET INC",
+          "cls": "CAP STK CL A",
+          "value": 908899121.0,
+          "shares": 2543300.0,
+          "weight": 24.55
+        },
+        {
+          "issuer": "ALPHABET INC",
+          "cls": "CAP STK CL C",
+          "value": 866117829.0,
+          "shares": 2451300.0,
+          "weight": 23.39
+        },
+        {
+          "issuer": "PDD HOLDINGS INC",
+          "cls": "SPON ADS",
+          "value": 820858157.0,
+          "shares": 10761119.0,
+          "weight": 22.17
+        },
+        {
+          "issuer": "BERKSHIRE HATHAWAY INC DEL",
+          "cls": "CL B NEW",
+          "value": 554591244.0,
+          "shares": 1108318.0,
+          "weight": 14.98
+        },
+        {
+          "issuer": "EAST WEST BANCORP INC",
+          "cls": "COM",
+          "value": 358399151.0,
+          "shares": 2776351.0,
+          "weight": 9.68
+        },
+        {
+          "issuer": "CROCS INC",
+          "cls": "COM",
+          "value": 107018900.0,
+          "shares": 887093.0,
+          "weight": 2.89
+        },
+        {
+          "issuer": "TENCENT MUSIC ENTERTAINM",
+          "cls": "SPON ADS",
+          "value": 55033481.0,
+          "shares": 6590836.0,
+          "weight": 1.49
+        },
+        {
+          "issuer": "APPLE INC",
+          "cls": "COM",
+          "value": 32003216.0,
+          "shares": 110600.0,
+          "weight": 0.86
+        }
+      ],
+      "changes": {
+        "new": [],
+        "exited": [
+          {
+            "issuer": "BK OF AMERICA CORP",
+            "shares": 2997987.0,
+            "value": 146151866.0
+          },
+          {
+            "issuer": "OCCIDENTAL PETE CORP",
+            "shares": 1466500.0,
+            "value": 95322500.0
+          },
+          {
+            "issuer": "S&P GLOBAL INC",
+            "shares": 121463.0,
+            "value": 51663072.0
+          },
+          {
+            "issuer": "BLOCK H & R INC",
+            "shares": 1626906.0,
+            "value": 51637996.0
+          },
+          {
+            "issuer": "MOODYS CORP",
+            "shares": 117784.0,
+            "value": 51383270.0
+          },
+          {
+            "issuer": "MSCI INC",
+            "shares": 18939.0,
+            "value": 10208310.0
+          }
+        ],
+        "inc": [
+          {
+            "issuer": "PDD HOLDINGS INC",
+            "shares": 6153119.0,
+            "value": 820858157.0
+          },
+          {
+            "issuer": "BERKSHIRE HATHAWAY INC DEL",
+            "shares": 210569.0,
+            "value": 554591244.0
+          }
+        ],
+        "dec": []
+      }
+    }
+  }
+}
