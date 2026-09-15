@@ -264,7 +264,7 @@ def nearest_close(pmap, dates_sorted, day):
 
 
 def price_chart(ticker, company, prices, trades, cur_shares):
-    """价格曲线 + 买卖点(scatter) + 当前仓位标注。trades: [{'date','dshares'}] 已按日聚合。"""
+    """价格曲线 + 买卖点(红B/绿S 实心圆点，覆盖曲线) + 当前仓位。trades: [{'date','dshares'}]。"""
     div = "ark_px_" + ticker.lower().replace("-", "_").replace(".", "_")
     dates = [p["d"] for p in prices]
     closes = [p["c"] for p in prices]
@@ -276,24 +276,27 @@ def price_chart(ticker, company, prices, trades, cur_shares):
         if not np_:
             continue
         dd, cc = np_
-        pts.append({"value": [dd, cc], "delta": int(tr["dshares"])})
-    for i in sorted(range(len(pts)), key=lambda j: -abs(pts[j]["delta"]))[:8]:
-        pts[i]["lab"] = 1  # 仅给交易量最大的若干个打标签，避免密集重叠
-    buys = [p for p in pts if p["delta"] > 0]
-    sells = [p for p in pts if p["delta"] < 0]
+        pts.append({"d": tr["date"], "value": [dd, cc], "shares": int(tr["dshares"])})
+    # 只保留成交量最大的若干笔：红绿圆点+字母醒目，且不会像密集小三角那样糊成一片
+    pts.sort(key=lambda p: -abs(p["shares"]))
+    pts = pts[:24]
+    buys = [{"value": p["value"], "shares": p["shares"], "d": p["d"], "bs": "B"} for p in pts if p["shares"] > 0]
+    sells = [{"value": p["value"], "shares": p["shares"], "d": p["d"], "bs": "S"} for p in pts if p["shares"] < 0]
     title = f'{ticker} · {company} — 当前 ARK 持仓 {fmt_int(cur_shares)} 股'
     payload = json.dumps({"dates": dates, "closes": closes, "buys": buys, "sells": sells}, ensure_ascii=False)
     js = ("(function(){var D=" + payload + ";"
-          "function mk(arr,color,sym,rot){return {type:'scatter',symbol:sym,symbolRotate:rot||0,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);var base=Math.max(4,Math.min(10,3+Math.log(d+10)/Math.LN10*1.6));var sc=Math.max(0.5,Math.min(1,240/D.dates.length));return base*sc;},"
-          "itemStyle:{color:color,opacity:0.8},data:arr.map(function(o){return {value:o.value,delta:o.delta,lab:o.lab};}),"
-          "label:{show:true,position:'top',fontSize:10,formatter:function(p){return p.data.lab?((p.data.delta>0?'+':'')+p.data.delta.toLocaleString()):'';}},"
-          "tooltip:{trigger:'item',formatter:function(p){var d=p.data.delta;return p.data.value[0]+'<br/>'+(d>0?'买入 +':'卖出 ')+d.toLocaleString()+' 股';}}};}"
+          "function sz(v,p){var s=Math.abs(p.data.shares||0);return Math.max(16,Math.min(26,14+Math.log(s+10)/Math.LN10*2));}"
+          "function mk(arr,color){return {type:'scatter',symbol:'circle',z:5,symbolSize:sz,"
+          "itemStyle:{color:color,borderColor:'#fff',borderWidth:1.2},"
+          "data:arr.map(function(o){return {value:o.value,shares:o.shares,d:o.d,bs:o.bs};}),"
+          "label:{show:true,position:'inside',color:'#fff',fontWeight:'bold',fontSize:11,formatter:function(p){return p.data.bs;}},"
+          "tooltip:{trigger:'item',formatter:function(p){var s=p.data.shares;return p.data.d+'<br/>'+(s>0?'买入 B  +':'卖出 S  ')+Math.abs(s).toLocaleString()+' 股';}}};}"
           "function draw(){var el=document.getElementById('" + div + "');if(!el||!window.echarts)return;var ch=echarts.init(el);"
           "ch.setOption({grid:{left:8,right:16,top:16,bottom:24,containLabel:true},"
           "tooltip:{trigger:'axis'},xAxis:{type:'category',data:D.dates,axisLabel:{fontSize:10}},"
           "yAxis:{type:'value',scale:true,axisLabel:{formatter:'${value}'}},"
-          "series:[{type:'line',data:D.closes,showSymbol:false,smooth:true,lineStyle:{width:2,color:'#3b5b92'},name:'收盘价'},"
-          "mk(D.buys,'#c0392b','triangle',0),mk(D.sells,'#2e7d32','triangle',180)]});"
+          "series:[{type:'line',data:D.closes,showSymbol:false,smooth:true,lineStyle:{width:2,color:'#3b5b92'},name:'收盘价',z:1},"
+          "mk(D.buys,'#e23b3b'),mk(D.sells,'#2e9e5b')]});"
           "window.addEventListener('resize',function(){ch.resize();});}"
           "if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();")
     return (f'<p style="margin:14px 0 2px;font-weight:600;">{h(title)}</p>\n'
@@ -312,7 +315,7 @@ def build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no
           f'subtitle:   "{"·".join(codes)} 价格曲线·买卖点·仓位 全景 · 数据源：ARK 官方每日披露"',
           f"date:       {pub_date}", 'author:     "龟龟"', 'header-img: "/img/home-bg.jpg"',
           "catalog:    true", "tags:", "    - 投资", "    - Cathie Wood", "    - ARK", "    - 持仓追踪", "---", "",
-          "> 🤖 **每交易日自动更新**。数据来自 ARK Invest 官方每日全持仓披露（assets.ark-funds.com）与 "
+          "> 🤖 **每周五收盘后自动更新（覆盖当周数据）**。数据来自 ARK Invest 官方每日全持仓披露（assets.ark-funds.com）与 "
           "Yahoo Finance 价格，均为公开信息；本文为基于公开数据的原创整理，**非投资建议**。选题线索来自 "
           "[Moomoo Whale Watch](https://www.moomoo.com/quote/institution-tracking)（仅作线索与致谢，未使用其文章内容）。",
           "",
@@ -334,14 +337,14 @@ def build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no
             line += f'，第一大重仓 **{top["ticker"] or top["company"]}**（{top["weight"]:.2f}%）'
         if had_prev and c in diffs:
             d = diffs[c]
-            line += f'；当日 新建 {len(d["new"])} / 清仓 {len(d["exited"])} / 增持 {len(d["inc"])} / 减持 {len(d["dec"])}'
+            line += f'；本周 新建 {len(d["new"])} / 清仓 {len(d["exited"])} / 增持 {len(d["inc"])} / 减持 {len(d["dec"])}'
         body.append(line)
     body.append("")
 
     # 价格曲线 + 买卖点 + 仓位
     body += ["## 价格曲线 · 买卖点 · 仓位", "",
-             "> 曲线为 Yahoo 近两年收盘价；🔺红=买入、🔻绿=卖出（点大小≈当日净交易量），"
-             "标签为净买卖股数，标题为当前 ARK 总持仓。买卖点来自 ARK 官方交易披露、近两年（经 arkfunds.io 聚合）。", ""]
+             "> 曲线为 Yahoo 近两年收盘价；🔴 **B**=买入、🟢 **S**=卖出（圆点大小≈交易量，悬停看日期与股数）；"
+             "标题为当前 ARK 总持仓。仅标注近两年成交量最大的若干笔，数据来自 ARK 官方交易披露（经 arkfunds.io）。", ""]
     if price_blocks:
         body += [ECHARTS_CDN, ""] + price_blocks
     if no_price:
@@ -353,9 +356,9 @@ def build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no
         body += ["## ARKK 旗舰：前 15 大重仓（按权重）", "", bar_chart(rows, 15), "", top_table(rows, 15), ""]
 
     # 变化明细
-    body += ["## 当日买卖变化（对比上一交易日）", ""]
+    body += ["## 本周持仓变化（对比上周）", ""]
     if not had_prev:
-        body += ["> 首次运行，已建立基准快照；增/减/新建/清仓从下一交易日起自动出现。", ""]
+        body += ["> 首次运行，已建立基准快照；持仓变化将从下一周起自动出现。", ""]
     else:
         for c in codes:
             d = diffs.get(c)
@@ -405,7 +408,7 @@ SPEC_TEXT = """# ark-data 渲染约定 (RENDERING SPEC)
       "holdings": [{"ticker","company","shares","mv","weight"}...]    // 按权重降序
     }, ...
   },
-  "today_trades": {                    // 当日真实买卖（ARK 官方披露，经 arkfunds.io）
+  "week_trades": {                     // 本周真实买卖净额（近7天，ARK 官方披露，经 arkfunds.io）
     "ARKK": {"buys":[{"ticker","company","shares"}...], "sells":[{...}...]}, ...
   }
 }
@@ -415,7 +418,7 @@ SPEC_TEXT = """# ark-data 渲染约定 (RENDERING SPEC)
 1. **只做原创分析**：可解读买卖含义、仓位变化、集中度、主题（AI/基因/太空等）。
 2. **禁止搬运任何第三方（含 Moomoo）文章正文/图**；可致谢并链接，链接合法、转载正文违法。
 3. **非投资建议**：保持客观陈述“发生了什么”，附免责声明；不要“推荐买入/卖出”。
-4. 你只写文字点评；价格曲线/买卖点/仓位图已由脚本在正文渲染。你需要的字段：`today_trades`（当日买卖）、`funds[*].holdings`（持仓与权重）。
+4. 你只写文字点评；价格曲线/买卖点/仓位图已由脚本在正文渲染。你需要的字段：`week_trades`（本周买卖）、`funds[*].holdings`（持仓与权重）。
 5. 语言：简体中文；标题含数据日期。
 """
 
@@ -539,20 +542,30 @@ def main():
     open(out_path, "w", encoding="utf-8").write(md)
 
     # sidecar JSON（供 Gemini 等下游渲染器）
-    # 当日真实买卖（来自 arkfunds.io），供下游 Gemini 写点评；不放 2y 价格/交易史以免每日 sidecar 膨胀
-    today_trades = {}
+    # 本周真实买卖（近 7 天，来自 arkfunds.io，按票净额），供下游 Gemini 写点评；不放 2y 价格/交易史以免膨胀
+    week_start = (maxd - datetime.timedelta(days=6)).isoformat()
+    wk_agg = {}
     for tk, lst in trades.items():
         for tr in lst:
-            if tr["date"] == data_date:
-                ft = today_trades.setdefault(tr["fund"], {"buys": [], "sells": []})
-                rec = {"ticker": tk, "company": company_by_t.get(tk, tk), "shares": abs(tr["dshares"])}
-                (ft["buys"] if tr["dshares"] > 0 else ft["sells"]).append(rec)
+            if tr["date"] >= week_start:
+                a = wk_agg.setdefault((tr["fund"], tk), [company_by_t.get(tk, tk), 0])
+                a[1] += tr["dshares"]
+    week_trades = {}
+    for (fund, tk), (comp, net) in wk_agg.items():
+        if net == 0:
+            continue
+        ft = week_trades.setdefault(fund, {"buys": [], "sells": []})
+        (ft["buys"] if net > 0 else ft["sells"]).append({"ticker": tk, "company": comp, "shares": abs(net)})
+    for ft in week_trades.values():
+        ft["buys"].sort(key=lambda x: -x["shares"])
+        ft["sells"].sort(key=lambda x: -x["shares"])
     sidecar = {
-        "date": data_date, "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "date": data_date, "week_start": week_start,
+        "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "funds": {c: {"name": v["name"], "total_mv": sum(r["mv"] for r in v["rows"]),
                       "holdings": sorted(v["rows"], key=lambda r: -r["weight"])}
                   for c, v in fresh.items()},
-        "today_trades": today_trades,
+        "week_trades": week_trades,
     }
     open(os.path.join(SIDECAR_DIR, f"{data_date}.json"), "w", encoding="utf-8").write(
         json.dumps(sidecar, ensure_ascii=False, indent=2))

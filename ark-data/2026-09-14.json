@@ -1,6 +1,7 @@
 {
   "date": "2026-09-14",
-  "generated_at": "2026-09-15T09:37:45",
+  "week_start": "2026-09-08",
+  "generated_at": "2026-09-15T10:02:48",
   "funds": {
     "ARKK": {
       "name": "ARK 旗舰·颠覆式创新",
@@ -1331,64 +1332,50 @@
       ]
     }
   },
-  "today_trades": {
+  "week_trades": {
     "ARKK": {
-      "buys": [],
-      "sells": [
+      "buys": [
         {
-          "ticker": "TWST",
-          "company": "TWIST BIOSCIENCE CORP",
-          "shares": 15138
+          "ticker": "ACHR",
+          "company": "ARCHER AVIATION INC-A",
+          "shares": 575700
         },
+        {
+          "ticker": "NTLA",
+          "company": "INTELLIA THERAPEUTICS INC",
+          "shares": 467792
+        },
+        {
+          "ticker": "BEAM",
+          "company": "BEAM THERAPEUTICS INC",
+          "shares": 385984
+        },
+        {
+          "ticker": "CRSP",
+          "company": "CRISPR THERAPEUTICS AG",
+          "shares": 121669
+        },
+        {
+          "ticker": "META",
+          "company": "META PLATFORMS INC-CLASS A",
+          "shares": 38304
+        },
+        {
+          "ticker": "CBRS",
+          "company": "CEREBRAS SYSTEMS INC - A",
+          "shares": 32561
+        },
+        {
+          "ticker": "HOOD",
+          "company": "ROBINHOOD MARKETS INC - A",
+          "shares": 27083
+        }
+      ],
+      "sells": [
         {
           "ticker": "TEM",
           "company": "TEMPUS AI INC-CL A",
-          "shares": 87027
-        },
-        {
-          "ticker": "AMD",
-          "company": "ADVANCED MICRO DEVICES",
-          "shares": 11195
-        },
-        {
-          "ticker": "PLTR",
-          "company": "PALANTIR TECHNOLOGIES INC-A",
-          "shares": 34548
-        },
-        {
-          "ticker": "COIN",
-          "company": "COINBASE GLOBAL INC -CLASS A",
-          "shares": 36628
-        },
-        {
-          "ticker": "SHOP",
-          "company": "SHOPIFY INC - CLASS A",
-          "shares": 49844
-        },
-        {
-          "ticker": "AMZN",
-          "company": "AMAZON.COM INC",
-          "shares": 20000
-        },
-        {
-          "ticker": "TXG",
-          "company": "10X GENOMICS INC-CLASS A",
-          "shares": 51475
-        },
-        {
-          "ticker": "NTRA",
-          "company": "NATERA INC",
-          "shares": 7805
-        },
-        {
-          "ticker": "ILMN",
-          "company": "ILLUMINA INC",
-          "shares": 9327
-        },
-        {
-          "ticker": "CRCL",
-          "company": "CIRCLE INTERNET GROUP INC",
-          "shares": 113369
+          "shares": 213184
         },
         {
           "ticker": "BMNR",
@@ -1398,17 +1385,32 @@
         {
           "ticker": "BLSH",
           "company": "BULLISH",
-          "shares": 18280
+          "shares": 139497
         },
         {
-          "ticker": "WGS",
-          "company": "GENEDX HOLDINGS CORP",
-          "shares": 22586
+          "ticker": "CRCL",
+          "company": "CIRCLE INTERNET GROUP INC",
+          "shares": 113369
         },
         {
-          "ticker": "SLMT",
-          "company": "SLMT",
-          "shares": 2424
+          "ticker": "TXG",
+          "company": "10X GENOMICS INC-CLASS A",
+          "shares": 112031
+        },
+        {
+          "ticker": "GOOGL",
+          "company": "ALPHABET INC-CL A",
+          "shares": 74587
+        },
+        {
+          "ticker": "TWST",
+          "company": "TWIST BIOSCIENCE CORP",
+          "shares": 74411
+        },
+        {
+          "ticker": "PLTR",
+          "company": "PALANTIR TECHNOLOGIES INC-A",
+          "shares": 72943
         },
         {
           "ticker": "CRWV",
@@ -1416,9 +1418,95 @@
           "shares": 64923
         },
         {
+          "ticker": "SHOP",
+          "company": "SHOPIFY INC - CLASS A",
+          "shares": 49844
+        },
+        {
           "ticker": "GOOG",
           "company": "ALPHABET INC-CL C",
           "shares": 38273
+        },
+        {
+          "ticker": "COIN",
+          "company": "COINBASE GLOBAL INC -CLASS A",
+          "shares": 36628
+        },
+        {
+          "ticker": "AMD",
+          "company": "ADVANCED MICRO DEVICES",
+          "shares": 30686
+        },
+        {
+          "ticker": "WGS",
+          "company": "GENEDX HOLDINGS CORP",
+          "shares": 30217
+        },
+        {
+          "ticker": "AMZN",
+          "company": "AMAZON.COM INC",
+          "shares": 20000
+        },
+        {
+          "ticker": "SLMT",
+          "company": "SLMT",
+          "shares": 14959
+        },
+        {
+          "ticker": "ILMN",
+          "company": "ILLUMINA INC",
+          "shares": 9327
+        },
+        {
+          "ticker": "NTRA",
+          "company": "NATERA INC",
+          "shares": 7805
+        }
+      ]
+    },
+    "ARKG": {
+      "buys": [
+        {
+          "ticker": "IONS",
+          "company": "IONIS PHARMACEUTICALS INC",
+          "shares": 166585
+        },
+        {
+          "ticker": "BEAM",
+          "company": "BEAM THERAPEUTICS INC",
+          "shares": 148338
+        },
+        {
+          "ticker": "GH",
+          "company": "GUARDANT HEALTH INC",
+          "shares": 39558
+        },
+        {
+          "ticker": "NTLA",
+          "company": "INTELLIA THERAPEUTICS INC",
+          "shares": 38313
+        },
+        {
+          "ticker": "CRSP",
+          "company": "CRISPR THERAPEUTICS AG",
+          "shares": 36285
+        },
+        {
+          "ticker": "SCTX",
+          "company": "SCRIBE THERAPEUTICS INC",
+          "shares": 10956
+        }
+      ],
+      "sells": [
+        {
+          "ticker": "TXG",
+          "company": "10X GENOMICS INC-CLASS A",
+          "shares": 317649
+        },
+        {
+          "ticker": "TWST",
+          "company": "TWIST BIOSCIENCE CORP",
+          "shares": 23808
         }
       ]
     },
@@ -1427,14 +1515,19 @@
         {
           "ticker": "META",
           "company": "META PLATFORMS INC-CLASS A",
-          "shares": 10997
+          "shares": 15784
+        },
+        {
+          "ticker": "SOLQ.U",
+          "company": "SOLQ.U",
+          "shares": 2143
         }
       ],
       "sells": [
         {
-          "ticker": "AMD",
-          "company": "ADVANCED MICRO DEVICES",
-          "shares": 9275
+          "ticker": "ARKB",
+          "company": "ARKB",
+          "shares": 1062820
         },
         {
           "ticker": "CRCL",
@@ -1442,35 +1535,19 @@
           "shares": 28981
         },
         {
+          "ticker": "GOOGL",
+          "company": "ALPHABET INC-CL A",
+          "shares": 11944
+        },
+        {
+          "ticker": "AMD",
+          "company": "ADVANCED MICRO DEVICES",
+          "shares": 9275
+        },
+        {
           "ticker": "SLMT",
           "company": "SLMT",
-          "shares": 960
-        },
-        {
-          "ticker": "ARKB",
-          "company": "ARKB",
-          "shares": 1062820
-        }
-      ]
-    },
-    "ARKG": {
-      "buys": [
-        {
-          "ticker": "GH",
-          "company": "GUARDANT HEALTH INC",
-          "shares": 39558
-        },
-        {
-          "ticker": "IONS",
-          "company": "IONIS PHARMACEUTICALS INC",
-          "shares": 166585
-        }
-      ],
-      "sells": [
-        {
-          "ticker": "TXG",
-          "company": "10X GENOMICS INC-CLASS A",
-          "shares": 271248
+          "shares": 5923
         }
       ]
     },

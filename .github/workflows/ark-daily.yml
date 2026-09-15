@@ -1,20 +1,20 @@
-name: ARK Cathie Wood daily auto-post
+name: ARK Cathie Wood weekly auto-post
 
-# 每个交易日自动抓取 ARK 官方持仓，生成“原创”分析文章并直接发布到 _posts/（线上可见）。
-# 护栏：数据日期未变 或 当日零变化 -> 不发帖。仅提交 _posts/ 与 _scripts/state/。
+# 每周五收盘后自动抓取 ARK 官方持仓，生成“原创”分析文章并直接发布到 _posts/（覆盖当周）。
+# 护栏：数据日期未变 或 无成交 -> 不发帖。仅提交 _posts/ 与 _scripts/state/ 与 ark-data/。
 # 全自动，无需手动触发（workflow_dispatch 仅作可选的手动补发入口）。
 
 on:
   schedule:
-    # 02:30 UTC，周二至周六 = 约美东周一至周五 22:30（ARK 收盘后披露完成之后）
-    - cron: '30 2 * * 2-6'
+    # 每周六 02:30 UTC = 周五约美东 22:30（美股周五收盘、ARK 披露完成后），每周一篇覆盖当周
+    - cron: '30 2 * * 6'
   workflow_dispatch: {}   # 可选：Actions 页手动触发一次
 
 permissions:
   contents: write
 
 concurrency:
-  group: ark-daily-post
+  group: ark-weekly-post
   cancel-in-progress: false
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
             git config user.name  "ark-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add _posts _scripts/state ark-data
-            git commit -m "chore(ark): 自动发布 Cathie Wood 每日持仓 [skip ci]"
+            git commit -m "chore(ark): 自动发布 Cathie Wood 每周持仓 [skip ci]"
             git push
             echo "Post published."
           else
