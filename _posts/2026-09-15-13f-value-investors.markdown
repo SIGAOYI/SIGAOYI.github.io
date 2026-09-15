@@ -18,7 +18,10 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p style="color:#999;margin:8px 0 0;">（本篇发布后由 Gemini 自动追加简评）</p>
+<p>2026年第二季度持仓报告显示，段永平的投资组合依然高度集中于苹果和伯克希尔，两者合计占比超过六成。本季度值得注意的是，段永平新建仓了阿里巴巴，同时清仓了台积电和CrowdStrike。此外，拼多多、特斯拉和英伟达在其投资组合中也占据了重要位置。
+
+李录的喜马拉雅资本则继续重仓谷歌A类和C类股，以及拼多多，这三者合计占比超过七成。伯克希尔和华美银行也是其重要的持仓标的。本季度李录没有新建仓位，但清仓了多家公司，包括美国银行、西方石油、标普全球、H&R Block和穆迪。两位投资者的操作都体现了对部分科技和消费股的青睐，同时在个别持仓上进行了调整。</p>
+<p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
 
