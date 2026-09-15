@@ -18,7 +18,10 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p style="color:#999;margin:8px 0 0;">（本篇发布后由 Gemini 自动追加简评）</p>
+<p>2026年第二季度，段永平的H&H International Investment持仓集中度较高，苹果和伯克希尔依然占据前两大重仓股，合计占比超过65%。拼多多、特斯拉和英伟达也位列前五。值得注意的是，本季度段永平新建仓了阿里巴巴，同时清仓了台积电和CrowdStrike。
+
+李录的Himalaya Capital Management在本季度则继续青睐谷歌（Alphabet），其A类和C类股合计占比接近一半。拼多多和伯克希尔也是其重要的持仓。本季度李录没有新建仓位，但清仓了多家公司，包括美国银行、西方石油、标普全球、H&R Block和穆迪。两位投资者的操作都体现了对部分科技股和价值股的不同侧重与调整。</p>
+<p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
 

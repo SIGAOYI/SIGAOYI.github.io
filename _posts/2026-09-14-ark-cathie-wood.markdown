@@ -20,7 +20,12 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p style="color:#999;margin:8px 0 0;">（本篇发布约 1 小时后，由 Gemini 自动追加简评）</p>
+<p>截至9月14日，ARK系列基金持仓有所调整。ARKK、ARKW和ARKQ的头号重仓股均为特斯拉。ARKK本周显著增持了ACHR、NTLA和BEAM，同时减持了TEM和CRCL。值得注意的是，ARKK也少量买入了Meta。
+
+ARKG方面，TXG仍是其最大持仓，但本周ARKG大幅减持了TXG和TWST，同时增持了IONS和BEAM。ARKW本周主要操作是大幅减持了ARKB，并少量买入Meta和SOLQ.U。ARKQ的动作较小，少量买入AVAV并减持TDY。
+
+整体来看，ARK基金在部分个股上进行了调仓，如对BEAM和Meta的买入，以及对TXG和CRCL的减持。特斯拉在多个基金中保持高位，显示其在ARK投资组合中的重要性。</p>
+<p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
 
