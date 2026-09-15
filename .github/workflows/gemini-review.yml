@@ -1,0 +1,47 @@
+name: Gemini review (manual test)
+
+# 用 Gemini API 给“最新一篇待填”的自动持仓文补「Gemini 简评」。
+# 仅手动触发（workflow_dispatch）——不设 Secret / 不点运行就绝不调用 API、绝不产生费用。
+# 需在仓库 Settings → Secrets and variables → Actions 里加密钥 GEMINI_API_KEY（可选 GEMINI_MODEL）。
+# 测通、确认用量与费用可接受后，再告诉我加定时（schedule），届时才会自动跑。
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gemini-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fill Gemini review
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::error::未设置 Secret GEMINI_API_KEY —— 请先在仓库 Settings → Secrets 添加后再运行。"
+            exit 1
+          fi
+          python3 _scripts/gemini_review.py
+      - name: Commit if filled
+        run: |
+          if [ -n "$(git status --porcelain _posts)" ]; then
+            git config user.name  "gemini-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add _posts
+            git commit -m "chore(gemini): 追加 Gemini 简评 [skip ci]"
+            git push
+            echo "Review committed."
+          else
+            echo "No pending post to review (or nothing changed)."
+          fi
