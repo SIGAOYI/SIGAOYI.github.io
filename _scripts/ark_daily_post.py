@@ -284,8 +284,8 @@ def price_chart(ticker, company, prices, trades, cur_shares):
     title = f'{ticker} · {company} — 当前 ARK 持仓 {fmt_int(cur_shares)} 股'
     payload = json.dumps({"dates": dates, "closes": closes, "buys": buys, "sells": sells}, ensure_ascii=False)
     js = ("(function(){var D=" + payload + ";"
-          "function mk(arr,color,sym,rot){return {type:'scatter',symbol:sym,symbolRotate:rot||0,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);return Math.max(9,Math.min(30,Math.log10(d+10)*7));},"
-          "itemStyle:{color:color},data:arr.map(function(o){return {value:o.value,delta:o.delta,lab:o.lab};}),"
+          "function mk(arr,color,sym,rot){return {type:'scatter',symbol:sym,symbolRotate:rot||0,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);var base=Math.max(4,Math.min(10,3+Math.log(d+10)/Math.LN10*1.6));var sc=Math.max(0.5,Math.min(1,240/D.dates.length));return base*sc;},"
+          "itemStyle:{color:color,opacity:0.8},data:arr.map(function(o){return {value:o.value,delta:o.delta,lab:o.lab};}),"
           "label:{show:true,position:'top',fontSize:10,formatter:function(p){return p.data.lab?((p.data.delta>0?'+':'')+p.data.delta.toLocaleString()):'';}},"
           "tooltip:{trigger:'item',formatter:function(p){var d=p.data.delta;return p.data.value[0]+'<br/>'+(d>0?'买入 +':'卖出 ')+d.toLocaleString()+' 股';}}};}"
           "function draw(){var el=document.getElementById('" + div + "');if(!el||!window.echarts)return;var ch=echarts.init(el);"
