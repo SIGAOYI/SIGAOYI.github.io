@@ -133,8 +133,47 @@ def diff_13f(latest, prev):
 ECHARTS_CDN = '<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>'
 
 
+# 常见持仓中文简称（命中即用；未命中回退 Title Case，至少不再全大写）
+CN_NAME = {
+    "APPLE": "苹果", "BERKSHIRE": "伯克希尔", "PDD": "拼多多", "TESLA": "特斯拉",
+    "NVIDIA": "英伟达", "ALPHABET": "谷歌", "OCCIDENTAL": "西方石油", "MICROSOFT": "微软",
+    "AMAZON": "亚马逊", "META": "Meta", "COINBASE": "Coinbase", "ALIBABA": "阿里巴巴",
+    "UNITEDHEALTH": "联合健康", "DISNEY": "迪士尼", "CREDO": "Credo", "SYNOPSYS": "新思科技",
+    "PALANTIR": "Palantir", "CIRCLE": "Circle", "TAIWAN SEMI": "台积电", "CROWDSTRIKE": "CrowdStrike",
+    "MOODY": "穆迪", "BANK OF AMERICA": "美国银行", "S&P GLOBAL": "标普全球", "H&R BLOCK": "H&R Block",
+    "BROADCOM": "博通", "NETFLIX": "奈飞", "INTEL": "英特尔", "STARBUCKS": "星巴克",
+}
+
+
+def cn_name(issuer):
+    up = (issuer or "").upper()
+    for k, v in CN_NAME.items():
+        if k in up:
+            return v
+    return (issuer or "").title()
+
+
+def cn_class(cls):
+    u = (cls or "").upper()
+    if "ADS" in u or "ADR" in u:
+        return "存托股ADS"
+    if "ORDINARY" in u:
+        return "普通股"
+    if "CL C" in u or "CLASS C" in u:
+        return "C类股"
+    if "CL B" in u or "CLASS B" in u:
+        return "B类股"
+    if "CL A" in u or "CLASS A" in u:
+        return "A类股"
+    if "PREF" in u:
+        return "优先股"
+    if "COM" in u or "CAP STK" in u or "STOCK" in u or "SHARES" in u:
+        return "普通股"
+    return cls or "-"
+
+
 def bar_chart(div, rows, total, n=12):
-    data = [{"name": r["issuer"][:18], "value": round(r["value"] / total * 100, 2)} for r in rows[:n]][::-1]
+    data = [{"name": cn_name(r["issuer"]), "value": round(r["value"] / total * 100, 2)} for r in rows[:n]][::-1]
     payload = json.dumps(data, ensure_ascii=False)
     js = ("(function(){var raw=" + payload + ";var names=raw.map(function(d){return d.name;});var vals=raw.map(function(d){return d.value;});"
           "function draw(){var el=document.getElementById('" + div + "');if(!el||!window.echarts)return;var ch=echarts.init(el);"
@@ -152,7 +191,7 @@ def bar_chart(div, rows, total, n=12):
 def holdings_table(rows, total, n=15):
     body = ""
     for i, r in enumerate(rows[:n], 1):
-        body += (f'<tr style="border-bottom:1px solid #eee;"><td>{i}</td><td>{h(r["issuer"])}</td><td>{h(r["cls"])}</td>'
+        body += (f'<tr style="border-bottom:1px solid #eee;"><td>{i}</td><td>{h(cn_name(r["issuer"]))}</td><td>{h(cn_class(r["cls"]))}</td>'
                  f'<td style="text-align:right;">{fmt_money(r["value"])}</td><td style="text-align:right;">{fmt_int(r["shares"])}</td>'
                  f'<td style="text-align:right;">{r["value"]/total*100:.2f}%</td></tr>')
     return ('<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px;">'
@@ -166,7 +205,7 @@ def change_table(rows, kind):
         return "<p><em>无</em></p>"
     if kind in ("new", "exited"):
         head = '<th>公司</th><th style="text-align:right;">市值</th><th style="text-align:right;">股数</th>'
-        body = "".join(f'<tr style="border-bottom:1px solid #eee;"><td>{h(r["issuer"])}</td>'
+        body = "".join(f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"]))}</td>'
                        f'<td style="text-align:right;">{fmt_money(r["value"])}</td><td style="text-align:right;">{fmt_int(r["shares"])}</td></tr>'
                        for r in rows[:12])
     else:
@@ -175,7 +214,7 @@ def change_table(rows, kind):
         for r in rows[:12]:
             sign = "+" if r["dshares"] > 0 else ""
             color = "#c0392b" if r["dshares"] > 0 else "#2e7d32"
-            body += (f'<tr style="border-bottom:1px solid #eee;"><td>{h(r["issuer"])}</td>'
+            body += (f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"]))}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{fmt_int(r["dshares"])}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{r["dpct"]:.1f}%</td></tr>')
     return ('<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px;">'
