@@ -27,7 +27,8 @@ MODEL = os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
 
 SYS = ("你是财经编辑。基于给定数据，用简体中文写一段简洁、信息密集、口语易读的客观点评（120–200 字）。"
        "公司一律用中文常见简称（如 特斯拉、苹果、谷歌、拼多多、英伟达、伯克希尔、Coinbase），冷门的直接用股票代码；"
-       "不要写公司 SEC 全称、不要加括号英文名。多讲“买卖了什么、什么值得注意”，权重/变化点到为止、别堆数字。"
+       "基金/机构名也用中文（如 段永平、李录的喜马拉雅资本）。任何名称都不要写英文全称、不要加括号英文（错误示例：谷歌（Alphabet））。"
+       "多讲“买卖了什么、什么值得注意”，权重/变化点到为止、别堆数字。"
        "硬性要求：非投资建议，不得出现“建议买入/卖出/加仓/减仓/看多/看空”等指令性措辞；只用给定数据、不编造；"
        "不复制任何第三方文章正文。只输出点评正文，不要标题或解释。")
 
@@ -54,7 +55,7 @@ def compact_13f(d):
     lines = [f"# 13F 季报（{d.get('quarter')}，报告季 {d.get('report_date')}）"]
     for slug, inv in d.get("investors", {}).items():
         top = ", ".join(f"{r['issuer']} {r['weight']}%" for r in inv.get("holdings", [])[:10])
-        lines.append(f"{inv.get('name')}（{inv.get('entity')}）重仓: {top}")
+        lines.append(f"{inv.get('name')} 重仓: {top}")   # 只给中文人名，不给英文机构名，免得被写进正文
         ch = inv.get("changes", {})
         if ch:
             nb = ", ".join(x["issuer"] for x in ch.get("new", [])[:5])
