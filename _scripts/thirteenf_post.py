@@ -266,6 +266,15 @@ def main():
         }
 
     md = build_post(pub_date, quarter, blocks)
+    # 一次成文：配了 GEMINI_API_KEY 就把 Gemini 简评内嵌进正文（无 key/失败则保留占位符）
+    try:
+        import gemini_review as gr
+        rev = gr.build_review_html("13f", sidecar)
+        if rev:
+            md = gr.fill_slot(md, rev)
+            print("[gemini] 简评已内嵌")
+    except Exception as e:
+        print("[gemini-skip]", e)
     out = os.path.join(POSTS_DIR, f"{pub_date}-13f-value-investors.markdown")
     open(out, "w", encoding="utf-8").write(md)
     open(os.path.join(SIDECAR_DIR, f"13f-{max_report}.json"), "w", encoding="utf-8").write(

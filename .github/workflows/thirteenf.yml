@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Generate 13F post if new quarter
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: python3 _scripts/thirteenf_post.py
       - name: Commit if created
         run: |

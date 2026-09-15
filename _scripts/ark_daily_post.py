@@ -534,15 +534,7 @@ def main():
         tlist = [{"date": k, "dshares": v} for k, v in sorted(agg.items()) if abs(v) >= 1]
         price_blocks.append(price_chart(t, company_by_t.get(t, t), p, tlist, cur_shares_by_t.get(t, 0)))
 
-    # 用数据日期作为发布日：ARK 日期为“截至上一交易日”，不会是未来（不会被 Jekyll future 过滤）；
-    # 一个数据日一篇、URL 稳定，配合 last_date 去重天然避免重复发帖
-    pub_date = data_date
-    md = build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no_price)
-    out_path = os.path.join(POSTS_DIR, f"{pub_date}-ark-cathie-wood.markdown")
-    open(out_path, "w", encoding="utf-8").write(md)
-
-    # sidecar JSON（供 Gemini 等下游渲染器）
-    # 本周真实买卖（近 7 天，来自 arkfunds.io，按票净额），供下游 Gemini 写点评；不放 2y 价格/交易史以免膨胀
+    # 先算本周真实买卖 + sidecar（Gemini 简评要用；不放 2y 价格/交易史以免膨胀）
     week_start = (maxd - datetime.timedelta(days=6)).isoformat()
     wk_agg = {}
     for tk, lst in trades.items():
@@ -567,6 +559,21 @@ def main():
                   for c, v in fresh.items()},
         "week_trades": week_trades,
     }
+
+    # 用数据日期作为发布日（不会是未来、不被 Jekyll future 过滤）；一日一篇、URL 稳定，last_date 去重
+    pub_date = data_date
+    md = build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no_price)
+    # 一次成文：配了 GEMINI_API_KEY 就把 Gemini 简评内嵌进正文（无 key/失败则保留占位符，不影响发帖）
+    try:
+        import gemini_review as gr
+        rev = gr.build_review_html("ark", sidecar)
+        if rev:
+            md = gr.fill_slot(md, rev)
+            print("[gemini] 简评已内嵌")
+    except Exception as e:
+        print("[gemini-skip]", e)
+    out_path = os.path.join(POSTS_DIR, f"{pub_date}-ark-cathie-wood.markdown")
+    open(out_path, "w", encoding="utf-8").write(md)
     open(os.path.join(SIDECAR_DIR, f"{data_date}.json"), "w", encoding="utf-8").write(
         json.dumps(sidecar, ensure_ascii=False, indent=2))
     if not os.path.exists(SPEC_PATH):

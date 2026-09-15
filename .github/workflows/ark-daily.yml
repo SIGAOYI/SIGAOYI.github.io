@@ -28,6 +28,9 @@ jobs:
           python-version: '3.12'
 
       - name: Generate & publish ARK post
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: python3 _scripts/ark_daily_post.py
 
       - name: Commit post if created
