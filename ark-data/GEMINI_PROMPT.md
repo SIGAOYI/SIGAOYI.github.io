@@ -10,10 +10,12 @@
 ## 输入
 仓库中当天最新一份数据：`ark-data/<YYYY-MM-DD>.json`
 （也可从公开 URL 读取：`https://axelrod.lawootrip.com/ark-data/<YYYY-MM-DD>.json`）
-字段定义见 `ark-data/RENDERING_SPEC.md`：`funds[*].holdings`、`funds[*].changes`（new/exited/inc/dec）、`prices`、`trades_history`。
+关键字段：
+- `funds[*].holdings`：各基金持仓（ticker/company/shares/mv/weight，按权重降序）。
+- `today_trades[fund]`：当日真实买卖，`{"buys":[{ticker,company,shares}], "sells":[...]}`。
 
 ## 任务
-1. 读取当天 JSON，识别当日关键动作：显著买入/卖出（按 `|dshares|` 或 `dpct`）、新建仓、清仓、明显的主题或集中度变化。
+1. 读取当天 JSON，识别当日关键动作：显著买入/卖出（按 `shares`）、明显的主题或集中度变化。
 2. 写 **120–220 字**中文简评，聚焦“今天 ARK 做了什么、有什么值得注意”，可给 1–2 点中性洞察。
 
 ## 硬性约束（务必遵守）

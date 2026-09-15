@@ -32,7 +32,8 @@ SPEC_PATH = os.path.join(SIDECAR_DIR, "RENDERING_SPEC.md")
 TRADES_PATH = os.path.join(STATE_DIR, "trades_history.json")
 
 ARK_BASE = "https://assets.ark-funds.com/fund-documents/funds-etf-csv/"
-YF = "https://query1.finance.yahoo.com/v8/finance/chart/{t}?range=6mo&interval=1d"
+YF = "https://query1.finance.yahoo.com/v8/finance/chart/{t}?range=2y&interval=1d"
+TRADES = "https://arkfunds.io/api/v2/etf/trades?symbol={sym}&date_from={dfrom}"
 UA = "Mozilla/5.0 (compatible; ark-daily-post/2.0; +https://axelrod.lawootrip.com)"
 
 FUNDS = {
@@ -45,7 +46,7 @@ FUNDS = {
 }
 ORDER = ["ARKK", "ARKW", "ARKG", "ARKQ", "ARKF", "ARKX"]
 MAX_PRICE_CHARTS = 8
-PRIVATE_TICKERS = {"SPCX"}  # ARK 私有持仓占位符：无公开报价（Yahoo 同名票为无关证券，不可作价格图）
+PRIVATE_TICKERS = set()  # ARK 私有持仓占位符（无公开报价）；SPCX=SpaceX 已上市(NASDAQ)，不再跳过
 
 
 # ---------- fetch ----------
@@ -79,6 +80,26 @@ def fetch_prices(ticker):
     except Exception as e:
         print(f"[price-skip] {ticker}: {e}")
         return []
+
+
+def fetch_all_trades(funds, date_from):
+    """arkfunds.io 近两年真实买卖 -> {ticker: [{date,fund,dshares(带符号)}]}；全失败返回 None（触发本地缓存回退）。"""
+    out, any_ok = {}, False
+    for f in funds:
+        try:
+            d = json.loads(fetch_text(TRADES.format(sym=f, dfrom=date_from)))
+            for t in d.get("trades", []):
+                tk = (t.get("ticker") or "").strip()
+                sh = int(t.get("shares") or 0)
+                if not tk or sh == 0:
+                    continue
+                buy = str(t.get("direction", "")).lower().startswith("b")
+                out.setdefault(tk, []).append({"date": t["date"], "fund": f, "dshares": sh if buy else -sh})
+            any_ok = True
+            print(f"[trades] {f}: ok")
+        except Exception as e:
+            print(f"[trades-skip] {f}: {e}")
+    return out if any_ok else None
 
 
 # ---------- parse ----------
@@ -249,20 +270,23 @@ def price_chart(ticker, company, prices, trades, cur_shares):
     closes = [p["c"] for p in prices]
     pmap = {p["d"]: p["c"] for p in prices}
     dsorted = sorted(pmap.keys())
-    buys, sells = [], []
+    pts = []
     for tr in trades:
         np_ = nearest_close(pmap, dsorted, tr["date"])
         if not np_:
             continue
         dd, cc = np_
-        pt = {"value": [dd, cc], "delta": int(tr["dshares"])}
-        (buys if tr["dshares"] > 0 else sells).append(pt)
+        pts.append({"value": [dd, cc], "delta": int(tr["dshares"])})
+    for i in sorted(range(len(pts)), key=lambda j: -abs(pts[j]["delta"]))[:8]:
+        pts[i]["lab"] = 1  # 仅给交易量最大的若干个打标签，避免密集重叠
+    buys = [p for p in pts if p["delta"] > 0]
+    sells = [p for p in pts if p["delta"] < 0]
     title = f'{ticker} · {company} — 当前 ARK 持仓 {fmt_int(cur_shares)} 股'
     payload = json.dumps({"dates": dates, "closes": closes, "buys": buys, "sells": sells}, ensure_ascii=False)
     js = ("(function(){var D=" + payload + ";"
           "function mk(arr,color,sym,rot){return {type:'scatter',symbol:sym,symbolRotate:rot||0,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);return Math.max(9,Math.min(30,Math.log10(d+10)*7));},"
-          "itemStyle:{color:color},data:arr.map(function(o){return {value:o.value,delta:o.delta};}),"
-          "label:{show:true,position:'top',fontSize:10,formatter:function(p){var d=p.data.delta;return (d>0?'+':'')+d.toLocaleString();}},"
+          "itemStyle:{color:color},data:arr.map(function(o){return {value:o.value,delta:o.delta,lab:o.lab};}),"
+          "label:{show:true,position:'top',fontSize:10,formatter:function(p){return p.data.lab?((p.data.delta>0?'+':'')+p.data.delta.toLocaleString()):'';}},"
           "tooltip:{trigger:'item',formatter:function(p){var d=p.data.delta;return p.data.value[0]+'<br/>'+(d>0?'买入 +':'卖出 ')+d.toLocaleString()+' 股';}}};}"
           "function draw(){var el=document.getElementById('" + div + "');if(!el||!window.echarts)return;var ch=echarts.init(el);"
           "ch.setOption({grid:{left:8,right:16,top:16,bottom:24,containLabel:true},"
@@ -315,12 +339,9 @@ def build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no
     body.append("")
 
     # 价格曲线 + 买卖点 + 仓位
-    body += ["## 价格曲线 · 买卖点 · 仓位", ""]
-    if not had_prev:
-        body += ["> 首次运行为**基准**：下方展示重点个股价格曲线与当前 ARK 持仓；"
-                 "**买卖点（红买/绿卖）将从下一交易日起自动标注在曲线上。**", ""]
-    else:
-        body += ["> 曲线为 Yahoo 收盘价；🔺红=买入、🔻绿=卖出（点大小≈交易量），标签为当日净买卖股数；标题为当前 ARK 总持仓。", ""]
+    body += ["## 价格曲线 · 买卖点 · 仓位", "",
+             "> 曲线为 Yahoo 近两年收盘价；🔺红=买入、🔻绿=卖出（点大小≈当日净交易量），"
+             "标签为净买卖股数，标题为当前 ARK 总持仓。买卖点来自 ARK 官方交易披露、近两年（经 arkfunds.io 聚合）。", ""]
     if price_blocks:
         body += [ECHARTS_CDN, ""] + price_blocks
     if no_price:
@@ -381,17 +402,12 @@ SPEC_TEXT = """# ark-data 渲染约定 (RENDERING SPEC)
     "ARKK": {
       "name": "ARK 旗舰·颠覆式创新",
       "total_mv": 6400000000.0,
-      "holdings": [{"ticker","company","shares","mv","weight"}...],   // 按权重降序
-      "changes": {                    // 对比上一交易日；首日为空
-        "new":   [{"ticker","company","shares","weight"}...],
-        "exited":[{...}...],
-        "inc":   [{"ticker","company","shares","weight","dshares","dpct"}...],
-        "dec":   [{...}...]
-      }
+      "holdings": [{"ticker","company","shares","mv","weight"}...]    // 按权重降序
     }, ...
   },
-  "prices": { "TSLA": [{"d":"YYYY-MM-DD","c": 363.4}, ...], ... },     // Yahoo 收盘
-  "trades_history": { "TSLA": [{"date","fund","dshares"}...], ... }   // 累积买卖，用于在价格曲线上标注
+  "today_trades": {                    // 当日真实买卖（ARK 官方披露，经 arkfunds.io）
+    "ARKK": {"buys":[{"ticker","company","shares"}...], "sells":[{...}...]}, ...
+  }
 }
 ```
 
@@ -399,8 +415,7 @@ SPEC_TEXT = """# ark-data 渲染约定 (RENDERING SPEC)
 1. **只做原创分析**：可解读买卖含义、仓位变化、集中度、主题（AI/基因/太空等）。
 2. **禁止搬运任何第三方（含 Moomoo）文章正文/图**；可致谢并链接，链接合法、转载正文违法。
 3. **非投资建议**：保持客观陈述“发生了什么”，附免责声明；不要“推荐买入/卖出”。
-4. 图表语义：价格曲线用 `prices`；买卖点用 `trades_history`（红买/绿卖，点大小≈|dshares|，标签=净股数）；
-   仓位用 `holdings` 中该票的 `shares`/`weight`。
+4. 你只写文字点评；价格曲线/买卖点/仓位图已由脚本在正文渲染。你需要的字段：`today_trades`（当日买卖）、`funds[*].holdings`（持仓与权重）。
 5. 语言：简体中文；标题含数据日期。
 """
 
@@ -467,15 +482,12 @@ def main():
             print("NO_CHANGES")
             return 0
 
-    # 累积交易史（用于价格曲线买卖点）
-    trades = load_trades()
-    for c, d in diffs.items():
-        for r in d["inc"] + d["dec"]:
-            trades.setdefault(r["ticker"] or r["company"], []).append(
-                {"date": data_date, "fund": c, "dshares": int(r["dshares"])})
-        for r in d["new"]:
-            trades.setdefault(r["ticker"] or r["company"], []).append(
-                {"date": data_date, "fund": c, "dshares": int(r["shares"])})
+    # 交易史（价格曲线买卖点）：优先 arkfunds.io 近两年真实买卖；失败则用本地缓存
+    date_from = (datetime.date.today() - datetime.timedelta(days=740)).isoformat()
+    trades = fetch_all_trades(list(fresh), date_from)
+    if not trades:
+        trades = load_trades()
+        print("[warn] arkfunds 不可用 -> 使用本地缓存 trades_history")
 
     # 选择要作价格图的个股：当日有买卖的票；首日则用 ARKK 权重前若干
     traded = {}
@@ -527,14 +539,20 @@ def main():
     open(out_path, "w", encoding="utf-8").write(md)
 
     # sidecar JSON（供 Gemini 等下游渲染器）
+    # 当日真实买卖（来自 arkfunds.io），供下游 Gemini 写点评；不放 2y 价格/交易史以免每日 sidecar 膨胀
+    today_trades = {}
+    for tk, lst in trades.items():
+        for tr in lst:
+            if tr["date"] == data_date:
+                ft = today_trades.setdefault(tr["fund"], {"buys": [], "sells": []})
+                rec = {"ticker": tk, "company": company_by_t.get(tk, tk), "shares": abs(tr["dshares"])}
+                (ft["buys"] if tr["dshares"] > 0 else ft["sells"]).append(rec)
     sidecar = {
         "date": data_date, "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "funds": {c: {"name": v["name"], "total_mv": sum(r["mv"] for r in v["rows"]),
-                      "holdings": sorted(v["rows"], key=lambda r: -r["weight"]),
-                      "changes": diffs.get(c, {"new": [], "exited": [], "inc": [], "dec": []})}
+                      "holdings": sorted(v["rows"], key=lambda r: -r["weight"])}
                   for c, v in fresh.items()},
-        "prices": prices,
-        "trades_history": trades,
+        "today_trades": today_trades,
     }
     open(os.path.join(SIDECAR_DIR, f"{data_date}.json"), "w", encoding="utf-8").write(
         json.dumps(sidecar, ensure_ascii=False, indent=2))

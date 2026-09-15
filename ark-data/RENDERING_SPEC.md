@@ -17,17 +17,12 @@
     "ARKK": {
       "name": "ARK 旗舰·颠覆式创新",
       "total_mv": 6400000000.0,
-      "holdings": [{"ticker","company","shares","mv","weight"}...],   // 按权重降序
-      "changes": {                    // 对比上一交易日；首日为空
-        "new":   [{"ticker","company","shares","weight"}...],
-        "exited":[{...}...],
-        "inc":   [{"ticker","company","shares","weight","dshares","dpct"}...],
-        "dec":   [{...}...]
-      }
+      "holdings": [{"ticker","company","shares","mv","weight"}...]    // 按权重降序
     }, ...
   },
-  "prices": { "TSLA": [{"d":"YYYY-MM-DD","c": 363.4}, ...], ... },     // Yahoo 收盘
-  "trades_history": { "TSLA": [{"date","fund","dshares"}...], ... }   // 累积买卖，用于在价格曲线上标注
+  "today_trades": {                    // 当日真实买卖（ARK 官方披露，经 arkfunds.io）
+    "ARKK": {"buys":[{"ticker","company","shares"}...], "sells":[{...}...]}, ...
+  }
 }
 ```
 
@@ -35,6 +30,5 @@
 1. **只做原创分析**：可解读买卖含义、仓位变化、集中度、主题（AI/基因/太空等）。
 2. **禁止搬运任何第三方（含 Moomoo）文章正文/图**；可致谢并链接，链接合法、转载正文违法。
 3. **非投资建议**：保持客观陈述“发生了什么”，附免责声明；不要“推荐买入/卖出”。
-4. 图表语义：价格曲线用 `prices`；买卖点用 `trades_history`（红买/绿卖，点大小≈|dshares|，标签=净股数）；
-   仓位用 `holdings` 中该票的 `shares`/`weight`。
+4. 你只写文字点评；价格曲线/买卖点/仓位图已由脚本在正文渲染。你需要的字段：`today_trades`（当日买卖）、`funds[*].holdings`（持仓与权重）。
 5. 语言：简体中文；标题含数据日期。
