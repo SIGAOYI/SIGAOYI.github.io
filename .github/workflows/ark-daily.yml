@@ -1,0 +1,44 @@
+name: ARK Cathie Wood daily auto-post
+
+# 每个交易日自动抓取 ARK 官方持仓，生成“原创”分析文章并直接发布到 _posts/（线上可见）。
+# 护栏：数据日期未变 或 当日零变化 -> 不发帖。仅提交 _posts/ 与 _scripts/state/。
+# 全自动，无需手动触发（workflow_dispatch 仅作可选的手动补发入口）。
+
+on:
+  schedule:
+    # 02:30 UTC，周二至周六 = 约美东周一至周五 22:30（ARK 收盘后披露完成之后）
+    - cron: '30 2 * * 2-6'
+  workflow_dispatch: {}   # 可选：Actions 页手动触发一次
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ark-daily-post
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate & publish ARK post
+        run: python3 _scripts/ark_daily_post.py
+
+      - name: Commit post if created
+        run: |
+          if [ -n "$(git status --porcelain _posts _scripts/state ark-data)" ]; then
+            git config user.name  "ark-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add _posts _scripts/state ark-data
+            git commit -m "chore(ark): 自动发布 Cathie Wood 每日持仓 [skip ci]"
+            git push
+            echo "Post published."
+          else
+            echo "No post today (no new data / no changes)."
+          fi
