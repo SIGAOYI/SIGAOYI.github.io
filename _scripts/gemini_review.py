@@ -25,9 +25,11 @@ END = "<!-- GEMINI_COMMENT_END -->"
 PLACEHOLDER_HINT = "由 Gemini 自动"
 MODEL = os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
 
-SYS = ("你是金融数据编辑。基于给定的结构化数据，用简体中文写一段 150–250 字的客观简评。"
-       "硬性要求：非投资建议，不得出现“建议买入/卖出/加仓/减仓/看多/看空”等指令性或劝诱性措辞；"
-       "只用给定数据、不编造数字；不复制任何第三方文章正文。只输出简评正文本身，不要额外解释或标题。")
+SYS = ("你是财经编辑。基于给定数据，用简体中文写一段简洁、信息密集、口语易读的客观点评（120–200 字）。"
+       "公司一律用中文常见简称（如 特斯拉、苹果、谷歌、拼多多、英伟达、伯克希尔、Coinbase），冷门的直接用股票代码；"
+       "不要写公司 SEC 全称、不要加括号英文名。多讲“买卖了什么、什么值得注意”，权重/变化点到为止、别堆数字。"
+       "硬性要求：非投资建议，不得出现“建议买入/卖出/加仓/减仓/看多/看空”等指令性措辞；只用给定数据、不编造；"
+       "不复制任何第三方文章正文。只输出点评正文，不要标题或解释。")
 
 
 def fill_slot(md, html):
@@ -101,36 +103,42 @@ def build_review_html(kind, sidecar):
             f'<p style="color:#888;font-size:12px;">🔷 由 Gemini（{MODEL}）自动生成，非投资建议。</p>')
 
 
-# ---- 独立运行：为最新一篇“待填”文章补简评（备用/补填） ----
-def _find_pending():
+# ---- 独立运行：为所有“待填”文章补简评（备用/补填，一次跑填全部） ----
+def _find_all_pending():
+    out = []
     cands = sorted(glob.glob(os.path.join(POSTS_DIR, "*-ark-cathie-wood.markdown")) +
                    glob.glob(os.path.join(POSTS_DIR, "*-13f-value-investors.markdown")), reverse=True)
     for p in cands:
         s = open(p, encoding="utf-8").read()
         m = re.search(re.escape(START) + r"(.*?)" + re.escape(END), s, re.S)
-        if m and PLACEHOLDER_HINT in m.group(1):
-            if "ark-cathie-wood" in os.path.basename(p):
-                dm = re.search(r"数据日期：(\d{4}-\d{2}-\d{2})", s)
-                return p, "ark", (os.path.join(SIDECAR_DIR, f"{dm.group(1)}.json") if dm else None)
+        if not (m and PLACEHOLDER_HINT in m.group(1)):
+            continue
+        if "ark-cathie-wood" in os.path.basename(p):
+            dm = re.search(r"数据日期：(\d{4}-\d{2}-\d{2})", s)
+            out.append((p, "ark", os.path.join(SIDECAR_DIR, f"{dm.group(1)}.json") if dm else None))
+        else:
             rm = re.search(r"报告季 \*\*(\d{4}-\d{2}-\d{2})\*\*", s)
-            return p, "13f", (os.path.join(SIDECAR_DIR, f"13f-{rm.group(1)}.json") if rm else None)
-    return None
+            out.append((p, "13f", os.path.join(SIDECAR_DIR, f"13f-{rm.group(1)}.json") if rm else None))
+    return out
 
 
 def main():
-    t = _find_pending()
-    if not t:
+    pend = _find_all_pending()
+    if not pend:
         print("NO_PENDING_POST")
         return 0
-    path, kind, sidecar_path = t
-    if not sidecar_path or not os.path.exists(sidecar_path):
-        print("NO_SIDECAR:", sidecar_path)
-        return 0
-    rev = build_review_html(kind, json.load(open(sidecar_path, encoding="utf-8")))
-    if not rev:
-        return 2
-    open(path, "w", encoding="utf-8").write(fill_slot(open(path, encoding="utf-8").read(), rev))
-    print("FILLED:" + os.path.relpath(path, ROOT))
+    filled = 0
+    for path, kind, sidecar_path in pend:
+        if not sidecar_path or not os.path.exists(sidecar_path):
+            print("NO_SIDECAR:", path)
+            continue
+        rev = build_review_html(kind, json.load(open(sidecar_path, encoding="utf-8")))
+        if not rev:
+            continue  # 无 key / 失败：保留占位符
+        open(path, "w", encoding="utf-8").write(fill_slot(open(path, encoding="utf-8").read(), rev))
+        print("FILLED:" + os.path.relpath(path, ROOT))
+        filled += 1
+    print(f"filled={filled}")
     return 0
 
 
