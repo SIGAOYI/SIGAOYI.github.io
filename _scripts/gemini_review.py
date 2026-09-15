@@ -135,7 +135,8 @@ def main():
         rev = build_review_html(kind, json.load(open(sidecar_path, encoding="utf-8")))
         if not rev:
             continue  # 无 key / 失败：保留占位符
-        open(path, "w", encoding="utf-8").write(fill_slot(open(path, encoding="utf-8").read(), rev))
+        s = open(path, encoding="utf-8").read()          # 必须先读，再以 "w" 打开写，否则会先清空文件
+        open(path, "w", encoding="utf-8").write(fill_slot(s, rev))
         print("FILLED:" + os.path.relpath(path, ROOT))
         filled += 1
     print(f"filled={filled}")
