@@ -87,16 +87,23 @@ def call_gemini(prompt):
     body = json.dumps({
         "system_instruction": {"parts": [{"text": SYS}]},
         "contents": [{"parts": [{"text": prompt}]}],
-        # thinkingBudget:0 关闭 2.5 思考（简评用不上，省 token 也避免思考吃掉输出预算导致截断）
-        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 800,
+        # thinkingBudget:0 尝试关闭 2.5 思考；但该参数有时不生效、思考仍会吃掉 maxOutputTokens 导致截断，
+        # 故把上限放大到 2048 兜底，保证正文完整（思考若真跑了也就多几百 token，免费额度内无碍）
+        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 2048,
                              "thinkingConfig": {"thinkingBudget": 0}},
     }).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
     resp = json.loads(urllib.request.urlopen(req, timeout=60).read())
-    text = resp["candidates"][0]["content"]["parts"][0]["text"].strip()
+    cand = resp["candidates"][0]
+    fin = cand.get("finishReason")
+    parts = cand.get("content", {}).get("parts", [])
+    text = "".join(p.get("text", "") for p in parts).strip()
     u = resp.get("usageMetadata", {})
     print(f"[usage] model={MODEL} prompt_tokens={u.get('promptTokenCount')} "
-          f"output_tokens={u.get('candidatesTokenCount')} total={u.get('totalTokenCount')}")
+          f"output_tokens={u.get('candidatesTokenCount')} thoughts_tokens={u.get('thoughtsTokenCount')} "
+          f"total={u.get('totalTokenCount')} finish={fin}")
+    if fin == "MAX_TOKENS":
+        print("[warn] 命中 maxOutputTokens 截断（多半是思考占用）；如仍截断请再调高上限。")
     return text
 
 
@@ -118,6 +125,9 @@ def main():
         return 0
 
     review = call_gemini(prompt)
+    if len(review) < 40:
+        print(f"[error] 简评过短/疑似截断（{len(review)} 字），不写入、保留占位符。原文：{review!r}")
+        return 2
     html = (f"<p>{review}</p>\n"
             f'<p style="color:#888;font-size:12px;">🔷 由 Gemini（{MODEL}）自动生成，非投资建议。</p>')
     s = open(path, encoding="utf-8").read()

@@ -18,10 +18,7 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p>在2026年第二季度，段永平管理的H&H International Investment前十大重仓股占总持仓的99.83%。其中，苹果公司（APPLE INC）占比41.05%，伯克希尔哈撒韦公司（BERKSHIRE HATHAWAY INC DEL）占比24.18%，拼多多（PDD HOLDINGS INC）占比9.99%。该季度，H&H International Investment新建仓位阿里巴巴（ALIBABA GROUP HLDG LTD），同时清仓了台积电（TAIWAN SEMICONDUCTOR MANUFAC）和CrowdStrike Holdings Inc。
-
-同期，李录管理的Himalaya Capital Management前八大重仓股占总持仓的99.01%。其主要持仓包括Alphabet Inc（A类股和C类股合计）占比47.94%，拼多多（PDD HOLDINGS INC）占比22.17%，伯克希尔哈撒韦公司（BERKSHIRE HATHAWAY INC DEL）占比14.98%。Himalaya Capital Management本季度没有新建仓位，并清仓了美国银行（BK OF AMERICA CORP）、西方石油公司（OCCIDENTAL PETE CORP）、标普全球（S&P GLOBAL INC）、H&R Block Inc和穆迪公司（MOODYS CORP）。</p>
-<p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
+<p style="color:#999;margin:8px 0 0;">（本篇发布后由 Gemini 自动追加简评）</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
 
