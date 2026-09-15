@@ -18,7 +18,8 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p style="color:#999;margin:8px 0 0;">（本篇发布后由 Gemini 自动追加简评）</p>
+<p>根据2026年第二季度（截至2026年6月30</p>
+<p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
 
