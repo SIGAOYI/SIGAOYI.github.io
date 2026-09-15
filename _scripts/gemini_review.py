@@ -87,7 +87,9 @@ def call_gemini(prompt):
     body = json.dumps({
         "system_instruction": {"parts": [{"text": SYS}]},
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 500},
+        # thinkingBudget:0 关闭 2.5 思考（简评用不上，省 token 也避免思考吃掉输出预算导致截断）
+        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 800,
+                             "thinkingConfig": {"thinkingBudget": 0}},
     }).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
     resp = json.loads(urllib.request.urlopen(req, timeout=60).read())
