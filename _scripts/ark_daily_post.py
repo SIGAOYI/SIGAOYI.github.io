@@ -260,7 +260,7 @@ def price_chart(ticker, company, prices, trades, cur_shares):
     title = f'{ticker} · {company} — 当前 ARK 持仓 {fmt_int(cur_shares)} 股'
     payload = json.dumps({"dates": dates, "closes": closes, "buys": buys, "sells": sells}, ensure_ascii=False)
     js = ("(function(){var D=" + payload + ";"
-          "function mk(arr,color,sym){return {type:'scatter',symbol:sym,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);return Math.max(9,Math.min(30,Math.log10(d+10)*7));},"
+          "function mk(arr,color,sym,rot){return {type:'scatter',symbol:sym,symbolRotate:rot||0,symbolSize:function(v,p){var d=Math.abs(p.data.delta||0);return Math.max(9,Math.min(30,Math.log10(d+10)*7));},"
           "itemStyle:{color:color},data:arr.map(function(o){return {value:o.value,delta:o.delta};}),"
           "label:{show:true,position:'top',fontSize:10,formatter:function(p){var d=p.data.delta;return (d>0?'+':'')+d.toLocaleString();}},"
           "tooltip:{trigger:'item',formatter:function(p){var d=p.data.delta;return p.data.value[0]+'<br/>'+(d>0?'买入 +':'卖出 ')+d.toLocaleString()+' 股';}}};}"
@@ -269,7 +269,7 @@ def price_chart(ticker, company, prices, trades, cur_shares):
           "tooltip:{trigger:'axis'},xAxis:{type:'category',data:D.dates,axisLabel:{fontSize:10}},"
           "yAxis:{type:'value',scale:true,axisLabel:{formatter:'${value}'}},"
           "series:[{type:'line',data:D.closes,showSymbol:false,smooth:true,lineStyle:{width:2,color:'#3b5b92'},name:'收盘价'},"
-          "mk(D.buys,'#c0392b','triangle'),mk(D.sells,'#2e7d32','triangle')]});"
+          "mk(D.buys,'#c0392b','triangle',0),mk(D.sells,'#2e7d32','triangle',180)]});"
           "window.addEventListener('resize',function(){ch.resize();});}"
           "if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();")
     return (f'<p style="margin:14px 0 2px;font-weight:600;">{h(title)}</p>\n'
@@ -294,7 +294,14 @@ def build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no
           "",
           f"**数据日期：{data_date}（{wd}）** ｜ 覆盖基金：{len(codes)} 只 ｜ 合计市值约 {fmt_mv(total_mv)}", ""]
 
-    body = ["## 当日概览", ""]
+    body = [
+        '<div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">',
+        '<strong>🔷 Gemini 简评</strong>',
+        '<!-- GEMINI_COMMENT_START -->',
+        '<p style="color:#999;margin:8px 0 0;">（本篇发布约 1 小时后，由 Gemini 自动追加简评）</p>',
+        '<!-- GEMINI_COMMENT_END -->',
+        '</div>', "",
+        "## 当日概览", ""]
     for c in codes:
         rows = fresh[c]["rows"]; mv = sum(r["mv"] for r in rows)
         top = max(rows, key=lambda r: r["weight"]) if rows else None
@@ -512,7 +519,9 @@ def main():
         tlist = [{"date": k, "dshares": v} for k, v in sorted(agg.items()) if abs(v) >= 1]
         price_blocks.append(price_chart(t, company_by_t.get(t, t), p, tlist, cur_shares_by_t.get(t, 0)))
 
-    pub_date = datetime.date.today().isoformat()
+    # 用数据日期作为发布日：ARK 日期为“截至上一交易日”，不会是未来（不会被 Jekyll future 过滤）；
+    # 一个数据日一篇、URL 稳定，配合 last_date 去重天然避免重复发帖
+    pub_date = data_date
     md = build_markdown(fresh, diffs, data_date, pub_date, had_prev, price_blocks, no_price)
     out_path = os.path.join(POSTS_DIR, f"{pub_date}-ark-cathie-wood.markdown")
     open(out_path, "w", encoding="utf-8").write(md)
