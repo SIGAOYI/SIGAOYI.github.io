@@ -30,7 +30,7 @@
 
     <link rel="alternate" type="application/rss+xml" title="{{ site.SEOTitle }}" href="{{ site.BASE_PATH }}/feed.xml">
     
-    <!-- iPhone icon -->
+    <!-- iPhone icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/img/guigui_icon.png">
     <link rel="apple-touch-icon" href="/img/guigui_icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/img/guigui_icon.png">
@@ -41,111 +41,112 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-        body {
-            /* 暮夜与大洋相接的深邃渐变背景 */
-            background-color: #030712;
-            background-image: radial-gradient(ellipse at 50% 25%, #162f4d 0%, #0a1728 50%, #030712 100%);
-            text-align: center;
-            margin: 0px;
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
+            background-color: #020712;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        #headTitle {
+        #webgl-container {
             position: absolute;
-            top: 26%;
-            left: 50%;
-            width: 440px;
-            margin-left: -220px;
-            font-size: 64px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            color: #ffffff;
-            text-shadow: 0 4px 30px rgba(56, 189, 248, 0.45), 0 2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 5;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 沉浸式 UI 容器 */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
             pointer-events: none;
-            transition: transform 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 4vh;
+        }
+
+        #headTitle {
+            font-size: 78px;
+            font-weight: 800;
+            letter-spacing: 8px;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            text-shadow: 0 4px 40px rgba(0, 0, 0, 0.8), 0 0 50px rgba(56, 189, 248, 0.45);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         #subTitle {
-            position: absolute;
-            top: 41%;
-            left: 50%;
-            width: 320px;
-            margin-left: -160px;
-            font-size: 26px;
-            font-weight: 500;
-            letter-spacing: 6px;
-            color: #bae6fd;
-            text-shadow: 0 2px 20px rgba(14, 165, 233, 0.4);
-            z-index: 5;
-            pointer-events: none;
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 8px;
+            color: #e0f2fe;
+            margin: 0 0 38px 0;
+            text-shadow: 0 2px 25px rgba(0, 0, 0, 0.9), 0 0 25px rgba(14, 165, 233, 0.5);
         }
 
         #inp {
-            position: absolute;
-            top: 53%;
-            left: 50%;
-            width: 130px;
-            height: 48px;
-            margin-left: -65px;
-            border-radius: 24px;
-            background: rgba(14, 165, 233, 0.18);
-            border: 1px solid rgba(186, 230, 253, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            line-height: 48px;
-            text-align: center;
-            z-index: 10;
-            box-shadow: 0 8px 32px rgba(2, 132, 199, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        #inp:hover {
-            background: rgba(14, 165, 233, 0.38);
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px) scale(1.04);
+            pointer-events: auto;
+            position: relative;
+            z-index: 20;
         }
 
         #inp a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 24px;
-            background: transparent;
-            font-size: 15px;
+            display: inline-block;
+            padding: 13px 44px;
+            border-radius: 30px;
+            background: rgba(14, 165, 233, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            font-size: 16px;
             font-weight: 600;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-decoration: none;
             color: #ffffff;
-            line-height: 48px;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45), 0 0 30px rgba(56, 189, 248, 0.35);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
 
-        #inp:active {
-            transform: scale(0.96);
-            background: rgba(14, 165, 233, 0.5);
+        #inp a:hover {
+            background: rgba(56, 189, 248, 0.38);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.5), 0 0 45px rgba(56, 189, 248, 0.7);
+            transform: translateY(-3px) scale(1.04);
+            color: #ffffff;
         }
 
-        /* 移动端适配 */
+        #inp a:active {
+            transform: translateY(0px) scale(0.97);
+        }
+
+        /* 移动端精致适配 */
         @media (max-width: 768px) {
             #headTitle {
-                font-size: 46px;
-                top: 24%;
-                width: 320px;
-                margin-left: -160px;
+                font-size: 48px;
+                letter-spacing: 5px;
             }
             #subTitle {
-                font-size: 20px;
-                top: 38%;
-                letter-spacing: 4px;
+                font-size: 18px;
+                letter-spacing: 5px;
+                margin-bottom: 30px;
             }
-            #inp {
-                top: 52%;
+            #inp a {
+                padding: 11px 36px;
+                font-size: 15px;
             }
         }
     </style>
@@ -169,188 +170,281 @@
 </head>
 
 <body>
-    <div id="headTitle">
-        LawooTrip
-    </div>
-    <div id="subTitle">
-        龟龟的博客
-    </div>
-    <div id="inp">
-        <a href="https://axelrod.lawootrip.com/home/">摸一下</a>
+    <!-- 3D 照片级真实波光海景 WebGL 画布容器 -->
+    <div id="webgl-container"></div>
+
+    <div class="overlay">
+        <div id="headTitle">LawooTrip</div>
+        <div id="subTitle">龟龟的博客</div>
+        <div id="inp">
+            <a href="https://axelrod.lawootrip.com/home/">摸一下</a>
+        </div>
     </div>
 
-    <!-- bigbigwave: 壮阔治愈系荧光大洋波浪 -->
-    <script src="/js/three.min.js"></script>
+    <!-- 现代 Three.js (r128) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <script>
-        var SEPARATION = 85,
-            AMOUNTX = 62,
-            AMOUNTY = 62;
-        var container;
-        var camera, scene, renderer;
-        var particles, particle, count = 0;
-        var mouseX = 0, mouseY = -280;
-        var targetMouseX = 0, targetMouseY = -280;
+    (function() {
+        var container = document.getElementById('webgl-container');
+
+        // 1. 场景与相机
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
+        camera.position.set(0, 32, 110);
+
+        // 2. WebGL 渲染器（电影级 ACES 胶片色调映射与真实对比度）
+        var renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.15;
+        container.appendChild(renderer.domElement);
+
+        // 3. 太阳/暮光光源方向（低角度夕阳斜照，拉出金辉海浪波光粼粼倒影）
+        var sunPosition = new THREE.Vector3(0, 260, -3200);
+        var sunDirection = sunPosition.clone().normalize();
+
+        // 4. 自定义物理天空穹顶（夕阳晚霞与暮色大洋天际线）
+        var skyGeo = new THREE.SphereGeometry(10000, 32, 20);
+        var skyMat = new THREE.ShaderMaterial({
+            side: THREE.BackSide,
+            uniforms: {
+                uSunDirection: { value: sunDirection }
+            },
+            vertexShader: [
+                'varying vec3 vWorldPosition;',
+                'void main() {',
+                '    vec4 worldPos = modelMatrix * vec4(position, 1.0);',
+                '    vWorldPosition = worldPos.xyz;',
+                '    gl_Position = projectionMatrix * viewMatrix * worldPos;',
+                '}'
+            ].join('\n'),
+            fragmentShader: [
+                'uniform vec3 uSunDirection;',
+                'varying vec3 vWorldPosition;',
+                'void main() {',
+                '    vec3 rayDir = normalize(vWorldPosition);',
+                '    float h = rayDir.y;',
+                '    vec3 zenithColor   = vec3(0.025, 0.07, 0.20);', // 天顶深蓝
+                '    vec3 horizonColor  = vec3(0.88, 0.52, 0.32);',  // 地平线暖霞金
+                '    vec3 hazeColor     = vec3(0.98, 0.72, 0.48);',  // 暮光金雾
+                '    vec3 sky = mix(horizonColor, zenithColor, clamp(pow(max(h, 0.0), 0.45), 0.0, 1.0));',
+                '    float sunDot = max(dot(rayDir, uSunDirection), 0.0);',
+                '    float sunGlow = pow(sunDot, 6.0) * 0.75;',
+                '    float sunDisc = smoothstep(0.9985, 0.9998, sunDot) * 3.5;',
+                '    sky += (hazeColor * sunGlow) + (vec3(1.0, 0.95, 0.85) * sunDisc);',
+                '    gl_FragColor = vec4(sky, 1.0);',
+                '}'
+            ].join('\n')
+        });
+        var sky = new THREE.Mesh(skyGeo, skyMat);
+        scene.add(sky);
+
+        // 5. 真实流体动力学海浪网格（Gerstner 物理海洋波浪 + 真实波光反射 Shader）
+        var oceanGeo = new THREE.PlaneGeometry(12000, 12000, 180, 180);
+        oceanGeo.rotateX(-Math.PI / 2);
+
+        var oceanMat = new THREE.ShaderMaterial({
+            uniforms: {
+                uTime: { value: 0.0 },
+                uSunDirection: { value: sunDirection },
+                uCameraPosition: { value: camera.position }
+            },
+            vertexShader: [
+                'uniform float uTime;',
+                'varying vec3 vWorldPos;',
+                'varying vec3 vNormal;',
+                'varying float vWaveHeight;',
+                '',
+                '// 物理格斯特纳波（Gerstner Wave）算法单步迭代',
+                'void addGerstner(inout vec3 p, inout vec3 n, vec2 dir, float a, float lambda, float q, float speed, vec2 pos, float time) {',
+                '    dir = normalize(dir);',
+                '    float w = 6.2831853 / lambda;',
+                '    float phi = speed * w;',
+                '    float theta = dot(dir, pos) * w + (time * phi);',
+                '    float cosT = cos(theta);',
+                '    float sinT = sin(theta);',
+                '    p.x -= dir.x * (q * a * sinT);',
+                '    p.z -= dir.y * (q * a * sinT);',
+                '    p.y += a * cosT;',
+                '    float wa = w * a;',
+                '    n.x -= dir.x * (wa * sinT);',
+                '    n.z -= dir.y * (wa * sinT);',
+                '    n.y -= q * (wa * cosT);',
+                '}',
+                '',
+                'void main() {',
+                '    vec3 p = vec3(position.x, 0.0, position.z);',
+                '    vec3 n = vec3(0.0, 1.0, 0.0);',
+                '    vec2 pos = position.xz;',
+                '    float t = uTime;',
+                '',
+                '    // 5层物理洋流多重叠加（主涌浪、斜向浪、交叉波、风浪推澜、水表微浪）',
+                '    addGerstner(p, n, vec2(1.0,  0.25), 4.2, 220.0, 0.65, 0.9,  pos, t);',
+                '    addGerstner(p, n, vec2(0.7,  0.70), 2.8, 140.0, 0.55, 1.15, pos, t);',
+                '    addGerstner(p, n, vec2(-0.3, 0.95), 1.9,  85.0, 0.50, 1.4,  pos, t);',
+                '    addGerstner(p, n, vec2(0.4, -0.90), 1.1,  45.0, 0.40, 1.8,  pos, t);',
+                '    addGerstner(p, n, vec2(0.9, -0.40), 0.6,  22.0, 0.35, 2.2,  pos, t);',
+                '',
+                '    vec4 worldPos = modelMatrix * vec4(p, 1.0);',
+                '    vWorldPos = worldPos.xyz;',
+                '    vNormal = normalize(mat3(modelMatrix) * n);',
+                '    vWaveHeight = p.y;',
+                '    gl_Position = projectionMatrix * viewMatrix * worldPos;',
+                '}'
+            ].join('\n'),
+            fragmentShader: [
+                'uniform float uTime;',
+                'uniform vec3 uSunDirection;',
+                'uniform vec3 uCameraPosition;',
+                'varying vec3 vWorldPos;',
+                'varying vec3 vNormal;',
+                'varying float vWaveHeight;',
+                '',
+                '// 细密微澜法线扰动（产生千万个波光粼粼的微小钻石反光）',
+                'vec3 getMicroNormal(vec3 worldPos, vec3 baseNormal, float time) {',
+                '    vec2 uv = worldPos.xz * 0.12;',
+                '    float n1 = sin(uv.x * 2.2 + uv.y * 1.8 + time * 2.5);',
+                '    float n2 = cos(uv.x * 3.1 - uv.y * 2.4 + time * 3.0);',
+                '    float n3 = sin(uv.x * 5.5 + uv.y * 4.3 - time * 4.0);',
+                '    vec3 perturb = vec3(n1 + n3, 14.0, n2 + n3);',
+                '    return normalize(baseNormal + normalize(perturb) * 0.17);',
+                '}',
+                '',
+                'void main() {',
+                '    vec3 viewDir = normalize(uCameraPosition - vWorldPos);',
+                '    vec3 lightDir = normalize(uSunDirection);',
+                '    vec3 normal = getMicroNormal(vWorldPos, vNormal, uTime);',
+                '',
+                '    // 1. 菲涅尔反射方程（Schlick近似：平视反射天空晚霞，直视显现海水深邃）',
+                '    float NdotV = max(dot(normal, viewDir), 0.0);',
+                '    float fresnel = 0.04 + (1.0 - 0.04) * pow(1.0 - NdotV, 5.0);',
+                '',
+                '    // 2. 真实海水光学颜色层级',
+                '    vec3 deepOceanColor  = vec3(0.012, 0.05, 0.14); // 深海墨蓝',
+                '    vec3 shallowColor    = vec3(0.035, 0.28, 0.48); // 透光水体碧蓝',
+                '    vec3 subsurfaceColor = vec3(0.12,  0.65, 0.72); // 浪尖透射翠绿金光',
+                '',
+                '    // 波峰透光散射（Subsurface Scattering）',
+                '    float sss = pow(clamp(dot(viewDir, -lightDir), 0.0, 1.0), 3.0) * smoothstep(-2.0, 7.0, vWaveHeight);',
+                '    vec3 waterColor = mix(deepOceanColor, shallowColor, smoothstep(-5.0, 6.0, vWaveHeight));',
+                '    waterColor += subsurfaceColor * (sss * 0.6);',
+                '',
+                '    // 3. 真实天空与晚霞环境反射',
+                '    vec3 skyReflectColor = mix(vec3(0.90, 0.56, 0.36), vec3(0.12, 0.32, 0.62), smoothstep(0.0, 0.8, normal.y));',
+                '',
+                '    // 4. 极致波光粼粼：夕阳高光（多层高光：宽金色海面光柱 + 晶莹细碎波光）',
+                '    vec3 halfVector = normalize(lightDir + viewDir);',
+                '    float NdotH = max(dot(normal, halfVector), 0.0);',
+                '    ',
+                '    // 宽水面反光光柱 (Sun glitter trail)',
+                '    float broadGlint = pow(NdotH, 32.0) * 0.75;',
+                '    // 锐利耀眼水花反光 (Diamond wave sparkles)',
+                '    float sharpGlint = pow(NdotH, 256.0) * 4.0;',
+                '    // 极细波光星芒',
+                '    float microGlint = pow(NdotH, 800.0) * 8.0;',
+                '',
+                '    vec3 sunHighlight = vec3(1.0, 0.86, 0.65) * (broadGlint + sharpGlint + microGlint);',
+                '',
+                '    // 5. 浪尖白色泡沫（海浪达到最高临界破浪时出现）',
+                '    float foam = smoothstep(5.6, 8.2, vWaveHeight);',
+                '    vec3 foamColor = vec3(0.95, 0.98, 1.0);',
+                '',
+                '    // 综合水面色彩合成',
+                '    vec3 finalColor = mix(waterColor, skyReflectColor, fresnel * 0.85);',
+                '    finalColor += sunHighlight;',
+                '    finalColor = mix(finalColor, foamColor, foam * 0.42);',
+                '',
+                '    // 6. 大气天际线薄雾融合（远景海天一色，壮阔无边）',
+                '    float dist = length(uCameraPosition - vWorldPos);',
+                '    float fogFactor = smoothstep(1200.0, 7500.0, dist);',
+                '    vec3 horizonFogColor = vec3(0.88, 0.54, 0.34);',
+                '    finalColor = mix(finalColor, horizonFogColor, fogFactor * 0.95);',
+                '',
+                '    gl_FragColor = vec4(finalColor, 1.0);',
+                '}'
+            ].join('\n')
+        });
+
+        var ocean = new THREE.Mesh(oceanGeo, oceanMat);
+        scene.add(ocean);
+
+        // 6. 物理海面浮动运算（使摄像机如同乘在海面上自然起伏摇曳）
+        function getWaterHeightAt(x, z, time) {
+            var h = 0.0;
+            h += Math.cos(dot2(x, z, 1.0, 0.25) * 0.028 + time * 0.9 * 0.028) * 4.2;
+            h += Math.cos(dot2(x, z, 0.7, 0.7) * 0.045 + time * 1.15 * 0.045) * 2.8;
+            h += Math.cos(dot2(x, z, -0.3, 0.95) * 0.074 + time * 1.4 * 0.074) * 1.9;
+            return h;
+        }
+        function dot2(x1, y1, x2, y2) {
+            var len = Math.sqrt(x2*x2 + y2*y2);
+            return (x1 * (x2/len) + y1 * (y2/len));
+        }
+
+        // 7. 交互漫游控制（阻尼缓动镜头视角）
+        var mouseX = 0, mouseY = 0;
+        var targetMouseX = 0, targetMouseY = 0;
         var windowHalfX = window.innerWidth / 2;
         var windowHalfY = window.innerHeight / 2;
 
-        init();
-        animate();
+        document.addEventListener('mousemove', function(e) {
+            targetMouseX = (e.clientX - windowHalfX) * 0.0007;
+            targetMouseY = (e.clientY - windowHalfY) * 0.0004;
+        }, false);
 
-        function init() {
-            container = document.createElement('div');
-            container.style.position = 'absolute';
-            container.style.top = '0';
-            container.style.left = '0';
-            container.style.zIndex = '1';
-            document.body.appendChild(container);
-
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-            camera.position.set(0, 360, 1100);
-
-            scene = new THREE.Scene();
-            particles = new Array();
-
-            // 生成高质感自发光水珠/荧光海粒子纹理
-            var canvas = document.createElement('canvas');
-            canvas.width = 16;
-            canvas.height = 16;
-            var ctx = canvas.getContext('2d');
-            var grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-            grad.addColorStop(0, 'rgba(255, 255, 255, 1.0)');       // 晶莹浪尖反光白
-            grad.addColorStop(0.35, 'rgba(56, 189, 248, 0.85)');    // 澄澈海青蓝
-            grad.addColorStop(0.7, 'rgba(14, 116, 144, 0.35)');     // 深水幽蓝
-            grad.addColorStop(1, 'rgba(3, 7, 18, 0)');              // 柔和羽化边缘
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 16, 16);
-
-            var material = new THREE.ParticleCanvasMaterial({
-                program: function(context) {
-                    context.drawImage(canvas, -8, -8);
-                }
-            });
-
-            var i = 0;
-            for (var ix = 0; ix < AMOUNTX; ix++) {
-                for (var iy = 0; iy < AMOUNTY; iy++) {
-                    particle = particles[i++] = new THREE.Particle(material);
-                    particle.position.x = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
-                    particle.position.z = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
-                    scene.add(particle);
-                }
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) {
+                targetMouseX = (e.touches[0].clientX - windowHalfX) * 0.0010;
+                targetMouseY = (e.touches[0].clientY - windowHalfY) * 0.0006;
             }
+        }, { passive: true });
 
-            renderer = new THREE.CanvasRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
-
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-            document.addEventListener('touchstart', onDocumentTouchStart, { passive: true });
-            document.addEventListener('touchmove', onDocumentTouchMove, { passive: true });
-            window.addEventListener('resize', onWindowResize, false);
-        }
-
-        function onWindowResize() {
+        window.addEventListener('resize', function() {
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        }, false);
 
-        function onDocumentMouseMove(event) {
-            targetMouseX = event.clientX - windowHalfX;
-            targetMouseY = (event.clientY / 2.5) - windowHalfY;
-        }
-
-        function onDocumentTouchStart(event) {
-            if (event.touches.length === 1) {
-                targetMouseX = (event.touches[0].pageX - windowHalfX) * 1.5;
-                targetMouseY = (event.touches[0].pageY / 2) - windowHalfY;
-            }
-        }
-
-        function onDocumentTouchMove(event) {
-            if (event.touches.length === 1) {
-                targetMouseX = (event.touches[0].pageX - windowHalfX) * 1.5;
-                targetMouseY = (event.touches[0].pageY / 2) - windowHalfY;
-            }
-        }
+        // 8. 动画主循环
+        var clock = new THREE.Clock();
+        var camBaseY = 22.0;
 
         function animate() {
             requestAnimationFrame(animate);
-            render();
-        }
 
-        function render() {
-            // 阻尼缓动镜头平滑跟踪
-            mouseX += (targetMouseX - mouseX) * 0.04;
-            mouseY += (targetMouseY - mouseY) * 0.04;
+            var time = clock.getElapsedTime() * 1.05; // 舒缓自然的海浪节律
 
-            camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.03;
-            camera.position.y += (-mouseY * 0.6 + 280 - camera.position.y) * 0.03;
-            camera.lookAt(new THREE.Vector3(0, -60, -80));
+            oceanMat.uniforms.uTime.value = time;
+            oceanMat.uniforms.uCameraPosition.value.copy(camera.position);
 
-            var i = 0;
-            for (var ix = 0; ix < AMOUNTX; ix++) {
-                for (var iy = 0; iy < AMOUNTY; iy++) {
-                    particle = particles[i++];
+            // 镜头随洋流自然沉浮摇曳（如小船随波微荡）
+            var waterH = getWaterHeightAt(camera.position.x, camera.position.z, time);
+            var targetY = Math.max(camBaseY + waterH * 0.75, 12.0);
+            camera.position.y += (targetY - camera.position.y) * 0.05;
 
-                    // 复合海浪物理波算法：
-                    // 1. 主涌浪 (Swell): 广阔开阔的长波
-                    var swell = Math.sin((ix * 0.16) + (count * 0.8)) * 46;
-                    // 2. 侧向洋流 (Cross sea): 横向交错起伏
-                    var cross = Math.cos((iy * 0.19) + (count * 0.65)) * 40;
-                    // 3. 斜向对角推力 (Diagonal drift)
-                    var drift = Math.sin(((ix + iy) * 0.11) + (count * 0.5)) * 26;
-                    // 4. 风浪表面微澜 (Choppy ripples): 细致水光波动
-                    var ripple = Math.sin((ix * 0.36) - (iy * 0.28) + (count * 1.2)) * 10;
+            // 鼠标平滑阻尼插值
+            mouseX += (targetMouseX - mouseX) * 0.05;
+            mouseY += (targetMouseY - mouseY) * 0.05;
 
-                    var y = swell + cross + drift + ripple;
-                    particle.position.y = y;
-
-                    // 浪尖水光凝聚效果：波峰粒子凝聚高亮变大，波谷微粒散落
-                    var crest = (y + 115) / 230; // 归一化高度
-                    if (crest < 0) crest = 0;
-                    if (crest > 1) crest = 1;
-
-                    var scale = 0.5 + Math.pow(crest, 1.8) * 3.6;
-                    particle.scale.x = particle.scale.y = scale;
-                }
-            }
+            camera.rotation.y = -mouseX;
+            camera.rotation.x = -mouseY + 0.04;
 
             renderer.render(scene, camera);
-            // 极其宁静舒缓的潮汐流动速度
-            count += 0.032;
-        }
-    </script>
-
-    <!-- 终端跳转适配脚本 -->
-    <script>
-        function IsPC() {
-            var userAgentInfo = navigator.userAgent;
-            var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
-            var flag = true;
-            for (var v = 0; v < Agents.length; v++) {
-                if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                    flag = false;
-                    break;
-                }
-            }
-            return flag;
         }
 
-        var flag = IsPC();
+        animate();
+
+        // 移动端点击适配
         var inpElem = document.getElementById("inp");
-        if (!flag) {
-            inpElem.innerHTML = "<a href='https://axelrod.lawootrip.com/home/'>摸一下</a>";
-            inpElem.addEventListener('touchstart', function(e) {
-                window.location.href = "https://axelrod.lawootrip.com/home/";
-            }, false);
-        }
+        inpElem.addEventListener('touchstart', function(e) {
+            window.location.href = "https://axelrod.lawootrip.com/home/";
+        }, false);
 
-        window.addEventListener('load', function() {
-            document.getElementById("headTitle").style.transform = "translateY(0px)";
-        });
+    })();
     </script>
 
     <!-- 百度链接推送 -->
