@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>龟龟的博客-乐物旅行</title>
-		<meta name="description" content="lawoo, lawootrip, 龟龟的博客, 龟龟的个人, 博客乐物旅行, 龟龟">
-		<meta name="keywords"  content="lawoo, lawootrip, 龟龟的博客, 乐物旅行">
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-app-status-bar-style" content="white" />
+<head>
+    <title>龟龟的博客-乐物旅行</title>
+    <meta name="description" content="lawoo, lawootrip, 龟龟的博客, 龟龟的个人, 博客乐物旅行, 龟龟">
+    <meta name="keywords" content="lawoo, lawootrip, 龟龟的博客, 乐物旅行">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-app-status-bar-style" content="black-translucent" />
+
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
 
-    <!-- Favicon, -->
+    <!-- Favicon -->
     <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
 
     <!-- Canonical URL -->
@@ -27,303 +28,345 @@
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
 
-  <link rel="alternate" type="application/rss+xml" title="{{ site.SEOTitle }}" href="{{ site.BASE_PATH }}/feed.xml">
-  <!-- Le styles -->
-  <!--iphone-icon-->
-  <link rel="apple-touch-icon" sizes="180x180" href="/img/guigui_icon.png">
-  <link rel="apple-touch-icon" href="/img/guigui_icon.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/img/guigui_icon.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="/img/guigui_icon.png">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.SEOTitle }}" href="{{ site.BASE_PATH }}/feed.xml">
+    
+    <!-- iPhone icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/guigui_icon.png">
+    <link rel="apple-touch-icon" href="/img/guigui_icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/guigui_icon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/img/guigui_icon.png">
 
-	<style type="text/css">
-		body {
-			background-color: #193c6d;
-			background-size: 100%;
-			background-image: -webkit-linear-gradient(135deg, #144586, #13194B);
-			background-image: -moz-linear-gradient(45deg, #144586, #13194B);
-			background-image: -ms-linear-gradient(45deg, #144586 0, #13194B 100%);
-			background-image: -o-linear-gradient(45deg, #144586, #13194B);
-			background-image: linear-gradient(135deg, #144586, #13194B);
-			text-align: center;
-			margin: 0px;
-			overflow: hidden;
-		}
-		#headTitle {
-			position: absolute;
-			top: 30%;
-			left: 50%;
-			width: 400px;
-			height: 112px;
-			margin-left: -200px;
-			font-size: 70px;
-			font-weight: bold;
-			color: #FFFFFF;
-			z-index: 3;
-		}
-		#subTitle {
-			position: absolute;
-			top: 45%;
-			left: 50%;
-			width: 280px;
-			height: 56px;
-			margin-left: -140px;
-			font-size: 30px;
-			font-weight: bold;
-			color: #FFFFFF;
-			z-index: 3;
-		}
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            /* 暮夜与大洋相接的深邃渐变背景 */
+            background-color: #030712;
+            background-image: radial-gradient(ellipse at 50% 25%, #162f4d 0%, #0a1728 50%, #030712 100%);
+            text-align: center;
+            margin: 0px;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-		a {
-			display: block;
-			text-align: center;
-			border-radius: 4%;
-	    background: #0776E4;
-	    font-size: 16px;
-	    font-weight: bold;
-			text-decoration: none;
-			color: #FFFFFF;
-		}
-		a:active { background: green;}
+        #headTitle {
+            position: absolute;
+            top: 26%;
+            left: 50%;
+            width: 440px;
+            margin-left: -220px;
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 4px 30px rgba(56, 189, 248, 0.45), 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+            pointer-events: none;
+            transition: transform 0.5s ease;
+        }
 
-		#inp {
-			position: absolute;
-			top: 55%;
-			left: 50%;
-			width: 100px;
-			height: 50px;
-			margin-left: -50px;
-			border-radius: 4%;
-			background-color: #0776E4;
-			line-height: 50px;
-			text-align: center;
-			color: #FFFFFF;
-			z-index: 2;
-		}
-	</style>
-	<!-- growingio -->
-	<script type='text/javascript'>
-      var _vds = _vds || [];
-      window._vds = _vds;
-      (function(){
-        _vds.push(['setAccountId', '996010b2df8e96fc']);
-        (function() {
-          var vds = document.createElement('script');
-          vds.type='text/javascript';
-          vds.async = true;
-          vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(vds, s);
+        #subTitle {
+            position: absolute;
+            top: 41%;
+            left: 50%;
+            width: 320px;
+            margin-left: -160px;
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: 6px;
+            color: #bae6fd;
+            text-shadow: 0 2px 20px rgba(14, 165, 233, 0.4);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #inp {
+            position: absolute;
+            top: 53%;
+            left: 50%;
+            width: 130px;
+            height: 48px;
+            margin-left: -65px;
+            border-radius: 24px;
+            background: rgba(14, 165, 233, 0.18);
+            border: 1px solid rgba(186, 230, 253, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            line-height: 48px;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(2, 132, 199, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        #inp:hover {
+            background: rgba(14, 165, 233, 0.38);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        #inp a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            background: transparent;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-decoration: none;
+            color: #ffffff;
+            line-height: 48px;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        #inp:active {
+            transform: scale(0.96);
+            background: rgba(14, 165, 233, 0.5);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            #headTitle {
+                font-size: 46px;
+                top: 24%;
+                width: 320px;
+                margin-left: -160px;
+            }
+            #subTitle {
+                font-size: 20px;
+                top: 38%;
+                letter-spacing: 4px;
+            }
+            #inp {
+                top: 52%;
+            }
+        }
+    </style>
+
+    <!-- growingio -->
+    <script type='text/javascript'>
+        var _vds = _vds || [];
+        window._vds = _vds;
+        (function(){
+            _vds.push(['setAccountId', '996010b2df8e96fc']);
+            (function() {
+                var vds = document.createElement('script');
+                vds.type='text/javascript';
+                vds.async = true;
+                vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'assets.growingio.com/vds.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(vds, s);
+            })();
         })();
-      })();
-  </script>
+    </script>
+</head>
 
-	</head>
+<body>
+    <div id="headTitle">
+        LawooTrip
+    </div>
+    <div id="subTitle">
+        龟龟的博客
+    </div>
+    <div id="inp">
+        <a href="https://axelrod.lawootrip.com/home/">摸一下</a>
+    </div>
 
-	<body>
-		<div id="headTitle">
-			LawooTrip
-		</div>
-		<div id="subTitle" touchstart>
-			龟龟的博客
-		</div>
-		<div id="inp"><a href="https://axelrod.lawootrip.com/home/">摸一下</a></div>
-	<!-- bigbigwave -->
-	<script src="/js/three.min.js"></script>
-	<script>
+    <!-- bigbigwave: 壮阔治愈系荧光大洋波浪 -->
+    <script src="/js/three.min.js"></script>
+    <script>
+        var SEPARATION = 85,
+            AMOUNTX = 62,
+            AMOUNTY = 62;
+        var container;
+        var camera, scene, renderer;
+        var particles, particle, count = 0;
+        var mouseX = 0, mouseY = -280;
+        var targetMouseX = 0, targetMouseY = -280;
+        var windowHalfX = window.innerWidth / 2;
+        var windowHalfY = window.innerHeight / 2;
 
-		var SEPARATION = 100,
-		AMOUNTX = 50,
-		AMOUNTY = 50;
-		var container;
-		var camera, scene, renderer;
-		var particles, particle, count = 0;
-		var mouseX = 85,
-		mouseY = -342;
-		var windowHalfX = window.innerWidth / 2;
-		var windowHalfY = window.innerHeight / 2;
-		init();
-		animate();
-		function init() {
-		container = document.createElement('div');
-		document.body.appendChild(container);
-		camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 1, 10000);
-		camera.position.z = 1000;
-		scene = new THREE.Scene();
-		particles = new Array();
-		var PI2 = Math.PI * 2;
-		var material = new THREE.ParticleCanvasMaterial({
-		color: 0xe1e1e1,
-		program: function(context) {
-		context.beginPath();
-		context.arc(0, 0, .6, 0, PI2, true);
-		context.fill();
-		}
-		});
-		var i = 0;
-		for (var ix = 0; ix < AMOUNTX; ix++) {
-		for (var iy = 0; iy < AMOUNTY; iy++) {
-		particle = particles[i++] = new THREE.Particle(material);
-		particle.position.x = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
-		particle.position.z = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
-		scene.add(particle);
-		}
-		}
-		renderer = new THREE.CanvasRenderer();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		container.appendChild(renderer.domElement);
-		document.addEventListener('mousemove', onDocumentMouseMove, false);
-		document.addEventListener('touchstart', onDocumentTouchStart, false);
-		document.addEventListener('touchmove', onDocumentTouchMove, false);
-		//
-		window.addEventListener('resize', onWindowResize, false);
-		}
-		function onWindowResize() {
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		}
-		//
-		function onDocumentMouseMove(event) {
-		mouseX = event.clientX - windowHalfX;
-		mouseY = event.clientY / 4 - windowHalfY;
-		}
-		function onDocumentTouchStart(event) {
-		if (event.touches.length === 1) {
-		event.preventDefault();
-		mouseX = event.touches[0].pageX * 2 - windowHalfX;
-		mouseY = event.touches[0].pageY / 2 - windowHalfY;
-		}
-		}
-		function onDocumentTouchMove(event) {
-		if (event.touches.length === 1) {
-		event.preventDefault();
-		mouseX = event.touches[0].pageX * 2 - windowHalfX;
-		mouseY = event.touches[0].pageY / 2 - windowHalfY;
-		}
-		}
-		//
-		function animate() {
-		requestAnimationFrame(animate);
-		render();
-		}
-		function render() {
-		camera.position.x += (mouseX - camera.position.x) * .05;
-		camera.position.y += (-mouseY - camera.position.y) * .05;
-		camera.lookAt(scene.position);
-		var i = 0;
-		for (var ix = 0; ix < AMOUNTX; ix++) {
-		for (var iy = 0; iy < AMOUNTY; iy++) {
-		particle = particles[i++];
-		particle.position.y = (Math.sin((ix + count) * 0.3) * 50) + (Math.sin((iy + count) * 0.5) * 50);
-		particle.scale.x = particle.scale.y = (Math.sin((ix + count) * 0.3) + 1) * 2 + (Math.sin((iy + count) * 0.5) + 1) * 2;
-		}
-		}
-		renderer.render(scene, camera);
-		count += 0.1;
-		}
-	</script>
+        init();
+        animate();
 
-<!-- 	<script>
-		function IsPC() {
-		    var userAgentInfo = navigator.userAgent;
-		    var Agents = ["Android", "iPhone",
-		                "SymbianOS", "Windows Phone",
-		                "iPad", "iPod"];
-		    var flag = true;
-		    for (var v = 0; v < Agents.length; v++) {
-		        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-		            flag = false;
-		            break;
-		        }
-		    }
-		    return flag;
-		}
+        function init() {
+            container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.zIndex = '1';
+            document.body.appendChild(container);
 
-		var flag = IsPC(); //true为PC端，false为手机端
-		var pc = "<a href=' '>进入主页</a >";
-		var mb = "进入主页";
-		if (!flag) {
-		 document.getElementById("inp").innerHTML = mb;
-		}else{
-		 document.getElementById("inp").innerHTML = pc;
-		}
-		function load (){
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.set(0, 360, 1100);
 
-		    document.addEventListener('touchstart',touch, false);
-		    function touch (event){
-		        var event = event || window.event;
+            scene = new THREE.Scene();
+            particles = new Array();
 
-		        var oInp = document.getElementById("inp");
+            // 生成高质感自发光水珠/荧光海粒子纹理
+            var canvas = document.createElement('canvas');
+            canvas.width = 16;
+            canvas.height = 16;
+            var ctx = canvas.getContext('2d');
+            var grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 1.0)');       // 晶莹浪尖反光白
+            grad.addColorStop(0.35, 'rgba(56, 189, 248, 0.85)');    // 澄澈海青蓝
+            grad.addColorStop(0.7, 'rgba(14, 116, 144, 0.35)');     // 深水幽蓝
+            grad.addColorStop(1, 'rgba(3, 7, 18, 0)');              // 柔和羽化边缘
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 16, 16);
 
-		        if (event.type == "touchstart") {
-		         window.location.href="https://axelrod.lawootrip.com/home/";
-		        }
-		    }
-		}
-		window.addEventListener('load',load, false);
-	</script> -->
-<!-- 	<script>
-		var inpp=document.getElementById('inp');
-		inpp.addEventListener('touchstart',function(){
-	    window.location.href="https://axelrod.lawootrip.com/home/index.html";
-	    //touchstart:触摸开始的一瞬间，这里的e包含的触摸一瞬间所触摸的元素的信息
-		});
-	</script> -->
-<script>
-	function IsPC() {
-	    var userAgentInfo = navigator.userAgent;
-	    var Agents = ["Android", "iPhone",
-	                "SymbianOS", "Windows Phone",
-	                "iPad", "iPod"];
-	    var flag = true;
-	    for (var v = 0; v < Agents.length; v++) {
-	        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-	            flag = false;
-	            break;
-	        }
-	    }
-	    return flag;
-	}
+            var material = new THREE.ParticleCanvasMaterial({
+                program: function(context) {
+                    context.drawImage(canvas, -8, -8);
+                }
+            });
 
-	var flag = IsPC(); //true为PC端，false为手机端
-	var pc = "<a href='https://axelrod.lawootrip.com/home/'>摸一下</a >";
-	var mb = "摸一下";
-	if (!flag) {
-	 document.getElementById("inp").innerHTML = mb;
-	}else{
-	 document.getElementById("inp").innerHTML = pc;
-	}
-	function load (){
+            var i = 0;
+            for (var ix = 0; ix < AMOUNTX; ix++) {
+                for (var iy = 0; iy < AMOUNTY; iy++) {
+                    particle = particles[i++] = new THREE.Particle(material);
+                    particle.position.x = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
+                    particle.position.z = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
+                    scene.add(particle);
+                }
+            }
 
-	    document.getElementById("inp").addEventListener('touchstart',touch, false);
-	    function touch (event){
-	        var event = event || window.event;
+            renderer = new THREE.CanvasRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
 
-	        var oInp = document.getElementById("inp");
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('touchstart', onDocumentTouchStart, { passive: true });
+            document.addEventListener('touchmove', onDocumentTouchMove, { passive: true });
+            window.addEventListener('resize', onWindowResize, false);
+        }
 
-	        if (event.type == "touchstart") {
-	         window.location.href="https://axelrod.lawootrip.com/home/";
-	        }
-	    }
-	}
-	window.addEventListener('load',load, false);
-</script>
-<!-- 百度链接推送 -->
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-	</body>
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            targetMouseX = event.clientX - windowHalfX;
+            targetMouseY = (event.clientY / 2.5) - windowHalfY;
+        }
+
+        function onDocumentTouchStart(event) {
+            if (event.touches.length === 1) {
+                targetMouseX = (event.touches[0].pageX - windowHalfX) * 1.5;
+                targetMouseY = (event.touches[0].pageY / 2) - windowHalfY;
+            }
+        }
+
+        function onDocumentTouchMove(event) {
+            if (event.touches.length === 1) {
+                targetMouseX = (event.touches[0].pageX - windowHalfX) * 1.5;
+                targetMouseY = (event.touches[0].pageY / 2) - windowHalfY;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            // 阻尼缓动镜头平滑跟踪
+            mouseX += (targetMouseX - mouseX) * 0.04;
+            mouseY += (targetMouseY - mouseY) * 0.04;
+
+            camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.03;
+            camera.position.y += (-mouseY * 0.6 + 280 - camera.position.y) * 0.03;
+            camera.lookAt(new THREE.Vector3(0, -60, -80));
+
+            var i = 0;
+            for (var ix = 0; ix < AMOUNTX; ix++) {
+                for (var iy = 0; iy < AMOUNTY; iy++) {
+                    particle = particles[i++];
+
+                    // 复合海浪物理波算法：
+                    // 1. 主涌浪 (Swell): 广阔开阔的长波
+                    var swell = Math.sin((ix * 0.16) + (count * 0.8)) * 46;
+                    // 2. 侧向洋流 (Cross sea): 横向交错起伏
+                    var cross = Math.cos((iy * 0.19) + (count * 0.65)) * 40;
+                    // 3. 斜向对角推力 (Diagonal drift)
+                    var drift = Math.sin(((ix + iy) * 0.11) + (count * 0.5)) * 26;
+                    // 4. 风浪表面微澜 (Choppy ripples): 细致水光波动
+                    var ripple = Math.sin((ix * 0.36) - (iy * 0.28) + (count * 1.2)) * 10;
+
+                    var y = swell + cross + drift + ripple;
+                    particle.position.y = y;
+
+                    // 浪尖水光凝聚效果：波峰粒子凝聚高亮变大，波谷微粒散落
+                    var crest = (y + 115) / 230; // 归一化高度
+                    if (crest < 0) crest = 0;
+                    if (crest > 1) crest = 1;
+
+                    var scale = 0.5 + Math.pow(crest, 1.8) * 3.6;
+                    particle.scale.x = particle.scale.y = scale;
+                }
+            }
+
+            renderer.render(scene, camera);
+            // 极其宁静舒缓的潮汐流动速度
+            count += 0.032;
+        }
+    </script>
+
+    <!-- 终端跳转适配脚本 -->
+    <script>
+        function IsPC() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        var flag = IsPC();
+        var inpElem = document.getElementById("inp");
+        if (!flag) {
+            inpElem.innerHTML = "<a href='https://axelrod.lawootrip.com/home/'>摸一下</a>";
+            inpElem.addEventListener('touchstart', function(e) {
+                window.location.href = "https://axelrod.lawootrip.com/home/";
+            }, false);
+        }
+
+        window.addEventListener('load', function() {
+            document.getElementById("headTitle").style.transform = "translateY(0px)";
+        });
+    </script>
+
+    <!-- 百度链接推送 -->
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+</body>
 </html>
