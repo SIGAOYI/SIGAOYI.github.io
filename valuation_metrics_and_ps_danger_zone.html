@@ -1,640 +1,1560 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>核心估值指标全景解析与高市销率(P/S)风险深度看板</title>
-  <!-- 微信/社交分享适配：缩略图、标题、描述（图片绝对路径，300x300，<32K） -->
-  <meta name="description" content="核心估值指标全景解析，聚焦高市销率(P/S)风险区间的深度可视化看板。">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>半导体巨头月K交互图与PS危险区透视（英伟达 / AMD / 博通 2023-2026）</title>
+  <meta name="description" content="2023-2026半导体三大巨头（英伟达、AMD、博通）月K交互走势图，联动EPS、FPE、PS与PCF关键估值指标，深度透视PS危险区与月度重大历史事件。">
   <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
   <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="核心估值指标全景解析与高市销率(P/S)风险深度看板">
-  <meta property="og:description" content="核心估值指标全景解析，聚焦高市销率(P/S)风险区间的深度可视化看板。">
+  <meta property="og:title" content="半导体巨头月K交互图与PS危险区透视（英伟达 / AMD / 博通 2023-2026）">
+  <meta property="og:description" content="2023-2026半导体三大巨头（英伟达、AMD、博通）月K交互走势图，联动EPS、FPE、PS与PCF关键估值指标，深度透视PS危险区与月度重大历史事件。">
   <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
   <meta property="og:url" content="https://axelrod.lawootrip.com/valuation_metrics_and_ps_danger_zone.html">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --bg-base: #090d16;
-            --bg-card: #131c2e;
-            --bg-elevated: #1e293b;
-            --border-color: #2d3b55;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-blue: #38bdf8;
-            --accent-green: #10b981;
-            --accent-orange: #f59e0b;
-            --accent-pink: #ec4899;
-            --accent-purple: #a855f7;
-            --accent-red: #ef4444;
-        }
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1b2640;
+      --bg-inner: #0d1424;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
+      --up-green: #10b981;
+      --down-red: #f43f5e;
+      --danger-red: #ef4444;
+      --warning-amber: #f59e0b;
+      --nvda-color: #76b900;
+      --amd-color: #ed1c24;
+      --avgo-color: #0284c7;
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            padding: 24px;
-            line-height: 1.6;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container { max-width: 1400px; margin: 0 auto; }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .header-title h1 { font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .header-title p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
 
-        /* Navigation Tabs */
-        .tab-nav {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        .tab-btn:hover { background: #22304a; color: #fff; }
-        .tab-btn.active {
-            background: #2563eb;
-            color: #fff;
-            border-color: #3b82f6;
-            box-shadow: 0 0 16px rgba(37, 99, 235, 0.4);
-        }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #131d36 0%, #0c1222 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.2rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(56, 189, 248, 0) 70%);
+      pointer-events: none;
+    }
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.25rem 0.8rem;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+      max-width: 960px;
+      line-height: 1.6;
+    }
 
-        /* Card styles */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            padding-bottom: 12px;
-        }
-        .card-title { font-size: 18px; font-weight: 700; color: #f1f5f9; display: flex; align-items: center; gap: 8px; }
+    /* Company Selector Bar */
+    .company-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .company-btn {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.4rem;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+    }
+    .company-btn:hover {
+      border-color: var(--accent-cyan);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .company-btn.active {
+      background: #19233c;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+    .company-btn.active.nvda { border-color: var(--nvda-color); }
+    .company-btn.active.amd { border-color: var(--amd-color); }
+    .company-btn.active.avgo { border-color: var(--avgo-color); }
+    .company-info .c-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .company-info .c-ticker {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .company-price-tag {
+      text-align: right;
+    }
+    .company-price-tag .p-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .company-price-tag .p-chg {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
 
-        /* 6 Metric Grid */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
-        }
-        .metric-box {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .metric-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .metric-badge {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            font-family: monospace;
-        }
-        .metric-name { font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .metric-fullname { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
-        
-        .formula-box {
-            background: #0d1322;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-family: "Fira Code", monospace;
-            font-size: 13px;
-            color: #38bdf8;
-            margin-bottom: 14px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-        .metric-desc { font-size: 13px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5; }
-        .metric-props { font-size: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
-        .prop-item { margin-bottom: 6px; }
-        .prop-label { font-weight: 600; color: #94a3b8; }
-        .prop-value { color: #e2e8f0; }
-        .prop-risk { color: #f87171; }
+    /* Main Chart Card */
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .chart-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+    .chart-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chart-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
 
-        /* Full Comparison Table */
-        .table-responsive { overflow-x: auto; margin-top: 14px; }
-        table.styled-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            text-align: left;
-        }
-        table.styled-table th {
-            background: #0d1322;
-            color: #94a3b8;
-            padding: 12px 14px;
-            font-weight: 600;
-            border-bottom: 1px solid var(--border-color);
-            white-space: nowrap;
-        }
-        table.styled-table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #cbd5e1;
-        }
-        table.styled-table tr:hover { background: rgba(255,255,255,0.02); }
+    /* Chart Container SVG */
+    .chart-svg-wrap {
+      position: relative;
+      width: 100%;
+      height: 440px;
+      user-select: none;
+    }
+    svg.chart-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
 
-        /* Quote Box */
-        .quote-banner {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%);
-            border-left: 4px solid var(--accent-red);
-            border-radius: 8px;
-            padding: 18px 22px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .quote-speaker { font-weight: 700; color: #fca5a5; margin-bottom: 6px; font-size: 15px; }
+    /* Sub-metric Chart Area */
+    .subchart-section {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .subchart-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .subchart-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: var(--bg-inner);
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    .sub-tab-btn {
+      padding: 0.35rem 0.85rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sub-tab-btn:hover {
+      color: var(--text-main);
+    }
+    .sub-tab-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    }
+    .sub-tab-btn.danger-tab.active {
+      background: var(--danger-red);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    }
+    .subchart-svg-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
 
-        /* Interactive Calculator Card */
-        .calc-card {
-            background: linear-gradient(135deg, #18233c 0%, #0f172a 100%);
-            border: 1px solid #3b82f6;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
-        @media (max-width: 860px) { .calc-grid { grid-template-columns: 1fr; } }
-        
-        .slider-group { margin-bottom: 18px; }
-        .slider-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #cbd5e1; }
-        input[type="range"] {
-            width: 100%;
-            height: 6px;
-            border-radius: 5px;
-            background: #334155;
-            outline: none;
-            cursor: pointer;
-        }
-        
-        .calc-result-box {
-            background: #090d16;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-        }
-        .calc-result-title { font-size: 13px; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; }
-        .calc-result-value { font-size: 40px; font-weight: 800; color: #38bdf8; font-family: monospace; }
-        .calc-result-sub { font-size: 12px; color: #94a3b8; margin-top: 6px; line-height: 1.4; }
+    /* Floating Hover Tooltip */
+    .chart-tooltip {
+      position: absolute;
+      display: none;
+      background: rgba(13, 20, 36, 0.95);
+      border: 1px solid var(--accent-cyan);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      pointer-events: none;
+      z-index: 100;
+      min-width: 190px;
+      backdrop-filter: blur(8px);
+    }
+    .tt-header {
+      font-weight: 700;
+      color: var(--accent-cyan);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .tt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .tt-label { color: var(--text-dim); }
+    .tt-val { font-weight: 600; }
 
-        /* Section Layouts */
-        .deep-dive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 900px) { .deep-dive-grid { grid-template-columns: 1fr; } }
-        .firm-card { background: var(--bg-elevated); border-radius: 10px; padding: 20px; border-top: 4px solid #fff; }
-        .firm-avgo { border-top-color: var(--accent-green); }
-        .firm-amd { border-top-color: var(--accent-blue); }
-        .firm-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .firm-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-        .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .tag-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+    /* Quick Timeline Jump Scrubber */
+    .timeline-scrubber {
+      background: var(--bg-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .scrubber-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .milestone-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .milestone-btn {
+      padding: 0.35rem 0.75rem;
+      background: rgba(36, 50, 79, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: #cbd5e1;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .milestone-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
+    }
 
-        .firm-points { list-style: none; margin-top: 12px; font-size: 13px; color: #cbd5e1; }
-        .firm-points li { margin-bottom: 10px; position: relative; padding-left: 18px; }
-        .firm-points li::before { content: "▪"; position: absolute; left: 0; color: #38bdf8; font-size: 16px; top: -2px; }
+    /* Interactive Month Detail Card */
+    .detail-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.3s;
+    }
+    .detail-card.active-card {
+      border-color: var(--accent-cyan);
+    }
+    .detail-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+    .detail-month-tag {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .month-badge {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+    .company-tag-pill {
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .month-nav-btn {
+      background: var(--bg-inner);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .month-nav-btn:hover {
+      border-color: var(--accent-cyan);
+      background: #1e293b;
+    }
 
-        .danger-box {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 20px;
-        }
-        .danger-title { font-size: 15px; font-weight: 700; color: #f87171; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-    </style>
+    /* 4-Metric Grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 1.5rem;
+    }
+    .metric-box {
+      background: var(--bg-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-box.danger-highlight {
+      border-color: rgba(239, 68, 68, 0.6);
+      background: linear-gradient(145deg, #19121c 0%, #0d1424 100%);
+    }
+    .metric-box.warning-highlight {
+      border-color: rgba(245, 158, 11, 0.6);
+      background: linear-gradient(145deg, #1c1813 0%, #0d1424 100%);
+    }
+    .metric-box-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .metric-box-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 0.25rem;
+    }
+    .metric-box-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .status-pill.danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+    .status-pill.warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .status-pill.safe { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+
+    /* Month Events Narrative Box */
+    .event-narrative-box {
+      background: var(--bg-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.4rem;
+    }
+    .event-narrative-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.75rem;
+    }
+    .event-badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .event-main-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .event-desc-text {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .event-impact-panel {
+      background: rgba(30, 41, 59, 0.5);
+      border-left: 3px solid var(--accent-cyan);
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .event-impact-panel strong {
+      color: var(--accent-cyan);
+    }
+
+    /* Deep Dive Section on PS Danger Zone */
+    .analysis-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2.2rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+    }
+    .article-body p {
+      color: #cbd5e1;
+      font-size: 0.94rem;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+    .quote-box {
+      background: var(--bg-inner);
+      border-left: 4px solid var(--danger-red);
+      padding: 1.1rem 1.4rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: #fca5a5;
+      font-size: 0.92rem;
+    }
+    .quote-author {
+      font-style: normal;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 6px;
+      display: block;
+      font-size: 0.85rem;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    table.comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    table.comp-table th {
+      background: #16223b;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+    }
+    table.comp-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: #cbd5e1;
+    }
+    table.comp-table tr:hover td {
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2.5rem 0 1rem;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border-color);
+    }
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 1rem 0.5rem; }
+      h1 { font-size: 1.45rem; }
+      .chart-svg-wrap { height: 350px; }
+      .subchart-svg-wrap { height: 160px; }
+      .company-btn { min-width: 100%; }
+      .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<!-- 微信分享兜底：正文顶部放一张符合规格(300x300,<32K)的图，部分微信版本据此取缩略图；离屏隐藏不影响页面 -->
-<div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
-  <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
-</div>
+  <!-- WeChat Share Crawler Image -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+  </div>
 
-<div class="container">
+  <div class="container">
+    <!-- Header -->
     <header>
-        <div class="header-title">
-            <h1>📊 核心估值指标全景解析与高市销率(P/S)风险深度看板</h1>
-            <p>全景解构 FPE、PE、PB、PS、PCF、EPS | 深度思辨：硬件厂商 10 倍 P/S 死亡线 vs 博通 20.8x & AMD 16x 到底有多危险？</p>
-        </div>
+      <div class="badge-top">
+        <span>⚡</span> 半导体与AI核心资产估值透视
+      </div>
+      <h1>半导体三巨头月K交互图与PS危险区透视</h1>
+      <p class="subtitle">
+        覆盖 <strong>英伟达（NVIDIA / NVDA）</strong>、<strong>超威半导体（AMD）</strong> 与 <strong>博通（Broadcom / AVGO）</strong> 2023年1月至2026年9月连续45个月完整月K线，联动追踪 <strong>每股收益 (EPS)</strong>、<strong>远期市盈率 (FPE)</strong>、<strong>市销率 (PS)</strong> 与 <strong>市现率 (PCF)</strong> 演化轨迹。点击任意月份节点，下沉查阅当月估值倍数与重大里程碑事件。
+      </p>
     </header>
 
-    <!-- Navigation Tabs -->
-    <div class="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('tab-metrics')">📐 六大核心财务指标全景库</button>
-        <button class="tab-btn" onclick="switchTab('tab-ps-risk')">🔥 深度专题：博通 20.8x 与 AMD 16x 是危险区间吗？</button>
-        <button class="tab-btn" onclick="switchTab('tab-calculator')">🧮 麦克尼利 P/S ➔ P/E 换算模拟器</button>
-        <button class="tab-btn" onclick="switchTab('tab-history')">🏛 历史超级巨头估值大对决 (思科 vs 现代芯片)</button>
+    <!-- Company Selector Navigation -->
+    <div class="company-nav" id="companyNav">
+      <div class="company-btn active nvda" onclick="selectCompany('NVDA')">
+        <div class="company-info">
+          <div class="c-name">
+            <span style="color:var(--nvda-color);">●</span> 英伟达 NVIDIA
+          </div>
+          <div class="c-ticker">NASDAQ: NVDA · 10:1拆股后价格</div>
+        </div>
+        <div class="company-price-tag">
+          <div class="p-val">$212.17</div>
+          <div class="p-chg" style="color:var(--up-green);">市值 $5.11T · PS 21.2x</div>
+        </div>
+      </div>
+
+      <div class="company-btn amd" onclick="selectCompany('AMD')">
+        <div class="company-info">
+          <div class="c-name">
+            <span style="color:var(--amd-color);">●</span> 超威半导体 AMD
+          </div>
+          <div class="c-ticker">NASDAQ: AMD · 未拆股</div>
+        </div>
+        <div class="company-price-tag">
+          <div class="p-val">$504.20</div>
+          <div class="p-chg" style="color:var(--up-green);">市值 $823B · PS 18.5x</div>
+        </div>
+      </div>
+
+      <div class="company-btn avgo" onclick="selectCompany('AVGO')">
+        <div class="company-info">
+          <div class="c-name">
+            <span style="color:var(--avgo-color);">●</span> 博通 Broadcom
+          </div>
+          <div class="c-ticker">NASDAQ: AVGO · 10:1拆股后价格</div>
+        </div>
+        <div class="company-price-tag">
+          <div class="p-val">$339.27</div>
+          <div class="p-chg" style="color:var(--down-red);">市值 $1.62T · PS 19.8x</div>
+        </div>
+      </div>
     </div>
 
-    <!-- TAB 1: 6 Metrics -->
-    <div id="tab-metrics" class="tab-content active">
-        <div class="metrics-grid">
-            <!-- 1. EPS -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">EARNINGS POWER</span>
-                <div class="metric-name">EPS 每股收益</div>
-                <div class="metric-fullname">Earnings Per Share</div>
-                <div class="formula-box">EPS = (净利润 - 优先股股息) ÷ 流通普通股数</div>
-                <div class="metric-desc">企业的<strong>“每股绝对盈利造血能力”</strong>。它是所有相对估值乘数（PE、PEG）的基石。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">直观衡量股东每一股实际能分摊到的经营净利。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">易被大额股权激励(SBC)、并购无形资产摊销(GAAP口径)扭曲。</span></div>
-                </div>
-            </div>
+    <!-- Main Chart Card -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title-group">
+          <div class="chart-title" id="chartMainTitle">英伟达 (NVDA) 2023-2026 月K线走势图</div>
+          <span style="font-size:0.75rem; color:var(--text-dim); background:var(--bg-inner); padding:2px 8px; border-radius:4px; border:1px solid var(--border-color);">
+            鼠标悬浮查看数值 · 点击蜡烛图节点查看当月大事件
+          </span>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--up-green);"></div>月涨阳线</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--down-red);"></div>月跌阴线</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fbbf24;"></div>MA5均线</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent-cyan);"></div>MA10均线</div>
+        </div>
+      </div>
 
-            <!-- 2. PE -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">HISTORICAL MULTIPLE</span>
-                <div class="metric-name">PE 市盈率 (TTM/静态)</div>
-                <div class="metric-fullname">Price-to-Earnings Ratio</div>
-                <div class="formula-box">PE = 当前股价 ÷ 过去12个月(TTM)每股收益</div>
-                <div class="metric-desc">企业的<strong>“历史业绩回本期限”</strong>。按公司过去一年赚的钱计算，需要多少年收回买入本金。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">适用于盈利成熟、现金流稳定的消费、金融与公用事业蓝筹。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">滞后性极强，在科技暴发期或半导体周期拐点时毫无指引力。</span></div>
-                </div>
-            </div>
+      <!-- Candlestick SVG Container -->
+      <div class="chart-svg-wrap" id="chartSvgWrap">
+        <svg class="chart-svg" id="klineSvg" viewBox="0 0 1000 440" preserveAspectRatio="none"></svg>
+        <div class="chart-tooltip" id="chartTooltip"></div>
+      </div>
 
-            <!-- 3. FPE -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">GROWTH EXPECTATION</span>
-                <div class="metric-name">FPE 前瞻市盈率</div>
-                <div class="metric-fullname">Forward Price-to-Earnings Ratio</div>
-                <div class="formula-box">FPE = 当前股价 ÷ 未来12个月(NTM)预期EPS</div>
-                <div class="metric-desc">企业的<strong>“未来盈利增长预期定价”</strong>。市场愿意为未来 1 美元净利润支付的溢价。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">华尔街交易科技成长股（如英伟达、AMD）时最通用的中枢指标。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">完全依赖分析师预测。一旦遭遇砍单，分母下调会导致估值被动暴涨。</span></div>
-                </div>
-            </div>
-
-            <!-- 4. PS -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">SCALE & PENETRATION</span>
-                <div class="metric-name">PS 市销率</div>
-                <div class="metric-fullname">Price-to-Sales Ratio</div>
-                <div class="formula-box">PS = 总市值 ÷ 营业收入 = 股价 ÷ 每股营收</div>
-                <div class="metric-desc">企业的<strong>“商业扩张野心与市场占有率”</strong>。完全抛开赚不赚钱，看其吞吐流水规模。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">衡量早期亏损 SaaS、研发期生物医药或周期底部亏损硬件股。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">对成本与利润完全盲目，无法区分 10% 毛利代工与 90% 毛利软件。</span></div>
-                </div>
-            </div>
-
-            <!-- 5. PB -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">BOOK SAFETY NET</span>
-                <div class="metric-name">PB 市净率</div>
-                <div class="metric-fullname">Price-to-Book Ratio</div>
-                <div class="formula-box">PB = 当前股价 ÷ 每股账面净资产 (Net Asset)</div>
-                <div class="metric-desc">企业的<strong>“清算安全垫与重置成本”</strong>。反映市值相对资产负债表真金白银的溢价。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">适用于银行、保险、重资产制造、房地产等资产驱动型传统行业。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">对轻资产科技股完全失效，无法评估算法代码、专利 IP 与生态护城河。</span></div>
-                </div>
-            </div>
-
-            <!-- 6. PCF -->
-            <div class="metric-box">
-                <span class="metric-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">CASH VERIFICATION</span>
-                <div class="metric-name">PCF / P-FCF 市现率</div>
-                <div class="metric-fullname">Price-to-Cash Flow Ratio</div>
-                <div class="formula-box">P/FCF = 总市值 ÷ 自由现金流 (Free Cash Flow)</div>
-                <div class="metric-desc">企业的<strong>“真实造血防伪能力”</strong>。扣除全部资本开支后，实际装进股东口袋的纯现金倍数。</div>
-                <div class="metric-props">
-                    <div class="prop-item"><span class="prop-label">✔ 核心价值：</span><span class="prop-value">防范会计利润造假的最强防线，看透高折旧半导体巨头的真金白银。</span></div>
-                    <div class="prop-item"><span class="prop-label">✖ 潜在陷阱：</span><span class="prop-risk">单季度受大型 CapEx 结算影响较大，必须拉长至连续 12 个月（TTM）评估。</span></div>
-                </div>
-            </div>
+      <!-- Sub-metric Chart Section -->
+      <div class="subchart-section">
+        <div class="subchart-toolbar">
+          <div style="font-size:0.9rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:6px;">
+            <span>📉</span> 估值指标联动走势 (2023-2026)
+          </div>
+          <div class="subchart-tabs">
+            <button class="sub-tab-btn danger-tab active" onclick="switchSubMetric('PS')">⚠️ PS (市销率 & 危险区)</button>
+            <button class="sub-tab-btn" onclick="switchSubMetric('FPE')">📈 FPE (远期市盈率)</button>
+            <button class="sub-tab-btn" onclick="switchSubMetric('EPS')">💰 EPS (每股收益 TTM)</button>
+            <button class="sub-tab-btn" onclick="switchSubMetric('PCF')">🌊 PCF (市现率)</button>
+          </div>
         </div>
 
-        <div class="card">
-            <div class="card-title">📋 六大指标综合联动横向对照矩阵</div>
-            <div class="table-responsive">
-                <table class="styled-table">
-                    <thead>
-                        <tr>
-                            <th>指标</th>
-                            <th>中文名称</th>
-                            <th>核心计算要素</th>
-                            <th>本质衡量什么</th>
-                            <th>对科技股适用度</th>
-                            <th>健康参考区间</th>
-                            <th>危险泡沫信号</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>EPS</strong></td>
-                            <td>每股收益</td>
-                            <td>净利润 / 总股本</td>
-                            <td>终极每股盈利额</td>
-                            <td>★★★★★ (必看基准)</td>
-                            <td>持续季度同比加速增长</td>
-                            <td>依靠非经常损益粉饰、负数</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PE</strong></td>
-                            <td>历史市盈率</td>
-                            <td>股价 / 历史EPS</td>
-                            <td>历史回本周期</td>
-                            <td>★★☆☆☆ (滞后严重)</td>
-                            <td>15x – 25x (成熟期)</td>
-                            <td>> 60x 且无高成长支撑</td>
-                        </tr>
-                        <tr>
-                            <td><strong>FPE</strong></td>
-                            <td>前瞻市盈率</td>
-                            <td>股价 / 预期EPS</td>
-                            <td>远期成长性定价</td>
-                            <td>★★★★★ (机构核心)</td>
-                            <td>20x – 35x (高增长芯片)</td>
-                            <td>> 45x – 50x (透支未来2年)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PS</strong></td>
-                            <td>市销率</td>
-                            <td>市值 / 总营收</td>
-                            <td>市场份额扩张度</td>
-                            <td>★★★★☆ (顶层规模)</td>
-                            <td>3x – 8x (硬件) | 8x-15x(软件)</td>
-                            <td>> 15x – 20x (硬件极限杀)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PB</strong></td>
-                            <td>市净率</td>
-                            <td>股价 / 每股净资产</td>
-                            <td>资产重置成本</td>
-                            <td>★☆☆☆☆ (基本失真)</td>
-                            <td>N/A (科技股常态>5x)</td>
-                            <td>轻资产科技股不参考此项</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PCF</strong></td>
-                            <td>市现率(P/FCF)</td>
-                            <td>市值 / 自由现金流</td>
-                            <td>真实真金白银沉淀</td>
-                            <td>★★★★★ (穿透真相)</td>
-                            <td>20x – 35x</td>
-                            <td>> 50x 或经营现金流为负</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="subchart-svg-wrap">
+          <svg class="chart-svg" id="subMetricSvg" viewBox="0 0 1000 200" preserveAspectRatio="none"></svg>
         </div>
+      </div>
+
+      <!-- Quick Timeline Jump Scrubber -->
+      <div class="timeline-scrubber">
+        <div class="scrubber-title">
+          <span>🚩</span> 关键历史转折点快捷跳转 (点击直接定位对应月份蜡烛图及估值详情)
+        </div>
+        <div class="milestone-chips" id="milestoneChips">
+          <!-- Populated by JS based on selected company -->
+        </div>
+      </div>
     </div>
 
-    <!-- TAB 2: P/S Risk Deep Dive -->
-    <div id="tab-ps-risk" class="tab-content">
-        <div class="quote-banner">
-            <div class="quote-speaker">⚠️ 2002年太阳微系统 (Sun Microsystems) CEO 斯科特·麦克尼利 (Scott McNealy) 的历史名言：</div>
-            “当年在 10 倍市销率（P/S）下买入我们股票的投资者，你们到底在想什么？如果要想让你们在 10 年内收回本金，我必须在未来的整整 10 年里，把公司 100% 的营业收入全部以股息发给你们——不扣除任何税收、不投入任何研发、不支付任何销售提成、不给工程师发一分钱工资！这可能吗？如果按 10% 净利率算，10 倍 P/S 就等同于 100 倍市盈率！”
+    <!-- Interactive Detail Card for Selected Month -->
+    <div class="detail-card active-card" id="detailCard">
+      <div class="detail-header">
+        <div class="detail-month-tag">
+          <span class="month-badge" id="selectedMonthBadge">2026-09</span>
+          <span class="company-tag-pill" id="selectedCompanyPill" style="background:rgba(118, 185, 0, 0.2); color:#a3e635; border:1px solid #76b900;">
+            英伟达 (NVDA)
+          </span>
+          <span style="font-size:0.8rem; color:var(--text-dim);" id="monthIndexLabel">第 45 / 45 个月</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="month-nav-btn" onclick="navigateMonth(-1)">← 上个月</button>
+          <button class="month-nav-btn" onclick="navigateMonth(1)">下个月 →</button>
+        </div>
+      </div>
+
+      <!-- 4 Key Valuation Metrics Grid -->
+      <div class="metric-grid">
+        <!-- Metric 1: Monthly K-Line OHLC -->
+        <div class="metric-box">
+          <div class="metric-box-title">
+            <span>月K行情指标</span>
+            <span id="cardPriceTag" style="font-weight:700; color:var(--up-green);">收盘价 $212.17</span>
+          </div>
+          <div class="metric-box-val" id="cardPriceChg" style="color:var(--up-green);">
+            -3.9%
+          </div>
+          <div class="metric-box-sub" id="cardPriceOhlc">
+            开: $220.50 | 高: $225.00<br>低: $208.93 | 收: $212.17
+          </div>
         </div>
 
-        <div class="card">
-            <div class="card-title">🔍 拷问现实：博通 20.8 倍、AMD 16.5 倍 P/S 是不是危险区间？</div>
-            <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 20px;">
-                <strong>直截了当的结论：是的，无论怎么包装，16x–21x 的市销率在半导体历史上都属于“容错率为零”的极端危险定价区间（Pricing for Perfection）。</strong>
-                但市场之所以目前没有直接崩盘，是因为两家巨头在用截然不同的“底层异变”在抗衡传统硬件的引力法则：
-            </p>
-
-            <div class="deep-dive-grid">
-                <!-- AVGO Box -->
-                <div class="firm-card firm-avgo">
-                    <div class="firm-title">
-                        <span>博通 (AVGO)：20.8x P/S</span>
-                        <span class="firm-tag tag-green">现金流印钞机内核</span>
-                    </div>
-                    <div style="font-size: 13px; color: #34d399; margin-bottom: 8px; font-weight: 600;">为什么它能撑住 20 倍 P/S？</div>
-                    <ul class="firm-points">
-                        <li><strong>披着芯片外皮的企业软件帝国</strong>：合并 VMware 后，软件业务占比超 35%，毛利率超过 90%，拥有绝对的提价权与极高的粘性。</li>
-                        <li><strong>变态级的自由现金流利润率（46%~50% FCF Margin）</strong>：传统硬件公司做 100 块生意只能赚 10 块钱纯利，而博通每做 100 块能直接沉淀 46~50 块纯现金流！</li>
-                        <li><strong>换算成现金流倍数并不夸张</strong>：P/FCF = 20.8 ÷ 0.48 ≈ <strong>43x</strong>，前瞻 PE 仅约 <strong>21x</strong>。市场支付高 P/S，买的是垄断定制 ASIC 和以太网换来的极致现金转化。</li>
-                    </ul>
-                </div>
-
-                <!-- AMD Box -->
-                <div class="firm-card firm-amd">
-                    <div class="firm-title">
-                        <span>AMD：16.5x P/S</span>
-                        <span class="firm-tag tag-blue">远期翻倍与经营杠杆对赌</span>
-                    </div>
-                    <div style="font-size: 13px; color: #38bdf8; margin-bottom: 8px; font-weight: 600;">为什么它敢交易在 16 倍 P/S？</div>
-                    <ul class="firm-points">
-                        <li><strong>分母（营收）正在发生非线性暴增</strong>：16.5x 是基于过去 12 个月 300 亿营收计算的，而市场预期 2026-2027 年在 Meta/OpenAI 12 GW 大单驱动下年营收冲刺 500 亿以上。</li>
-                        <li><strong>前瞻市销率在被高速稀释</strong>：若按 2027 财年预期营收测算，AMD 的前瞻 P/S 实际上快速降至 <strong>9x~10x 左右</strong>。</li>
-                        <li><strong>高毛利数据中心占比破 60%</strong>：毛利率向 57% 挺进，经营杠杆启动后，利润增速远高于收入增速，通过前瞻盈利（Forward PE ~30x）来消化高 P/S。</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Danger Alert -->
-            <div class="danger-box">
-                <div class="danger-title">🚨 为什么说依然极度危险？（三大致命爆点）</div>
-                <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 8px;">
-                    1. <strong>降速杀估值的断头台效应</strong>：在 16x–21x P/S 下，只要任何一个季度云厂商 AI 资本开支出现“消化间歇期”，增速从 50% 跌到 15%，市场会瞬间将市销率斩到 6x–8x。即使利润没暴跌，仅估值倍数腰斩就会造成 <strong>50%–60% 的惨烈股价跌幅</strong>。<br>
-                    2. <strong>客户极端集中的买方垄断</strong>：微软、Meta、谷歌既是大客户，又是自研芯片的竞争对手。巨头们自研初衷就是“去中间商化”，一旦自研落地或削减外采，高 P/S 将瞬间失去支撑。<br>
-                    3. <strong>不可撤销长约（Take-or-Pay）的折旧反噬</strong>：整机厂为了抢 HBM 和芯片签了不可撤销长约并大额垫资，一旦下游大模型商业化 ROI 无法变现，巨头将背负恐怖的设备无形折旧压力，后续新订单将被极度冷酷地斩断。
-                </p>
-            </div>
+        <!-- Metric 2: PS & Danger Zone -->
+        <div class="metric-box" id="cardPsBox">
+          <div class="metric-box-title">
+            <span>PS (市销率 TTM)</span>
+            <span class="status-pill safe" id="cardPsPill">合理区间</span>
+          </div>
+          <div class="metric-box-val" id="cardPsVal">
+            21.2x
+          </div>
+          <div class="metric-box-sub" id="cardPsDesc">
+            基准线: 20x警戒 / 30x危险区<br>历史最高: 43.2x (2023-07)
+          </div>
         </div>
+
+        <!-- Metric 3: FPE -->
+        <div class="metric-box">
+          <div class="metric-box-title">
+            <span>FPE (远期市盈率)</span>
+            <span style="color:var(--text-dim); font-size:0.75rem;">Consensus</span>
+          </div>
+          <div class="metric-box-val" id="cardFpeVal">
+            26.8x
+          </div>
+          <div class="metric-box-sub" id="cardFpeDesc">
+            基于未来12个月一致预期净利润<br>较2023年峰值(62x)压缩超55%
+          </div>
+        </div>
+
+        <!-- Metric 4: EPS & PCF -->
+        <div class="metric-box">
+          <div class="metric-box-title">
+            <span>EPS & PCF (利润与现金流)</span>
+            <span style="color:var(--accent-cyan); font-size:0.75rem;">TTM Diluted</span>
+          </div>
+          <div class="metric-box-val" id="cardEpsVal" style="color:var(--accent-cyan);">
+            $7.91
+          </div>
+          <div class="metric-box-sub" id="cardPcfDesc">
+            PCF (市现率): <strong>24.2x</strong><br>自由现金流利润率维持50%+
+          </div>
+        </div>
+      </div>
+
+      <!-- Month Major Events Narrative Box -->
+      <div class="event-narrative-box">
+        <div class="event-narrative-header">
+          <span class="event-badge" id="eventBadge">大事件透视</span>
+          <div class="event-main-title" id="eventMainTitle">当前市值稳居5.1万亿，前向估值展现成熟期稳健性</div>
+        </div>
+        <p class="event-desc-text" id="eventDescText">
+          截至2026年9月中旬，英伟达市值超5.11万亿美元。TTM EPS达到7.91美元，市盈率降至26.8倍，PS市销率约21倍，已从早期的极端狂热过渡至高度可信的盈利兑现期。
+        </p>
+        <div class="event-impact-panel" id="eventImpactPanel">
+          <strong>估值与行情联动逻辑：</strong>
+          当月业绩与产品迭代如何推动估值重塑？在算力需求确定性支撑下，英伟达以超强的EPS爆发速度消化了早期的超高PS倍数，完成了从“概念泡沫”向“高壁垒提款机”的转变。
+        </div>
+      </div>
     </div>
 
-    <!-- TAB 3: Interactive Calculator -->
-    <div id="tab-calculator" class="tab-content">
-        <div class="calc-card">
-            <div class="card-title" style="color: #38bdf8; margin-bottom: 14px;">🧮 麦克尼利方程式：市销率 (P/S) 与净利率 ➔ 真实隐含市盈率 (P/E) 换算器</div>
-            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
-                底层公式：<strong>隐含市盈率 P/E = 市销率 P/S ÷ 净利润率 (Net Margin)</strong>。拖动滑块，亲眼见证为什么低利润率的硬件公司拥有高 P/S 是一场灾难：
-            </p>
-            
-            <div class="calc-grid">
-                <div>
-                    <div class="slider-group">
-                        <div class="slider-label">
-                            <span>市销率 (P/S Ratio)：</span>
-                            <span id="labelPs" style="color: #ec4899; font-size: 16px; font-weight: 700;">16.5x</span>
-                        </div>
-                        <input type="range" id="inputPs" min="1" max="35" step="0.5" value="16.5" oninput="calculatePE()">
-                    </div>
+    <!-- Deep-dive Analytical Section on PS Danger Zone -->
+    <div class="analysis-section">
+      <div class="section-title">
+        <span>📚</span> 深度投研：『PS 危险区』定理与 2023-2026 半导体周期复盘
+      </div>
+      <div class="article-body">
+        <p>
+          在科技成长股与半导体硬件的估值体系中，<strong>市销率（Price-to-Sales, PS）</strong> 往往是衡量“市场狂热程度”与“极端泡沫风险”的最锋利手术刀。正如太阳微系统（Sun Microsystems）前首席执行官斯科特·麦克尼利（Scott McNealy）在互联网泡沫破裂后对彭博社发表的经典警世恒言：
+        </p>
 
-                    <div class="slider-group">
-                        <div class="slider-label">
-                            <span>预期净利润率 (Net Profit Margin)：</span>
-                            <span id="labelMargin" style="color: #34d399; font-size: 16px; font-weight: 700;">20%</span>
-                        </div>
-                        <input type="range" id="inputMargin" min="2" max="60" step="1" value="20" oninput="calculatePE()">
-                    </div>
-
-                    <div style="font-size: 12px; color: #94a3b8; line-height: 1.4;">
-                        典型参考：<br>
-                        • 传统 PC / 服务器代工：净利率 3% – 8%<br>
-                        • 传统成熟半导体硬件：净利率 15% – 20%<br>
-                        • AMD 综合目标净利率：20% – 25%<br>
-                        • 博通自由现金流转化率：45% – 50%
-                    </div>
-                </div>
-
-                <div class="calc-result-box">
-                    <div class="calc-result-title">该假设下真实的隐含市盈率 (Implied P/E)</div>
-                    <div class="calc-result-value" id="resPe">82.5x</div>
-                    <div class="calc-result-sub" id="resStatus" style="color: #f87171; font-weight: 700;">
-                        处于极度昂贵的高风险泡沫区间！
-                    </div>
-                    <div class="calc-result-sub" id="resExplain">
-                        意味着买入这只股票，按当前净利率需要 82.5 年收回本金。
-                    </div>
-                </div>
-            </div>
+        <div class="quote-box">
+          “在10倍市销率（PS 10x）水平买入我们的股票，你知道你需要发生什么才能回本吗？为了在10年内收回投资，我们需要连续10年将100%的营收全部作为股息发放给你——这意味着我们的销售成本必须为零、研发费用必须为零、员工薪酬为零、税收为零、水电租金全为零，而且你的股息税也必须为零！这在经济学上是绝对不可能的。10倍市销率尚且如此荒谬，那么当一家公司的市销率被推高到20倍、30倍甚至40倍时，买方投资者究竟在为什么买单？”
+          <span class="quote-author">—— Scott McNealy, Former CEO of Sun Microsystems (Bloomberg, 2002)</span>
         </div>
+
+        <p>
+          复盘 2023 年至 2026 年生成式人工智能算力狂潮，三大半导体龙头在『PS 危险区』展现出了截然不同的消化路径与资本命运：
+        </p>
+
+        <div class="table-container">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>标的名称</th>
+                <th>2023-2026 峰值 PS</th>
+                <th>当前 PS (2026.09)</th>
+                <th>FPE 峰值 / 现值</th>
+                <th>消化估值模式</th>
+                <th>主要脆弱性 / 投研警示</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:var(--nvda-color);">英伟达 (NVDA)</strong></td>
+                <td><span style="color:var(--danger-red); font-weight:700;">43.2x (2023.07)</span></td>
+                <td>21.2x</td>
+                <td>62.4x / 26.8x</td>
+                <td><strong>『业绩火箭式消化』</strong><br>单季营收从70亿狂飙至960亿，EPS增长近40倍，以惊人的实际净利润直接填平估值鸿沟。</td>
+                <td>大数定律限制未来增速；大客户自研ASIC替代意愿；地缘管制与能源电力瓶颈。</td>
+              </tr>
+              <tr>
+                <td><strong style="color:var(--amd-color);">超威半导体 (AMD)</strong></td>
+                <td><span style="color:var(--danger-red); font-weight:700;">28.1x (2026.06)</span></td>
+                <td>18.5x</td>
+                <td>72.1x / 35.8x</td>
+                <td><strong>『预期透支与过山车』</strong><br>股价从2023年初64美元炒到2026年顶峰584美元，FPE长期溢价于英伟达，2026年中遭遇多头拥挤踩踏回撤。</td>
+                <td>毛利率面临英伟达与ASIC双向挤压；ROCm软件迁移门槛；Helios机架交付预期被过早Price In。</td>
+              </tr>
+              <tr>
+                <td><strong style="color:var(--avgo-color);">博通 (AVGO)</strong></td>
+                <td><span style="color:var(--danger-red); font-weight:700;">47.1x (2026.03)</span></td>
+                <td>19.8x</td>
+                <td>68.5x / 43.3x</td>
+                <td><strong>『并购整合与定制驱动』</strong><br>依靠VMware转高价订阅制与谷歌/Meta定制XPU暴涨，但随后遭遇毛利率结构性稀释，引发空头狙击。</td>
+                <td>正如Cavenagh Research在2026年9月Sell评级中所指出：低毛利ASIC占比飙升稀释公司传统高毛利，且客户过度集中于极少数超大厂。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          <strong>投资启示：</strong>在科技硬件长周期中，PS 超过 20 倍即为黄色警戒线，超过 30 倍即为红色极度危险区。能够依靠每年翻倍以上的净利润“长跑出”PS危险区的（如英伟达）属于凤毛麟角的特例；而一旦营收质量存在隐患或商业模式发生低毛利倾斜（如博通的定制ASIC业务及AMD的高位溢价），过度依赖估值乘数扩张的股票极易在流动性或业绩增速边际放缓时引发残酷的“杀估值戴维斯双杀”。
+        </p>
+      </div>
     </div>
 
-    <!-- TAB 4: History Giants -->
-    <div id="tab-history" class="tab-content">
-        <div class="card">
-            <div class="card-title">🏛 跨时代“卖铲人”极值指标大对决 (2000 泡沫巨头 vs 2026 算力先锋)</div>
-            <div class="table-responsive">
-                <table class="styled-table">
-                    <thead>
-                        <tr>
-                            <th>公司名称</th>
-                            <th>时代背景</th>
-                            <th>主营业务属性</th>
-                            <th>顶峰 P/S</th>
-                            <th>顶峰 Forward P/E</th>
-                            <th>自由现金流利润率</th>
-                            <th>随后结局 / 历史命运</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong style="color:#f87171;">思科 (Cisco)</strong></td>
-                            <td>2000年3月泡沫峰值</td>
-                            <td>网络路由器 / 交换机硬件</td>
-                            <td><span style="color:#f87171; font-weight:700;">~38.0x</span></td>
-                            <td><strong>100x – 130x</strong></td>
-                            <td>~15% (虚假买方信贷支撑)</td>
-                            <td>股价暴跌 89%，计提 22 亿库存减值，耗时 20 年未重返巅峰</td>
-                        </tr>
-                        <tr>
-                            <td><strong style="color:#f87171;">太阳微系统 (Sun)</strong></td>
-                            <td>2000年3月泡沫峰值</td>
-                            <td>网络服务器硬件 / Unix工作站</td>
-                            <td><span style="color:#f87171; font-weight:700;">~11.0x</span></td>
-                            <td><strong>80x – 100x</strong></td>
-                            <td>< 10% (硬件低毛利)</td>
-                            <td>股价暴跌超 95%，最终在 2009 年被甲骨文以白菜价贱卖收购</td>
-                        </tr>
-                        <tr>
-                            <td><strong style="color:#38bdf8;">英伟达 (Nvidia)</strong></td>
-                            <td>2024-2026 算力主升期</td>
-                            <td>通用 GPU 算力 + CUDA 软件垄断</td>
-                            <td><strong>25.0x – 35.0x</strong></td>
-                            <td><strong>28x – 40x</strong></td>
-                            <td><strong>48% – 55%</strong> (神仙级现金流)</td>
-                            <td>虽 P/S 奇高，但净利率超 50%，实际依靠超强 EPS 狂飙消化估值</td>
-                        </tr>
-                        <tr>
-                            <td><strong style="color:#34d399;">博通 (Broadcom)</strong></td>
-                            <td>2026年9月当前水平</td>
-                            <td>定制 ASIC 芯片 + VMware 软件</td>
-                            <td><span style="color:#f59e0b; font-weight:700;">20.8x</span></td>
-                            <td><strong>21x – 26x</strong></td>
-                            <td><strong>46% – 50%</strong> (高毛利软件驱动)</td>
-                            <td>P/S 虽高但 P/FCF 仅约 43x，已处于估值天花板，未来全靠纯业绩驱动</td>
-                        </tr>
-                        <tr>
-                            <td><strong style="color:#38bdf8;">AMD</strong></td>
-                            <td>2026年9月当前水平</td>
-                            <td>CPU + 商用 GPU + 整机柜系统</td>
-                            <td><span style="color:#f59e0b; font-weight:700;">16.5x</span></td>
-                            <td><strong>28x – 32x</strong></td>
-                            <td><strong>22% – 28%</strong> (正在扩张期)</td>
-                            <td>对赌 12 GW 大单与数据中心放量，容错率极低，处于敏感高估区间</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 龟龟投资看板 · <a href="https://axelrod.lawootrip.com/" target="_blank">Axe Capital Research</a> · <a href="https://axelrod.lawootrip.com/home/" target="_blank">进入文章列表</a></p>
+      <p style="margin-top:4px;">数据来源：SEC Filings, Company Financial Reports, Bloomberg Consensus, Cavenagh Research</p>
+    </footer>
+  </div>
 
-<script>
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        event.currentTarget.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
+  <!-- Embedded Datasets & Chart Logic -->
+  <script>
+    const datasets = {
+      NVDA: [{"month": "2023-01", "o": 14.59, "h": 19.59, "l": 14.03, "c": 19.54, "v": 1120, "eps": 0.17, "fpe": 54.2, "ps": 18.2, "pcf": 58.4, "title": "ChatGPT爆发引发A100算力狂潮", "desc": "OpenAI ChatGPT月活破亿，全球科技巨头意识到大模型训练必须依赖数以万计的英伟达A100/H100 GPU。市场对算力基础设施认知发生质的飞跃，股价单月暴涨33.7%。"}, {"month": "2023-02", "o": 19.64, "h": 23.89, "l": 19.58, "c": 23.22, "v": 980, "eps": 0.18, "fpe": 58.1, "ps": 21.6, "pcf": 62.1, "title": "黄仁勋称AI迎来『iPhone时刻』", "desc": "Q4 FY23财报公布，虽然受PC去库存拖累全年营收微降，但黄仁勋在业绩会上高呼『AI的iPhone时刻已经到来』，并正式宣布推出DGX Cloud超级计算云服务。"}, {"month": "2023-03", "o": 23.0, "h": 27.83, "l": 22.3, "c": 27.78, "v": 1150, "eps": 0.2, "fpe": 62.4, "ps": 25.8, "pcf": 67.5, "title": "GTC 2023发布H100 NVL与cuLitho计算光刻", "desc": "春季GTC大会，黄仁勋发布针对大语言模型推理优化的双卡H100 NVL，并宣布与台积电、ASML合作开发cuLitho计算光刻库，将芯片制造光掩模计算加速40倍。"}, {"month": "2023-04", "o": 27.5, "h": 28.11, "l": 26.22, "c": 27.75, "v": 890, "eps": 0.21, "fpe": 59.8, "ps": 25.6, "pcf": 65.2, "title": "财报前夕高位蓄势，CoWoS产能瓶颈初现", "desc": "股价在27-28美元区间整固，微软Copilot与谷歌Bard全面扩建集群，台积电CoWoS先进封装产能成为全球AI算力交付的唯一卡脖子瓶颈。"}, {"month": "2023-05", "o": 27.84, "h": 39.5, "l": 27.24, "c": 37.84, "v": 1680, "eps": 0.25, "fpe": 43.5, "ps": 35.1, "pcf": 52.3, "title": "史上最强业绩指引，单季指引超预期50%", "desc": "Q1 FY24财报成为美股科技史转折点：单季营收71.9亿美元，并给出Q2高达110亿美元的历史级指引（彭博一致预期仅71.5亿美元，超预期54%）。英伟达市值单日激增近2000亿美元，一举跨越万亿美元市值门槛！"}, {"month": "2023-06", "o": 37.9, "h": 43.99, "l": 37.35, "c": 42.3, "v": 1250, "eps": 0.32, "fpe": 46.2, "ps": 39.2, "pcf": 55.6, "title": "万亿市值确立，全球供应链扫货H100", "desc": "正式进入万亿美元俱乐部，黄仁勋在台北电脑展Computex展示GH200超级芯片。马斯克X.AI、Inflection AI及所有头部云厂商不计成本抢购H100，交期长达40-52周。"}, {"month": "2023-07", "o": 42.45, "h": 48.09, "l": 41.73, "c": 46.73, "v": 1050, "eps": 0.38, "fpe": 48.5, "ps": 43.2, "pcf": 58.9, "title": "PS市销率突破43倍，进入极度危险区", "desc": "由于市值迅速膨胀而过去12个月TTM营收尚未完全确认，NVDA的TTM市销率（PS）冲高至43倍以上，进入经典的『高估值危险区』。市场开始激烈辩论高估值能否被随后井喷的净利润快速消化。"}, {"month": "2023-08", "o": 46.7, "h": 50.27, "l": 40.31, "c": 48.51, "v": 1390, "eps": 0.52, "fpe": 36.8, "ps": 33.4, "pcf": 44.5, "title": "Q2收入翻倍至135亿，净利润飙升422%", "desc": "Q2 FY24营收达到135.1亿美元同比暴增101%，数据中心收入创纪录突破103亿美元；同时宣布250亿美元股票回购计划，并指引Q3营收达160亿美元。以爆炸式业绩开始暴力消化高估值。"}, {"month": "2023-09", "o": 47.7, "h": 49.36, "l": 40.98, "c": 43.5, "v": 1180, "eps": 0.6, "fpe": 32.5, "ps": 29.8, "pcf": 40.1, "title": "美债收益率飙升，科技高估值遭遇宏观挤压", "desc": "美国10年期国债收益率突破4.6%，美联储强化『更高更久（Higher for Longer）』鹰派立场，成长股全线回调，英伟达月跌10.3%，估值乘数经历健康回撤。"}, {"month": "2023-10", "o": 44.0, "h": 45.6, "l": 39.23, "c": 40.78, "v": 1080, "eps": 0.7, "fpe": 29.8, "ps": 27.9, "pcf": 36.5, "title": "美国出台全面芯片禁令升级政策", "desc": "美国商务部工业与安全局（BIS）出台最严出口管制新规，将A800与H800算力芯片纳入禁售名单，并对芯片算力密度实施严格限制。英伟达股价回撤至40美元支撑位。"}, {"month": "2023-11", "o": 41.0, "h": 50.55, "l": 39.93, "c": 46.77, "v": 1260, "eps": 0.95, "fpe": 31.2, "ps": 27.5, "pcf": 35.8, "title": "发布H200与H20特供版，Q3营收破180亿", "desc": "发布配备141GB HBM3e显存的新一代H200，大模型推理速度提升近2倍；同时Q3 FY24营收突破181.2亿美元（+206% YoY），净利润达92.4亿美元（同比增12.6倍），有效对冲地缘政策冲击。"}, {"month": "2023-12", "o": 46.5, "h": 50.48, "l": 45.01, "c": 49.52, "v": 890, "eps": 1.19, "fpe": 28.5, "ps": 26.8, "pcf": 32.4, "title": "2023年度收官暴涨239%，全产业链垄断确立", "desc": "全年收官涨幅高达239%，位列标普500第一。黄仁勋穿梭于日本、新加坡、越南等国推动『主权AI（Sovereign AI）』建设，CUDA软件生态牢不可破。"}, {"month": "2024-01", "o": 49.8, "h": 63.49, "l": 47.5, "c": 61.53, "v": 1220, "eps": 1.25, "fpe": 33.2, "ps": 30.5, "pcf": 37.8, "title": "CES 2024发力AI PC与端侧算力", "desc": "CES 2024上发布GeForce RTX 40 Super系列显卡，全面加速本地AI大模型运行，强化个人端与数据中心双轮驱动，股价单月劲升24.2%。"}, {"month": "2024-02", "o": 61.6, "h": 82.39, "l": 60.8, "c": 79.11, "v": 1450, "eps": 1.48, "fpe": 35.4, "ps": 33.8, "pcf": 39.5, "title": "Q4营收221亿同比翻2.6倍，单日市值暴增2770亿", "desc": "Q4 FY24净利润飙升769%达122.9亿美元，业绩后次日股价大涨16.4%，单日市值激增2770亿美元，创下人类资本市场单日市值增长历史纪录。"}, {"month": "2024-03", "o": 80.0, "h": 97.4, "l": 76.4, "c": 90.36, "v": 1610, "eps": 1.55, "fpe": 37.8, "ps": 37.2, "pcf": 42.1, "title": "GTC 2024震撼发布Blackwell架构B200", "desc": "黄仁勋在SAP Center向全球发布拥有2080亿晶体管的Blackwell B200及GB200 NVL72机架。GB200将大模型推理成本和能耗降低至此前的1/25，英伟达从『卖芯片』跃升为『卖AI工厂』。"}, {"month": "2024-04", "o": 90.4, "h": 90.6, "l": 75.6, "c": 86.4, "v": 1280, "eps": 1.62, "fpe": 34.5, "ps": 34.8, "pcf": 38.6, "title": "云厂商CAPEX军备竞赛加码，股价高位盘整", "desc": "微软、谷歌、Meta相继发布一季报，全线上调2024全年资本开支超2000亿美元，承诺将重金投入算力基建。股价在80-90美元区间充分蓄势。"}, {"month": "2024-05", "o": 86.5, "h": 115.0, "l": 82.3, "c": 109.63, "v": 1590, "eps": 1.8, "fpe": 36.2, "ps": 36.5, "pcf": 41.2, "title": "Q1营收突破260亿，官宣1拆10拆股计划", "desc": "Q1 FY25营收达到260.4亿美元（+262% YoY），净利润达148.8亿美元。管理层宣布执行1拆10的股票分拆计划，现金股息增加150%，股价突破拆前1000美元大关！"}, {"month": "2024-06", "o": 109.7, "h": 140.76, "l": 109.5, "c": 123.54, "v": 1820, "eps": 2.1, "fpe": 37.1, "ps": 34.2, "pcf": 40.5, "title": "拆股落地，短暂登顶全球市值第一（3.34万亿）", "desc": "6月7日拆股正式生效。6月18日英伟达市值达到3.34万亿美元，超越微软与苹果成为全球最有价值的上市公司。随后高管套现与获利回吐引发小幅回调。"}, {"month": "2024-07", "o": 123.6, "h": 134.5, "l": 107.9, "c": 117.35, "v": 1490, "eps": 2.25, "fpe": 33.6, "ps": 31.8, "pcf": 36.8, "title": "Blackwell封装设计微调传闻，市场避险回撤", "desc": "行业爆出台积电CoWoS-L中介层热膨胀系数匹配问题，Blackwell大批量出货预计从Q3递延至Q4。加之大选前地缘噪音，半导体板块出现显著避险抛售。"}, {"month": "2024-08", "o": 117.5, "h": 131.26, "l": 90.69, "c": 119.37, "v": 1780, "eps": 2.45, "fpe": 31.8, "ps": 29.5, "pcf": 34.1, "title": "Q2营收达300亿，确认Blackwell四季度量产贡献数十亿", "desc": "8月28日公布Q2 FY25业绩：营收300.4亿美元超预期，指引Q3营收325亿美元；黄仁勋在电话会确认修复Blackwell光掩模设计，Q4将为公司带来数十亿美元额外收入。"}, {"month": "2024-09", "o": 119.0, "h": 127.67, "l": 102.54, "c": 121.44, "v": 1360, "eps": 2.6, "fpe": 30.5, "ps": 28.6, "pcf": 32.8, "title": "美联储开启降息周期，黄仁勋称算力需求『极度疯狂』", "desc": "美联储9月超预期降息50个基点。黄仁勋在旧金山高盛通信技术大会受访称：Blackwell已全面投产，客户对产品的需求『如此难以置信（so incredible）』，打消供应疑虑。"}, {"month": "2024-10", "o": 121.5, "h": 144.42, "l": 118.0, "c": 132.77, "v": 1410, "eps": 2.8, "fpe": 31.9, "ps": 29.8, "pcf": 34.2, "title": "台积电财报力证AI需求真实，股价再破新高", "desc": "台积电魏哲家直言『AI需求是真的，不仅是真的，而且只是刚刚开始』，宣布先进制程与封装产能满载且持续扩产，英伟达股价单月攀升9.4%逼近前高。"}, {"month": "2024-11", "o": 132.8, "h": 149.77, "l": 130.5, "c": 138.25, "v": 1520, "eps": 3.05, "fpe": 31.2, "ps": 28.5, "pcf": 32.6, "title": "Q3营收达351亿，Blackwell首批交付微软与Oracle", "desc": "Q3 FY25营收350.8亿美元（+94% YoY），净利润193.1亿美元。管理层透露Blackwell架构已向Microsoft、Oracle、OpenAI批量出货，交付1.3万颗样品。"}, {"month": "2024-12", "o": 138.5, "h": 146.9, "l": 131.2, "c": 142.5, "v": 1150, "eps": 3.4, "fpe": 30.2, "ps": 27.2, "pcf": 31.0, "title": "2024年市值稳居3.5万亿美元，主权AI全面开花", "desc": "全年涨幅约180%，主权AI大单在欧洲、中东阿布扎比MGX及日本SoftBank落地，企业级大模型训练及推理基础设施支出依然供不应求。"}, {"month": "2025-01", "o": 142.8, "h": 156.4, "l": 140.1, "c": 154.2, "v": 1290, "eps": 3.65, "fpe": 31.5, "ps": 27.9, "pcf": 31.8, "title": "CES 2025发布RTX 50系列与Project DIGITS", "desc": "发布面向消费端与工作站的RTX 5090/5080（Blackwell架构），配备DP 2.1a与GDDR7显存；同时数据中心GB200 NVL72正式进入规模化组装，月度涨幅8.2%。"}, {"month": "2025-02", "o": 154.5, "h": 169.2, "l": 151.0, "c": 165.8, "v": 1380, "eps": 4.1, "fpe": 31.8, "ps": 28.2, "pcf": 32.1, "title": "Q4营收突破420亿，全年营收超1330亿", "desc": "Q4 FY25财报展现无与伦比的造血能力，单季营收破420亿美元，全财年收入达1330亿美元，自由现金流突破600亿美元。市场彻底消化此前估值溢价。"}, {"month": "2025-03", "o": 166.0, "h": 182.5, "l": 164.2, "c": 178.5, "v": 1450, "eps": 4.35, "fpe": 32.4, "ps": 28.9, "pcf": 32.8, "title": "GTC 2025发布Blackwell Ultra B300", "desc": "公布Blackwell Ultra（B300 / GB300）架构路线图，搭载288GB HBM3e，并推出面向百兆瓦级智算中心的全光交换（Optical NVLink）互联系统。"}, {"month": "2025-04", "o": 178.0, "h": 181.0, "l": 168.5, "c": 172.1, "v": 1120, "eps": 4.55, "fpe": 29.8, "ps": 26.5, "pcf": 30.2, "title": "半导体供应链季报期，大厂资本开支增速再上调", "desc": "Meta与谷歌财报再度证明AI基建投入没有放缓迹象，Meta将2025年资本开支预算上调至650-700亿美元，英伟达小幅盘整蓄势。"}, {"month": "2025-05", "o": 172.5, "h": 191.2, "l": 171.0, "c": 186.4, "v": 1390, "eps": 4.9, "fpe": 30.9, "ps": 27.2, "pcf": 31.0, "title": "Q1营收达480亿，毛利率保持75%神级区间", "desc": "Q1 FY26净利润突破260亿美元，毛利率稳定在惊人的74.8%。高盛、摩根士丹利等华尔街大行上调目标价至220美元以上。"}, {"month": "2025-06", "o": 186.5, "h": 198.8, "l": 183.2, "c": 194.2, "v": 1280, "eps": 5.15, "fpe": 31.0, "ps": 26.8, "pcf": 30.8, "title": "万卡级集群全面投产，推理Token成本骤降", "desc": "全球首批5个十万卡（100k GPU）Blackwell超级计算集群在北美与北欧并网投产，支撑前沿多模态大模型实时推理与推理加速，股价逼近200美元。"}, {"month": "2025-07", "o": 194.0, "h": 199.5, "l": 185.0, "c": 189.5, "v": 1050, "eps": 5.35, "fpe": 29.2, "ps": 25.1, "pcf": 28.9, "title": "夏季休假交投平淡，下一代HBM4供应锁定", "desc": "美股大盘高位震荡，英伟达与SK海力士、台积电敲定2026年首批量产的16层堆叠HBM4显存产能配额，巩固技术护城河。"}, {"month": "2025-08", "o": 190.0, "h": 208.5, "l": 188.2, "c": 202.8, "v": 1420, "eps": 5.75, "fpe": 30.2, "ps": 25.8, "pcf": 29.5, "title": "Q2营收破560亿，股价首次站上200美元大关", "desc": "Q2 FY26业绩再度粉碎所有空头预言，数据中心单季贡献近500亿美元，股价首次强势站上200美元整数关口，市值稳步向5万亿美元进发。"}, {"month": "2025-09", "o": 202.5, "h": 209.0, "l": 192.5, "c": 198.5, "v": 1180, "eps": 5.95, "fpe": 28.5, "ps": 24.2, "pcf": 27.8, "title": "AI Agent商业化浪潮铺开，推理算力需求超越训练", "desc": "企业级智能体（Autonomous Agents）在金融、医疗、编码领域普及，全球智算中心推理算力消耗首次超越训练，英伟达全栈软件生态持续变现。"}, {"month": "2025-10", "o": 199.0, "h": 218.4, "l": 196.8, "c": 212.4, "v": 1310, "eps": 6.3, "fpe": 29.4, "ps": 24.8, "pcf": 28.2, "title": "Anthropic与OpenAI双双上马新一代前沿巨模", "desc": "OpenAI与Anthropic同时在超级智算集群上开启下一代通用大模型训练，英伟达以软硬件全套InfiniBand+NVLink解决方案垄断高端算力。"}, {"month": "2025-11", "o": 212.5, "h": 228.6, "l": 209.5, "c": 224.6, "v": 1490, "eps": 6.75, "fpe": 30.1, "ps": 25.2, "pcf": 28.6, "title": "Q3营收冲至650亿，自由现金流年化达千亿", "desc": "Q3 FY26营收攀升至650亿美元，单季度自由现金流突破300亿美元。标普道琼斯指数机构评其为美股历史上利润转化率最高的工业级硬件巨头。"}, {"month": "2025-12", "o": 224.8, "h": 235.0, "l": 221.0, "c": 231.5, "v": 1120, "eps": 7.1, "fpe": 29.8, "ps": 24.9, "pcf": 28.1, "title": "2025年市值逼近4.8万亿，连续三年蝉联股王", "desc": "2025全年股价再度录得超60%涨幅，市值跨入4.8万亿美元区间。全球各大对冲基金将英伟达列为科技第一重仓资产。"}, {"month": "2026-01", "o": 231.8, "h": 234.5, "l": 220.0, "c": 225.8, "v": 1210, "eps": 7.25, "fpe": 28.4, "ps": 23.6, "pcf": 26.8, "title": "美国新政府关税政策预期扰动，高位休整", "desc": "华盛顿更替与国际贸易关税新动向引发避险情绪，投资者评估海外代工与供应链潜在关税影响，英伟达小幅缩量回踩225美元。"}, {"month": "2026-02", "o": 226.0, "h": 229.0, "l": 212.5, "c": 218.4, "v": 1350, "eps": 7.45, "fpe": 26.8, "ps": 22.1, "pcf": 25.2, "title": "Q4营收突破750亿，全财年收入突破2400亿", "desc": "公布FY26全年战报：总营收突破2400亿美元创人类科技史奇迹。但因基数极大，华尔街开始探讨『大数定律』下的未来增速放缓风险。"}, {"month": "2026-03", "o": 218.5, "h": 238.4, "l": 215.0, "c": 232.1, "v": 1580, "eps": 7.6, "fpe": 27.9, "ps": 22.8, "pcf": 26.0, "title": "GTC 2026震撼预览Vera Rubin架构NVL72", "desc": "黄仁勋正式揭幕下一代『Vera Rubin』超级芯片平台，采用台积电3nm增强版与HBM4高带宽显存，系统级Token能效比再提10倍，彻底打破所谓技术瓶颈论！"}, {"month": "2026-04", "o": 232.0, "h": 235.8, "l": 221.4, "c": 228.5, "v": 1190, "eps": 7.7, "fpe": 27.0, "ps": 21.9, "pcf": 25.1, "title": "中东局势升级与原油波动，成长板块防御整固", "desc": "地缘局势恶化导致通胀预期抬头，大盘资金阶段性避险流入能源与高股息标的，英伟达表现韧性十足，稳守225美元平台。"}, {"month": "2026-05", "o": 228.8, "h": 236.54, "l": 224.5, "c": 236.5, "v": 1420, "eps": 7.8, "fpe": 27.5, "ps": 22.1, "pcf": 25.4, "title": "创出盘中历史新高236.54美元，Q1营收达820亿", "desc": "5月14日盘中创下历史最高价236.54美元，Q1 FY27营收达820亿美元。但估值高位出现博弈分歧，部分长线基金选择阶段性再平衡。"}, {"month": "2026-06", "o": 236.2, "h": 236.5, "l": 214.2, "c": 220.09, "v": 1490, "eps": 7.85, "fpe": 25.2, "ps": 20.1, "pcf": 23.2, "title": "AI硬件板块集体回调，博通毛利预警拖累行业情绪", "desc": "由于博通Q2财报提示定制ASIC毛利率稀释引发整个半导体硬件板块大震荡，英伟达亦受情绪波及单月回撤7.0%，但分析师强调英伟达自有平台毛利率高出近15个百分点。"}, {"month": "2026-07", "o": 220.5, "h": 222.8, "l": 198.5, "c": 200.75, "v": 1580, "eps": 7.88, "fpe": 22.8, "ps": 18.1, "pcf": 20.8, "title": "对冲基金调仓罗素2000，巨头估值乘数大幅压缩", "desc": "美联储再次降息信号明朗引发史诗级跨资产风格轮动，资金从七大科技巨头撤出回流滞涨中小盘，英伟达最低下探至198美元，PS指标降至18倍安全区间。"}, {"month": "2026-08", "o": 201.0, "h": 224.5, "l": 199.2, "c": 220.78, "v": 1690, "eps": 7.91, "fpe": 24.8, "ps": 19.5, "pcf": 22.4, "title": "Q2财报营收达962亿，大破空头『泡沫论』", "desc": "8月26日发布最新Q2 FY27财报：单季营收达到惊人的962亿美元，大超市场预估！Rubin芯片全面获得云厂商预定。股价逆转跌势强劲反弹5.9%。"}, {"month": "2026-09", "o": 220.5, "h": 225.0, "l": 208.93, "c": 212.17, "v": 850, "eps": 7.91, "fpe": 26.8, "ps": 21.2, "pcf": 24.2, "title": "当前市值稳居5.1万亿，前向估值展现成熟期稳健性", "desc": "截至2026年9月中旬，市值超5.11万亿美元。TTM EPS达到7.91美元，市盈率降至26.8倍，PS市销率约21倍，已从早期的极端狂热过渡至高度可信的盈利兑现期。"}],
+      AMD: [{"month": "2023-01", "o": 64.77, "h": 76.0, "l": 62.0, "c": 72.45, "v": 980, "eps": 0.85, "fpe": 32.5, "ps": 6.8, "pcf": 35.2, "title": "CES 2023发布锐龙7000，苏姿丰初展AI战略", "desc": "CES 2023主旨演讲推出锐龙7000系列移动处理器，首次在x86架构集成专属AI硬件引擎Ryzen AI，并首次预览数据中心级APU芯片Instinct MI300。"}, {"month": "2023-02", "o": 73.0, "h": 88.94, "l": 72.5, "c": 78.59, "v": 890, "eps": 0.78, "fpe": 34.8, "ps": 7.4, "pcf": 36.8, "title": "Q4 2022财报：服务器Epyc逆势抢占英特尔份额", "desc": "第四季度财报显示Epyc霄龙服务器处理器收入大增42%，抵消了PC客户端因渠道严重去库存带来的下滑；赛灵思（Xilinx）嵌入式协同效应初显。"}, {"month": "2023-03", "o": 79.0, "h": 100.32, "l": 78.0, "c": 98.01, "v": 1180, "eps": 0.7, "fpe": 41.2, "ps": 9.2, "pcf": 44.5, "title": "生成式AI风起，市场寻找英伟达第一替代者", "desc": "大模型军备竞赛爆发，华尔街开始急迫寻找能够提供第二货源（Second Source）的高端算力厂商，AMD股价单月暴涨24.7%，重返百元关口。"}, {"month": "2023-04", "o": 97.5, "h": 98.5, "l": 84.5, "c": 89.37, "v": 820, "eps": 0.65, "fpe": 37.5, "ps": 8.4, "pcf": 41.0, "title": "PC及游戏业务疲软，股价冲高回落蓄力", "desc": "全球PC出货量跌入谷底，独立显卡市场需求不振，股价经历健康回调，市场关注焦点全面转向即将公布的独立算力芯片架构。"}, {"month": "2023-05", "o": 89.5, "h": 120.0, "l": 81.0, "c": 117.83, "v": 1420, "eps": 0.58, "fpe": 48.2, "ps": 11.2, "pcf": 52.8, "title": "英伟达业绩炸裂带动AMD同频共振暴涨31.8%", "desc": "英伟达5月下旬划时代的爆表指引点燃整个人工智能硬件板块，机构资金认定算力需求严重外溢，AMD作为唯一潜在挑战者单月暴涨31.8%。"}, {"month": "2023-06", "o": 118.0, "h": 132.83, "l": 108.5, "c": 113.91, "v": 1280, "eps": 0.54, "fpe": 46.5, "ps": 10.8, "pcf": 51.0, "title": "首秀Instinct MI300X，配置192GB海量显存", "desc": "旧金山举办『数据中心与AI技术首映会』，苏姿丰亲自发布针对大模型优化的纯GPU架构Instinct MI300X，搭载惊人的192GB HBM3显存与5.3TB/s带宽。"}, {"month": "2023-07", "o": 114.5, "h": 118.5, "l": 109.0, "c": 114.4, "v": 910, "eps": 0.52, "fpe": 46.8, "ps": 10.9, "pcf": 51.5, "title": "客户样品测试展开，ROCm软件栈推进破局", "desc": "微软等云巨头开始小范围测试MI300X工程样品；AMD宣布斥资强化ROCm开源生态对PyTorch与HuggingFace的原生兼容，力图啃下软件硬骨头。"}, {"month": "2023-08", "o": 114.0, "h": 118.0, "l": 101.5, "c": 105.74, "v": 1020, "eps": 0.5, "fpe": 43.1, "ps": 10.1, "pcf": 48.2, "title": "Q2净利润降幅收窄，赛灵思存货减值周期见底", "desc": "二季度营收53.6亿美元，PC客户端业务环比改善，赛灵思收购产生的无形资产摊销依然压制GAAP净利润，但管理层承诺AI产品Q4正式量产。"}, {"month": "2023-09", "o": 106.0, "h": 111.5, "l": 94.0, "c": 102.82, "v": 930, "eps": 0.5, "fpe": 42.0, "ps": 9.8, "pcf": 47.0, "title": "收购开源AI软件公司Mipsology，补齐生态短板", "desc": "宣布收购法国AI软件初创公司Mipsology，加速针对AMD推理引擎的全栈编译器优化。宏观利率上升背景下股价跟随大盘震荡筑底。"}, {"month": "2023-10", "o": 103.0, "h": 110.8, "l": 93.1, "c": 98.5, "v": 980, "eps": 0.51, "fpe": 40.2, "ps": 9.4, "pcf": 45.1, "title": "再度收购AI软件平台Nod.ai，全面决战大模型", "desc": "一个月内连续实施第二起软件并购，拿下开源大模型优化先驱Nod.ai，强化SHARK编译器生态。股价在95-100美元形成坚实双底。"}, {"month": "2023-11", "o": 99.0, "h": 124.5, "l": 98.2, "c": 121.97, "v": 1380, "eps": 0.52, "fpe": 49.5, "ps": 11.6, "pcf": 55.4, "title": "Q3业绩超预期，官宣MI300将于12月正式发布", "desc": "Q3数据中心业务与PC客户端业务全面恢复增长，苏姿丰在业绩会上透露多批超大规模客户已给出明确采购意向，单月暴拉23.8%。"}, {"month": "2023-12", "o": 122.5, "h": 150.4, "l": 116.0, "c": 147.41, "v": 1520, "eps": 0.53, "fpe": 58.2, "ps": 14.1, "pcf": 64.0, "title": "重磅发布MI300X与ROCm 6.0，Meta/微软站台", "desc": "12月6日举办『Advancing AI』盛典，正式推出算力高达5.3 petaflops的MI300X与APU版本MI300A。微软CEO纳德拉与Meta高管亲赴现场宣布规模部署，并给出2024年超20亿美元AI营收指引！"}, {"month": "2024-01", "o": 147.8, "h": 184.92, "l": 135.0, "c": 167.69, "v": 1650, "eps": 0.6, "fpe": 54.5, "ps": 15.6, "pcf": 68.2, "title": "华尔街抢筹『英伟达唯一竞对』，月涨13.8%", "desc": "机构研报争相预测AMD有望在2024年抢占AI算力市场10%-15%的市场份额，美银、花旗大幅上调目标价至200美元，股价突破历史前高。"}, {"month": "2024-02", "o": 168.0, "h": 214.8, "l": 162.0, "c": 192.53, "v": 1780, "eps": 0.68, "fpe": 56.8, "ps": 17.2, "pcf": 72.5, "title": "将2024年AI营收预期由20亿直接拔高至35亿", "desc": "Q4财报中，苏姿丰宣布将2024年MI300系列AI芯片营收预期从20亿美元直接调高至35亿美元，展现出激进的客户追加订单能见度。"}, {"month": "2024-03", "o": 193.0, "h": 227.3, "l": 174.0, "c": 180.49, "v": 1950, "eps": 0.72, "fpe": 50.1, "ps": 15.8, "pcf": 66.8, "title": "触及历史最高227.30美元，Blackwell发布压制情绪", "desc": "3月8日盘中创出当时历史最高价227.30美元，市销率一度触及18倍危险区。但下旬英伟达GTC发布Blackwell架构，性能跃升导致AMD面临高位获利了结。"}, {"month": "2024-04", "o": 180.0, "h": 182.0, "l": 145.29, "c": 158.38, "v": 1390, "eps": 0.78, "fpe": 41.5, "ps": 13.5, "pcf": 55.4, "title": "Q1财报将AI指引调至40亿，但未达部分热钱预期", "desc": "公布Q1业绩：营收54.7亿美元，虽然将全年AI营收预期进一步上调至40亿美元，但此前极度乐观的买方资金期待调高至50-60亿，引发业绩兑现回调。"}, {"month": "2024-05", "o": 158.5, "h": 174.4, "l": 146.0, "c": 166.9, "v": 1150, "eps": 0.85, "fpe": 42.1, "ps": 13.9, "pcf": 56.2, "title": "宣布AI芯片进入『一年一代』迭代时代", "desc": "台北电脑展Computex前瞻，苏姿丰首次确认AMD AI芯片加速周期进入每年一更：2024年MI325X，2025年3nm MI350，2026年MI400。"}, {"month": "2024-06", "o": 167.0, "h": 170.0, "l": 154.0, "c": 162.21, "v": 980, "eps": 0.92, "fpe": 39.8, "ps": 13.1, "pcf": 53.0, "title": "Computex正式发布CDNA 4架构与MI325X", "desc": "展示具备288GB超大HBM3e显存的MI325X，全面对标英伟达H200。在服务器端发布拥有192核心的Zen 5架构Turin霄龙处理器。"}, {"month": "2024-07", "o": 162.5, "h": 187.2, "l": 134.0, "c": 144.48, "v": 1280, "eps": 0.98, "fpe": 34.2, "ps": 11.2, "pcf": 45.8, "title": "半导体板块剧烈震荡，估值乘数快速挤压", "desc": "美股芯片股普遍回调，投资者担忧云厂商AI资本回报率（ROI），AMD受前期嵌入式业务下滑拖累，股价大幅回落至144美元。"}, {"month": "2024-08", "o": 144.5, "h": 160.0, "l": 121.83, "c": 148.56, "v": 1580, "eps": 1.1, "fpe": 34.5, "ps": 11.3, "pcf": 46.2, "title": "49亿美元重磅收购云服务器厂商ZT Systems", "desc": "8月19日重磅宣布以49亿美元现金加股票收购全球前三的云服务器系统集成商ZT Systems，直接获取上千名顶尖系统级硬件工程师，彻底弥补机架级AI系统设计短板！"}, {"month": "2024-09", "o": 148.8, "h": 165.2, "l": 135.0, "c": 159.28, "v": 1210, "eps": 1.2, "fpe": 35.8, "ps": 11.8, "pcf": 48.5, "title": "华尔街消化ZT Systems并购，评级全面修复", "desc": "分析师一致认为收购ZT Systems使AMD具备了直接对抗英伟达GB200 NVL72整机柜的能力。降息落地后，成长资金回流。"}, {"month": "2024-10", "o": 159.5, "h": 174.0, "l": 142.0, "c": 144.02, "v": 1350, "eps": 1.35, "fpe": 31.5, "ps": 10.4, "pcf": 42.6, "title": "Advancing AI 2024盛会发布第5代Epyc都灵处理器", "desc": "10月10日旧金山发布会，推出5th Gen Epyc Turin处理器与MI325X，并公布MI350性能提升35倍。但短线热钱再度逢利好出货，股价月跌9.6%。"}, {"month": "2024-11", "o": 144.2, "h": 152.0, "l": 132.0, "c": 138.8, "v": 1190, "eps": 1.48, "fpe": 29.8, "ps": 9.8, "pcf": 40.2, "title": "Q3数据中心营收翻倍破35亿，AI全年预期破50亿", "desc": "Q3数据中心业务单季飙升122%达35.5亿美元，AI年收入上修至50亿美元以上。但游戏和嵌入式营收同比腰斩仍对利润造成一定拉扯。"}, {"month": "2024-12", "o": 139.0, "h": 150.5, "l": 133.0, "c": 145.2, "v": 980, "eps": 1.62, "fpe": 30.5, "ps": 10.1, "pcf": 41.5, "title": "服务器CPU份额突破34%，低位筑底圆满收官", "desc": "独立调研报告确认AMD在云与企业级服务器CPU市场份额突破34%，重创英特尔Xeon。机构在140美元下方积极建仓，奠定次年大主升浪。"}, {"month": "2025-01", "o": 145.5, "h": 172.0, "l": 142.0, "c": 168.4, "v": 1320, "eps": 1.8, "fpe": 33.2, "ps": 11.2, "pcf": 45.2, "title": "CES 2025推出Strix Halo，高端AI PC主导市场", "desc": "发布具备40个计算单元（CU）的超强集显APU Strix Halo，性能媲美主流独显，在移动工作站及高端AI PC抢占先机，股价大涨16.0%。"}, {"month": "2025-02", "o": 168.8, "h": 198.5, "l": 165.0, "c": 195.6, "v": 1480, "eps": 2.05, "fpe": 37.1, "ps": 12.8, "pcf": 51.0, "title": "2024全财年AI收入超52亿，2025剑指100亿+", "desc": "Q4财报显示全年AI芯片总收入达52亿美元以上，超出年初预期1.6倍。苏姿丰表示随着MI325X规模放量，2025年AI相关业务将翻倍至100亿美元以上。"}, {"month": "2025-03", "o": 196.0, "h": 228.0, "l": 192.0, "c": 224.5, "v": 1590, "eps": 2.25, "fpe": 41.2, "ps": 14.5, "pcf": 57.2, "title": "突破2024年历史最高峰，微软Meta大单追投", "desc": "股价强势突破227.30美元前高，微软与Meta公开表示MI300/325系列在大规模推理场景具备卓越性价比（低TCO），采购份额提升至超20%。"}, {"month": "2025-04", "o": 224.0, "h": 228.5, "l": 210.0, "c": 218.0, "v": 1120, "eps": 2.45, "fpe": 38.5, "ps": 13.8, "pcf": 54.0, "title": "台积电3nm晶圆配额落地，锁定MI350产能", "desc": "台积电宝山与高雄先进制程晶圆厂为AMD锁定充沛的3nm与CoWoS产能配额，消解外界对AMD与苹果、英伟达争夺先进制程产能的担忧。"}, {"month": "2025-05", "o": 218.5, "h": 258.0, "l": 215.0, "c": 252.3, "v": 1490, "eps": 2.7, "fpe": 43.1, "ps": 15.6, "pcf": 60.5, "title": "Q1数据中心收入暴涨140%，MI350成功流片", "desc": "Q1财报印证业绩飞轮加速，数据中心单季度收入冲破45亿美元，MI350流片验证顺利，将于下半年正式批量投放市场，单月涨幅15.7%。"}, {"month": "2025-06", "o": 252.5, "h": 289.0, "l": 248.0, "c": 284.1, "v": 1620, "eps": 2.95, "fpe": 46.8, "ps": 17.2, "pcf": 66.8, "title": "Computex 2025展示液冷机架系统，股价逼近300", "desc": "整合ZT Systems硬件工程团队后的首款全液冷机架级集群正式亮相，展现出比肩英伟达SuperPOD的系统级工程能力，股价剑指300美元。"}, {"month": "2025-07", "o": 284.5, "h": 302.0, "l": 278.0, "c": 295.4, "v": 1380, "eps": 3.1, "fpe": 47.2, "ps": 17.5, "pcf": 68.0, "title": "ROCm 7.0生态突破，PyTorch等框架无感迁移", "desc": "开源社区ROCm 7.0正式发布，实现对前沿Llama 3.3与开源大模型的0代码修改即插即用，彻底破除多年掣肘的软件兼容壁垒。"}, {"month": "2025-08", "o": 296.0, "h": 334.0, "l": 292.0, "c": 328.7, "v": 1580, "eps": 3.35, "fpe": 51.0, "ps": 19.1, "pcf": 74.2, "title": "Q2数据中心单季破60亿，上调全年AI目标至140亿", "desc": "数据中心单季度收入突破60亿美元历史大关，苏姿丰宣布将2025年AI相关业务总营收预期再度上调至140亿美元，股价首次突破320美元。"}, {"month": "2025-09", "o": 328.0, "h": 335.0, "l": 308.0, "c": 315.2, "v": 1210, "eps": 3.48, "fpe": 47.5, "ps": 17.9, "pcf": 69.5, "title": "高位震荡洗盘，市场关注MI350量产交付节奏", "desc": "连续多月狂飙后出现良性获利回吐，机构调研显示北美主要云巨头正在将第二批采购订单向AMD全面倾斜，以防止英伟达独家垄断过甚。"}, {"month": "2025-10", "o": 316.0, "h": 368.0, "l": 312.0, "c": 362.5, "v": 1690, "eps": 3.65, "fpe": 53.2, "ps": 20.2, "pcf": 78.6, "title": "MI350进入大规模商用，PS市销率踏入20倍警戒线", "desc": "搭载CDNA 4架构与高达288GB HBM3e的MI350批量出货，股价突破360美元，市值迈入6000亿美元，TTM PS市销率突破20倍，进入估值警戒区！"}, {"month": "2025-11", "o": 363.0, "h": 405.0, "l": 358.0, "c": 398.2, "v": 1780, "eps": 3.82, "fpe": 56.5, "ps": 21.8, "pcf": 84.5, "title": "Q3净利润翻倍，服务器CPU市场份额超38%", "desc": "三季度营收与净利润双双打破历史纪录，Epyc服务器处理器在企业端和公有云市场占有率突破38%，股价高歌猛进直逼400美元大关！"}, {"month": "2025-12", "o": 399.0, "h": 420.0, "l": 390.0, "c": 415.8, "v": 1390, "eps": 3.9, "fpe": 57.8, "ps": 22.4, "pcf": 87.0, "title": "2025全年暴涨186%，跻身全球芯片前三强", "desc": "以415.80美元年度收官，全年涨幅高达186%，市值达到6700亿美元，成为仅次于英伟达与台积电的全球芯片市值第三强，年度狂欢达到顶点。"}, {"month": "2026-01", "o": 416.0, "h": 445.0, "l": 410.0, "c": 438.5, "v": 1310, "eps": 3.92, "fpe": 59.2, "ps": 23.2, "pcf": 90.5, "title": "CES 2026展示全套新一代异构计算架构", "desc": "在CES展示下一代Zen 6处理器概念及MI400技术预告，欧洲主权云与亚太主权数据中心相继宣布采购AMD全套算力系统。"}, {"month": "2026-02", "o": 439.0, "h": 472.0, "l": 430.0, "c": 462.1, "v": 1420, "eps": 3.94, "fpe": 61.5, "ps": 24.1, "pcf": 94.0, "title": "Q4业绩AI年化Run-rate超200亿，多头极度兴奋", "desc": "Q4业绩会上宣布第四季度AI年化运行速度（Run-rate）已突破200亿美元，全公司毛利率突破55%，分析师平均目标价上调至550美元。"}, {"month": "2026-03", "o": 462.5, "h": 520.0, "l": 455.0, "c": 512.4, "v": 1690, "eps": 3.95, "fpe": 66.8, "ps": 26.2, "pcf": 102.5, "title": "首次跨过500美元门槛，MI400 2nm架构公布", "desc": "股价一举突破500美元！公布与台积电2nm制程合作的MI400芯片细节，采用下一代集成光学互联与第六代HBM4显存，市场估值情绪达到狂热顶点。"}, {"month": "2026-04", "o": 512.0, "h": 525.0, "l": 485.0, "c": 498.6, "v": 1380, "eps": 3.95, "fpe": 63.5, "ps": 24.9, "pcf": 98.2, "title": "估值倍数严重透支，市场开始出现警惕声音", "desc": "华尔街价值学派与部分宏观对冲基金指出AMD的远期市盈率（超过60倍）已远高于英伟达（约27倍），股价开始出现分歧宽幅震荡。"}, {"month": "2026-05", "o": 499.0, "h": 558.0, "l": 490.0, "c": 545.2, "v": 1620, "eps": 3.95, "fpe": 68.2, "ps": 26.8, "pcf": 106.0, "title": "Q1营收大超预期达115亿，数据中心同比激增107%", "desc": "一季度营收达到115亿美元，数据中心业务暴涨107%至72亿美元，多头借力再次发起疯狂上攻，逼近600美元整数关口。"}, {"month": "2026-06", "o": 546.0, "h": 584.73, "l": 520.0, "c": 580.91, "v": 1890, "eps": 3.96, "fpe": 72.1, "ps": 28.1, "pcf": 111.5, "title": "历史顶峰584.73美元，发布Helios机架系统", "desc": "6月初在『Advancing AI 2026』正式揭幕全机架级超级AI解决方案**Helios**，股价触及历史天花板584.73美元，市值突破9000亿美元！PS市销率逼近29倍，严重处于极端危险区。"}, {"month": "2026-07", "o": 580.0, "h": 582.0, "l": 460.0, "c": 476.15, "v": 2150, "eps": 3.94, "fpe": 57.5, "ps": 22.4, "pcf": 89.2, "title": "估值泡沫破裂，单月崩跌18%，机构集中下调评级", "desc": "多位知名分析师密集发布报告指出『AI TAM与Helios放量预期已被完全定价（Priced In）』，高位买方筹码瓦解，单月暴跌18%，市值蒸发超1600亿美元。"}, {"month": "2026-08", "o": 475.0, "h": 492.0, "l": 448.0, "c": 465.58, "v": 1580, "eps": 3.92, "fpe": 55.2, "ps": 21.6, "pcf": 86.0, "title": "Q2营收虽然亮眼，但毛利率指引显露价格战端倪", "desc": "Q2营收虽然稳固，但三季度毛利率指引略微承压，显示在通用GPU面临英伟达强力挤压、定制芯片面临博通分流的环境下，追赶者利润率开始遭遇瓶颈。"}, {"month": "2026-09", "o": 466.0, "h": 519.95, "l": 458.0, "c": 504.2, "v": 1120, "eps": 3.9, "fpe": 35.8, "ps": 18.5, "pcf": 42.5, "title": "超跌反弹重返500美元，估值重回理性检验期", "desc": "截至2026年9月中旬，股价在460-510美元区间震荡修复，市值约8230亿美元。市场从单纯的故事炒作转向对其实际交付利润与自由现金流的严格审视。"}],
+      AVGO: [{"month": "2023-01", "o": 55.8, "h": 59.2, "l": 54.5, "c": 57.25, "v": 850, "eps": 2.8, "fpe": 14.8, "ps": 9.8, "pcf": 16.5, "title": "监管审查VMware并购案，传统网络芯片保持稳健", "desc": "欧盟委员会与英国CMA就博通610亿美元收购VMware展开深度反垄断审查；以Tomahawk 4为代表的传统以太网交换芯片需求平稳。"}, {"month": "2023-02", "o": 57.3, "h": 60.8, "l": 56.5, "c": 59.02, "v": 780, "eps": 2.92, "fpe": 15.1, "ps": 10.0, "pcf": 16.9, "title": "Q1财报稳健分红，陈福阳强调资本回报纪律", "desc": "第一财季总营收89.2亿美元，软件与半导体表现均衡；自由现金流达40亿美元，陈福阳重申将净利润的50%通过股息回馈股东。"}, {"month": "2023-03", "o": 59.1, "h": 65.0, "l": 58.2, "c": 64.15, "v": 920, "eps": 3.05, "fpe": 16.2, "ps": 10.8, "pcf": 18.1, "title": "发布Tomahawk 5交换机，单芯片吞吐达51.2Tbps", "desc": "正式商用业内首款51.2 Tbps的以太网交换芯片Tomahawk 5，宣称在大规模AI集群中互联效率显著优于英伟达昂贵的InfiniBand架构。"}, {"month": "2023-04", "o": 64.0, "h": 64.8, "l": 61.5, "c": 62.65, "v": 690, "eps": 3.12, "fpe": 15.6, "ps": 10.4, "pcf": 17.5, "title": "收购VMware进入关键反垄断听证程序", "desc": "布鲁塞尔反垄断监管机构就服务器网卡（NIC）与虚拟化兼容性展开听证，博通承诺保持技术互操作性，股价低位盘整。"}, {"month": "2023-05", "o": 62.8, "h": 82.0, "l": 61.8, "c": 80.8, "v": 1380, "eps": 3.25, "fpe": 19.8, "ps": 13.2, "pcf": 22.4, "title": "与苹果签下数十亿5G新约，AI芯片营收占比翻倍", "desc": "5月23日苹果宣布与博通达成多年期、价值数十亿美元的5G射频元器件与无线芯片采购协议；同时陈福阳透露2024年AI收入占比将从10%激增至25%以上！单月暴涨29.0%。"}, {"month": "2023-06", "o": 81.0, "h": 91.5, "l": 79.5, "c": 86.74, "v": 1150, "eps": 3.32, "fpe": 21.0, "ps": 14.1, "pcf": 23.8, "title": "Q2营收87.3亿，确认谷歌TPU深度合作", "desc": "二季度财报确认与谷歌联合研发的定制TPU（Tensor Processing Unit）出货量激增，成为全球除通用GPU外最大的专用AI算力底座。"}, {"month": "2023-07", "o": 87.0, "h": 92.4, "l": 85.5, "c": 89.83, "v": 890, "eps": 3.38, "fpe": 21.5, "ps": 14.5, "pcf": 24.5, "title": "欧盟与英国相继附条件批准VMware并购案", "desc": "欧盟委员会正式无条件批准收购，英国CMA经过独立深入调查亦宣布放行，最大不确定性转向中国国家市场监督管理总局（SAMR）审批。"}, {"month": "2023-08", "o": 89.5, "h": 92.3, "l": 82.5, "c": 89.28, "v": 820, "eps": 3.42, "fpe": 21.2, "ps": 14.3, "pcf": 24.1, "title": "Jericho3-AI芯片亮相，剑指无损以太网AI架构", "desc": "推出专为AI集群设计的Jericho3-AI芯片，支持单集群互联3.2万颗GPU，并联合Meta与微软件发起Ultra Ethernet Consortium（超以太网联盟）。"}, {"month": "2023-09", "o": 89.0, "h": 90.5, "l": 80.5, "c": 83.06, "v": 910, "eps": 3.45, "fpe": 19.5, "ps": 13.1, "pcf": 22.2, "title": "传统宽带与存储芯片去库存，股价随大盘调整", "desc": "三季度业绩显示虽然AI业务强劲，但传统宽带通信（Broadband）和企业级服务器存储芯片需求疲软，单月回踩7.0%。"}, {"month": "2023-10", "o": 83.5, "h": 87.5, "l": 81.2, "c": 84.0, "v": 780, "eps": 3.48, "fpe": 19.8, "ps": 13.2, "pcf": 22.5, "title": "等待SAMR最后裁决，延期收购交割截止日", "desc": "博通与VMware共同宣布将合并协议最终期限延长至11月26日，市场屏息以待中国监管机构批文，股价低波动横盘。"}, {"month": "2023-11", "o": 84.5, "h": 99.8, "l": 84.0, "c": 92.57, "v": 1320, "eps": 3.52, "fpe": 21.6, "ps": 14.4, "pcf": 24.8, "title": "中国市场监管总局批复，690亿完成VMware收购！", "desc": "11月20日中国市场监管总局（SAMR）正式附条件批准并购案；11月22日博通宣布正式完成对VMware价值690亿美元的世纪大并购！"}, {"month": "2023-12", "o": 93.0, "h": 113.0, "l": 92.5, "c": 111.63, "v": 1450, "eps": 3.58, "fpe": 25.8, "ps": 17.2, "pcf": 29.5, "title": "Q4业绩给出500亿指引，启动VMware订阅制大刀阔斧改革", "desc": "Q4财报给出了包含VMware在内的2024财年500亿美元宏伟营收指引；陈福阳宣布全面取消VMware买断制授权（Perpetual License），强行转入高价订阅制！股价暴拉20.6%。"}, {"month": "2024-01", "o": 112.0, "h": 128.5, "l": 105.0, "c": 118.0, "v": 1180, "eps": 3.65, "fpe": 26.5, "ps": 17.8, "pcf": 30.8, "title": "剥离VMware非核心资产，全力押注混合云VCF", "desc": "宣布以约40亿美元将VMware终端用户计算（EUC）业务出售给KKR，全力精简产品线，专注于超高毛利的VMware Cloud Foundation（VCF）。"}, {"month": "2024-02", "o": 118.5, "h": 132.5, "l": 117.0, "c": 130.04, "v": 1210, "eps": 3.75, "fpe": 28.8, "ps": 19.2, "pcf": 33.5, "title": "第三家大型云巨头敲定XPU定制芯片合约", "desc": "分析师电话会与供应链调研透露，除谷歌和Meta外，博通已与第三家超大规模科技巨头签订多代XPU定制ASIC开发协议，单月上涨10.2%。"}, {"month": "2024-03", "o": 130.5, "h": 143.8, "l": 122.0, "c": 132.54, "v": 1120, "eps": 3.82, "fpe": 29.1, "ps": 19.5, "pcf": 34.0, "title": "Q1 AI收入达23亿美元，上调全年AI营收至100亿+", "desc": "第一财季AI芯片相关收入飙升至23亿美元，管理层将全年AI半导体收入指引直接提高至100亿美元以上，占半导体总营收的35%。"}, {"month": "2024-04", "o": 132.0, "h": 139.0, "l": 120.0, "c": 130.09, "v": 980, "eps": 3.9, "fpe": 28.2, "ps": 18.9, "pcf": 32.8, "title": "企业客户对VMware涨价强烈反弹，诉诸反垄断申诉", "desc": "欧洲CISPE与多家全球500强企业抗议VMware将原有软件许可费用提高300%-1200%，客户抵触情绪引发对软件业务长期续约率的担忧。"}, {"month": "2024-05", "o": 130.5, "h": 144.0, "l": 128.0, "c": 139.92, "v": 1050, "eps": 4.0, "fpe": 29.9, "ps": 20.0, "pcf": 35.0, "title": "Meta披露下一代自研MTIA芯片由博通共同设计", "desc": "Meta高调宣布其第二代自研AI训练与推理加速器MTIA成功点亮，博通作为底层IP与先进封装设计核心伙伴深度参与，消除客户自研威胁担忧。"}, {"month": "2024-06", "o": 140.0, "h": 185.16, "l": 138.0, "c": 160.59, "v": 1680, "eps": 4.12, "fpe": 33.8, "ps": 22.6, "pcf": 39.5, "title": "Q2营收爆表上调全年指引，宣布1拆10拆股方案！", "desc": "6月12日Q2财报：营收124.9亿美元超预期，指引全年营收达510亿美元；同时宣布实施1拆10股票分拆计划！股价单月暴力拉升14.8%，拆前破1800美元。"}, {"month": "2024-07", "o": 161.0, "h": 173.5, "l": 145.0, "c": 152.82, "v": 1420, "eps": 4.25, "fpe": 31.8, "ps": 21.2, "pcf": 36.8, "title": "7月12日拆股生效，半导体板块遭遇避险调整", "desc": "拆股后每股降至160-170美元区间，散户流动性显著提升。但受科技股宏观获利盘抛压影响，股价冲高后回落至152美元。"}, {"month": "2024-08", "o": 153.0, "h": 166.5, "l": 138.0, "c": 162.83, "v": 1280, "eps": 4.38, "fpe": 33.5, "ps": 22.3, "pcf": 38.6, "title": "VMware年化预订额飙升，云巨头大举导入光互联", "desc": "财报前瞻显示VMware转化订阅制极为顺畅，年化合同价值（ACV）同比翻番；同时以太网光电共封装（CPO）技术确立领先地位。"}, {"month": "2024-09", "o": 163.0, "h": 178.0, "l": 151.0, "c": 172.6, "v": 1350, "eps": 4.52, "fpe": 35.0, "ps": 23.2, "pcf": 40.5, "title": "Q3 AI收入同比暴增280%，陈福阳力挺定制XPU前景", "desc": "Q3财报AI收入达35亿美元（同比暴涨280%），非AI半导体业务触底回升。陈福阳直言『超大规模云厂商自研芯片不仅不会取代博通，反而加深了对博通定制IP的依赖』。"}, {"month": "2024-10", "o": 173.0, "h": 186.4, "l": 168.0, "c": 178.4, "v": 1210, "eps": 4.65, "fpe": 35.8, "ps": 23.8, "pcf": 41.6, "title": "OpenAI洽谈联合博通台积电自研AI推理芯片", "desc": "外媒独家爆料OpenAI已与博通、台积电建立紧密协作团队，计划自研专有AI推理芯片以降低对英伟达的过度依赖，博通定制芯片版图再下一城。"}, {"month": "2024-11", "o": 178.5, "h": 182.0, "l": 155.0, "c": 161.5, "v": 1290, "eps": 4.75, "fpe": 32.0, "ps": 21.2, "pcf": 37.0, "title": "欧洲反垄断监管调查升级，股价震荡回撤", "desc": "针对VMware新商业模式的反垄断正式调查在布鲁塞尔立案，加之年底机构再平衡，股价单月回撤9.5%，在160美元寻得强劲买盘支撑。"}, {"month": "2024-12", "o": 162.0, "h": 180.0, "l": 159.0, "c": 174.8, "v": 1150, "eps": 4.9, "fpe": 34.2, "ps": 22.5, "pcf": 39.5, "title": "全年营收超516亿大增47%，连续第14年上调股息", "desc": "Q4业绩收官：2024财年总营收达515.6亿美元（同比大增47%），AI业务全年录得122亿美元；董事会批准季度股息增加14%，实现连续14年加息。"}, {"month": "2025-01", "o": 175.0, "h": 198.5, "l": 172.0, "c": 195.4, "v": 1390, "eps": 5.1, "fpe": 37.5, "ps": 24.8, "pcf": 43.5, "title": "VMware整合提前完成，软件ARR跨过200亿门槛", "desc": "管理层宣布VMware整合提前三个季度完成，软件订阅年度经常性收入（ARR）突破200亿美元，运营利润率创下历史新高。"}, {"month": "2025-02", "o": 196.0, "h": 222.0, "l": 193.0, "c": 218.6, "v": 1450, "eps": 5.3, "fpe": 40.8, "ps": 27.2, "pcf": 47.8, "title": "谷歌TPU v6（Trillium）大规模量产交付", "desc": "谷歌全面部署第六代TPU Trillium芯片，博通作为核心封装与物理层接口设计商，单季定制芯片营收呈现抛物线爆发式增长。"}, {"month": "2025-03", "o": 219.0, "h": 242.5, "l": 214.0, "c": 238.2, "v": 1520, "eps": 5.55, "fpe": 43.5, "ps": 29.1, "pcf": 51.0, "title": "Q1业绩AI收入翻倍，指引全年AI营收破180亿", "desc": "Q1 FY25财报显示AI半导体营收同比狂飙110%，管理层将全财年AI预期大幅拔高至180亿美元，股价首次逼近240美元关口。"}, {"month": "2025-04", "o": 238.0, "h": 240.0, "l": 220.0, "c": 226.5, "v": 1180, "eps": 5.75, "fpe": 40.5, "ps": 27.2, "pcf": 47.5, "title": "高盛提示客户集中度风险，股价缩量整固", "desc": "大行研报指出博通定制XPU超过80%集中于谷歌与Meta两家，存在交易对手资本开支波动风险，股价阶段性整固蓄势。"}, {"month": "2025-05", "o": 227.0, "h": 262.0, "l": 224.0, "c": 258.4, "v": 1410, "eps": 6.0, "fpe": 45.2, "ps": 30.4, "pcf": 53.0, "title": "大单签约Anthropic，第四个大客户浮出水面", "desc": "行业证实AI超级独角兽Anthropic与博通签署芯片协同设计框架，用于下一代Claude大模型自建算力底座，彻底打消客户集中度担忧。"}, {"month": "2025-06", "o": 259.0, "h": 288.0, "l": 255.0, "c": 284.5, "v": 1590, "eps": 6.25, "fpe": 48.6, "ps": 32.8, "pcf": 57.5, "title": "自由现金流利润率达到惊人的48%，盈利神话传颂", "desc": "二财季业绩展现极强定价权，单季自由现金流突破58亿美元，FCF利润率逼近50%，华尔街将其奉为『半导体界的伯克希尔哈撒韦』。"}, {"month": "2025-07", "o": 285.0, "h": 305.0, "l": 280.0, "c": 298.0, "v": 1350, "eps": 6.45, "fpe": 49.8, "ps": 33.6, "pcf": 59.2, "title": "跨越300美元大关，市值突破1.4万亿美元", "desc": "7月下旬盘中首次击穿300美元整数关口，市值超越特斯拉和Meta，成为美股仅次于微软、苹果、英伟达、谷歌的超万亿科技巨头。"}, {"month": "2025-08", "o": 299.0, "h": 330.0, "l": 295.0, "c": 325.2, "v": 1490, "eps": 6.7, "fpe": 53.2, "ps": 36.1, "pcf": 63.5, "title": "流片成功Tomahawk 6，带宽跃升至102.4Tbps", "desc": "宣布全球首款突破100T大关的交换芯片Tomahawk 6成功流片，带宽达到惊人的102.4 Tbps，以太网在超大集群中对InfiniBand形成压倒性成本优势。"}, {"month": "2025-09", "o": 325.0, "h": 332.0, "l": 305.0, "c": 312.4, "v": 1280, "eps": 6.9, "fpe": 49.5, "ps": 34.0, "pcf": 59.8, "title": "传统半导体复苏偏弱，高位宽幅休整", "desc": "虽然AI高歌猛进，但汽车与通用工业芯片库存去化周期延长，导致非AI半导体增速放缓，股价阶段性回落3.9%。"}, {"month": "2025-10", "o": 313.0, "h": 355.0, "l": 310.0, "c": 348.6, "v": 1480, "eps": 7.15, "fpe": 54.2, "ps": 37.2, "pcf": 65.5, "title": "Meta与OpenAI双轮驱动，定制芯片订单积压超500亿", "desc": "管理层公开披露定制AI加速器与网络交换芯片的未交付订单（Backlog）突破500亿美元，锁定了未来两年半导体产线利用率。"}, {"month": "2025-11", "o": 349.0, "h": 382.0, "l": 345.0, "c": 375.1, "v": 1590, "eps": 7.4, "fpe": 57.0, "ps": 39.2, "pcf": 69.5, "title": "全球超算中心全面拥抱超以太网UEC技术架构", "desc": "超以太网联盟（UEC）1.0标准正式发布，博通与微软联合展示零丢包、自适应路由的以太网AI超算，股价单月飙升7.6%。"}, {"month": "2025-12", "o": 376.0, "h": 402.0, "l": 370.0, "c": 392.5, "v": 1380, "eps": 7.6, "fpe": 58.5, "ps": 40.2, "pcf": 71.5, "title": "2025收官逼近400美元，PS市销率逼近40倍红线", "desc": "年终收于392.50美元，全年暴涨125%，但TTM市销率已飙升至40倍附近，与英伟达2023年峰值比肩，估值体系由价值公用事业彻底蜕变为高弹性AI投机。"}, {"month": "2026-01", "o": 393.0, "h": 425.0, "l": 388.0, "c": 418.0, "v": 1420, "eps": 7.7, "fpe": 61.2, "ps": 42.1, "pcf": 75.0, "title": "突破400美元！机构疯狂上调2026营收至750亿", "desc": "新年开局强劲，摩根大通将博通列为2026半导体首选，预计在OpenAI与谷歌下一代ASIC推动下，2026财年总营收将突破750亿美元。"}, {"month": "2026-02", "o": 418.5, "h": 452.0, "l": 412.0, "c": 445.8, "v": 1490, "eps": 7.75, "fpe": 64.0, "ps": 44.2, "pcf": 79.0, "title": "自研芯片营收首超传统以太网交换芯片", "desc": "供应链数据显示定制XPU（ASIC）单季营收首次跨过40亿美元，超过传统专有交换芯片成为半导体事业部第一大现金牛。"}, {"month": "2026-03", "o": 446.0, "h": 495.0, "l": 440.0, "c": 482.0, "v": 1780, "eps": 7.8, "fpe": 68.5, "ps": 47.1, "pcf": 84.5, "title": "触及历史最高峰495.00美元，市值达2.3万亿！", "desc": "3月上旬股价触及历史天花板495.00美元！市值膨胀至2.3万亿美元。Q1财报AI半导体大涨106%，但多位审慎分析师指出其毛利率已开始显现疲态。"}, {"month": "2026-04", "o": 482.5, "h": 488.0, "l": 445.0, "c": 458.2, "v": 1450, "eps": 7.82, "fpe": 64.2, "ps": 44.0, "pcf": 79.2, "title": "高估值遭遇宏观调整，高管高位减持引发关注", "desc": "SEC披露文件显示高管团队在480美元上方实施预设减持计划，加之大盘科技高估值遭遇获利回吐，股价自高点回落超7%。"}, {"month": "2026-05", "o": 458.0, "h": 465.0, "l": 420.0, "c": 435.0, "v": 1390, "eps": 7.83, "fpe": 60.1, "ps": 41.2, "pcf": 74.5, "title": "VMware涨价红利边际递减，客户流失初现端倪", "desc": "行业IT预算调查显示，超过15%的原VMware中小企业客户因承受不起强制捆绑提价，正在加快向Nutanix及开源KVM平台迁移，软件神话出现裂痕。"}, {"month": "2026-06", "o": 435.5, "h": 438.0, "l": 365.0, "c": 377.75, "v": 1950, "eps": 7.83, "fpe": 51.5, "ps": 35.2, "pcf": 64.0, "title": "Q2毛利率骤降240基点，『毛利稀释炸弹』引爆", "desc": "二季度财报揭开残酷真相：虽然AI总收入破纪录，但整体综合毛利率同比骤降240个基点！定制ASIC硬件毛利率远低于软件及专有IP，股价单月崩跌13.2%！"}, {"month": "2026-07", "o": 378.0, "h": 402.0, "l": 368.0, "c": 389.28, "v": 1580, "eps": 7.83, "fpe": 52.8, "ps": 36.1, "pcf": 65.5, "title": "Cavenagh Research发表深度研报：华尔街FCF预测崩塌", "desc": "知名分析专栏Cavenagh Research发布重磅研报《博通：华尔街约1150亿美元FCF共识在压力测试下崩塌》，指出高投入低毛利的定制芯片将严重侵蚀现金流。"}, {"month": "2026-08", "o": 389.0, "h": 395.0, "l": 358.0, "c": 370.34, "v": 1420, "eps": 7.83, "fpe": 49.8, "ps": 34.1, "pcf": 61.8, "title": "传闻谷歌寻求TPU代工双供应商，削弱博通议价权", "desc": "市场传出谷歌正在接触联发科与迈威尔（Marvell）作为下一代自研算力的协同设计备选，博通在ASIC领域的无上定价权遭到市场深度怀疑。"}, {"month": "2026-09", "o": 370.0, "h": 375.0, "l": 337.9, "c": 339.27, "v": 1650, "eps": 7.83, "fpe": 43.3, "ps": 19.8, "pcf": 25.2, "title": "Q3财报AI暴增221%却遭Sell评级：『最不信任的AI股』", "desc": "9月8日公布最新Q3财报：AI半导体营收同比激增221%，但Cavenagh Research旋即发布《博通：最新财报印证了为何它是我最不信任的AI股》，给予Sell卖出评级，指责其AI高增长掩盖了恶劣的客户集中度与结构性利润率滑坡，股价跌至339美元。"}]
+    };
+
+    let currentCompany = 'NVDA';
+    let currentMetric = 'PS';
+    let selectedIndex = 44; // default to latest month (2026-09)
+
+    // Milestone quick jumps per company
+    const milestones = {
+      NVDA: [
+        { month: "2023-01", label: "ChatGPT引爆A100" },
+        { month: "2023-05", label: "Q1指引历史级超预期(+54%)" },
+        { month: "2023-07", label: "PS突破43x极度危险区" },
+        { month: "2023-10", label: "美国出台最严出口禁令" },
+        { month: "2024-03", label: "GTC揭幕Blackwell B200" },
+        { month: "2024-06", label: "1拆10拆股落地并登顶全球第一" },
+        { month: "2024-11", label: "Q3营收破350亿&出货B200" },
+        { month: "2025-03", label: "发布Blackwell Ultra B300" },
+        { month: "2025-08", label: "股价首次突破$200" },
+        { month: "2026-03", label: "GTC预览Vera Rubin架构" },
+        { month: "2026-05", label: "盘中创历史新高$236.54" },
+        { month: "2026-08", label: "Q2营收破纪录达962亿" },
+        { month: "2026-09", label: "市值超5.1万亿稳固收官" }
+      ],
+      AMD: [
+        { month: "2023-01", label: "CES 2023发布锐龙7000" },
+        { month: "2023-05", label: "同频暴涨31.8%寻找替代者" },
+        { month: "2023-06", label: "首秀MI300X(192GB显存)" },
+        { month: "2023-12", label: "Advancing AI正式发售MI300X" },
+        { month: "2024-02", label: "AI指引由20亿调升至35亿" },
+        { month: "2024-03", label: "触及阶段高点$227.30" },
+        { month: "2024-08", label: "49亿美元收购ZT Systems" },
+        { month: "2024-10", label: "推出第5代Epyc都灵处理器" },
+        { month: "2025-03", label: "突破前高获微软Meta大单" },
+        { month: "2025-08", label: "数据中心单季破60亿" },
+        { month: "2025-10", label: "MI350量产&PS破20x警戒线" },
+        { month: "2026-06", label: "发布Helios&创$584.73历史顶峰" },
+        { month: "2026-07", label: "高位挤出估值泡沫崩跌18%" },
+        { month: "2026-09", label: "超跌反弹重返$500平台" }
+      ],
+      AVGO: [
+        { month: "2023-03", label: "发布51.2T交换芯片Tomahawk 5" },
+        { month: "2023-05", label: "与苹果达数十亿5G新约" },
+        { month: "2023-07", label: "欧盟英国批准VMware交易" },
+        { month: "2023-11", label: "中国批准&690亿交割VMware" },
+        { month: "2023-12", label: "取消买断强推VMware高价订阅" },
+        { month: "2024-03", label: "AI收入上调至100亿+" },
+        { month: "2024-06", label: "Q2业绩大超预期&宣布1拆10" },
+        { month: "2024-07", label: "7月12日1拆10正式生效" },
+        { month: "2024-10", label: "传OpenAI拟联手博通自研芯片" },
+        { month: "2025-02", label: "谷歌TPU v6大规模量产" },
+        { month: "2025-08", label: "Tomahawk 6 (102.4T)流片" },
+        { month: "2026-03", label: "股价达历史最高峰$495.00" },
+        { month: "2026-06", label: "Q2毛利骤降240bp引爆杀估值" },
+        { month: "2026-07", label: "Cavenagh发文FCF共识崩塌" },
+        { month: "2026-09", label: "Q3财报遭下调Sell评级" }
+      ]
+    };
+
+    // Switch company
+    function selectCompany(ticker) {
+      currentCompany = ticker;
+      document.querySelectorAll('.company-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.classList.contains(ticker.toLowerCase())) btn.classList.add('active');
+      });
+
+      const titles = {
+        NVDA: "英伟达 (NVDA) 2023-2026 月K线走势图",
+        AMD: "超威半导体 (AMD) 2023-2026 月K线走势图",
+        AVGO: "博通 (AVGO) 2023-2026 月K线走势图"
+      };
+      document.getElementById('chartMainTitle').innerText = titles[ticker];
+
+      renderMilestoneChips();
+      renderKline();
+      renderSubMetric();
+      updateDetailCard(selectedIndex);
     }
 
-    function calculatePE() {
-        const ps = parseFloat(document.getElementById('inputPs').value);
-        const margin = parseFloat(document.getElementById('inputMargin').value);
-        
-        document.getElementById('labelPs').innerText = ps.toFixed(1) + 'x';
-        document.getElementById('labelMargin').innerText = margin + '%';
-        
-        const pe = ps / (margin / 100);
-        document.getElementById('resPe').innerText = pe.toFixed(1) + 'x';
-        
-        const statusBox = document.getElementById('resStatus');
-        const explainBox = document.getElementById('resExplain');
-        
-        if (pe > 60) {
-            statusBox.innerText = '🚨 处于极度昂贵的高风险泡沫区间！';
-            statusBox.style.color = '#ef4444';
-            explainBox.innerText = `在 ${margin}% 的净利率下，按 ${ps}x 市销率买入，等同于花费 ${pe.toFixed(1)} 倍市盈率接盘，极易发生戴维斯双杀！`;
-        } else if (pe > 35) {
-            statusBox.innerText = '⚠️ 处于溢价偏高的强透支成长区间';
-            statusBox.style.color = '#f59e0b';
-            explainBox.innerText = `需要未来数年保持 40%+ 的复合高增长，才能逐步消化 ${pe.toFixed(1)}x 的隐含市盈率。`;
+    // Switch sub metric tab
+    function switchSubMetric(metric) {
+      currentMetric = metric;
+      document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderSubMetric();
+    }
+
+    // Render milestone quick jump chips
+    function renderMilestoneChips() {
+      const container = document.getElementById('milestoneChips');
+      container.innerHTML = '';
+      const list = milestones[currentCompany] || [];
+      const currentList = datasets[currentCompany];
+
+      list.forEach(m => {
+        const btn = document.createElement('button');
+        btn.className = 'milestone-btn';
+        btn.innerText = `${m.month} ${m.label}`;
+        btn.onclick = () => {
+          const idx = currentList.findIndex(d => d.month === m.month);
+          if (idx !== -1) {
+            selectedIndex = idx;
+            renderKline();
+            renderSubMetric();
+            updateDetailCard(idx);
+            document.getElementById('detailCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // Calculate MA
+    function calculateMA(data, period) {
+      const ma = [];
+      for (let i = 0; i < data.length; i++) {
+        if (i < period - 1) {
+          ma.push(null);
         } else {
-            statusBox.innerText = '✔ 处于相对健康的合理成长定价区间';
-            statusBox.style.color = '#10b981';
-            explainBox.innerText = `隐含市盈率 ${pe.toFixed(1)}x 与净利率匹配良好，拥有较充足的估值安全垫。`;
+          let sum = 0;
+          for (let j = 0; j < period; j++) {
+            sum += data[i - j].c;
+          }
+          ma.push(sum / period);
         }
+      }
+      return ma;
     }
-</script>
+
+    // Render Main Candlestick Chart
+    function renderKline() {
+      const svg = document.getElementById('klineSvg');
+      const data = datasets[currentCompany];
+      svg.innerHTML = '';
+
+      const width = 1000;
+      const height = 440;
+      const padLeft = 65;
+      const padRight = 35;
+      const padTop = 30;
+      const padBottom = 50;
+
+      const chartW = width - padLeft - padRight;
+      const chartH = height - padTop - padBottom;
+
+      // Min & Max Price
+      let minP = Math.min(...data.map(d => d.l));
+      let maxP = Math.max(...data.map(d => d.h));
+      minP = minP * 0.92;
+      maxP = maxP * 1.08;
+
+      const scaleY = p => padTop + chartH - ((p - minP) / (maxP - minP)) * chartH;
+      const barStep = chartW / data.length;
+      const barW = Math.max(6, barStep * 0.65);
+
+      // Y-axis gridlines & labels
+      const yTicks = 5;
+      for (let i = 0; i <= yTicks; i++) {
+        const val = minP + (i / yTicks) * (maxP - minP);
+        const y = scaleY(val);
+
+        // gridline
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', padLeft);
+        line.setAttribute('y1', y);
+        line.setAttribute('x2', width - padRight);
+        line.setAttribute('y2', y);
+        line.setAttribute('stroke', '#1e293b');
+        line.setAttribute('stroke-dasharray', '4 4');
+        svg.appendChild(line);
+
+        // text
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', padLeft - 10);
+        text.setAttribute('y', y + 4);
+        text.setAttribute('fill', '#64748b');
+        text.setAttribute('font-size', '11');
+        text.setAttribute('text-anchor', 'end');
+        text.textContent = '$' + val.toFixed(val > 100 ? 0 : 1);
+        svg.appendChild(text);
+      }
+
+      // MA Lines
+      const ma5 = calculateMA(data, 5);
+      const ma10 = calculateMA(data, 10);
+
+      const renderLine = (maArr, strokeColor) => {
+        let dStr = '';
+        for (let i = 0; i < maArr.length; i++) {
+          if (maArr[i] !== null) {
+            const x = padLeft + i * barStep + barStep / 2;
+            const y = scaleY(maArr[i]);
+            dStr += (dStr === '' ? 'M ' : ' L ') + `${x} ${y}`;
+          }
+        }
+        if (dStr) {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', dStr);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', strokeColor);
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('opacity', '0.85');
+          svg.appendChild(path);
+        }
+      };
+      renderLine(ma5, '#fbbf24');
+      renderLine(ma10, 'var(--accent-cyan)');
+
+      // Year separators & labels
+      let lastYear = '';
+      data.forEach((d, i) => {
+        const year = d.month.split('-')[0];
+        const month = d.month.split('-')[1];
+        const x = padLeft + i * barStep + barStep / 2;
+
+        if (month === '01' || i === 0) {
+          const vLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          vLine.setAttribute('x1', x);
+          vLine.setAttribute('y1', padTop);
+          vLine.setAttribute('x2', x);
+          vLine.setAttribute('y2', height - padBottom);
+          vLine.setAttribute('stroke', '#334155');
+          vLine.setAttribute('stroke-width', '1');
+          svg.appendChild(vLine);
+
+          const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          yLabel.setAttribute('x', x);
+          yLabel.setAttribute('y', height - padBottom + 18);
+          yLabel.setAttribute('fill', '#94a3b8');
+          yLabel.setAttribute('font-size', '12');
+          yLabel.setAttribute('font-weight', '700');
+          yLabel.setAttribute('text-anchor', 'middle');
+          yLabel.textContent = year + '年';
+          svg.appendChild(yLabel);
+        } else if (month === '06') {
+          const mLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          mLabel.setAttribute('x', x);
+          mLabel.setAttribute('y', height - padBottom + 16);
+          mLabel.setAttribute('fill', '#64748b');
+          mLabel.setAttribute('font-size', '10');
+          mLabel.setAttribute('text-anchor', 'middle');
+          mLabel.textContent = '06月';
+          svg.appendChild(mLabel);
+        }
+      });
+
+      // Selected Candle Highlight Column
+      if (selectedIndex !== null && selectedIndex >= 0 && selectedIndex < data.length) {
+        const selX = padLeft + selectedIndex * barStep;
+        const selRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        selRect.setAttribute('x', selX);
+        selRect.setAttribute('y', padTop);
+        selRect.setAttribute('width', barStep);
+        selRect.setAttribute('height', chartH);
+        selRect.setAttribute('fill', 'rgba(56, 189, 248, 0.12)');
+        selRect.setAttribute('stroke', 'var(--accent-cyan)');
+        selRect.setAttribute('stroke-width', '1.5');
+        selRect.setAttribute('rx', '4');
+        svg.appendChild(selRect);
+
+        // Highlight marker at bottom
+        const markText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        markText.setAttribute('x', selX + barStep / 2);
+        markText.setAttribute('y', height - padBottom + 35);
+        markText.setAttribute('fill', 'var(--accent-cyan)');
+        markText.setAttribute('font-size', '11');
+        markText.setAttribute('font-weight', '800');
+        markText.setAttribute('text-anchor', 'middle');
+        markText.textContent = '▲ ' + data[selectedIndex].month;
+        svg.appendChild(markText);
+      }
+
+      // Draw Candlesticks
+      data.forEach((d, i) => {
+        const xCenter = padLeft + i * barStep + barStep / 2;
+        const isUp = d.c >= d.o;
+        const color = isUp ? 'var(--up-green)' : 'var(--down-red)';
+
+        const yHigh = scaleY(d.h);
+        const yLow = scaleY(d.l);
+        const yOpen = scaleY(d.o);
+        const yClose = scaleY(d.c);
+
+        const bodyTop = Math.min(yOpen, yClose);
+        const bodyH = Math.max(2, Math.abs(yClose - yOpen));
+
+        // Wick Line
+        const wick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        wick.setAttribute('x1', xCenter);
+        wick.setAttribute('y1', yHigh);
+        wick.setAttribute('x2', xCenter);
+        wick.setAttribute('y2', yLow);
+        wick.setAttribute('stroke', color);
+        wick.setAttribute('stroke-width', '1.5');
+        svg.appendChild(wick);
+
+        // Candle Body
+        const body = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        body.setAttribute('x', xCenter - barW / 2);
+        body.setAttribute('y', bodyTop);
+        body.setAttribute('width', barW);
+        body.setAttribute('height', bodyH);
+        body.setAttribute('fill', isUp ? color : color);
+        body.setAttribute('rx', '1');
+        svg.appendChild(body);
+
+        // Interactive Hitbox (Click & Hover)
+        const hitbox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        hitbox.setAttribute('x', padLeft + i * barStep);
+        hitbox.setAttribute('y', padTop);
+        hitbox.setAttribute('width', barStep);
+        hitbox.setAttribute('height', chartH);
+        hitbox.setAttribute('fill', 'transparent');
+        hitbox.setAttribute('cursor', 'pointer');
+
+        hitbox.addEventListener('mouseenter', (e) => showTooltip(e, d, i));
+        hitbox.addEventListener('mousemove', (e) => showTooltip(e, d, i));
+        hitbox.addEventListener('mouseleave', hideTooltip);
+        hitbox.addEventListener('click', () => {
+          selectedIndex = i;
+          renderKline();
+          renderSubMetric();
+          updateDetailCard(i);
+        });
+
+        svg.appendChild(hitbox);
+      });
+    }
+
+    // Render Sub-Metric Indicator Chart
+    function renderSubMetric() {
+      const svg = document.getElementById('subMetricSvg');
+      const data = datasets[currentCompany];
+      svg.innerHTML = '';
+
+      const width = 1000;
+      const height = 200;
+      const padLeft = 65;
+      const padRight = 35;
+      const padTop = 20;
+      const padBottom = 30;
+
+      const chartW = width - padLeft - padRight;
+      const chartH = height - padTop - padBottom;
+      const barStep = chartW / data.length;
+
+      // Determine metric values
+      let values = [];
+      let valLabel = '';
+      let isRatio = true;
+
+      if (currentMetric === 'PS') {
+        values = data.map(d => d.ps);
+        valLabel = '市销率 PS (倍)';
+      } else if (currentMetric === 'FPE') {
+        values = data.map(d => d.fpe);
+        valLabel = '远期市盈率 FPE (倍)';
+      } else if (currentMetric === 'EPS') {
+        values = data.map(d => d.eps);
+        valLabel = '每股收益 TTM ($)';
+        isRatio = false;
+      } else if (currentMetric === 'PCF') {
+        values = data.map(d => d.pcf);
+        valLabel = '市现率 PCF (倍)';
+      }
+
+      let minV = Math.min(...values);
+      let maxV = Math.max(...values);
+      minV = Math.max(0, minV * 0.85);
+      maxV = maxV * 1.15;
+
+      const scaleY = v => padTop + chartH - ((v - minV) / (maxV - minV)) * chartH;
+
+      // PS Danger Zone Shading if metric == 'PS'
+      if (currentMetric === 'PS') {
+        // Extreme Danger: > 30x
+        if (maxV > 30) {
+          const y30 = scaleY(30);
+          const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          rect.setAttribute('x', padLeft);
+          rect.setAttribute('y', padTop);
+          rect.setAttribute('width', chartW);
+          rect.setAttribute('height', Math.max(0, y30 - padTop));
+          rect.setAttribute('fill', 'rgba(239, 68, 68, 0.14)');
+          svg.appendChild(rect);
+
+          // 30x Reference line
+          const l30 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          l30.setAttribute('x1', padLeft);
+          l30.setAttribute('y1', y30);
+          l30.setAttribute('x2', width - padRight);
+          l30.setAttribute('y2', y30);
+          l30.setAttribute('stroke', '#ef4444');
+          l30.setAttribute('stroke-dasharray', '5 3');
+          l30.setAttribute('stroke-width', '1.5');
+          svg.appendChild(l30);
+
+          const t30 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          t30.setAttribute('x', width - padRight - 6);
+          t30.setAttribute('y', y30 - 5);
+          t30.setAttribute('fill', '#ef4444');
+          t30.setAttribute('font-size', '10');
+          t30.setAttribute('font-weight', '700');
+          t30.setAttribute('text-anchor', 'end');
+          t30.textContent = '🚨 极度危险区 (PS > 30x)';
+          svg.appendChild(t30);
+        }
+
+        // Warning Zone: 20x - 30x
+        if (maxV > 20) {
+          const y20 = scaleY(20);
+          const y30 = maxV > 30 ? scaleY(30) : padTop;
+          const rect2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          rect2.setAttribute('x', padLeft);
+          rect2.setAttribute('y', y30);
+          rect2.setAttribute('width', chartW);
+          rect2.setAttribute('height', Math.max(0, y20 - y30));
+          rect2.setAttribute('fill', 'rgba(245, 158, 11, 0.10)');
+          svg.appendChild(rect2);
+
+          const l20 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          l20.setAttribute('x1', padLeft);
+          l20.setAttribute('y1', y20);
+          l20.setAttribute('x2', width - padRight);
+          l20.setAttribute('y2', y20);
+          l20.setAttribute('stroke', '#f59e0b');
+          l20.setAttribute('stroke-dasharray', '5 3');
+          l20.setAttribute('stroke-width', '1.2');
+          svg.appendChild(l20);
+
+          const t20 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          t20.setAttribute('x', width - padRight - 6);
+          t20.setAttribute('y', y20 - 5);
+          t20.setAttribute('fill', '#f59e0b');
+          t20.setAttribute('font-size', '10');
+          t20.setAttribute('font-weight', '700');
+          t20.setAttribute('text-anchor', 'end');
+          t20.textContent = '⚠️ 估值警戒线 (PS = 20x)';
+          svg.appendChild(t20);
+        }
+      }
+
+      // Y-axis grid & labels
+      for (let i = 0; i <= 3; i++) {
+        const val = minV + (i / 3) * (maxV - minV);
+        const y = scaleY(val);
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', padLeft);
+        line.setAttribute('y1', y);
+        line.setAttribute('x2', width - padRight);
+        line.setAttribute('y2', y);
+        line.setAttribute('stroke', '#1e293b');
+        line.setAttribute('stroke-dasharray', '3 3');
+        svg.appendChild(line);
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', padLeft - 8);
+        text.setAttribute('y', y + 4);
+        text.setAttribute('fill', '#64748b');
+        text.setAttribute('font-size', '10');
+        text.setAttribute('text-anchor', 'end');
+        text.textContent = val.toFixed(1) + (isRatio ? 'x' : '');
+        svg.appendChild(text);
+      }
+
+      // Selected vertical beam
+      if (selectedIndex !== null && selectedIndex >= 0 && selectedIndex < data.length) {
+        const selX = padLeft + selectedIndex * barStep;
+        const selRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        selRect.setAttribute('x', selX);
+        selRect.setAttribute('y', padTop);
+        selRect.setAttribute('width', barStep);
+        selRect.setAttribute('height', chartH);
+        selRect.setAttribute('fill', 'rgba(56, 189, 248, 0.12)');
+        svg.appendChild(selRect);
+      }
+
+      // Build Curve Path & Area
+      let pathD = '';
+      let areaD = `M ${padLeft + barStep / 2} ${padTop + chartH}`;
+
+      values.forEach((v, i) => {
+        const x = padLeft + i * barStep + barStep / 2;
+        const y = scaleY(v);
+        pathD += (i === 0 ? 'M ' : ' L ') + `${x} ${y}`;
+        areaD += ` L ${x} ${y}`;
+      });
+      areaD += ` L ${padLeft + (values.length - 1) * barStep + barStep / 2} ${padTop + chartH} Z`;
+
+      // Area fill
+      const areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      areaPath.setAttribute('d', areaD);
+      const fillCol = currentMetric === 'PS' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(59, 130, 246, 0.15)';
+      areaPath.setAttribute('fill', fillCol);
+      svg.appendChild(areaPath);
+
+      // Stroke path
+      const strokePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      strokePath.setAttribute('d', pathD);
+      strokePath.setAttribute('fill', 'none');
+      const sCol = currentMetric === 'PS' ? '#f87171' : 'var(--accent-cyan)';
+      strokePath.setAttribute('stroke', sCol);
+      strokePath.setAttribute('stroke-width', '2.5');
+      svg.appendChild(strokePath);
+
+      // Node circles
+      values.forEach((v, i) => {
+        const x = padLeft + i * barStep + barStep / 2;
+        const y = scaleY(v);
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', i === selectedIndex ? '5' : '2.5');
+        circle.setAttribute('fill', i === selectedIndex ? '#ffffff' : sCol);
+        circle.setAttribute('stroke', sCol);
+        circle.setAttribute('stroke-width', i === selectedIndex ? '2.5' : '1');
+        svg.appendChild(circle);
+
+        // Hitbox
+        const hitbox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        hitbox.setAttribute('x', padLeft + i * barStep);
+        hitbox.setAttribute('y', padTop);
+        hitbox.setAttribute('width', barStep);
+        hitbox.setAttribute('height', chartH);
+        hitbox.setAttribute('fill', 'transparent');
+        hitbox.setAttribute('cursor', 'pointer');
+        hitbox.addEventListener('click', () => {
+          selectedIndex = i;
+          renderKline();
+          renderSubMetric();
+          updateDetailCard(i);
+        });
+        svg.appendChild(hitbox);
+      });
+    }
+
+    // Tooltip management
+    const tooltip = document.getElementById('chartTooltip');
+    function showTooltip(e, d, idx) {
+      tooltip.style.display = 'block';
+      const isUp = d.c >= d.o;
+      const chg = (((d.c - d.o) / d.o) * 100).toFixed(1);
+      const chgColor = isUp ? 'var(--up-green)' : 'var(--down-red)';
+
+      tooltip.innerHTML = `
+        <div class="tt-header">
+          <span>${d.month}</span>
+          <span style="color:${chgColor}">${isUp ? '+' : ''}${chg}%</span>
+        </div>
+        <div class="tt-row"><span class="tt-label">收盘价:</span><span class="tt-val">$${d.c.toFixed(2)}</span></div>
+        <div class="tt-row"><span class="tt-label">开/高/低:</span><span class="tt-val">$${d.o.toFixed(1)} / ${d.h.toFixed(1)} / ${d.l.toFixed(1)}</span></div>
+        <div class="tt-row"><span class="tt-label">PS (市销率):</span><span class="tt-val" style="color:${d.ps >= 30 ? '#ef4444' : (d.ps >= 20 ? '#f59e0b' : '#38bdf8')}">${d.ps}x</span></div>
+        <div class="tt-row"><span class="tt-label">FPE (远期PE):</span><span class="tt-val">${d.fpe}x</span></div>
+        <div class="tt-row"><span class="tt-label">EPS (TTM):</span><span class="tt-val">$${d.eps}</span></div>
+        <div class="tt-row"><span class="tt-label">PCF (市现率):</span><span class="tt-val">${d.pcf}x</span></div>
+        <div style="margin-top:5px; padding-top:4px; border-top:1px solid #24324f; font-size:0.75rem; color:#cbd5e1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          📌 ${d.title}
+        </div>
+      `;
+
+      const wrapRect = document.getElementById('chartSvgWrap').getBoundingClientRect();
+      let left = e.clientX - wrapRect.left + 15;
+      let top = e.clientY - wrapRect.top - 20;
+
+      if (left + 210 > wrapRect.width) left = left - 230;
+      if (top < 0) top = 10;
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+
+    function hideTooltip() {
+      tooltip.style.display = 'none';
+    }
+
+    // Update Interactive Detail Card
+    function updateDetailCard(idx) {
+      const data = datasets[currentCompany];
+      const d = data[idx];
+
+      document.getElementById('selectedMonthBadge').innerText = d.month;
+      document.getElementById('monthIndexLabel').innerText = `第 ${idx + 1} / ${data.length} 个月`;
+
+      const pill = document.getElementById('selectedCompanyPill');
+      const companyConfig = {
+        NVDA: { name: "英伟达 (NVDA)", bg: "rgba(118, 185, 0, 0.2)", col: "#a3e635", border: "#76b900" },
+        AMD: { name: "超威半导体 (AMD)", bg: "rgba(237, 28, 36, 0.2)", col: "#fca5a5", border: "#ed1c24" },
+        AVGO: { name: "博通 (AVGO)", bg: "rgba(2, 132, 199, 0.2)", col: "#7dd3fc", border: "#0284c7" }
+      };
+      const cfg = companyConfig[currentCompany];
+      pill.innerText = cfg.name;
+      pill.style.background = cfg.bg;
+      pill.style.color = cfg.col;
+      pill.style.borderColor = cfg.border;
+
+      // Price block
+      const isUp = d.c >= d.o;
+      const chg = (((d.c - d.o) / d.o) * 100).toFixed(1);
+      const chgColor = isUp ? 'var(--up-green)' : 'var(--down-red)';
+      document.getElementById('cardPriceTag').innerText = `收盘价 $${d.c.toFixed(2)}`;
+      document.getElementById('cardPriceTag').style.color = chgColor;
+      document.getElementById('cardPriceChg').innerText = `${isUp ? '+' : ''}${chg}%`;
+      document.getElementById('cardPriceChg').style.color = chgColor;
+      document.getElementById('cardPriceOhlc').innerHTML = `开: $${d.o.toFixed(2)} | 高: $${d.h.toFixed(2)}<br>低: $${d.l.toFixed(2)} | 振幅: ${(
+        ((d.h - d.l) / d.l) * 100
+      ).toFixed(1)}%`;
+
+      // PS block & Danger Zone
+      const psVal = d.ps;
+      const psBox = document.getElementById('cardPsBox');
+      const psPill = document.getElementById('cardPsPill');
+      document.getElementById('cardPsVal').innerText = psVal.toFixed(1) + 'x';
+
+      psBox.classList.remove('danger-highlight', 'warning-highlight');
+      if (psVal >= 30) {
+        psBox.classList.add('danger-highlight');
+        psPill.className = 'status-pill danger';
+        psPill.innerText = '🚨 极度危险区 (>30x)';
+        document.getElementById('cardPsDesc').innerHTML = `高危预警！远超半导体10-15x中枢<br>要求未来10年极度苛刻的高增长`;
+      } else if (psVal >= 20) {
+        psBox.classList.add('warning-highlight');
+        psPill.className = 'status-pill warning';
+        psPill.innerText = '⚠️ 估值警戒区 (20-30x)';
+        document.getElementById('cardPsDesc').innerHTML = `估值偏高，依赖高速业绩兑现<br>需警惕资本开支周期放缓冲击`;
+      } else {
+        psPill.className = 'status-pill safe';
+        psPill.innerText = '✅ 相对合理区间 (<20x)';
+        document.getElementById('cardPsDesc').innerHTML = `处于AI高成长可接受估值带<br>具备较好安全边际与业绩支撑`;
+      }
+
+      // FPE
+      document.getElementById('cardFpeVal').innerText = d.fpe.toFixed(1) + 'x';
+      document.getElementById('cardFpeDesc').innerHTML = `远期市盈率倍数<br>反映市场对其未来12个月利润定价`;
+
+      // EPS & PCF
+      document.getElementById('cardEpsVal').innerText = '$' + d.eps.toFixed(2);
+      document.getElementById('cardPcfDesc').innerHTML = `PCF (市现率): <strong>${d.pcf.toFixed(1)}x</strong><br>自由现金流转化能效核心锚点`;
+
+      // Events block
+      document.getElementById('eventBadge').innerText = `${d.month} 重大里程碑`;
+      document.getElementById('eventMainTitle').innerText = d.title;
+      document.getElementById('eventDescText').innerText = d.desc;
+
+      // Deep dive impact commentary
+      const impactTexts = {
+        NVDA: `【英伟达投研联动分析】：当月股价与估值互动深刻体现了英伟达独一无二的“高PS-业绩暴增-压缩PS-再创新高”的戴维斯双击循环。CUDA软件生态与全机架解决方案让其在整个AI硬件链条中掌握了绝对定价权，每当PS接近危险区，随后的财报便以翻倍的净利润完成估值出清。`,
+        AMD: `【AMD投研联动分析】：AMD作为AI芯片追赶者，其估值往往走在业绩前面，FPE多次高过英伟达。收购ZT Systems并推出Helios全机架是其挑战英伟达的核心胜负手，但在通用GPU面临CUDA生态壁垒、定制ASIC又受博通挤压的夹缝中，2026年出现的估值泡沫破裂深刻警示了“预期透支”的下行风险。`,
+        AVGO: `【博通投研联动分析】：博通的估值逻辑在2023-2026年完成了从“传统价值高股息”向“AI基础设施狂热标的”的跃迁。然而，低毛利的定制ASIC硬件系统在总营收中占比过快膨胀，结构性稀释了VMware带来的高利润率光环，叠加客户高度集中的风险，构成了其在2026年遭遇Cavenagh Research等专业机构下调Sell评级的核心基本面导火索。`
+      };
+      document.getElementById('eventImpactPanel').innerHTML = `<strong>估值与行情联动逻辑：</strong>${impactTexts[currentCompany]}`;
+    }
+
+    // Month Navigation
+    function navigateMonth(delta) {
+      const data = datasets[currentCompany];
+      let newIdx = selectedIndex + delta;
+      if (newIdx < 0) newIdx = 0;
+      if (newIdx >= data.length) newIdx = data.length - 1;
+      selectedIndex = newIdx;
+      renderKline();
+      renderSubMetric();
+      updateDetailCard(newIdx);
+    }
+
+    // Initial setup
+    window.addEventListener('DOMContentLoaded', () => {
+      selectCompany('NVDA');
+    });
+  </script>
 </body>
 </html>
