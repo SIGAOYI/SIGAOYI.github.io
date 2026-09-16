@@ -692,10 +692,10 @@
             <span>📉</span> 估值指标联动走势 (2023-2026)
           </div>
           <div class="subchart-tabs">
-            <button class="sub-tab-btn danger-tab active" onclick="switchSubMetric('PS')">⚠️ PS (市销率 & 危险区)</button>
-            <button class="sub-tab-btn" onclick="switchSubMetric('FPE')">📈 FPE (远期市盈率)</button>
-            <button class="sub-tab-btn" onclick="switchSubMetric('EPS')">💰 EPS (每股收益 TTM)</button>
-            <button class="sub-tab-btn" onclick="switchSubMetric('PCF')">🌊 PCF (市现率)</button>
+            <button class="sub-tab-btn danger-tab active" onclick="switchSubMetric('PS')">🚨 PS (市销率 & 危险区)</button>
+            <button class="sub-tab-btn danger-tab" onclick="switchSubMetric('FPE')">🚨 FPE (远期PE & 危险区)</button>
+            <button class="sub-tab-btn danger-tab" onclick="switchSubMetric('PCF')">🚨 PCF (市现率 & 危险区)</button>
+            <button class="sub-tab-btn" onclick="switchSubMetric('EPS')">💰 EPS (每股收益与增长台阶)</button>
           </div>
         </div>
 
@@ -762,30 +762,30 @@
         </div>
 
         <!-- Metric 3: FPE -->
-        <div class="metric-box">
+        <div class="metric-box" id="cardFpeBox">
           <div class="metric-box-title">
             <span>FPE (远期市盈率)</span>
-            <span style="color:var(--text-dim); font-size:0.75rem;">Consensus</span>
+            <span class="status-pill safe" id="cardFpePill">合理区间</span>
           </div>
           <div class="metric-box-val" id="cardFpeVal">
             26.8x
           </div>
           <div class="metric-box-sub" id="cardFpeDesc">
-            基于未来12个月一致预期净利润<br>较2023年峰值(62x)压缩超55%
+            基准线: 35x警戒 / 50x危险区<br>基于未来12个月一致预期净利润
           </div>
         </div>
 
         <!-- Metric 4: EPS & PCF -->
-        <div class="metric-box">
+        <div class="metric-box" id="cardPcfBox">
           <div class="metric-box-title">
-            <span>EPS & PCF (利润与现金流)</span>
-            <span style="color:var(--accent-cyan); font-size:0.75rem;">TTM Diluted</span>
+            <span>PCF & EPS (现金流与利润)</span>
+            <span class="status-pill safe" id="cardPcfPill">合理区间</span>
           </div>
-          <div class="metric-box-val" id="cardEpsVal" style="color:var(--accent-cyan);">
-            $7.91
+          <div class="metric-box-val" id="cardPcfVal" style="color:var(--accent-cyan);">
+            24.2x
           </div>
           <div class="metric-box-sub" id="cardPcfDesc">
-            PCF (市现率): <strong>24.2x</strong><br>自由现金流利润率维持50%+
+            EPS: <strong>$7.91</strong> | 基准: 25x警戒 / 40x危险区<br>自由现金流收益率与折现倍数
           </div>
         </div>
       </div>
@@ -821,6 +821,15 @@
           <span class="quote-author">—— Scott McNealy, Former CEO of Sun Microsystems (Bloomberg, 2002)</span>
         </div>
 
+        <p>
+          为此，本看板构建了涵盖 <strong>PS、FPE、PCF 与 EPS 四维估值危险区体系</strong>，帮助投资者穿透单一维度的认知盲区：
+        </p>
+        <ul style="margin: 0 0 1.5rem 1.5rem; color: #cbd5e1; font-size: 0.92rem; line-height: 1.8;">
+          <li><strong style="color: var(--danger-red);">1. PS 市销率危险区 (>30x 极度危险 / 20x 警戒线)</strong>：麦克尼利定理——极端狂热的直接试金石。超过 30 倍意味着即便毛利率 100%、零成本、零税收，也需要 30 年营收才能收回初始投资；</li>
+          <li><strong style="color: #fb923c);">2. FPE 远期市盈率危险区 (>50x 极度危险 / 35x 警戒线)</strong>：在周期性半导体硬件中，前向 12 个月市盈率超过 50 倍意味着市场定价了未来 2-3 年毫无瑕疵的爆发性增长，容错率为零，供应链微小扰动即可引发估值雪崩；</li>
+          <li><strong style="color: var(--accent-cyan);">3. PCF 市现率危险区 (>40x 极度危险 / 25x 警戒线)</strong>：市现率超过 40 倍意味着自由现金流收益率不足 2.5%，远低于无风险国债利率。重资本开支下的芯片行业一旦现金流失血，极易发生流动性折价；</li>
+          <li><strong style="color: #c084fc);">4. EPS 利润失速与增长台阶预警</strong>：EPS 是估值倍数的分母。当股价停留在高位而 TTM EPS 环比增幅放缓至 15% 以下甚至负增长时，估值乘数将失去内在支撑，迎来残酷的均值回归。</li>
+        </ul>
         <p>
           复盘 2023 年至 2026 年生成式人工智能算力狂潮，三大半导体龙头在『PS 危险区』展现出了截然不同的消化路径与资本命运：
         </p>
@@ -1214,7 +1223,7 @@
       });
     }
 
-    // Render Sub-Metric Indicator Chart
+    // Render Sub-Metric Indicator Chart (with Multi-Metric Danger Zones)
     function renderSubMetric() {
       const svg = document.getElementById('subMetricSvg');
       const data = datasets[currentCompany];
@@ -1231,24 +1240,50 @@
       const chartH = height - padTop - padBottom;
       const barStep = chartW / data.length;
 
-      // Determine metric values
+      // Determine metric values and Danger/Warning thresholds
       let values = [];
       let valLabel = '';
       let isRatio = true;
+      let dangerThreshold = null;
+      let warningThreshold = null;
+      let dangerLabel = '';
+      let warningLabel = '';
+      let curveColor = 'var(--accent-cyan)';
+      let areaColor = 'rgba(59, 130, 246, 0.15)';
 
       if (currentMetric === 'PS') {
         values = data.map(d => d.ps);
         valLabel = '市销率 PS (倍)';
+        dangerThreshold = 30;
+        warningThreshold = 20;
+        dangerLabel = '🚨 极度危险区 (PS > 30x)';
+        warningLabel = '⚠️ 估值警戒线 (PS = 20x)';
+        curveColor = '#f87171';
+        areaColor = 'rgba(239, 68, 68, 0.12)';
       } else if (currentMetric === 'FPE') {
         values = data.map(d => d.fpe);
         valLabel = '远期市盈率 FPE (倍)';
+        dangerThreshold = 50;
+        warningThreshold = 35;
+        dangerLabel = '🚨 极度危险区 (FPE > 50x)';
+        warningLabel = '⚠️ 估值警戒线 (FPE = 35x)';
+        curveColor = '#fb923c';
+        areaColor = 'rgba(251, 146, 60, 0.14)';
+      } else if (currentMetric === 'PCF') {
+        values = data.map(d => d.pcf);
+        valLabel = '市现率 PCF (倍)';
+        dangerThreshold = 40;
+        warningThreshold = 25;
+        dangerLabel = '🚨 极度危险区 (PCF > 40x)';
+        warningLabel = '⚠️ 现金流警戒线 (PCF = 25x)';
+        curveColor = '#38bdf8';
+        areaColor = 'rgba(56, 189, 248, 0.14)';
       } else if (currentMetric === 'EPS') {
         values = data.map(d => d.eps);
         valLabel = '每股收益 TTM ($)';
         isRatio = false;
-      } else if (currentMetric === 'PCF') {
-        values = data.map(d => d.pcf);
-        valLabel = '市现率 PCF (倍)';
+        curveColor = '#a855f7';
+        areaColor = 'rgba(168, 85, 247, 0.14)';
       }
 
       let minV = Math.min(...values);
@@ -1256,75 +1291,103 @@
       minV = Math.max(0, minV * 0.85);
       maxV = maxV * 1.15;
 
+      // Ensure thresholds fit in visible chart range
+      if (dangerThreshold && maxV < dangerThreshold * 1.08) {
+        maxV = dangerThreshold * 1.08;
+      }
+
       const scaleY = v => padTop + chartH - ((v - minV) / (maxV - minV)) * chartH;
 
-      // PS Danger Zone Shading if metric == 'PS'
-      if (currentMetric === 'PS') {
-        // Extreme Danger: > 30x
-        if (maxV > 30) {
-          const y30 = scaleY(30);
+      // Draw Danger Zone Shading & Reference Lines for PS, FPE, PCF
+      if (dangerThreshold !== null && warningThreshold !== null) {
+        // Extreme Danger Zone (above dangerThreshold)
+        if (maxV > dangerThreshold) {
+          const yDanger = scaleY(dangerThreshold);
           const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           rect.setAttribute('x', padLeft);
           rect.setAttribute('y', padTop);
           rect.setAttribute('width', chartW);
-          rect.setAttribute('height', Math.max(0, y30 - padTop));
+          rect.setAttribute('height', Math.max(0, yDanger - padTop));
           rect.setAttribute('fill', 'rgba(239, 68, 68, 0.14)');
           svg.appendChild(rect);
 
-          // 30x Reference line
-          const l30 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          l30.setAttribute('x1', padLeft);
-          l30.setAttribute('y1', y30);
-          l30.setAttribute('x2', width - padRight);
-          l30.setAttribute('y2', y30);
-          l30.setAttribute('stroke', '#ef4444');
-          l30.setAttribute('stroke-dasharray', '5 3');
-          l30.setAttribute('stroke-width', '1.5');
-          svg.appendChild(l30);
+          // Danger line
+          const lDanger = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lDanger.setAttribute('x1', padLeft);
+          lDanger.setAttribute('y1', yDanger);
+          lDanger.setAttribute('x2', width - padRight);
+          lDanger.setAttribute('y2', yDanger);
+          lDanger.setAttribute('stroke', '#ef4444');
+          lDanger.setAttribute('stroke-dasharray', '5 3');
+          lDanger.setAttribute('stroke-width', '1.5');
+          svg.appendChild(lDanger);
 
-          const t30 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          t30.setAttribute('x', width - padRight - 6);
-          t30.setAttribute('y', y30 - 5);
-          t30.setAttribute('fill', '#ef4444');
-          t30.setAttribute('font-size', '10');
-          t30.setAttribute('font-weight', '700');
-          t30.setAttribute('text-anchor', 'end');
-          t30.textContent = '🚨 极度危险区 (PS > 30x)';
-          svg.appendChild(t30);
+          const tDanger = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          tDanger.setAttribute('x', width - padRight - 6);
+          tDanger.setAttribute('y', yDanger - 5);
+          tDanger.setAttribute('fill', '#ef4444');
+          tDanger.setAttribute('font-size', '10');
+          tDanger.setAttribute('font-weight', '700');
+          tDanger.setAttribute('text-anchor', 'end');
+          tDanger.textContent = dangerLabel;
+          svg.appendChild(tDanger);
         }
 
-        // Warning Zone: 20x - 30x
-        if (maxV > 20) {
-          const y20 = scaleY(20);
-          const y30 = maxV > 30 ? scaleY(30) : padTop;
+        // Warning Zone (between warningThreshold and dangerThreshold)
+        if (maxV > warningThreshold) {
+          const yWarn = scaleY(warningThreshold);
+          const yDanger = maxV > dangerThreshold ? scaleY(dangerThreshold) : padTop;
           const rect2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
           rect2.setAttribute('x', padLeft);
-          rect2.setAttribute('y', y30);
+          rect2.setAttribute('y', yDanger);
           rect2.setAttribute('width', chartW);
-          rect2.setAttribute('height', Math.max(0, y20 - y30));
+          rect2.setAttribute('height', Math.max(0, yWarn - yDanger));
           rect2.setAttribute('fill', 'rgba(245, 158, 11, 0.10)');
           svg.appendChild(rect2);
 
-          const l20 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          l20.setAttribute('x1', padLeft);
-          l20.setAttribute('y1', y20);
-          l20.setAttribute('x2', width - padRight);
-          l20.setAttribute('y2', y20);
-          l20.setAttribute('stroke', '#f59e0b');
-          l20.setAttribute('stroke-dasharray', '5 3');
-          l20.setAttribute('stroke-width', '1.2');
-          svg.appendChild(l20);
+          const lWarn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lWarn.setAttribute('x1', padLeft);
+          lWarn.setAttribute('y1', yWarn);
+          lWarn.setAttribute('x2', width - padRight);
+          lWarn.setAttribute('y2', yWarn);
+          lWarn.setAttribute('stroke', '#f59e0b');
+          lWarn.setAttribute('stroke-dasharray', '5 3');
+          lWarn.setAttribute('stroke-width', '1.2');
+          svg.appendChild(lWarn);
 
-          const t20 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          t20.setAttribute('x', width - padRight - 6);
-          t20.setAttribute('y', y20 - 5);
-          t20.setAttribute('fill', '#f59e0b');
-          t20.setAttribute('font-size', '10');
-          t20.setAttribute('font-weight', '700');
-          t20.setAttribute('text-anchor', 'end');
-          t20.textContent = '⚠️ 估值警戒线 (PS = 20x)';
-          svg.appendChild(t20);
+          const tWarn = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          tWarn.setAttribute('x', width - padRight - 6);
+          tWarn.setAttribute('y', yWarn - 5);
+          tWarn.setAttribute('fill', '#f59e0b');
+          tWarn.setAttribute('font-size', '10');
+          tWarn.setAttribute('font-weight', '700');
+          tWarn.setAttribute('text-anchor', 'end');
+          tWarn.textContent = warningLabel;
+          svg.appendChild(tWarn);
         }
+      } else if (currentMetric === 'EPS') {
+        // Benchmark baseline line for 2023 EPS
+        const epsBase = values[0];
+        const yBase = scaleY(epsBase);
+        const lBase = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lBase.setAttribute('x1', padLeft);
+        lBase.setAttribute('y1', yBase);
+        lBase.setAttribute('x2', width - padRight);
+        lBase.setAttribute('y2', yBase);
+        lBase.setAttribute('stroke', '#a855f7');
+        lBase.setAttribute('stroke-dasharray', '4 4');
+        lBase.setAttribute('stroke-width', '1.2');
+        svg.appendChild(lBase);
+
+        const tBase = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        tBase.setAttribute('x', width - padRight - 6);
+        tBase.setAttribute('y', yBase - 5);
+        tBase.setAttribute('fill', '#c084fc');
+        tBase.setAttribute('font-size', '10');
+        tBase.setAttribute('font-weight', '700');
+        tBase.setAttribute('text-anchor', 'end');
+        tBase.textContent = `🌱 2023起点利润基准 ($${epsBase.toFixed(2)})`;
+        svg.appendChild(tBase);
       }
 
       // Y-axis grid & labels
@@ -1347,7 +1410,7 @@
         text.setAttribute('fill', '#64748b');
         text.setAttribute('font-size', '10');
         text.setAttribute('text-anchor', 'end');
-        text.textContent = val.toFixed(1) + (isRatio ? 'x' : '');
+        text.textContent = (isRatio ? val.toFixed(1) + 'x' : '$' + val.toFixed(2));
         svg.appendChild(text);
       }
 
@@ -1378,16 +1441,14 @@
       // Area fill
       const areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       areaPath.setAttribute('d', areaD);
-      const fillCol = currentMetric === 'PS' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(59, 130, 246, 0.15)';
-      areaPath.setAttribute('fill', fillCol);
+      areaPath.setAttribute('fill', areaColor);
       svg.appendChild(areaPath);
 
       // Stroke path
       const strokePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       strokePath.setAttribute('d', pathD);
       strokePath.setAttribute('fill', 'none');
-      const sCol = currentMetric === 'PS' ? '#f87171' : 'var(--accent-cyan)';
-      strokePath.setAttribute('stroke', sCol);
+      strokePath.setAttribute('stroke', curveColor);
       strokePath.setAttribute('stroke-width', '2.5');
       svg.appendChild(strokePath);
 
@@ -1400,8 +1461,8 @@
         circle.setAttribute('cx', x);
         circle.setAttribute('cy', y);
         circle.setAttribute('r', i === selectedIndex ? '5' : '2.5');
-        circle.setAttribute('fill', i === selectedIndex ? '#ffffff' : sCol);
-        circle.setAttribute('stroke', sCol);
+        circle.setAttribute('fill', i === selectedIndex ? '#ffffff' : curveColor);
+        circle.setAttribute('stroke', curveColor);
         circle.setAttribute('stroke-width', i === selectedIndex ? '2.5' : '1');
         svg.appendChild(circle);
 
@@ -1462,7 +1523,7 @@
       tooltip.style.display = 'none';
     }
 
-    // Update Interactive Detail Card
+    // Update Interactive Detail Card (All Metrics with Danger Zone Evaluation)
     function updateDetailCard(idx) {
       const data = datasets[currentCompany];
       const d = data[idx];
@@ -1482,7 +1543,7 @@
       pill.style.color = cfg.col;
       pill.style.borderColor = cfg.border;
 
-      // Price block
+      // 1. Price block
       const isUp = d.c >= d.o;
       const chg = (((d.c - d.o) / d.o) * 100).toFixed(1);
       const chgColor = isUp ? 'var(--up-green)' : 'var(--down-red)';
@@ -1494,7 +1555,7 @@
         ((d.h - d.l) / d.l) * 100
       ).toFixed(1)}%`;
 
-      // PS block & Danger Zone
+      // 2. PS block & Danger Zone
       const psVal = d.ps;
       const psBox = document.getElementById('cardPsBox');
       const psPill = document.getElementById('cardPsPill');
@@ -1517,13 +1578,57 @@
         document.getElementById('cardPsDesc').innerHTML = `处于AI高成长可接受估值带<br>具备较好安全边际与业绩支撑`;
       }
 
-      // FPE
-      document.getElementById('cardFpeVal').innerText = d.fpe.toFixed(1) + 'x';
-      document.getElementById('cardFpeDesc').innerHTML = `远期市盈率倍数<br>反映市场对其未来12个月利润定价`;
+      // 3. FPE block & Danger Zone
+      const fpeVal = d.fpe;
+      const fpeBox = document.getElementById('cardFpeBox');
+      const fpePill = document.getElementById('cardFpePill');
+      document.getElementById('cardFpeVal').innerText = fpeVal.toFixed(1) + 'x';
 
-      // EPS & PCF
-      document.getElementById('cardEpsVal').innerText = '$' + d.eps.toFixed(2);
-      document.getElementById('cardPcfDesc').innerHTML = `PCF (市现率): <strong>${d.pcf.toFixed(1)}x</strong><br>自由现金流转化能效核心锚点`;
+      if (fpeBox && fpePill) {
+        fpeBox.classList.remove('danger-highlight', 'warning-highlight');
+        if (fpeVal >= 50) {
+          fpeBox.classList.add('danger-highlight');
+          fpePill.className = 'status-pill danger';
+          fpePill.innerText = '🚨 极度危险区 (>50x)';
+          document.getElementById('cardFpeDesc').innerHTML = `远期市盈率超50倍！严重透支预期<br>容错率极低，极易触发戴维斯双杀`;
+        } else if (fpeVal >= 35) {
+          fpeBox.classList.add('warning-highlight');
+          fpePill.className = 'status-pill warning';
+          fpePill.innerText = '⚠️ 估值警戒区 (35-50x)';
+          document.getElementById('cardFpeDesc').innerHTML = `估值溢价偏高，需持续30%+净利支撑<br>依赖下一代架构商业化超预期`;
+        } else {
+          fpePill.className = 'status-pill safe';
+          fpePill.innerText = '✅ 合理增长区间 (<35x)';
+          document.getElementById('cardFpeDesc').innerHTML = `前向估值具备稳健安全垫<br>盈利增速与估值倍数匹配度高`;
+        }
+      }
+
+      // 4. PCF & EPS block & Danger Zone
+      const pcfVal = d.pcf;
+      const pcfBox = document.getElementById('cardPcfBox');
+      const pcfPill = document.getElementById('cardPcfPill');
+      if (document.getElementById('cardPcfVal')) {
+        document.getElementById('cardPcfVal').innerText = pcfVal.toFixed(1) + 'x';
+      }
+
+      if (pcfBox && pcfPill) {
+        pcfBox.classList.remove('danger-highlight', 'warning-highlight');
+        if (pcfVal >= 40) {
+          pcfBox.classList.add('danger-highlight');
+          pcfPill.className = 'status-pill danger';
+          pcfPill.innerText = '🚨 现金流透支 (>40x)';
+          document.getElementById('cardPcfDesc').innerHTML = `EPS: <strong>$${d.eps.toFixed(2)}</strong> | FCF收益率低于2.5%<br>资本开支激增可能压制自由现金流`;
+        } else if (pcfVal >= 25) {
+          pcfBox.classList.add('warning-highlight');
+          pcfPill.className = 'status-pill warning';
+          pcfPill.innerText = '⚠️ 现金流承压 (25-40x)';
+          document.getElementById('cardPcfDesc').innerHTML = `EPS: <strong>$${d.eps.toFixed(2)}</strong> | 现金流转化稳健但估值饱满<br>考验应收账款与供应链占资`;
+        } else {
+          pcfPill.className = 'status-pill safe';
+          pcfPill.innerText = '✅ 现金流充沛 (<25x)';
+          document.getElementById('cardPcfDesc').innerHTML = `EPS: <strong>$${d.eps.toFixed(2)}</strong> | 自由现金流收益率>4%<br>“造血”能力强劲，安全边际高`;
+        }
+      }
 
       // Events block
       document.getElementById('eventBadge').innerText = `${d.month} 重大里程碑`;
@@ -1532,9 +1637,9 @@
 
       // Deep dive impact commentary
       const impactTexts = {
-        NVDA: `【英伟达投研联动分析】：当月股价与估值互动深刻体现了英伟达独一无二的“高PS-业绩暴增-压缩PS-再创新高”的戴维斯双击循环。CUDA软件生态与全机架解决方案让其在整个AI硬件链条中掌握了绝对定价权，每当PS接近危险区，随后的财报便以翻倍的净利润完成估值出清。`,
-        AMD: `【AMD投研联动分析】：AMD作为AI芯片追赶者，其估值往往走在业绩前面，FPE多次高过英伟达。收购ZT Systems并推出Helios全机架是其挑战英伟达的核心胜负手，但在通用GPU面临CUDA生态壁垒、定制ASIC又受博通挤压的夹缝中，2026年出现的估值泡沫破裂深刻警示了“预期透支”的下行风险。`,
-        AVGO: `【博通投研联动分析】：博通的估值逻辑在2023-2026年完成了从“传统价值高股息”向“AI基础设施狂热标的”的跃迁。然而，低毛利的定制ASIC硬件系统在总营收中占比过快膨胀，结构性稀释了VMware带来的高利润率光环，叠加客户高度集中的风险，构成了其在2026年遭遇Cavenagh Research等专业机构下调Sell评级的核心基本面导火索。`
+        NVDA: `【英伟达投研联动分析】：当月股价与估值互动深刻体现了英伟达独一无二的“高PS/FPE-业绩暴增-压缩估值倍数-再创新高”的戴维斯双击循环。CUDA软件生态与全机架解决方案让其在整个AI硬件链条中掌握了绝对定价权，每当PS接近30x或FPE接近50x危险区，随后的财报便以翻倍的净利润完成估值出清。`,
+        AMD: `【AMD投研联动分析】：AMD作为AI芯片追赶者，其估值往往走在业绩前面，FPE多次飙入50x以上的极度危险区。收购ZT Systems并推出Helios全机架是其挑战英伟达的核心胜负手，但在通用GPU面临CUDA生态壁垒、定制ASIC又受博通挤压的夹缝中，2026年出现的估值泡沫破裂深刻警示了“预期透支”的下行风险。`,
+        AVGO: `【博通投研联动分析】：博通的估值逻辑在2023-2026年完成了从“传统价值高股息”向“AI基础设施狂热标的”的跃迁，其PS最高曾触及47倍。然而，低毛利的定制ASIC硬件系统在总营收中占比过快膨胀，结构性稀释了VMware带来的高利润率光环，叠加客户高度集中的风险，构成了其在2026年遭遇Cavenagh Research等专业机构下调Sell评级的核心基本面导火索。`
       };
       document.getElementById('eventImpactPanel').innerHTML = `<strong>估值与行情联动逻辑：</strong>${impactTexts[currentCompany]}`;
     }
