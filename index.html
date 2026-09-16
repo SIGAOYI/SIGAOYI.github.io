@@ -47,22 +47,23 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #020712;
+            background-color: #030814;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        #webgl-container {
+        #ocean-canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
+            display: block;
         }
 
-        /* 沉浸式 UI 容器 */
+        /* 居中交互容器：整层提升为独立合成层，视差只做层位移，不重新光栅化内部的模糊与阴影 */
         .overlay {
             position: absolute;
             top: 0;
@@ -75,40 +76,50 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-bottom: 4vh;
+            padding-bottom: 5vh;
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
         }
 
+        /* 1. LawooTrip 彻底移除白色描边与外框，呈现纯净高级的霞光磨砂文字质感 */
         #headTitle {
-            font-size: 78px;
-            font-weight: 800;
-            letter-spacing: 8px;
-            color: #ffffff;
+            font-size: 88px;
+            font-weight: 900;
+            letter-spacing: 10px;
             margin: 0 0 10px 0;
-            text-shadow: 0 4px 40px rgba(0, 0, 0, 0.8), 0 0 50px rgba(56, 189, 248, 0.45);
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 0;
+            background: linear-gradient(180deg, #ffffff 0%, #fed7aa 55%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 35px rgba(251, 146, 60, 0.45));
+            pointer-events: none;
+            user-select: none;
+            line-height: 1.1;
         }
 
         #subTitle {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 400;
             letter-spacing: 8px;
-            color: #e0f2fe;
-            margin: 0 0 38px 0;
-            text-shadow: 0 2px 25px rgba(0, 0, 0, 0.9), 0 0 25px rgba(14, 165, 233, 0.5);
+            color: #fed7aa;
+            margin: 0 0 34px 0;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9), 0 0 25px rgba(251, 146, 60, 0.5);
+            pointer-events: none;
         }
 
         #inp {
-            pointer-events: auto;
             position: relative;
             z-index: 20;
         }
 
+        /* 摸一下按钮磨砂玻璃样式（只有按钮本体接收点击，外层容器不拦截） */
         #inp a {
+            pointer-events: auto;
             display: inline-block;
             padding: 13px 44px;
             border-radius: 30px;
-            background: rgba(14, 165, 233, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(251, 146, 60, 0.20);
+            border: 1px solid rgba(254, 215, 170, 0.5);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             font-size: 16px;
@@ -116,15 +127,15 @@
             letter-spacing: 4px;
             text-decoration: none;
             color: #ffffff;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45), 0 0 30px rgba(56, 189, 248, 0.35);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45), 0 0 25px rgba(251, 146, 60, 0.35);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
 
         #inp a:hover {
-            background: rgba(56, 189, 248, 0.38);
+            background: rgba(251, 146, 60, 0.38);
             border-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.5), 0 0 45px rgba(56, 189, 248, 0.7);
+            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.5), 0 0 40px rgba(253, 186, 116, 0.7);
             transform: translateY(-3px) scale(1.04);
             color: #ffffff;
         }
@@ -133,16 +144,35 @@
             transform: translateY(0px) scale(0.97);
         }
 
-        /* 移动端精致适配 */
+        /* 省电模式：软件渲染 / 弱机时自动挂到 body 上。
+           backdrop-filter 与大半径 drop-shadow 在无硬件加速时每帧都要重算高斯模糊，
+           这里换成等观感的低成本替代，霞光调性保持不变。 */
+        body.perf-lite #inp a {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: rgba(251, 146, 60, 0.30);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(251, 146, 60, 0.35);
+        }
+        body.perf-lite #inp a:hover {
+            background: rgba(251, 146, 60, 0.44);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 22px rgba(253, 186, 116, 0.7);
+        }
+        body.perf-lite #headTitle {
+            filter: drop-shadow(0 3px 9px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 14px rgba(251, 146, 60, 0.5));
+        }
+        body.perf-lite #subTitle {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 12px rgba(251, 146, 60, 0.55);
+        }
+
         @media (max-width: 768px) {
             #headTitle {
-                font-size: 48px;
-                letter-spacing: 5px;
+                font-size: 52px;
+                letter-spacing: 6px;
             }
             #subTitle {
                 font-size: 18px;
                 letter-spacing: 5px;
-                margin-bottom: 30px;
+                margin-bottom: 26px;
             }
             #inp a {
                 padding: 11px 36px;
@@ -170,10 +200,10 @@
 </head>
 
 <body>
-    <!-- 3D 照片级真实波光海景 WebGL 画布容器 -->
-    <div id="webgl-container"></div>
+    <!-- 纯 2D Canvas 波光大海画卷：不依赖 WebGL / 硬件加速，软件光栅化下也能满帧 -->
+    <canvas id="ocean-canvas"></canvas>
 
-    <div class="overlay">
+    <div class="overlay" id="ui-overlay">
         <div id="headTitle">LawooTrip</div>
         <div id="subTitle">龟龟的博客</div>
         <div id="inp">
@@ -181,268 +211,457 @@
         </div>
     </div>
 
-    <!-- 现代 Three.js (r128) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <script>
     (function() {
-        var container = document.getElementById('webgl-container');
+        'use strict';
 
-        // 1. 场景与相机
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
-        camera.position.set(0, 32, 110);
+        var canvas = document.getElementById('ocean-canvas');
+        var ctx = canvas.getContext('2d', { alpha: false });
+        var overlay = document.getElementById('ui-overlay');
+        var body = document.body;
 
-        // 2. WebGL 渲染器（电影级 ACES 胶片色调映射与真实对比度）
-        var renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.15;
-        container.appendChild(renderer.domElement);
+        var now = (window.performance && performance.now)
+            ? function() { return performance.now(); }
+            : function() { return Date.now(); };
 
-        // 3. 太阳/暮光光源方向（低角度夕阳斜照，拉出金辉海浪波光粼粼倒影）
-        var sunPosition = new THREE.Vector3(0, 260, -3200);
-        var sunDirection = sunPosition.clone().normalize();
+        /* ============ 正弦查表：热循环里每帧数万次 Math.sin/cos 全部换成一次数组取值 ============ */
+        var TWO_PI = Math.PI * 2;
+        var SIN_N = 2048, SIN_MASK = SIN_N - 1, SIN_Q = SIN_N >> 2;
+        var SIN_SCALE = SIN_N / TWO_PI;
+        var SIN_T = new Float32Array(SIN_N);
+        for (var _s = 0; _s < SIN_N; _s++) SIN_T[_s] = Math.sin(_s * TWO_PI / SIN_N);
+        function fsin(a) { return SIN_T[(a * SIN_SCALE) & SIN_MASK]; }
+        function fcos(a) { return SIN_T[(a * SIN_SCALE + SIN_Q) & SIN_MASK]; }
 
-        // 4. 自定义物理天空穹顶（夕阳晚霞与暮色大洋天际线）
-        var skyGeo = new THREE.SphereGeometry(10000, 32, 20);
-        var skyMat = new THREE.ShaderMaterial({
-            side: THREE.BackSide,
-            uniforms: {
-                uSunDirection: { value: sunDirection }
-            },
-            vertexShader: [
-                'varying vec3 vWorldPosition;',
-                'void main() {',
-                '    vec4 worldPos = modelMatrix * vec4(position, 1.0);',
-                '    vWorldPosition = worldPos.xyz;',
-                '    gl_Position = projectionMatrix * viewMatrix * worldPos;',
-                '}'
-            ].join('\n'),
-            fragmentShader: [
-                'uniform vec3 uSunDirection;',
-                'varying vec3 vWorldPosition;',
-                'void main() {',
-                '    vec3 rayDir = normalize(vWorldPosition);',
-                '    float h = rayDir.y;',
-                '    vec3 zenithColor   = vec3(0.025, 0.07, 0.20);', // 天顶深蓝
-                '    vec3 horizonColor  = vec3(0.88, 0.52, 0.32);',  // 地平线暖霞金
-                '    vec3 hazeColor     = vec3(0.98, 0.72, 0.48);',  // 暮光金雾
-                '    vec3 sky = mix(horizonColor, zenithColor, clamp(pow(max(h, 0.0), 0.45), 0.0, 1.0));',
-                '    float sunDot = max(dot(rayDir, uSunDirection), 0.0);',
-                '    float sunGlow = pow(sunDot, 6.0) * 0.75;',
-                '    float sunDisc = smoothstep(0.9985, 0.9998, sunDot) * 3.5;',
-                '    sky += (hazeColor * sunGlow) + (vec3(1.0, 0.95, 0.85) * sunDisc);',
-                '    gl_FragColor = vec4(sky, 1.0);',
-                '}'
-            ].join('\n')
-        });
-        var sky = new THREE.Mesh(skyGeo, skyMat);
-        scene.add(sky);
+        /* ============ 画质档位：按实测帧耗时自动升降，弱机保波浪流畅 ============ */
+        var QUALITY = [
+            { scale: 1.00, layers: 28, minFrame: 0,  lite: false },
+            { scale: 0.85, layers: 28, minFrame: 0,  lite: true  },
+            { scale: 0.70, layers: 22, minFrame: 0,  lite: true  },
+            { scale: 0.55, layers: 16, minFrame: 31, lite: true  }
+        ];
+        var level = 0, minLevel = 0;
 
-        // 5. 真实流体动力学海浪网格（Gerstner 物理海洋波浪 + 真实波光反射 Shader）
-        var oceanGeo = new THREE.PlaneGeometry(12000, 12000, 180, 180);
-        oceanGeo.rotateX(-Math.PI / 2);
-
-        var oceanMat = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0.0 },
-                uSunDirection: { value: sunDirection },
-                uCameraPosition: { value: camera.position }
-            },
-            vertexShader: [
-                'uniform float uTime;',
-                'varying vec3 vWorldPos;',
-                'varying vec3 vNormal;',
-                'varying float vWaveHeight;',
-                '',
-                '// 物理格斯特纳波（Gerstner Wave）算法单步迭代',
-                'void addGerstner(inout vec3 p, inout vec3 n, vec2 dir, float a, float lambda, float q, float speed, vec2 pos, float time) {',
-                '    dir = normalize(dir);',
-                '    float w = 6.2831853 / lambda;',
-                '    float phi = speed * w;',
-                '    float theta = dot(dir, pos) * w + (time * phi);',
-                '    float cosT = cos(theta);',
-                '    float sinT = sin(theta);',
-                '    p.x -= dir.x * (q * a * sinT);',
-                '    p.z -= dir.y * (q * a * sinT);',
-                '    p.y += a * cosT;',
-                '    float wa = w * a;',
-                '    n.x -= dir.x * (wa * sinT);',
-                '    n.z -= dir.y * (wa * sinT);',
-                '    n.y -= q * (wa * cosT);',
-                '}',
-                '',
-                'void main() {',
-                '    vec3 p = vec3(position.x, 0.0, position.z);',
-                '    vec3 n = vec3(0.0, 1.0, 0.0);',
-                '    vec2 pos = position.xz;',
-                '    float t = uTime;',
-                '',
-                '    // 5层物理洋流多重叠加（主涌浪、斜向浪、交叉波、风浪推澜、水表微浪）',
-                '    addGerstner(p, n, vec2(1.0,  0.25), 4.2, 220.0, 0.65, 0.9,  pos, t);',
-                '    addGerstner(p, n, vec2(0.7,  0.70), 2.8, 140.0, 0.55, 1.15, pos, t);',
-                '    addGerstner(p, n, vec2(-0.3, 0.95), 1.9,  85.0, 0.50, 1.4,  pos, t);',
-                '    addGerstner(p, n, vec2(0.4, -0.90), 1.1,  45.0, 0.40, 1.8,  pos, t);',
-                '    addGerstner(p, n, vec2(0.9, -0.40), 0.6,  22.0, 0.35, 2.2,  pos, t);',
-                '',
-                '    vec4 worldPos = modelMatrix * vec4(p, 1.0);',
-                '    vWorldPos = worldPos.xyz;',
-                '    vNormal = normalize(mat3(modelMatrix) * n);',
-                '    vWaveHeight = p.y;',
-                '    gl_Position = projectionMatrix * viewMatrix * worldPos;',
-                '}'
-            ].join('\n'),
-            fragmentShader: [
-                'uniform float uTime;',
-                'uniform vec3 uSunDirection;',
-                'uniform vec3 uCameraPosition;',
-                'varying vec3 vWorldPos;',
-                'varying vec3 vNormal;',
-                'varying float vWaveHeight;',
-                '',
-                '// 细密微澜法线扰动（产生千万个波光粼粼的微小钻石反光）',
-                'vec3 getMicroNormal(vec3 worldPos, vec3 baseNormal, float time) {',
-                '    vec2 uv = worldPos.xz * 0.12;',
-                '    float n1 = sin(uv.x * 2.2 + uv.y * 1.8 + time * 2.5);',
-                '    float n2 = cos(uv.x * 3.1 - uv.y * 2.4 + time * 3.0);',
-                '    float n3 = sin(uv.x * 5.5 + uv.y * 4.3 - time * 4.0);',
-                '    vec3 perturb = vec3(n1 + n3, 14.0, n2 + n3);',
-                '    return normalize(baseNormal + normalize(perturb) * 0.17);',
-                '}',
-                '',
-                'void main() {',
-                '    vec3 viewDir = normalize(uCameraPosition - vWorldPos);',
-                '    vec3 lightDir = normalize(uSunDirection);',
-                '    vec3 normal = getMicroNormal(vWorldPos, vNormal, uTime);',
-                '',
-                '    // 1. 菲涅尔反射方程（Schlick近似：平视反射天空晚霞，直视显现海水深邃）',
-                '    float NdotV = max(dot(normal, viewDir), 0.0);',
-                '    float fresnel = 0.04 + (1.0 - 0.04) * pow(1.0 - NdotV, 5.0);',
-                '',
-                '    // 2. 真实海水光学颜色层级',
-                '    vec3 deepOceanColor  = vec3(0.012, 0.05, 0.14); // 深海墨蓝',
-                '    vec3 shallowColor    = vec3(0.035, 0.28, 0.48); // 透光水体碧蓝',
-                '    vec3 subsurfaceColor = vec3(0.12,  0.65, 0.72); // 浪尖透射翠绿金光',
-                '',
-                '    // 波峰透光散射（Subsurface Scattering）',
-                '    float sss = pow(clamp(dot(viewDir, -lightDir), 0.0, 1.0), 3.0) * smoothstep(-2.0, 7.0, vWaveHeight);',
-                '    vec3 waterColor = mix(deepOceanColor, shallowColor, smoothstep(-5.0, 6.0, vWaveHeight));',
-                '    waterColor += subsurfaceColor * (sss * 0.6);',
-                '',
-                '    // 3. 真实天空与晚霞环境反射',
-                '    vec3 skyReflectColor = mix(vec3(0.90, 0.56, 0.36), vec3(0.12, 0.32, 0.62), smoothstep(0.0, 0.8, normal.y));',
-                '',
-                '    // 4. 极致波光粼粼：夕阳高光（多层高光：宽金色海面光柱 + 晶莹细碎波光）',
-                '    vec3 halfVector = normalize(lightDir + viewDir);',
-                '    float NdotH = max(dot(normal, halfVector), 0.0);',
-                '    ',
-                '    // 宽水面反光光柱 (Sun glitter trail)',
-                '    float broadGlint = pow(NdotH, 32.0) * 0.75;',
-                '    // 锐利耀眼水花反光 (Diamond wave sparkles)',
-                '    float sharpGlint = pow(NdotH, 256.0) * 4.0;',
-                '    // 极细波光星芒',
-                '    float microGlint = pow(NdotH, 800.0) * 8.0;',
-                '',
-                '    vec3 sunHighlight = vec3(1.0, 0.86, 0.65) * (broadGlint + sharpGlint + microGlint);',
-                '',
-                '    // 5. 浪尖白色泡沫（海浪达到最高临界破浪时出现）',
-                '    float foam = smoothstep(5.6, 8.2, vWaveHeight);',
-                '    vec3 foamColor = vec3(0.95, 0.98, 1.0);',
-                '',
-                '    // 综合水面色彩合成',
-                '    vec3 finalColor = mix(waterColor, skyReflectColor, fresnel * 0.85);',
-                '    finalColor += sunHighlight;',
-                '    finalColor = mix(finalColor, foamColor, foam * 0.42);',
-                '',
-                '    // 6. 大气天际线薄雾融合（远景海天一色，壮阔无边）',
-                '    float dist = length(uCameraPosition - vWorldPos);',
-                '    float fogFactor = smoothstep(1200.0, 7500.0, dist);',
-                '    vec3 horizonFogColor = vec3(0.88, 0.54, 0.34);',
-                '    finalColor = mix(finalColor, horizonFogColor, fogFactor * 0.95);',
-                '',
-                '    gl_FragColor = vec4(finalColor, 1.0);',
-                '}'
-            ].join('\n')
-        });
-
-        var ocean = new THREE.Mesh(oceanGeo, oceanMat);
-        scene.add(ocean);
-
-        // 6. 物理海面浮动运算（使摄像机如同乘在海面上自然起伏摇曳）
-        function getWaterHeightAt(x, z, time) {
-            var h = 0.0;
-            h += Math.cos(dot2(x, z, 1.0, 0.25) * 0.028 + time * 0.9 * 0.028) * 4.2;
-            h += Math.cos(dot2(x, z, 0.7, 0.7) * 0.045 + time * 1.15 * 0.045) * 2.8;
-            h += Math.cos(dot2(x, z, -0.3, 0.95) * 0.074 + time * 1.4 * 0.074) * 1.9;
-            return h;
+        // Chrome 关掉硬件加速后 WebGL 会掉到 SwiftShader 或直接拿不到，以此作为初始档位的先验
+        function gpuLooksSoftware() {
+            try {
+                var c = document.createElement('canvas');
+                var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+                if (!gl) return true;
+                var ext = gl.getExtension('WEBGL_debug_renderer_info');
+                if (!ext) return false;   // 被隐私策略屏蔽，不下结论，交给运行时自适应
+                var r = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || '');
+                return /swiftshader|software|llvmpipe|basic render|microsoft basic/i.test(r);
+            } catch (e) { return false; }
         }
-        function dot2(x1, y1, x2, y2) {
-            var len = Math.sqrt(x2*x2 + y2*y2);
-            return (x1 * (x2/len) + y1 * (y2/len));
-        }
+        if (gpuLooksSoftware()) { level = 1; minLevel = 1; }
+        if (window.innerWidth * window.innerHeight > 2200000 && level < 1) level = 1;
 
-        // 7. 交互漫游控制（阻尼缓动镜头视角）
+        var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var timeScale = reduceMotion ? 0.35 : 1;
+
+        /* ============ 指针跟踪 ============ */
         var mouseX = 0, mouseY = 0;
         var targetMouseX = 0, targetMouseY = 0;
-        var windowHalfX = window.innerWidth / 2;
-        var windowHalfY = window.innerHeight / 2;
+        var mousePixelX = window.innerWidth / 2;
+        var mousePixelY = window.innerHeight * 0.7;
+        var curMX = mousePixelX, curMY = mousePixelY;
 
-        document.addEventListener('mousemove', function(e) {
-            targetMouseX = (e.clientX - windowHalfX) * 0.0007;
-            targetMouseY = (e.clientY - windowHalfY) * 0.0004;
-        }, false);
+        var width = 0, height = 0, horizon = 0, rScale = 1;
+        var SEG = 120, stepX = 1, xs = null, waveA = null, waveB = null;
 
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 0) {
-                targetMouseX = (e.touches[0].clientX - windowHalfX) * 0.0010;
-                targetMouseY = (e.touches[0].clientY - windowHalfY) * 0.0006;
+        function handlePointer(x, y) {
+            targetMouseX = (x - width / 2) / (width / 2);
+            targetMouseY = (y - height / 2) / (height / 2);
+            mousePixelX = x;
+            mousePixelY = y;
+        }
+        window.addEventListener('mousemove', function(e) {
+            handlePointer(e.clientX, e.clientY);
+        }, { passive: true, capture: true });
+        window.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true, capture: true });
+
+        /* ============ 连续数学色彩平滑插值函数（无阶跃、无硬分割线） ============ */
+        function getOceanRGB(z) {
+            var r, g, b, t;
+            if (z < 0.22) {
+                t = z / 0.22;
+                r = 210 * (1 - t) + 105 * t;
+                g = 115 * (1 - t) + 85 * t;
+                b = 65 * (1 - t) + 95 * t;
+            } else if (z < 0.52) {
+                t = (z - 0.22) / 0.30;
+                r = 105 * (1 - t) + 16 * t;
+                g = 85 * (1 - t) + 85 * t;
+                b = 95 * (1 - t) + 132 * t;
+            } else {
+                t = (z - 0.52) / 0.48;
+                r = 16 * (1 - t) + 4 * t;
+                g = 85 * (1 - t) + 18 * t;
+                b = 132 * (1 - t) + 44 * t;
             }
-        }, { passive: true });
-
-        window.addEventListener('resize', function() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }, false);
-
-        // 8. 动画主循环
-        var clock = new THREE.Clock();
-        var camBaseY = 22.0;
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            var time = clock.getElapsedTime() * 1.05; // 舒缓自然的海浪节律
-
-            oceanMat.uniforms.uTime.value = time;
-            oceanMat.uniforms.uCameraPosition.value.copy(camera.position);
-
-            // 镜头随洋流自然沉浮摇曳（如小船随波微荡）
-            var waterH = getWaterHeightAt(camera.position.x, camera.position.z, time);
-            var targetY = Math.max(camBaseY + waterH * 0.75, 12.0);
-            camera.position.y += (targetY - camera.position.y) * 0.05;
-
-            // 鼠标平滑阻尼插值
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
-
-            camera.rotation.y = -mouseX;
-            camera.rotation.x = -mouseY + 0.04;
-
-            renderer.render(scene, camera);
+            return 'rgb(' + (r | 0) + ',' + (g | 0) + ',' + (b | 0) + ')';
         }
 
-        animate();
+        /* ============ 波浪层常量：z / 振幅 / 颜色只跟层号有关，建一次用到底 ============ */
+        var N = 0;
+        var layerZ, layerNextZ, layerAmp, layerBaseY, layerNextBaseY;
+        var layerTopC, layerBotC, layerGrad, layerGradT, layerGradB;
 
-        // 移动端点击适配
-        var inpElem = document.getElementById("inp");
-        inpElem.addEventListener('touchstart', function(e) {
-            window.location.href = "https://axelrod.lawootrip.com/home/";
+        function buildLayers(n) {
+            N = n;
+            layerZ = new Float32Array(N);
+            layerNextZ = new Float32Array(N);
+            layerAmp = new Float32Array(N);
+            layerBaseY = new Float32Array(N);
+            layerNextBaseY = new Float32Array(N);
+            layerTopC = new Array(N);
+            layerBotC = new Array(N);
+            layerGrad = new Array(N);
+            layerGradT = new Float32Array(N);
+            layerGradB = new Float32Array(N);
+            for (var i = 0; i < N; i++) {
+                var p = i / (N - 1);
+                var np = Math.min(1.0, (i + 1.25) / (N - 1));
+                var z = Math.pow(p, 2.15);
+                layerZ[i] = z;
+                layerNextZ[i] = Math.pow(np, 2.15);
+                layerAmp[i] = 6.0 + Math.pow(z, 1.35) * 82.0;
+                layerTopC[i] = getOceanRGB(z);
+                layerBotC[i] = getOceanRGB(Math.min(1.0, z + 0.18));
+                layerGrad[i] = null;
+            }
+        }
+
+        /* ============ 静态元素预渲染成精灵：把每帧的渐变求值换成一次位图拷贝 ============ */
+        function makeSprite(w, h, paint) {
+            var c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            paint(c.getContext('2d'), w, h);
+            return c;
+        }
+
+        // 天空只有纵向变化，缓存成窄条，每帧按当前地平线拉伸贴图
+        var skyStrip = makeSprite(8, 512, function(c, w, h) {
+            var g = c.createLinearGradient(0, 0, 0, h);
+            g.addColorStop(0.00, '#040d1a');
+            g.addColorStop(0.35, '#0f243d');
+            g.addColorStop(0.65, '#2e263d');
+            g.addColorStop(0.85, '#8c433c');
+            g.addColorStop(0.97, '#ea580c');
+            g.addColorStop(1.00, '#fed7aa');
+            c.fillStyle = g; c.fillRect(0, 0, w, h);
+        });
+
+        var mistStrip = makeSprite(8, 68, function(c, w, h) {
+            var g = c.createLinearGradient(0, 0, 0, h);
+            g.addColorStop(0.0, 'rgba(254, 215, 170, 0.0)');
+            g.addColorStop(0.4, 'rgba(254, 215, 170, 0.40)');
+            g.addColorStop(0.7, 'rgba(180, 100, 60, 0.28)');
+            g.addColorStop(1.0, 'rgba(15, 36, 61, 0.0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, h);
+        });
+
+        var sunGlow = makeSprite(384, 384, function(c, w) {
+            var r = w / 2;
+            var g = c.createRadialGradient(r, r, r * 0.017, r, r, r);
+            g.addColorStop(0.00, 'rgba(254, 215, 170, 0.50)');
+            g.addColorStop(0.35, 'rgba(251, 146, 60, 0.24)');
+            g.addColorStop(0.70, 'rgba(234, 88, 12, 0.06)');
+            g.addColorStop(1.00, 'rgba(3, 8, 20, 0.0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, w);
+        });
+
+        var sunCore = makeSprite(160, 160, function(c, w) {
+            var r = w / 2;
+            var g = c.createRadialGradient(r, r, 0, r, r, r);
+            g.addColorStop(0.00, 'rgba(255, 255, 255, 1.0)');
+            g.addColorStop(0.25, 'rgba(254, 243, 199, 0.95)');
+            g.addColorStop(0.65, 'rgba(251, 146, 60, 0.65)');
+            g.addColorStop(1.00, 'rgba(249, 115, 22, 0.0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, w);
+        });
+
+        var cursorGlow = makeSprite(160, 160, function(c, w) {
+            var r = w / 2;
+            var g = c.createRadialGradient(r, r, 0, r, r, r);
+            g.addColorStop(0.0, 'rgba(254, 215, 170, 0.20)');
+            g.addColorStop(0.4, 'rgba(251, 146, 60, 0.08)');
+            g.addColorStop(1.0, 'rgba(3, 8, 20, 0.0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, w);
+        });
+
+        var sparkleImg = makeSprite(64, 64, function(c, w) {
+            var r = w / 2;
+            var g = c.createRadialGradient(r, r, 0, r, r, r);
+            g.addColorStop(0.0, 'rgba(255, 255, 255, 1.0)');
+            g.addColorStop(0.4, 'rgba(254, 215, 170, 0.85)');
+            g.addColorStop(1.0, 'rgba(251, 146, 60, 0.0)');
+            c.fillStyle = g; c.fillRect(0, 0, w, w);
+        });
+
+        /* ============ 浮游波光钻石闪烁微粒 ============ */
+        var SPARKLE_COUNT = 40;
+        var sparkles = [];
+        for (var sp0 = 0; sp0 < SPARKLE_COUNT; sp0++) {
+            var sz = Math.random();
+            sparkles.push({
+                xFactor: (Math.random() - 0.5) * 0.45,
+                z: sz,
+                zp: Math.pow(sz, 2.15),
+                phase: Math.random() * TWO_PI,
+                size: 1.2 + Math.random() * 2.0
+            });
+        }
+
+        /* ============ 尺寸与画质 ============ */
+        function applySize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            horizon = height * 0.47;
+
+            canvas.width = Math.max(1, Math.round(width * rScale));
+            canvas.height = Math.max(1, Math.round(height * rScale));
+            ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+            ctx.imageSmoothingEnabled = true;
+
+            SEG = Math.max(48, Math.min(150, Math.round(width / 12)));
+            stepX = width / SEG;
+            xs = new Float32Array(SEG + 1);
+            for (var j = 0; j <= SEG; j++) xs[j] = j * stepX;
+            waveA = new Float32Array(SEG + 1);
+            waveB = new Float32Array(SEG + 1);
+
+            for (var i = 0; i < N; i++) layerGrad[i] = null;
+        }
+
+        function applyQuality() {
+            var q = QUALITY[level];
+            rScale = q.scale;
+            if (q.layers !== N) buildLayers(q.layers);
+            if (q.lite) { if (body.className.indexOf('perf-lite') < 0) body.className += ' perf-lite'; }
+            else { body.className = body.className.replace(/\s*perf-lite/g, ''); }
+            applySize();
+        }
+
+        buildLayers(QUALITY[level].layers);
+        applyQuality();
+
+        var resizeTimer = null;
+        window.addEventListener('resize', function() {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                resizeTimer = null;
+                if (window.innerWidth !== width || window.innerHeight !== height) applySize();
+            }, 120);
         }, false);
+
+        /* ============ 单层波形：三角函数按步长递推，鼠标涟漪先用平方距离剪枝 ============ */
+        function computeWave(i, out) {
+            var z = layerZ[i], amp = layerAmp[i], baseY = layerBaseY[i];
+            var parallaxX = mouseX * (z * 160);
+            var lam1 = 110.0 + z * 440.0;
+            var lam2 = 85.0 + z * 320.0;
+            var surge = fsin(time * 0.85 + i * 0.42) * 0.22;
+
+            var a1 = parallaxX / lam1 - time * 1.25 + i * 0.28, d1 = stepX / lam1;
+            var a2 = parallaxX / lam2 + time * 0.90 - i * 0.36, d2 = stepX / lam2;
+            var a3 = parallaxX * 0.02 - time * 0.70 + i,        d3 = stepX * 0.02;
+
+            var dy = baseY - curMY;
+            var hasRipple = dy > -240 && dy < 240;
+            var dy2 = dy * dy;
+            var rt = time * 3.0;
+
+            for (var j = 0; j <= SEG; j++) {
+                var s1 = fsin(a1), c1 = fcos(a1);
+                // swell1 = sin θ + 0.35 sin 2θ − 0.15 cos θ，用倍角公式省掉一次查表
+                var v = (s1 + 0.70 * s1 * c1 - 0.15 * c1
+                       + 0.40 * fcos(a2)
+                       + surge
+                       + 0.06 * fsin(a3)) * amp;
+                var y = baseY + v;
+                if (hasRipple) {
+                    var dx = xs[j] - curMX;
+                    var dd2 = dx * dx + dy2;
+                    if (dd2 < 57600) {
+                        var dd = Math.sqrt(dd2);
+                        y += fsin(dd * 0.08 - rt) * (1.0 - dd / 240) * 8.0;
+                    }
+                }
+                out[j] = y;
+                a1 += d1; a2 += d2; a3 += d3;
+            }
+        }
+
+        /* ============ 裁剪贴图：屏幕外 / 海面下的部分不做混合 ============ */
+        function blitClipped(img, dx, dy, dw, dh, maxY) {
+            var l = dx < 0 ? -dx : 0;
+            var r = (dx + dw) > width ? (dx + dw - width) : 0;
+            var t = dy < 0 ? -dy : 0;
+            var b = (dy + dh) > maxY ? (dy + dh - maxY) : 0;
+            var w2 = dw - l - r, h2 = dh - t - b;
+            if (w2 <= 0 || h2 <= 0) return;
+            var sw = img.width, sh = img.height;
+            ctx.drawImage(img,
+                l / dw * sw, t / dh * sh, w2 / dw * sw, h2 / dh * sh,
+                dx + l, dy + t, w2, h2);
+        }
+
+        var time = 0;
+        var lastTX = 1e9, lastTY = 1e9;
+
+        function draw(dt) {
+            // 极速敏锐的鼠标跟随插值（原 0.18/帧，这里按实际帧长归一化，掉帧也不变手感）
+            var k = 1 - Math.pow(0.82, dt / 16.7);
+            mouseX += (targetMouseX - mouseX) * k;
+            mouseY += (targetMouseY - mouseY) * k;
+            curMX += (mousePixelX - curMX) * k;
+            curMY += (mousePixelY - curMY) * k;
+
+            var currentHorizon = horizon + mouseY * 75;
+            var sunX = width / 2 + mouseX * 280;
+            var sunY = currentHorizon - 10;
+            var skyH = currentHorizon + 40;
+            var i, j;
+
+            // UI 标题视差悬浮：量化到整像素，指针静止时一个字节都不写，避免整层重绘
+            var tx = (-mouseX * 24) | 0, ty = (-mouseY * 16) | 0;
+            if (tx !== lastTX || ty !== lastTY) {
+                overlay.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+                lastTX = tx; lastTY = ty;
+            }
+
+            // 1. 落日大气天空
+            ctx.drawImage(skyStrip, 0, 0, 8, 512, 0, 0, width, skyH);
+
+            // 2. 太阳外晕与本体
+            var R = width * 0.60;
+            blitClipped(sunGlow, sunX - R, sunY - R, R * 2, R * 2, skyH);
+            ctx.drawImage(sunCore, sunX - 80, sunY - 80, 160, 160);
+
+            // 3. 3D 透视大洋涌浪
+            var hSpan = height - currentHorizon;
+            for (i = 0; i < N; i++) {
+                var pY = mouseY * (layerZ[i] * 55);
+                layerBaseY[i] = currentHorizon + layerZ[i] * hSpan + pY;
+                layerNextBaseY[i] = currentHorizon + layerNextZ[i] * hSpan + pY;
+            }
+
+            var cur = waveA, nxt = waveB;
+            computeWave(0, cur);
+
+            for (i = 0; i < N; i++) {
+                var last = (i === N - 1);
+                if (!last) computeWave(i + 1, nxt);
+
+                // 只填「本层浪线 → 下一层浪线」这条可见带。
+                // 原来每层都一路填到画面底部，28 层叠出约 10 倍的无效重绘 —— 这是卡顿的真正大头。
+                ctx.beginPath();
+                ctx.moveTo(0, cur[0]);
+                for (j = 1; j <= SEG; j++) ctx.lineTo(xs[j], cur[j]);
+                if (last) {
+                    ctx.lineTo(width, height);
+                    ctx.lineTo(0, height);
+                } else {
+                    for (j = SEG; j >= 0; j--) {
+                        var bY = cur[j] > nxt[j] ? cur[j] : nxt[j];
+                        ctx.lineTo(xs[j], bY + 2);
+                    }
+                }
+                ctx.closePath();
+
+                var amp = layerAmp[i];
+                var gT = layerBaseY[i] - amp;
+                var gB = layerNextBaseY[i] + amp * 1.8;
+                var grad = layerGrad[i];
+                if (!grad || Math.abs(gT - layerGradT[i]) > 1 || Math.abs(gB - layerGradB[i]) > 1) {
+                    grad = ctx.createLinearGradient(0, gT, 0, gB);
+                    grad.addColorStop(0.0, layerTopC[i]);
+                    grad.addColorStop(0.4, layerTopC[i]);
+                    grad.addColorStop(1.0, layerBotC[i]);
+                    layerGrad[i] = grad; layerGradT[i] = gT; layerGradB[i] = gB;
+                }
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                var tmp = cur; cur = nxt; nxt = tmp;
+            }
+
+            // 4. 鼠标悬浮海面光晕
+            if (curMY > currentHorizon - 10) {
+                ctx.drawImage(cursorGlow, curMX - 180, curMY - 180, 360, 360);
+            }
+
+            // 5. 地平线海天柔和过渡雾
+            ctx.drawImage(mistStrip, 0, 0, 8, 68, 0, currentHorizon - 28, width, 68);
+
+            // 6. 浮游金色/钻石波光闪烁微粒（呼吸式舒缓起伏）
+            for (var k2 = 0; k2 < SPARKLE_COUNT; k2++) {
+                var sp = sparkles[k2];
+                var twinkle = fsin(time * 0.75 + sp.phase);
+                if (twinkle <= 0) continue;
+                var spZ = sp.z;
+                var spBaseY = currentHorizon + sp.zp * hSpan + mouseY * (spZ * 55);
+                var spColumnWidth = (width * 0.10) + spZ * (width * 0.38);
+                var spX = sunX + sp.xFactor * spColumnWidth + mouseX * (spZ * 160) * 0.4;
+                var spY = spBaseY + fsin(time * 1.5 + sp.phase) * (4.0 + spZ * 12.0);
+                var rad = sp.size * (0.8 + spZ * 1.5) * 2.5;
+                ctx.globalAlpha = twinkle * 0.85 * (0.5 + spZ * 0.5);
+                ctx.drawImage(sparkleImg, spX - rad, spY - rad, rad * 2, rad * 2);
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        /* ============ 主循环 + 帧耗时自适应 ============ */
+        var lastTs = 0;
+        var accFrame = 0, accDraw = 0, nFrame = 0;
+        var warmup = 60, badStreak = 0, goodStreak = 0;
+
+        function frame(ts) {
+            requestAnimationFrame(frame);
+            ts = ts || now();
+
+            if (!lastTs) { lastTs = ts; return; }
+            var dt = ts - lastTs;
+            if (dt < 0 || dt > 250) dt = 16.7;
+
+            var cap = QUALITY[level].minFrame;
+            if (cap && dt < cap) return;            // 限帧档：跳过本帧，时间不推进，波浪速度不变
+            lastTs = ts;
+
+            time += dt * 0.0012 * timeScale;        // 原 60fps 下 0.020/帧 == 1.2/秒
+
+            var t0 = now();
+            draw(dt);
+            accDraw += now() - t0;
+            accFrame += dt;
+            nFrame++;
+
+            if (nFrame >= 45) {
+                var avg = accFrame / nFrame, avgDraw = accDraw / nFrame;
+                accFrame = 0; accDraw = 0; nFrame = 0;
+                if (warmup > 0) {
+                    warmup -= 45;
+                } else if (avg > 22 && level < QUALITY.length - 1) {
+                    goodStreak = 0;
+                    if (++badStreak >= 2) { badStreak = 0; level++; applyQuality(); }
+                } else if (level > minLevel && (avg < 18 || (cap && avgDraw < 5))) {
+                    badStreak = 0;
+                    if (++goodStreak >= 8) { goodStreak = 0; level--; applyQuality(); }
+                } else {
+                    badStreak = 0; goodStreak = 0;
+                }
+            }
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            lastTs = 0;     // 回到前台时重置时基，避免一次性大跨度时间跳变
+        }, false);
+
+        requestAnimationFrame(frame);
 
     })();
     </script>
