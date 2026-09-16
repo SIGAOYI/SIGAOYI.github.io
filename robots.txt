@@ -1,0 +1,5 @@
+# 全站对搜索引擎和 AI 爬虫开放（GPTBot、ClaudeBot、PerplexityBot、Google-Extended 等均不做限制）
+User-agent: *
+Allow: /
+
+Sitemap: https://axelrod.lawootrip.com/sitemap.xml

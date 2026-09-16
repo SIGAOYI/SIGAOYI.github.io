@@ -29,8 +29,8 @@ tags:
 3. **点击月节点下沉溯源**：鼠标点击任意一个月度蜡烛图节点，下方看板即刻联动更新当月四维指标状态、危险区评级标牌，以及当月重大历史里程碑纪事（从 ChatGPT 爆发、历次财报超预期、Blackwell 架构、1 拆 10 拆股、ZT Systems 并购，到 2026 年 Helios 机架发布及博通 Q3 财报与空头研报分歧）。
 4. **深度投研复盘**：附带跨标的横向估值对比大表与半导体硬件估值周期深度研报解析。
 
-<iframe src="/valuation_metrics_and_ps_danger_zone.html" width="100%" height="1050px" frameborder="0" style="border-radius: 12px; border: 1px solid #24324f; margin-top: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);"></iframe>
+<iframe src="/dashboards/valuation_metrics_and_ps_danger_zone.html" width="100%" height="1050px" frameborder="0" style="border-radius: 12px; border: 1px solid #24324f; margin-top: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);"></iframe>
 
 <p align="center" style="margin-top: 20px;">
-  <a href="/valuation_metrics_and_ps_danger_zone.html" target="_blank" class="btn btn-default" style="display:inline-block; padding:10px 24px; background:#2563eb; color:#ffffff; border-radius:8px; font-weight:600; text-decoration:none;">在新窗口全屏浏览交互看板 ↗</a>
+  <a href="/dashboards/valuation_metrics_and_ps_danger_zone.html" target="_blank" class="btn btn-default" style="display:inline-block; padding:10px 24px; background:#2563eb; color:#ffffff; border-radius:8px; font-weight:600; text-decoration:none;">在新窗口全屏浏览交互看板 ↗</a>
 </p>

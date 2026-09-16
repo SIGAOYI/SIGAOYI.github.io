@@ -1,0 +1,17 @@
+---
+layout: null
+permalink: /llms.txt
+---
+# LawooTrip · 龟龟的博客
+
+> 龟龟的个人中文博客（{{ site.url }}）。近期主要写美股投资研究：英伟达、AMD、博通等半导体股的估值与 K 线交互看板，对冲基金、主权基金与段永平、李录等价值投资者的 13F 持仓追踪，ARK 持仓变化；早年文章是旅行随笔、历史读物与技术笔记。
+
+- 文章列表：{{ site.url }}/home/
+- 关于作者：{{ site.url }}/about/
+- RSS：{{ site.url }}/feed.xml
+- 站点地图：{{ site.url }}/sitemap.xml
+
+## 文章
+
+{% for post in site.posts %}- [{{ post.title }}]({{ site.url }}{{ post.url }}){% if post.subtitle %}：{{ post.subtitle }}{% endif %}
+{% endfor %}

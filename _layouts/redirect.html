@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <title>页面已迁移 - {{ site.SEOTitle }}</title>
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="{{ site.url }}{{ page.redirect_to }}">
+    <meta http-equiv="refresh" content="0; url={{ page.redirect_to }}">
+    <script>location.replace({{ page.redirect_to | jsonify }} + location.search + location.hash);</script>
+</head>
+<body>
+    <a href="{{ page.redirect_to }}">页面已迁移，点此前往</a>
+</body>
+</html>

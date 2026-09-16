@@ -1,34 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <title>龟龟的博客-乐物旅行</title>
-    <meta name="description" content="lawoo, lawootrip, 龟龟的博客, 龟龟的个人, 博客乐物旅行, 龟龟">
-    <meta name="keywords" content="lawoo, lawootrip, 龟龟的博客, 乐物旅行">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>LawooTrip 龟龟的博客 · 美股投资分析、13F 持仓追踪与旅行随笔</title>
+    <meta name="description" content="LawooTrip（乐物旅行）是龟龟的个人博客：英伟达、AMD、博通等半导体股的估值与 K 线交互看板，对冲基金、主权基金与段永平、李录等价值投资者的 13F 持仓追踪，ARK 持仓变化，以及旅行随笔与技术笔记。">
+    <meta name="keywords" content="LawooTrip, 乐物旅行, 龟龟的博客, 美股投资分析, 13F持仓, 对冲基金持仓, 主权基金持仓, 价值投资, 段永平, 李录, ARK持仓, 半导体估值, 英伟达, AMD, 博通, 市销率, 投资看板, 旅行随笔, 技术笔记">
+    <meta name="author" content="龟龟">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#030814">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-app-status-bar-style" content="black-translucent" />
 
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
+    <!-- 本页没有 front matter，Jekyll 不渲染 Liquid，这里一律写静态地址 -->
+    <link rel="canonical" href="https://axelrod.lawootrip.com/">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="400x400" href="/img/guigui_icon.png">
+    <link rel="alternate" type="application/rss+xml" title="LawooTrip" href="/feed.xml">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
+    <!-- 社交分享卡片 -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LawooTrip">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="LawooTrip 龟龟的博客 · 美股投资分析、13F 持仓追踪与旅行随笔">
+    <meta property="og:description" content="半导体估值交互看板、对冲基金与价值投资者 13F 持仓追踪、ARK 持仓变化，以及旅行随笔与技术笔记。">
+    <meta property="og:url" content="https://axelrod.lawootrip.com/">
+    <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@LawooTrip">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ "/css/hux-blog.min.css" | prepend: site.baseurl }}">
-
-    <!-- Pygments Github CSS -->
-    <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
-
-    <link rel="alternate" type="application/rss+xml" title="{{ site.SEOTitle }}" href="{{ site.BASE_PATH }}/feed.xml">
+    <!-- 结构化数据：让搜索引擎和 AI 读懂站点是谁、写什么 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "LawooTrip",
+        "alternateName": ["龟龟的博客", "乐物旅行"],
+        "url": "https://axelrod.lawootrip.com/",
+        "inLanguage": "zh-CN",
+        "description": "龟龟的个人博客：半导体股估值交互看板、对冲基金与价值投资者 13F 持仓追踪、ARK 持仓变化，以及旅行随笔与技术笔记。",
+        "author": {
+            "@type": "Person",
+            "name": "龟龟",
+            "url": "https://axelrod.lawootrip.com/about/",
+            "sameAs": ["https://www.zhihu.com/people/lawoo", "https://github.com/SIGAOYI", "https://twitter.com/LawooTrip"]
+        },
+        "hasPart": {
+            "@type": "Blog",
+            "name": "龟龟的博客",
+            "url": "https://axelrod.lawootrip.com/home/"
+        }
+    }
+    </script>
     
     <!-- iPhone icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/img/guigui_icon.png">
@@ -204,10 +228,10 @@
     <canvas id="ocean-canvas"></canvas>
 
     <div class="overlay" id="ui-overlay">
-        <div id="headTitle">LawooTrip</div>
-        <div id="subTitle">龟龟的博客</div>
+        <h1 id="headTitle">LawooTrip</h1>
+        <p id="subTitle">龟龟的博客</p>
         <div id="inp">
-            <a href="https://axelrod.lawootrip.com/home/">摸一下</a>
+            <a href="https://axelrod.lawootrip.com/home/" aria-label="进入龟龟的博客首页">摸一下</a>
         </div>
     </div>
 
@@ -449,12 +473,16 @@
         buildLayers(QUALITY[level].layers);
         applyQuality();
 
+        // 改 canvas 尺寸会把画布清成黑色。切档/缩放只记标记，挪到下一帧开头、紧跟着重绘，
+        // 否则清空后的画布会原样上屏，表现为「隔几秒黑屏闪一下」。
+        var pendingQuality = false, pendingResize = false;
+
         var resizeTimer = null;
         window.addEventListener('resize', function() {
             if (resizeTimer) clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
                 resizeTimer = null;
-                if (window.innerWidth !== width || window.innerHeight !== height) applySize();
+                if (window.innerWidth !== width || window.innerHeight !== height) pendingResize = true;
             }, 120);
         }, false);
 
@@ -619,6 +647,7 @@
         var lastTs = 0;
         var accFrame = 0, accDraw = 0, nFrame = 0;
         var warmup = 60, badStreak = 0, goodStreak = 0;
+        var levelFails = [0, 0, 0, 0];      // 各档位被判定扛不住的次数，用于回升退避
 
         function frame(ts) {
             requestAnimationFrame(frame);
@@ -634,6 +663,12 @@
 
             time += dt * 0.0012 * timeScale;        // 原 60fps 下 0.020/帧 == 1.2/秒
 
+            if (pendingQuality || pendingResize) {
+                if (pendingQuality) applyQuality(); else applySize();
+                pendingQuality = pendingResize = false;
+                accFrame = 0; accDraw = 0; nFrame = 0; warmup = 45;   // 切换当帧的重分配开销不计入测速
+            }
+
             var t0 = now();
             draw(dt);
             accDraw += now() - t0;
@@ -647,10 +682,11 @@
                     warmup -= 45;
                 } else if (avg > 22 && level < QUALITY.length - 1) {
                     goodStreak = 0;
-                    if (++badStreak >= 2) { badStreak = 0; level++; applyQuality(); }
+                    if (++badStreak >= 2) { badStreak = 0; levelFails[level]++; level++; pendingQuality = true; }
                 } else if (level > minLevel && (avg < 18 || (cap && avgDraw < 5))) {
                     badStreak = 0;
-                    if (++goodStreak >= 8) { goodStreak = 0; level--; applyQuality(); }
+                    // 回升到曾经扛不住的档位时，每失败过一次就把观察期翻倍，避免两档之间来回横跳
+                    if (++goodStreak >= (8 << Math.min(levelFails[level - 1], 6))) { goodStreak = 0; level--; pendingQuality = true; }
                 } else {
                     badStreak = 0; goodStreak = 0;
                 }

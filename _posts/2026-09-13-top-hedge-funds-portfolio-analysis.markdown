@@ -14,10 +14,10 @@ tags:
 
 > 本期专题深度拆解全球 **12 家** 顶级对冲基金、家族办公室与国家主权财富基金的美股最新 13F 申报持仓。涵盖全球国家主权战略基金（**淡马锡、沙特 PIF**）、科技成长与半导体对冲旗舰（**老虎环球、寇图资本、高瓴资本**）、极致集中与深度价值大师（**喜马拉雅资本李录、潘兴广场阿克曼、TCI 克里斯·霍恩、绿光资本艾因霍恩、第三点勒布**）、激进维权对冲旗手（**埃利奥特辛格**）以及传奇全球宏观家族办（**德鲁肯米勒**），全息透视华尔街顶级投资家们的共识赛道与差异化持仓逻辑。
 
-<iframe src="/top_hedge_funds_portfolio_analysis.html" width="100%" height="1100px" frameborder="0" style="border-radius: 12px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);"></iframe>
+<iframe src="/dashboards/top_hedge_funds_portfolio_analysis.html" width="100%" height="1100px" frameborder="0" style="border-radius: 12px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);"></iframe>
 
 <p align="center" style="margin-top: 20px;">
-  <a href="/top_hedge_funds_portfolio_analysis.html" target="_blank" class="btn btn-default" style="display:inline-block; padding:10px 24px; background:#2563eb; color:#ffffff; border-radius:8px; font-weight:600; text-decoration:none;">在新窗口全屏浏览交互看板 ↗</a>
+  <a href="/dashboards/top_hedge_funds_portfolio_analysis.html" target="_blank" class="btn btn-default" style="display:inline-block; padding:10px 24px; background:#2563eb; color:#ffffff; border-radius:8px; font-weight:600; text-decoration:none;">在新窗口全屏浏览交互看板 ↗</a>
 </p>
 
 ## 核心要点速览
