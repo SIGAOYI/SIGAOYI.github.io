@@ -2,13 +2,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ page.seo_description | default: site.description }}">
-    <meta name="keywords"  content="{{ page.seo_keywords | default: site.keyword }}">
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% elsif page.subtitle %}{{ page.subtitle }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="keywords"  content="{{ site.keyword }}">
     <meta name="theme-color" content="{{ site.chrome-tab-theme-color }}">
     <!-- <meta name="apple-mobile-web-app-capable" content="yes" /> -->
     <meta name="apple-mobile-app-status-bar-style" content="white" />
 
-    <title>{% if page.seo_title %}{{ page.seo_title }}{% if paginator.page > 1 %} · 第 {{ paginator.page }} 页{% endif %}{% elsif page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
+    <title>{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
+
+    <!-- Open Graph & WeChat / Social Share Metadata -->
+    <meta property="og:type" content="{% if page.title %}article{% else %}website{% endif %}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% elsif page.subtitle %}{{ page.subtitle }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:image" content="{% if page.share-img %}{{ page.share-img | prepend: site.url }}{% else %}{{ site.url }}/img/wechat_share.jpg{% endif %}">
+    <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+    <meta property="og:site_name" content="{{ site.SEOTitle }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% elsif page.subtitle %}{{ page.subtitle }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:image" content="{% if page.share-img %}{{ page.share-img | prepend: site.url }}{% else %}{{ site.url }}/img/wechat_share.jpg{% endif %}">
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ site.baseurl }}/img/favicon.ico">
@@ -32,40 +49,10 @@
   <link href="{{ site.BASE_PATH }}/assets/resources/syntax/syntax.css" rel="stylesheet">
   <link href="{{ site.BASE_PATH }}/assets/css/style.css" rel="stylesheet">
   <!--iphone-icon-->
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.BASE_PATH }}/img/guigui_icon.png">
-  <link rel="apple-touch-icon" href="{{ site.BASE_PATH }}/img/guigui_icon.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="{{ site.BASE_PATH }}/img/guigui_icon.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="{{ site.BASE_PATH }}/img/guigui_icon.png">
-
-  {% if page.seo_description %}
-  <!-- 社交分享卡片 + 结构化数据（仅设置了 seo_description 的页面输出，目前是首页） -->
-  {% assign seo_url = page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url %}
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="{{ site.SEOTitle }}">
-  <meta property="og:locale" content="zh_CN">
-  <meta property="og:title" content="{{ page.seo_title | escape }}">
-  <meta property="og:description" content="{{ page.seo_description | escape }}">
-  <meta property="og:url" content="{{ seo_url }}">
-  <meta property="og:image" content="{{ site.url }}/img/wechat_share.jpg">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:site" content="@{{ site.twitter_username }}">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": {{ page.seo_title | jsonify }},
-    "url": {{ seo_url | jsonify }},
-    "description": {{ page.seo_description | jsonify }},
-    "keywords": {{ page.seo_keywords | jsonify }},
-    "inLanguage": "zh-CN",
-    "author": {"@type": "Person", "name": "龟龟", "url": "{{ site.url }}/about/"},
-    "blogPost": [{% for post in paginator.posts %}
-      {"@type": "BlogPosting", "headline": {{ post.title | jsonify }}, "url": {{ post.url | prepend: site.baseurl | prepend: site.url | jsonify }}, "datePublished": {{ post.date | date_to_xmlschema | jsonify }}{% if post.subtitle %}, "description": {{ post.subtitle | jsonify }}{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}
-    ]
-  }
-  </script>
-  {% endif %}
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.url }}/img/wechat_share.jpg">
+  <link rel="apple-touch-icon" href="{{ site.url }}/img/wechat_share.jpg">
+  <link rel="apple-touch-icon" sizes="152x152" href="{{ site.url }}/img/wechat_share.jpg">
+  <link rel="apple-touch-icon" sizes="167x167" href="{{ site.url }}/img/wechat_share.jpg">
 
   <!-- absence-GOOGLE -->
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
