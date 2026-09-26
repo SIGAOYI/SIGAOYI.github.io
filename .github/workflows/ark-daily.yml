@@ -6,9 +6,13 @@ name: ARK Cathie Wood weekly auto-post
 
 on:
   schedule:
-    # 每周六 02:30 UTC = 周五约美东 22:30（美股周五收盘、ARK 披露完成后），每周一篇覆盖当周
-    - cron: '30 2 * * 6'
-  workflow_dispatch: {}   # 可选：Actions 页手动触发一次
+    # GitHub 定时是“尽力而为”，常延迟数小时甚至丢弃（9-19 那次就从 02:30 拖到 07:28）。
+    # 故周六多点 + 周日兜底重试；concurrency 串行 + last_date 去重，保证一周只发一篇、不重复。
+    - cron: '30 2 * * 6'    # 周六 02:30 UTC（周五美股收盘后）
+    - cron: '30 8 * * 6'    # 周六 08:30 UTC 补跑
+    - cron: '30 16 * * 6'   # 周六 16:30 UTC 补跑
+    - cron: '30 6 * * 0'    # 周日 06:30 UTC 最后兜底
+  workflow_dispatch: {}   # 可选：Actions 页手动触发
 
 permissions:
   contents: write

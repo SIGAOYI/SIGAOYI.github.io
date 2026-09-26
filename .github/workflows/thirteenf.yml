@@ -6,7 +6,10 @@ name: 13F value investors quarterly post
 
 on:
   schedule:
-    - cron: '0 12 * * 1'    # 每周一 12:00 UTC
+    # 定时不可靠、常延迟/丢弃，多点重试；按报告季去重、只发一篇
+    - cron: '0 12 * * 1'    # 周一 12:00 UTC
+    - cron: '0 20 * * 1'    # 周一 20:00 UTC 补跑
+    - cron: '0 8 * * 2'     # 周二 08:00 UTC 兜底
   workflow_dispatch: {}
 
 permissions:
