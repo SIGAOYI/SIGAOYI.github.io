@@ -42,7 +42,11 @@ def fill_slot(md, html):
 
 def _money(x):
     a, s = abs(x), ("+" if x > 0 else "-" if x < 0 else "")
-    return f"{s}${a/1e9:.2f}B" if a >= 1e9 else (f"{s}${a/1e6:.1f}M" if a >= 1e6 else f"{s}${a:,.0f}")
+    if a >= 1e9:
+        return f"{s}${a/1e9:.2f}B"
+    if a >= 1e6:
+        return f"{s}${a/1e6:.1f}M"
+    return f"{s}${a/1e6:.2f}M" if a >= 1e4 else f"{s}${a:,.0f}"
 
 
 def compact_ark(d):

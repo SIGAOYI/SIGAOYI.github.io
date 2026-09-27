@@ -5,8 +5,8 @@ Cathie Wood / ARK 每周持仓追踪 -> Jekyll 文章（每周五收盘后自动
 
 文章结构（全部可视化、不用表格）：
   1) 🔷 Gemini 简评（置顶）
-  2) 本周概览：ARKK / ARKW / ARKG 三张卡片（本周涨跌、估算盈亏、规模及较上周变化、持仓数）
-  3) 三只基金同一套内容：
+  2) 本周概览：ARKK / ARKW / ARKG / ARKQ 卡片（本周涨跌、估算盈亏、规模及较上周变化、净申赎、持仓数）
+  3) 每只基金同一套内容：
        · 持仓权重 Top15，并排显示「较上周」「较上季度」权重增减（三栏对齐柱状图）
        · 本周净买卖（占基金净值 %，红买绿卖）
   4) 文末：每只基金前 5 大持仓的近两年价格曲线 + 该基金买卖点（🔴B 买 / 🟢S 卖）
@@ -31,13 +31,14 @@ AF_TRADES = "https://arkfunds.io/api/v2/etf/trades?symbol={sym}&date_from={dfrom
 AF_HOLD = "https://arkfunds.io/api/v2/etf/holdings?symbol={sym}&date_from={dfrom}&date_to={dto}"
 UA = "Mozilla/5.0 (compatible; ark-weekly-post/3.0; +https://axelrod.lawootrip.com)"
 
-# 展示的三只基金（要加回 ARKQ：在 FUNDS 补一行并加进 SHOW）
+# 展示的基金（SHOW 的顺序即文章顺序）
 FUNDS = {
     "ARKK": ("颠覆式创新", "ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv"),
     "ARKW": ("下一代互联网", "ARK_NEXT_GENERATION_INTERNET_ETF_ARKW_HOLDINGS.csv"),
     "ARKG": ("基因革命", "ARK_GENOMIC_REVOLUTION_ETF_ARKG_HOLDINGS.csv"),
+    "ARKQ": ("自动化与机器人", "ARK_AUTONOMOUS_TECH._&_ROBOTICS_ETF_ARKQ_HOLDINGS.csv"),
 }
-SHOW = ["ARKK", "ARKW", "ARKG"]
+SHOW = ["ARKK", "ARKW", "ARKG", "ARKQ"]
 TOP_WEIGHT = 15      # 权重图展示前 N 大
 TOP_PRICE = 5        # 每只基金画前 N 大持仓的价格曲线
 TOP_TRADES = 12      # 本周净买卖图最多展示 N 只
@@ -208,6 +209,8 @@ def money(x, sign=False):
         return f"{s}${a/1e9:.2f}B"
     if a >= 1e6:
         return f"{s}${a/1e6:.1f}M"
+    if a >= 1e4:
+        return f"{s}${a/1e6:.2f}M"   # 与其它金额统一用 M，避免“$405,312”这种混排
     return f"{s}${a:,.0f}"
 
 
@@ -266,6 +269,9 @@ def js_boot(div, body):
 
 
 def kpi_cards(stats):
+    # 卡片列数：4 张 → 2×2，3 张 → 一行三张；手机上 min-width 使其自动变一列
+    n = len(stats)
+    basis = "calc(50% - 6px)" if n in (2, 4) else ("calc(33.33% - 8px)" if n == 3 else "200px")
     cards = []
     for s in stats:
         if s.get("ret") is not None:
@@ -285,7 +291,7 @@ def kpi_cards(stats):
             lines.append(f'估算净申赎 <b style="color:{color(flow)}">{money(flow, True)}</b>')
         lines.append(f'{s["n"]} 只持仓 · 第一大 {h(s["top"])} {s["top_w"]:.1f}%')
         cards.append(
-            '<div style="box-sizing:border-box;flex:1 1 200px;min-width:200px;border:1px solid #e6e8eb;border-radius:10px;'
+            f'<div style="box-sizing:border-box;flex:1 1 {basis};min-width:200px;border:1px solid #e6e8eb;border-radius:10px;'
             'padding:12px 16px;background:#fafbfc;">'
             f'<div style="font-weight:700;font-size:15px;">{s["code"]} '
             f'<span style="color:#888;font-weight:400;font-size:13px;">{h(s["name"])}</span></div>'
