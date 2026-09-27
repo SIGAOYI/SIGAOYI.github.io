@@ -1,6 +1,6 @@
 # ark-data 数据说明（RENDERING SPEC）
 
-每周一份 `ark-data/<数据日>.json`（数据日＝ARK 持仓披露日，通常为周五），供 Gemini 简评与其它下游使用。
+每周一份 `ark-data/<数据日>.json`（数据日＝持仓对应的收盘日，通常为周五；ARK 于下一交易日披露），供 Gemini 简评与其它下游使用。
 文章本身已由脚本渲染完成（`_posts/<数据日>-ark-cathie-wood.markdown`）。
 
 ```

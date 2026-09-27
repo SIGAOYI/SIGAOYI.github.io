@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Cathie Wood / ARK 每周持仓追踪 -> Jekyll 文章（每周五收盘后自动发布；Gemini 简评一次成文）
+Cathie Wood / ARK 每周持仓追踪 -> Jekyll 文章（数据截至周五收盘，下周一 ARK 披露后自动发布；Gemini 简评一次成文）
 
 文章结构（全部可视化、不用表格）：
   1) 🔷 Gemini 简评（置顶）
@@ -12,10 +12,13 @@ Cathie Wood / ARK 每周持仓追踪 -> Jekyll 文章（每周五收盘后自动
   4) 文末：每只基金前 5 大持仓的近两年价格曲线 + 该基金买卖点（🔴B 买 / 🟢S 卖）
 
 数据源（免费、无 key）：ARK 官方每日持仓 CSV、arkfunds.io（历史持仓 / 交易）、Yahoo（价格）。
-去重：同一数据日只发一篇（last_date）；--force 强制重生成（例如改版后重排本周文章）。
+口径：ARK 文件日 D 的持仓＝D 前一交易日收盘；周收盘日 W 的持仓取 W 之后第一份文件，上周/上季同理，
+      与 ETF 收盘价涨跌、本周交易（上周收盘后至 W）同一窗口。
+去重：同一周收盘日只发一篇（last_date）；--force 强制重生成（例如改版后重排本周文章）。
+补做过去某周：--date=YYYY-MM-DD，持仓改取 arkfunds 历史，交易/价格截到该日；不改 state/ 与 last_date。
 合规：仅用公开数据做原创整理，非投资建议；Moomoo 仅致谢+链接。
 
-用法：python3 _scripts/ark_daily_post.py [--force]
+用法：python3 _scripts/ark_daily_post.py [--force] [--date=YYYY-MM-DD]
 """
 import csv, io, os, re, sys, json, time, datetime, urllib.request, urllib.parse
 
@@ -104,25 +107,60 @@ def hkey(ticker, cusip, company=""):
     return (ticker or "").strip().upper() or norm_cusip(cusip) or (company or "").upper()
 
 
-def fetch_hist(fund, target):
-    """arkfunds：取 target 当日或之前最近一个交易日的持仓 -> (date, {key: {...}})；失败 (None, {})。"""
-    dfrom = (datetime.date.fromisoformat(target) - datetime.timedelta(days=8)).isoformat()
-    try:
-        rows = fetch_json(AF_HOLD.format(sym=fund, dfrom=dfrom, dto=target)).get("holdings", [])
-    except Exception as e:
-        print(f"[hist-skip] {fund} {target}: {e}")
-        return None, {}
+# ARK 披露口径：文件日期 D 的持仓＝D 前一交易日收盘后的持仓与价格（2026-09 用股价与成交逐只核对过）。
+# 所以“某日收盘”的持仓要看它之后的第一份文件；周五收盘要等下周一的文件。
+def trading_days():
+    """ARKK 日线日期当交易日历（升序）；取不到就退回工作日。"""
+    td = [p["d"] for p in fetch_prices("ARKK", "1y")]
+    if td:
+        return td
+    today = datetime.date.today()
+    return [d.isoformat() for d in (today - datetime.timedelta(days=i) for i in range(400, -1, -1)) if d.weekday() < 5]
+
+
+def prev_td(td, day):
+    """严格早于 day 的最近交易日。"""
+    import bisect
+    i = bisect.bisect_left(td, day) - 1
+    return td[i] if i >= 0 else None
+
+
+def last_td(td, day):
+    """day 当天或之前的最近交易日。"""
+    import bisect
+    i = bisect.bisect_right(td, day) - 1
+    return td[i] if i >= 0 else None
+
+
+def prev_week_close(td, day):
+    """day 所在周之前那一周的最后一个交易日（通常为上周五）。"""
+    d = datetime.date.fromisoformat(day)
+    return prev_td(td, (d - datetime.timedelta(days=d.weekday())).isoformat())
+
+
+def fetch_snapshot_rows(fund, close_date):
+    """arkfunds：close_date 收盘时的全部持仓行（与 parse_holdings 同形）-> (文件日期, rows)，取其后第一份披露。"""
+    c = datetime.date.fromisoformat(close_date)
+    rows = fetch_json(AF_HOLD.format(sym=fund, dfrom=(c + datetime.timedelta(days=1)).isoformat(),
+                                     dto=(c + datetime.timedelta(days=8)).isoformat())).get("holdings", [])
     if not rows:
+        return None, []
+    d = min(x["date"] for x in rows)
+    return d, [{"company": x.get("company") or "", "ticker": (x.get("ticker") or "").strip(),
+                "cusip": x.get("cusip") or "", "shares": float(x.get("shares") or 0),
+                "mv": float(x.get("market_value") or 0), "weight": float(x.get("weight") or 0)}
+               for x in rows if x.get("date") == d]
+
+
+def fetch_snapshot(fund, close_date):
+    """同上，返回 (文件日期, {key: {...}})；失败 (None, {})。"""
+    try:
+        d, rows = fetch_snapshot_rows(fund, close_date)
+    except Exception as e:
+        print(f"[snap-skip] {fund} {close_date}: {e}")
         return None, {}
-    d = max(x["date"] for x in rows)
-    out = {}
-    for x in rows:
-        if x.get("date") != d:
-            continue
-        out[hkey(x.get("ticker"), x.get("cusip"), x.get("company"))] = {
-            "weight": float(x.get("weight") or 0), "shares": float(x.get("shares") or 0),
-            "mv": float(x.get("market_value") or 0), "company": x.get("company") or ""}
-    return d, out
+    return d, {hkey(r["ticker"], r["cusip"], r["company"]): {"weight": r["weight"], "shares": r["shares"],
+                                                             "mv": r["mv"], "company": r["company"]} for r in rows}
 
 
 def fetch_trades(fund, dfrom):
@@ -469,11 +507,11 @@ def build_markdown(data_date, funds, stats, week_from):
           f'subtitle:   "{"·".join(codes)} 本周涨跌、权重变化、买卖点 · 数据源：ARK 官方披露"',
           f"date:       {data_date}", 'author:     "龟龟"', 'header-img: "/img/home-bg.jpg"',
           "catalog:    true", "tags:", "    - 投资", "    - Cathie Wood", "    - ARK", "    - 持仓追踪", "---", "",
-          "> 🤖 **每周五收盘后自动更新（覆盖当周数据）**。数据来自 ARK Invest 官方每日全持仓披露、arkfunds.io 与 "
+          "> 🤖 **每周自动更新：数据截至周五收盘**（ARK 下周一披露周五收盘持仓后生成）。数据来自 ARK Invest 官方每日全持仓披露、arkfunds.io 与 "
           "Yahoo Finance 价格，均为公开信息；本文为基于公开数据的原创整理，**非投资建议**。选题线索来自 "
           "[Moomoo Whale Watch](https://www.moomoo.com/quote/institution-tracking)（仅作线索与致谢，未使用其文章内容）。",
           "",
-          f"**数据日期：{data_date}（{wd}）** ｜ 对比上周：{any_f.get('pdate') or '—'} ｜ "
+          f"**数据日期：{data_date}（{wd}收盘）** ｜ 对比上周：{any_f.get('pdate') or '—'} ｜ "
           f"对比上季度：{any_f.get('qdate') or '—'}", ""]
     body = [
         '<div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">',
@@ -483,7 +521,7 @@ def build_markdown(data_date, funds, stats, week_from):
         '<!-- GEMINI_COMMENT_END -->',
         '</div>', "", ECHARTS_CDN, "",
         "## 本周概览", "", kpi_cards(stats), "",
-        '<p style="font-size:12px;color:#999;margin:4px 0 18px;">注：本周涨跌按 ETF 收盘价（上周数据日→本周数据日）；'
+        '<p style="font-size:12px;color:#999;margin:4px 0 18px;">注：所有数据均按收盘口径（上周收盘→本周收盘），本周涨跌按 ETF 收盘价；'
         '估算盈亏＝上周规模×本周涨跌（不含申赎）；规模＝持仓市值合计；估算净申赎＝规模变化−估算盈亏（资金净流入为正）。</p>', ""]
     for c in codes:
         f = funds[c]
@@ -509,7 +547,7 @@ def build_markdown(data_date, funds, stats, week_from):
 
 SPEC_TEXT = """# ark-data 数据说明（RENDERING SPEC）
 
-每周一份 `ark-data/<数据日>.json`（数据日＝ARK 持仓披露日，通常为周五），供 Gemini 简评与其它下游使用。
+每周一份 `ark-data/<数据日>.json`（数据日＝持仓对应的收盘日，通常为周五；ARK 于下一交易日披露），供 Gemini 简评与其它下游使用。
 文章本身已由脚本渲染完成（`_posts/<数据日>-ark-cathie-wood.markdown`）。
 
 ```
@@ -546,41 +584,71 @@ def load_snapshot(fund):
 
 def main():
     force = "--force" in sys.argv
+    m = re.search(r"--date[= ](\d{4}-\d{2}-\d{2})\b", " ".join(sys.argv[1:]))
+    backfill = m.group(1) if m else None      # 补做过去某周：持仓取 arkfunds 历史，不动 state/ 与 last_date
     for d in (STATE_DIR, POSTS_DIR, SIDECAR_DIR):
         os.makedirs(d, exist_ok=True)
+    td = trading_days()
 
-    # 1) 当前持仓（ARK 官方 CSV）
+    # 1) 定本期“周收盘日”W，并取 W 收盘时的持仓
+    #    常规：ARK 官方 CSV（文件日 F 记录 F 前一交易日 C 的收盘）；C 是当周最后一个交易日才可直接用，
+    #    否则（如周末时 CSV 还是周五文件＝周四收盘）本期取上周收盘，持仓改从 arkfunds 历史取。
     fresh = {}
-    for code in SHOW:
-        name, fn = FUNDS[code]
-        try:
-            raw = fetch_text(ARK_BASE + fn)
-            d, rows = parse_holdings(raw)
-            if d and rows:
-                fresh[code] = {"name": name, "date": d, "rows": rows, "raw": raw}
-                print(f"[ok]   {code} {d} rows={len(rows)}")
-            else:
-                print(f"[skip] {code} no rows")
-        except Exception as e:
-            print(f"[skip] {code} {e}")
+    if backfill:
+        W = last_td(td, backfill)
+    else:
+        for code in SHOW:
+            name, fn = FUNDS[code]
+            try:
+                raw = fetch_text(ARK_BASE + fn)
+                d, rows = parse_holdings(raw)
+                if d and rows:
+                    fresh[code] = {"name": name, "date": datetime.datetime.strptime(d, "%m/%d/%Y").date().isoformat(),
+                                   "rows": rows, "raw": raw}
+                else:
+                    print(f"[skip] {code} no rows")
+            except Exception as e:
+                print(f"[skip] {code} {e}")
+        if not fresh:
+            print("NO_DATA")
+            return 2
+        F = max(v["date"] for v in fresh.values())
+        fresh = {c: v for c, v in fresh.items() if v["date"] == F}
+        C = prev_td(td, F)
+        wk = lambda s: datetime.date.fromisoformat(s).isocalendar()[:2]
+        W = C if (C and wk(C) != wk(F)) else prev_week_close(td, F)
+        print(f"[info] ARK CSV 文件日 {F}（记录 {C} 收盘）-> 本期周收盘 {W}")
+        if W != C:
+            fresh = {}
     if not fresh:
-        print("NO_DATA")
-        return 2
-    iso = lambda s: datetime.datetime.strptime(s, "%m/%d/%Y").date()
-    maxd = max(iso(v["date"]) for v in fresh.values())
-    fresh = {c: v for c, v in fresh.items() if iso(v["date"]) == maxd}
-    data_date = maxd.isoformat()
-    print(f"[info] data_date={data_date} funds={list(fresh)}")
+        for code in SHOW:
+            try:
+                d, rows = fetch_snapshot_rows(code, W)
+            except Exception as e:
+                d, rows = None, []
+                print(f"[skip] {code} {e}")
+            if d and rows:
+                if prev_td(td, d) != W:
+                    print(f"[warn] {code} {W} 之后第一份文件是 {d}（中间缺披露），持仓可能已含之后的交易")
+                fresh[code] = {"name": FUNDS[code][0], "date": d, "rows": rows, "raw": None}
+        if not fresh:
+            print(f"SNAPSHOT_NOT_READY: {W} 收盘的持仓尚未披露（要等其后第一份 ARK 文件）")
+            return 0
+    data_date = W
+    for c, v in fresh.items():
+        print(f"[ok]   {c} 文件 {v['date']} rows={len(v['rows'])}")
+    print(f"[info] data_date={data_date}（收盘） funds={list(fresh)}" + (f" (补做 {backfill})" if backfill else ""))
 
     last_file = os.path.join(STATE_DIR, "last_date.txt")
     last = open(last_file).read().strip() if os.path.exists(last_file) else None
-    if last == data_date and not force:
+    if last == data_date and not force and not backfill:
         print("NO_NEW_DATA")
         return 0
 
-    week_target = (maxd - datetime.timedelta(days=7)).isoformat()
-    qtr_target = (maxd - datetime.timedelta(days=91)).isoformat()
-    since = (maxd - datetime.timedelta(days=740)).isoformat()
+    dW = datetime.date.fromisoformat(data_date)
+    week_close = prev_week_close(td, data_date)                                   # 上周收盘（通常上周五）
+    qtr_close = last_td(td, (dW - datetime.timedelta(days=91)).isoformat())       # 约 13 周前收盘
+    since = (dW - datetime.timedelta(days=740)).isoformat()
 
     funds, week_from, price_cache = {}, {}, {}
     for code, v in fresh.items():
@@ -588,31 +656,34 @@ def main():
                       key=lambda r: -r["weight"])
         aum = sum(r["mv"] for r in rows)
 
-        # 2) 上周 / 上季度持仓（arkfunds 历史；上周失败则回退本地快照）
-        pdate, prev = fetch_hist(code, week_target)
+        # 2) 上周 / 上季度收盘时的持仓（arkfunds 历史；上周失败则回退本地快照）
+        pdate, (_, prev) = week_close, fetch_snapshot(code, week_close)
         if not prev:
             sd, snap = load_snapshot(code)
-            if snap and sd and sd < data_date:
-                pdate, prev = sd, snap
-                print(f"[fallback] {code} 上周用本地快照 {sd}")
-        qdate, qtr = fetch_hist(code, qtr_target)
+            if snap and sd and prev_td(td, sd) == week_close:
+                prev = snap
+                print(f"[fallback] {code} 上周用本地快照（文件 {sd}）")
+            else:
+                pdate = None
+        qdate, (_, qtr) = qtr_close, fetch_snapshot(code, qtr_close)
+        qdate = qdate if qtr else None
         aum_prev = sum(x["mv"] for x in prev.values()) if prev else None
 
-        # 3) ETF 本周涨跌 & 估算盈亏
+        # 3) ETF 本周涨跌 & 估算盈亏（与两次持仓快照同一窗口：上周收盘 -> 本周收盘）
         ret = pnl = None
-        px = fetch_prices(code, "3mo")
+        px = fetch_prices(code, "1y")
         if px and pdate:
             a, b = close_on(px, pdate), close_on(px, data_date)
-            if a and b and a[1]:
+            if a and b and a[1] and a[0] == pdate and b[0] == data_date:
                 ret = (b[1] / a[1] - 1) * 100
         if ret is not None:
             pnl = (aum_prev if aum_prev else aum / (1 + ret / 100)) * ret / 100
         daum = (aum - aum_prev) if aum_prev else None
         daum_pct = (daum / aum_prev * 100) if aum_prev else None
 
-        # 4) 交易：近两年（买卖点）+ 本周净买卖
-        trades = fetch_trades(code, since) or []
-        w0 = pdate or week_target
+        # 4) 交易：近两年（买卖点）+ 本周净买卖；截到数据日（补做过去某周时不混入之后的交易）
+        trades = [x for x in (fetch_trades(code, since) or []) if x["date"] <= data_date]
+        w0 = pdate or week_close
         week_from[code] = w0
         agg = {}
         for x in trades:
@@ -636,7 +707,7 @@ def main():
                 continue
             if t not in price_cache:
                 price_cache[t] = fetch_prices(t, "2y")
-            p = price_cache[t]
+            p = [x for x in price_cache[t] if x["d"] <= data_date]   # 曲线止于数据日
             if not p:
                 skipped.append(t)
                 continue
@@ -702,9 +773,11 @@ def main():
     open(os.path.join(SIDECAR_DIR, f"{data_date}.json"), "w", encoding="utf-8").write(
         json.dumps(sidecar, ensure_ascii=False, indent=2))
     open(SPEC_PATH, "w", encoding="utf-8").write(SPEC_TEXT)
-    for c in codes:   # 本地快照（上周回退用）
-        open(os.path.join(STATE_DIR, c + ".csv"), "w", encoding="utf-8").write(funds[c]["raw"])
-    open(last_file, "w", encoding="utf-8").write(data_date)
+    if not backfill:   # 补做过去某周不动“最新”状态
+        for c in codes:   # 本地快照（上周回退用；本期持仓来自 arkfunds 时没有原始 CSV，保留旧快照）
+            if funds[c]["raw"]:
+                open(os.path.join(STATE_DIR, c + ".csv"), "w", encoding="utf-8").write(funds[c]["raw"])
+        open(last_file, "w", encoding="utf-8").write(data_date)
     print("POST:" + os.path.relpath(out_path, ROOT))
     return 0
 

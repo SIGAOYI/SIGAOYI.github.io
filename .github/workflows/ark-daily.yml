@@ -1,17 +1,18 @@
 name: ARK Cathie Wood weekly auto-post
 
-# 每周五收盘后自动抓取 ARK 官方持仓，生成“原创”分析文章并直接发布到 _posts/（覆盖当周）。
+# 每周自动抓取 ARK 官方持仓，生成“原创”分析文章并直接发布到 _posts/（数据截至周五收盘）。
 # 护栏：数据日期未变 或 无成交 -> 不发帖。仅提交 _posts/ 与 _scripts/state/ 与 ark-data/。
 # 全自动，无需手动触发（workflow_dispatch 仅作可选的手动补发入口）。
 
 on:
   schedule:
-    # GitHub 定时是“尽力而为”，常延迟数小时甚至丢弃（9-19 那次就从 02:30 拖到 07:28）。
-    # 故周六多点 + 周日兜底重试；concurrency 串行 + last_date 去重，保证一周只发一篇、不重复。
-    - cron: '30 2 * * 6'    # 周六 02:30 UTC（周五美股收盘后）
-    - cron: '30 8 * * 6'    # 周六 08:30 UTC 补跑
-    - cron: '30 16 * * 6'   # 周六 16:30 UTC 补跑
-    - cron: '30 6 * * 0'    # 周日 06:30 UTC 最后兜底
+    # ARK 文件日 D 记录的是 D 前一交易日的收盘：周五收盘的持仓要等下周一的文件，所以周一跑。
+    # GitHub 定时是“尽力而为”，常延迟数小时甚至丢弃，故周一多点 + 周二兜底；
+    # concurrency 串行 + last_date 去重，保证一周只发一篇、不重复（周末触发也只会得到 NO_NEW_DATA）。
+    - cron: '30 12 * * 1'   # 周一 12:30 UTC（美东开盘前）
+    - cron: '30 18 * * 1'   # 周一 18:30 UTC 补跑
+    - cron: '30 2 * * 2'    # 周二 02:30 UTC 补跑
+    - cron: '30 12 * * 2'   # 周二 12:30 UTC 兜底（CSV 已换成周二文件时，脚本改从 arkfunds 历史取周五收盘）
   workflow_dispatch:      # Actions 页手动触发；勾选 force 可强制重生成本周文章（改版后重排 / 重出简评）
     inputs:
       force:
@@ -49,6 +50,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add _posts _scripts/state ark-data
             git commit -m "chore(ark): 自动发布 Cathie Wood 每周持仓 [skip ci]"
+            git pull --rebase --autostash   # 同一时段 13F 工作流也可能推送
             git push
             echo "Post published."
           else

@@ -9,9 +9,10 @@ on:
   workflow_dispatch:
     inputs:
       redo:
-        description: '重做最新一篇 ARK 与 13F 的简评（覆盖已有简评，约 2 次 API 调用）'
-        type: boolean
-        default: false
+        description: '除补占位符外，另外重做哪一类最新一篇的已有简评（每篇 1 次 API 调用）'
+        type: choice
+        options: ['不重做', '13F', 'ARK', '全部']
+        default: '不重做'
 
 permissions:
   contents: write
@@ -32,12 +33,13 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          REDO: ${{ inputs.redo }}
         run: |
           if [ -z "$GEMINI_API_KEY" ]; then
             echo "::error::未设置 Secret GEMINI_API_KEY —— 请先在仓库 Settings → Secrets 添加后再运行。"
             exit 1
           fi
-          python3 _scripts/gemini_review.py ${{ inputs.redo && '--redo' || '' }}
+          python3 _scripts/gemini_review.py --redo="${REDO:-不重做}"
       - name: Commit if filled
         run: |
           if [ -n "$(git status --porcelain _posts)" ]; then

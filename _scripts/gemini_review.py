@@ -264,8 +264,8 @@ def review_to_html(text):
 
 
 # ---- 独立运行：为所有“待填”文章补简评（备用/补填，一次跑填全部） ----
-def _find_all_pending(redo=False):
-    """待填 = slot 里仍是占位符；redo=True 时另把最新一篇 ARK 和最新一篇 13F 也算上（覆盖旧简评）。"""
+def _find_all_pending(redo=()):
+    """待填 = slot 里仍是占位符；redo 里列出的类型（"ark" / "13f"）另把该类最新一篇也算上（覆盖旧简评）。"""
     out, seen = [], set()
     cands = sorted(glob.glob(os.path.join(POSTS_DIR, "*-ark-cathie-wood.markdown")) +
                    glob.glob(os.path.join(POSTS_DIR, "*-13f-value-investors.markdown")), reverse=True)
@@ -275,7 +275,7 @@ def _find_all_pending(redo=False):
         seen.add(kind)
         s = open(p, encoding="utf-8").read()
         m = re.search(re.escape(START) + r"(.*?)" + re.escape(END), s, re.S)
-        if not (m and (PLACEHOLDER_HINT in m.group(1) or (redo and newest))):
+        if not (m and (PLACEHOLDER_HINT in m.group(1) or (kind in redo and newest))):
             continue
         if kind == "ark":
             dm = re.search(r"数据日期：(\d{4}-\d{2}-\d{2})", s)
@@ -287,7 +287,11 @@ def _find_all_pending(redo=False):
 
 
 def main():
-    pend = _find_all_pending(redo="--redo" in sys.argv)
+    # --redo=13F / ARK / 全部 / 不重做（工作流下拉框的值）；只写 --redo 等同“全部”
+    m = re.search(r"--redo(?:=(\S*))?", " ".join(sys.argv[1:]))
+    v = ((m.group(1) or "全部") if m else "不重做").strip().lower()
+    redo = {"13f": ("13f",), "ark": ("ark",), "全部": ("ark", "13f"), "all": ("ark", "13f")}.get(v, ())
+    pend = _find_all_pending(redo)
     if not pend:
         print("NO_PENDING_POST")
         return 0
