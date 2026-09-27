@@ -27,21 +27,23 @@ PLACEHOLDER_HINT = "由 Gemini 自动"
 MODEL = os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
 
 # 系统提示 = 分类型的格式要求（FMT）+ 通用规则（BASE）。
-# 数据里的「值得注意」由脚本确定性算出（signals_*），模型只负责挑重点、说人话，不自己找规律。
+# 写什么由脚本确定性选好（signals_*），模型只负责说成人话：给它什么它就复述什么，所以只喂精选内容。
 FMT = {
     "ark": ("你是财经编辑，给博客读者写本周 ARK 持仓简评。简体中文，两段，段间空一行，"
-            "全文 120–200 字（含标点），超出即不合格。时间一律称“本周”。\n"
-            "第一段一句话：各基金本周涨跌（带百分比），点出最强与最弱。\n"
-            "第二段：从「值得注意」里挑最重要的 1–2 条讲透（带数字，只说数据本身能推出的含义，"
-            "如“规模大增主要靠申购而非涨幅”）；再点 2–3 笔最大的买卖，说清是哪只基金。\n"),
+            "全文 180 字以内（含标点）。时间一律称“本周”。\n"
+            "第一段只写 1 句：本周整体涨跌，点出最强与最弱（带百分比）。\n"
+            "第二段最多 3 句：「重点」每条一句，保留关键数字，并说清它直接说明了什么"
+            "（如“规模大增主要靠申购而非涨幅”）；最后一句讲「最大买卖」。\n"
+            "只写给出的重点和买卖，不要另外罗列持仓、权重或其它交易。\n"),
     "13f": ("你是财经编辑，给博客读者写本季 13F 持仓简评。简体中文，每位投资人一段，段间空一行，"
-            "全文 150–240 字（含标点），超出即不合格。\n"
-            "每段先用一句话概括组合（前几大与集中度），再讲本季最大的 2–3 个变化"
-            "（新建/清仓/大幅增减持，带数字），优先讲「本季变化」里金额最大的。\n"),
+            "全文 220 字以内（含标点）。\n"
+            "每段最多 3 句：第一句概括组合（前几大与集中度）；之后只讲「本季变化」里金额最大的 2 个（带数字），"
+            "其余变化不要罗列。\n"),
 }
 BASE = ("称谓：公司一律用中文常见简称（如 特斯拉、苹果、谷歌、拼多多、英伟达、伯克希尔、Coinbase），冷门的直接用股票代码；"
         "基金/机构名也用中文（如 段永平、李录的喜马拉雅资本）。任何名称都不要写英文全称、不要加括号英文（错误示例：谷歌（Alphabet））。\n"
-        "禁止：逐只罗列的流水账；空泛套话（如“总体而言”“值得持续关注”“进行了调整”“体现了对……的青睐/信心”）；"
+        "金额沿用数据里的中文单位（亿美元、万美元）。\n"
+        "禁止：逐只罗列的流水账；“值得注意的是”这类引导语；空泛套话（如“总体而言”“值得持续关注”“进行了调整”“体现了对……的青睐/信心”）；"
         "猜测动机、市场情绪或数据之外的原因；Markdown 符号（如 **、#、-）。\n"
         "硬性要求：非投资建议，不得出现“建议买入/卖出/加仓/减仓/看多/看空”等指令性措辞；只用给定数据、不编造；"
         "不复制任何第三方文章正文。只输出点评正文，不要标题或解释。")
@@ -54,75 +56,77 @@ def fill_slot(md, html):
 
 
 def _money(x):
+    """中文金额（亿/万美元），带正负号；不要符号时调用处 lstrip('+')。"""
     a, s = abs(x), ("+" if x > 0 else "-" if x < 0 else "")
     if a >= 1e9:
-        return f"{s}${a/1e9:.2f}B"
-    if a >= 1e6:
-        return f"{s}${a/1e6:.1f}M"
-    return f"{s}${a/1e6:.2f}M" if a >= 1e4 else f"{s}${a:,.0f}"
+        return f"{s}{a/1e8:.1f} 亿美元"
+    if a >= 1e8:
+        return f"{s}{a/1e8:.2f} 亿美元"
+    return f"{s}{a/1e4:.0f} 万美元" if a >= 1e4 else f"{s}{a:,.0f} 美元"
 
 
 def signals_ark(d):
-    """从数据里确定性地挑出“值得注意”的事（按重要性排），交给模型挑 1–2 条讲透。"""
+    """确定性选出本周要写的内容 -> (重点[按优先级、幅度排序], 最大买卖[最大一笔买入、最大一笔卖出])。"""
     funds = d.get("funds", {}) or {}
-    flows, div, cross, big = [], [], [], []
+    pts, trades, by_tk = [], [], {}
     for c, f in funds.items():
         prev, ret, flow, pnl = f.get("aum_prev"), f.get("ret_pct"), f.get("flow"), f.get("pnl")
         if prev and ret is not None and flow is not None:
             fp = flow / prev * 100
-            way = "流入" if flow > 0 else "流出"
-            if abs(fp) >= 1 and ret * flow < 0:      # 涨跌与申赎反向
-                flows.append((abs(fp), f"{c} 本周{'涨' if ret > 0 else '跌'} {ret:+.2f}%，资金却净{way} "
-                                       f"{_money(flow)}（约占上周规模 {fp:+.1f}%）"))
-            elif abs(fp) >= 5:                        # 大额申赎
+            way, amt = ("净流入" if flow > 0 else "净流出"), _money(abs(flow)).lstrip("+")
+            if abs(fp) >= 1 and ret * flow < 0:          # 涨跌与申赎反向
+                pts.append((3, abs(fp), f"{c} 本周{'涨' if ret > 0 else '跌'} {abs(ret):.2f}%，资金却{way}约 {amt}"
+                                        f"（约占上周规模 {abs(fp):.1f}%）"))
+            elif abs(fp) >= 5:                            # 大额申赎
                 tail = "，规模变化主要来自申赎而非涨跌" if pnl is not None and abs(flow) > abs(pnl) else ""
-                flows.append((abs(fp), f"{c} 资金大幅净{way} {_money(flow)}（约占上周规模 {fp:+.1f}%）{tail}"))
+                pts.append((3, abs(fp), f"{c} 资金大幅{way}约 {amt}（约占上周规模 {abs(fp):.1f}%）{tail}"))
         wt = f.get("week_trades") or {}
         bought = {x.get("ticker") for x in wt.get("buys", [])}
         sold = {x.get("ticker") for x in wt.get("sells", [])}
-        for r in f.get("top") or []:                  # 买卖方向与权重变化相反：价格变动压过了买卖
-            dw, lab = r.get("d_week"), r.get("label") or r.get("ticker")
-            if dw is None:
-                continue
-            if r.get("ticker") in sold and dw >= 0.2:
-                div.append((dw, f"{c} 卖出 {lab}，但其权重仍升 {dw:+.2f} 个百分点至 {r.get('weight')}%"))
-            elif r.get("ticker") in bought and dw <= -0.2:
-                div.append((-dw, f"{c} 买入 {lab}，但其权重仍降 {dw:+.2f} 个百分点至 {r.get('weight')}%"))
-        for side, act in (("buys", "买入"), ("sells", "卖出")):
-            for x in wt.get(side, []):
-                big.append((abs(x.get("pct") or 0), f"{c} {act} {x.get('label') or x.get('ticker')}"
-                                                     f"（约占净值 {x.get('pct') or 0:+.2f}%）"))
-    by_tk = {}                                        # 跨基金：同步买/卖，或此买彼卖
-    for c, f in funds.items():
-        wt = f.get("week_trades") or {}
+        for r in f.get("top") or []:
+            lab, dw, dq = r.get("label") or r.get("ticker"), r.get("d_week"), r.get("d_quarter")
+            if dw is not None and r.get("ticker") in sold and dw >= 0.2:       # 买卖方向与权重变化相反
+                pts.append((2, dw, f"{c} 卖出 {lab}，但其权重仍升 {dw:.2f} 个百分点至 {r.get('weight')}%"))
+            elif dw is not None and r.get("ticker") in bought and dw <= -0.2:
+                pts.append((2, -dw, f"{c} 买入 {lab}，但其权重仍降 {-dw:.2f} 个百分点至 {r.get('weight')}%"))
+            if dq is not None and abs(dq) >= 2:                                 # 季度级别的大挪动（平静周的备选）
+                pts.append((1, abs(dq), f"{c} 的 {lab} 权重较上季{'升' if dq > 0 else '降'} {abs(dq):.2f} 个百分点"
+                                        f"（现 {r.get('weight')}%）"))
         for side in ("buys", "sells"):
             for x in wt.get(side, []):
-                by_tk.setdefault(x.get("ticker"), []).append((c, side, x.get("label") or x.get("ticker")))
-    for tk, lst in by_tk.items():
-        if len(lst) < 2:
+                trades.append((abs(x.get("pct") or 0), side, c, x.get("ticker"), x.get("label") or x.get("ticker")))
+                by_tk.setdefault(x.get("ticker"), []).append((c, side))
+    key = [t for *_, t in sorted(pts, key=lambda z: (z[0], z[1]), reverse=True)]
+    big = []
+    for side, act, opp_act in (("buys", "买入", "卖出"), ("sells", "卖出", "买入")):
+        cand = sorted((t for t in trades if t[1] == side), reverse=True)
+        if not cand:
             continue
-        lab = lst[0][2]
-        b = "、".join(c for c, s, _ in lst if s == "buys")
-        s = "、".join(c for c, s, _ in lst if s == "sells")
-        if b and s:
-            cross.append((len(lst), f"{lab} 在 {b} 买入、在 {s} 卖出（基金间此买彼卖）"))
-        else:
-            cross.append((len(lst), f"{lab} 被 {b or s} 同时{'买入' if b else '卖出'}"))
-    out = [t for _, t in sorted(flows, reverse=True)]
-    out += [t for _, t in sorted(div, reverse=True)[:2]]
-    out += [t for _, t in sorted(cross, reverse=True)[:3]]
-    out += ["本周最大一笔：" + t for _, t in sorted(big, reverse=True)[:1]]
-    return out
+        pct, _, c, tk, lab = cand[0]
+        same = [o for o, s in by_tk.get(tk, []) if s == side and o != c]   # 跨基金同步/此买彼卖并进同一条，免得重复
+        opp = [o for o, s in by_tk.get(tk, []) if s != side]
+        note = (f"；{'、'.join(same)} 也在{act}" if same else "") + (f"；{'、'.join(opp)} 则在{opp_act}" if opp else "")
+        big.append(f"{c} {act} {lab}（约占净值 {pct:.2f}%{note}）")
+    return key, big
 
 
 def compact_ark(d):
-    lines = [f"# ARK 周报（数据日 {d.get('date')}）"]
-    sig = signals_ark(d)
-    if sig:
-        lines.append("值得注意（脚本按重要性排序）：")
-        lines += [f"{i}. {t}" for i, t in enumerate(sig, 1)]
-        lines.append("")
-    for c, f in d.get("funds", {}).items():
+    funds = d.get("funds", {}) or {}
+    pdate = next((f.get("prev_date") for f in funds.values() if f.get("prev_date")), None)
+    lines = [f"# ARK 周报（数据日 {d.get('date')}" + (f"，对比 {pdate}）" if pdate else "）")]
+    rets = sorted(((c, f["ret_pct"]) for c, f in funds.items() if f.get("ret_pct") is not None), key=lambda z: -z[1])
+    if rets:
+        up = sum(1 for _, r in rets if r > 0)
+        tag = "全部上涨" if up == len(rets) else "全部下跌" if up == 0 else f"{up} 涨 {len(rets) - up} 跌"
+        lines.append("本周涨跌（高→低）：" + "、".join(f"{c} {r:+.2f}%" for c, r in rets) + f"（{len(rets)} 只{tag}）")
+    key, big = signals_ark(d)
+    if key:
+        lines.append("重点（每条写一句）：")
+        lines += [f"{i}. {t}" for i, t in enumerate(key[:2], 1)]
+    if big:
+        lines.append("最大买卖：" + "；".join(big))
+    lines.append("各基金数据（仅供核对，不必逐只复述）：")
+    for c, f in funds.items():
         bits = []
         if f.get("ret_pct") is not None:
             bits.append(f"本周涨跌 {f['ret_pct']:+.2f}%")
@@ -136,22 +140,8 @@ def compact_ark(d):
                 s += f"（较上周 {f['daum_pct']:+.1f}%）"
             bits.append(s)
         lines.append(f"{c}（{f.get('name')}）" + "；".join(bits))
-        top = f.get("top") or [{"label": r.get("ticker"), "weight": r.get("weight")} for r in f.get("holdings", [])[:8]]
-        parts = []
-        for r in top[:8]:
-            s = f"{r.get('label') or r.get('ticker')} {r.get('weight')}%"
-            chg = []
-            if r.get("d_week") is not None:
-                chg.append(f"周{r['d_week']:+.2f}")
-            if r.get("d_quarter") is not None:
-                chg.append(f"季{r['d_quarter']:+.2f}")
-            parts.append(s + ("（" + "、".join(chg) + "）" if chg else ""))
-        lines.append("  重仓（权重变化单位：百分点）: " + ", ".join(parts))
-        wt = f.get("week_trades")
-        if wt:
-            b = ", ".join(f"{x.get('label') or x.get('ticker')} +{x.get('pct') or 0:.2f}%" for x in wt.get("buys", [])[:6])
-            s = ", ".join(f"{x.get('label') or x.get('ticker')} {x.get('pct') or 0:.2f}%" for x in wt.get("sells", [])[:6])
-            lines.append(f"  本周净买入（占净值）: {b or '无'} ｜ 净卖出: {s or '无'}")
+        if not f.get("top") and f.get("holdings"):              # 兼容旧格式（无周/季变化、无精选）
+            lines.append("  重仓: " + ", ".join(f"{r.get('ticker')} {r.get('weight')}%" for r in f["holdings"][:8]))
     for fund, t in (d.get("week_trades") or {}).items():   # 兼容旧格式（顶层 week_trades、按股数）
         b = ", ".join(f"{x['ticker']}+{x['shares']}" for x in t.get("buys", [])[:6])
         s = ", ".join(f"{x['ticker']}-{x['shares']}" for x in t.get("sells", [])[:6])
