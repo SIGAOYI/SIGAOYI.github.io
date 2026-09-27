@@ -20,13 +20,8 @@ tags:
 <div id="gemini-review" style="border-left:4px solid #4285F4;background:#eef4ff;padding:14px 16px;margin:0 0 22px;border-radius:8px;">
 <strong>🔷 Gemini 简评</strong>
 <!-- GEMINI_COMMENT_START -->
-<p>上周ARK旗下各基金普遍上涨，ARKK、ARKW、ARKG和ARKQ均录得正收益。ARKK规模显著增长，净申赎活跃。
-
-具体来看，ARKK本周净买入META和RKLB，同时小幅卖出TEM。其重仓股中，特斯拉权重略有下降，而CRCL和Coinbase权重有所提升。ARKW本周主要增持META和ABNB，减持P和CRWD。特斯拉在该基金中权重同样小幅回落，而META和AMD的权重则有所增加。
-
-ARKG本周净买入SCTX、VCYT、IONS和BEAM，同时卖出TXG和TWST。其重仓股中，TWST和TXG保持高位，CRSP和PSNL权重有所下降。ARKQ本周净买入RKLB，并小幅卖出谷歌。特斯拉仍是其第一大重仓股，权重略有上升，AMD和PLTR的权重也有所增加。
-
-总体而言，ARK基金在上周的市场波动中表现出对部分科技和创新领域公司的持续关注，同时对部分持仓进行了调整。</p>
+<p>本周各基金普遍上涨，ARKG 以 +3.33% 的涨幅表现最佳，而 ARKQ 涨幅最小，为 +1.82%。</p>
+<p>值得注意的是，ARKK 本周资金净流入高达 $831.3M，占上周规模的 10.6%，其规模增长主要由申购推动。尽管 ARKG 本周上涨 3.33%，却出现了 $99.6M 的资金净流出。本周最大的买入是 ARKW 买入 META，占其净值的 0.50%。同时，ARKK 和 ARKW 均买入了 META，ARKK 和 ARKQ 也同时买入了 RKLB。ARKG 卖出了 TWST，但其在该基金中的权重仍上升了 0.94 个百分点至 9.94%。</p>
 <p style="color:#888;font-size:12px;">🔷 由 Gemini（gemini-2.5-flash）自动生成，非投资建议。</p>
 <!-- GEMINI_COMMENT_END -->
 </div>
