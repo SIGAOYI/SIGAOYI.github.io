@@ -12,7 +12,12 @@ on:
     - cron: '30 8 * * 6'    # 周六 08:30 UTC 补跑
     - cron: '30 16 * * 6'   # 周六 16:30 UTC 补跑
     - cron: '30 6 * * 0'    # 周日 06:30 UTC 最后兜底
-  workflow_dispatch: {}   # 可选：Actions 页手动触发
+  workflow_dispatch:      # Actions 页手动触发；勾选 force 可强制重生成本周文章（改版后重排 / 重出简评）
+    inputs:
+      force:
+        description: '强制重新生成本周文章'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,7 +40,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
-        run: python3 _scripts/ark_daily_post.py
+        run: python3 _scripts/ark_daily_post.py ${{ inputs.force && '--force' || '' }}
 
       - name: Commit post if created
         run: |

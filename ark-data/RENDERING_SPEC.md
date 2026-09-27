@@ -1,34 +1,21 @@
-# ark-data 渲染约定 (RENDERING SPEC)
+# ark-data 数据说明（RENDERING SPEC）
 
-本文件约定 `ark-data/<YYYY-MM-DD>.json` 的结构与“下游渲染器”（如 Gemini Spark）应如何据此生成博文。
-脚本已直接产出成品文章（`_posts/<发布日>-ark-cathie-wood.markdown`）；本 sidecar 仅供你**可选地**加一段自然语言点评/长文分析。
+每周一份 `ark-data/<数据日>.json`（数据日＝ARK 持仓披露日，通常为周五），供 Gemini 简评与其它下游使用。
+文章本身已由脚本渲染完成（`_posts/<数据日>-ark-cathie-wood.markdown`）。
 
-## 命名
-- 每个交易日一份：`ark-data/2026-09-14.json`（`date` = ARK 数据日期，美东）。
-- 若要发布你自己渲染的版本，请写到 `_posts/<YYYY-MM-DD>-ark-cathie-wood-commentary.markdown`，
-  front-matter 需含 `layout: post`、`title`、`date`、`tags`，日期用**运行日**（避免 Jekyll future 过滤）。
-
-## JSON 结构
 ```
 {
-  "date": "2026-09-14",              // ARK 数据日期
-  "generated_at": "...ISO...",
+  "date": "2026-09-25",
   "funds": {
     "ARKK": {
-      "name": "ARK 旗舰·颠覆式创新",
-      "total_mv": 6400000000.0,
-      "holdings": [{"ticker","company","shares","mv","weight"}...]    // 按权重降序
-    }, ...
-  },
-  "week_trades": {                     // 本周真实买卖净额（近7天，ARK 官方披露，经 arkfunds.io）
-    "ARKK": {"buys":[{"ticker","company","shares"}...], "sells":[{...}...]}, ...
+      "name": "颠覆式创新",
+      "aum": 6.5e9, "aum_prev": 6.3e9, "daum_pct": 3.1,       // 规模及较上周变化%
+      "ret_pct": 2.88, "pnl": 1.8e8,                           // 本周 ETF 涨跌% / 估算盈亏(美元)
+      "prev_date": "2026-09-18", "quarter_date": "2026-06-26",
+      "top": [{"ticker","label","weight","d_week","d_quarter"}...],   // 权重前 10，d_* 为百分点（null=无数据）
+      "week_trades": {"buys":[{"ticker","label","pct","shares"}...], "sells":[...]}  // pct=占基金净值%
+    }
   }
 }
 ```
-
-## 渲染规则（给下游渲染器）
-1. **只做原创分析**：可解读买卖含义、仓位变化、集中度、主题（AI/基因/太空等）。
-2. **禁止搬运任何第三方（含 Moomoo）文章正文/图**；可致谢并链接，链接合法、转载正文违法。
-3. **非投资建议**：保持客观陈述“发生了什么”，附免责声明；不要“推荐买入/卖出”。
-4. 你只写文字点评；价格曲线/买卖点/仓位图已由脚本在正文渲染。你需要的字段：`week_trades`（本周买卖）、`funds[*].holdings`（持仓与权重）。
-5. 语言：简体中文；标题含数据日期。
+约束：非投资建议；只用给定数据；不搬运任何第三方文章正文。

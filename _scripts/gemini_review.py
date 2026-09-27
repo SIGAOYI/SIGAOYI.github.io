@@ -29,6 +29,7 @@ SYS = ("你是财经编辑。基于给定数据，用简体中文写一段简洁
        "公司一律用中文常见简称（如 特斯拉、苹果、谷歌、拼多多、英伟达、伯克希尔、Coinbase），冷门的直接用股票代码；"
        "基金/机构名也用中文（如 段永平、李录的喜马拉雅资本）。任何名称都不要写英文全称、不要加括号英文（错误示例：谷歌（Alphabet））。"
        "多讲“买卖了什么、什么值得注意”，权重/变化点到为止、别堆数字。"
+       "若数据含本周涨跌/估算盈亏/权重周季变化：先用一句话概括各基金本周表现，再讲关键买卖与权重变化。"
        "硬性要求：非投资建议，不得出现“建议买入/卖出/加仓/减仓/看多/看空”等指令性措辞；只用给定数据、不编造；"
        "不复制任何第三方文章正文。只输出点评正文，不要标题或解释。")
 
@@ -39,12 +40,44 @@ def fill_slot(md, html):
                   START + "\n" + html + "\n" + END, md, count=1, flags=re.S)
 
 
+def _money(x):
+    a, s = abs(x), ("+" if x > 0 else "-" if x < 0 else "")
+    return f"{s}${a/1e9:.2f}B" if a >= 1e9 else (f"{s}${a/1e6:.1f}M" if a >= 1e6 else f"{s}${a:,.0f}")
+
+
 def compact_ark(d):
-    lines = [f"# ARK 周报（截至 {d.get('date')}）"]
+    lines = [f"# ARK 周报（数据日 {d.get('date')}）"]
     for c, f in d.get("funds", {}).items():
-        top = ", ".join(f"{r['ticker']} {r['weight']}%" for r in f.get("holdings", [])[:8])
-        lines.append(f"{c}（{f.get('name')}）Top: {top}")
-    for fund, t in d.get("week_trades", {}).items():
+        bits = []
+        if f.get("ret_pct") is not None:
+            bits.append(f"本周涨跌 {f['ret_pct']:+.2f}%")
+        if f.get("pnl") is not None:
+            bits.append(f"估算盈亏 {_money(f['pnl'])}")
+        if f.get("flow") is not None:
+            bits.append(f"估算净申赎 {_money(f['flow'])}")
+        if f.get("aum"):
+            s = f"规模 {_money(f['aum']).lstrip('+')}"
+            if f.get("daum_pct") is not None:
+                s += f"（较上周 {f['daum_pct']:+.1f}%）"
+            bits.append(s)
+        lines.append(f"{c}（{f.get('name')}）" + "；".join(bits))
+        top = f.get("top") or [{"label": r.get("ticker"), "weight": r.get("weight")} for r in f.get("holdings", [])[:8]]
+        parts = []
+        for r in top[:8]:
+            s = f"{r.get('label') or r.get('ticker')} {r.get('weight')}%"
+            chg = []
+            if r.get("d_week") is not None:
+                chg.append(f"周{r['d_week']:+.2f}")
+            if r.get("d_quarter") is not None:
+                chg.append(f"季{r['d_quarter']:+.2f}")
+            parts.append(s + ("（" + "、".join(chg) + "）" if chg else ""))
+        lines.append("  重仓（权重变化单位：百分点）: " + ", ".join(parts))
+        wt = f.get("week_trades")
+        if wt:
+            b = ", ".join(f"{x.get('label') or x.get('ticker')} +{x.get('pct', 0):.2f}%" for x in wt.get("buys", [])[:6])
+            s = ", ".join(f"{x.get('label') or x.get('ticker')} {x.get('pct', 0):.2f}%" for x in wt.get("sells", [])[:6])
+            lines.append(f"  本周净买入（占净值）: {b or '无'} ｜ 净卖出: {s or '无'}")
+    for fund, t in (d.get("week_trades") or {}).items():   # 兼容旧格式（顶层 week_trades、按股数）
         b = ", ".join(f"{x['ticker']}+{x['shares']}" for x in t.get("buys", [])[:6])
         s = ", ".join(f"{x['ticker']}-{x['shares']}" for x in t.get("sells", [])[:6])
         lines.append(f"{fund} 本周买入: {b or '无'} ｜ 卖出: {s or '无'}")
