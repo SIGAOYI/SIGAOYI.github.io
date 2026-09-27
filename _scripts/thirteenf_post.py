@@ -142,6 +142,7 @@ CN_NAME = {
     "PALANTIR": "Palantir", "CIRCLE": "Circle", "TAIWAN SEMI": "台积电", "CROWDSTRIKE": "CrowdStrike",
     "MOODY": "穆迪", "BANK OF AMERICA": "美国银行", "S&P GLOBAL": "标普全球", "H&R BLOCK": "H&R Block",
     "BROADCOM": "博通", "NETFLIX": "奈飞", "INTEL": "英特尔", "STARBUCKS": "星巴克",
+    "BK OF AMERICA": "美国银行", "EAST WEST": "华美银行", "CROCS": "卡骆驰", "TENCENT MUSIC": "腾讯音乐",
 }
 
 
@@ -184,7 +185,7 @@ def bar_chart(div, rows, total, n=12):
           "label:{show:true,position:'right',formatter:'{c}%',fontSize:11}}]});"
           "window.addEventListener('resize',function(){ch.resize();});}"
           "if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();")
-    return (f'<div id="{div}" style="width:100%;max-width:860px;margin:16px auto;height:{max(340,32*len(data))}px;"></div>\n'
+    return (f'<div id="{div}" style="letter-spacing:0;width:100%;max-width:860px;margin:16px auto;height:{max(340,32*len(data))}px;"></div>\n'
             f'<script>\n{js}\n</script>')
 
 

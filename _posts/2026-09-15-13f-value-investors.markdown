@@ -31,7 +31,7 @@ tags:
 
 报告季 **2026-06-30** ｜ 申报日 2026-08-14 ｜ 18 只持仓 ｜ 组合市值约 $19.10B
 
-<div id="tf_duan-yongping_bar" style="width:100%;max-width:860px;margin:16px auto;height:384px;"></div>
+<div id="tf_duan-yongping_bar" style="letter-spacing:0;width:100%;max-width:860px;margin:16px auto;height:384px;"></div>
 <script>
 (function(){var raw=[{"name": "阿里巴巴", "value": 0.15}, {"name": "迪士尼", "value": 0.86}, {"name": "联合健康", "value": 0.87}, {"name": "Credo", "value": 1.0}, {"name": "微软", "value": 1.47}, {"name": "西方石油", "value": 2.61}, {"name": "谷歌", "value": 3.64}, {"name": "英伟达", "value": 6.58}, {"name": "特斯拉", "value": 7.44}, {"name": "拼多多", "value": 9.99}, {"name": "伯克希尔", "value": 24.18}, {"name": "苹果", "value": 41.05}];var names=raw.map(function(d){return d.name;});var vals=raw.map(function(d){return d.value;});function draw(){var el=document.getElementById('tf_duan-yongping_bar');if(!el||!window.echarts)return;var ch=echarts.init(el);ch.setOption({grid:{left:8,right:56,top:10,bottom:10,containLabel:true},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},valueFormatter:function(v){return v+'%';}},xAxis:{type:'value',axisLabel:{formatter:'{value}%'}},yAxis:{type:'category',data:names,axisLabel:{fontSize:12}},series:[{type:'bar',data:vals,barMaxWidth:22,itemStyle:{color:'#2f6f4f',borderRadius:[0,4,4,0]},label:{show:true,position:'right',formatter:'{c}%',fontSize:11}}]});window.addEventListener('resize',function(){ch.resize();});}if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();
 </script>
@@ -62,7 +62,7 @@ tags:
 
 报告季 **2026-06-30** ｜ 申报日 2026-08-14 ｜ 8 只持仓 ｜ 组合市值约 $3.70B
 
-<div id="tf_li-lu_bar" style="width:100%;max-width:860px;margin:16px auto;height:340px;"></div>
+<div id="tf_li-lu_bar" style="letter-spacing:0;width:100%;max-width:860px;margin:16px auto;height:340px;"></div>
 <script>
 (function(){var raw=[{"name": "苹果", "value": 0.86}, {"name": "Tencent Music Entertainm", "value": 1.49}, {"name": "Crocs Inc", "value": 2.89}, {"name": "East West Bancorp Inc", "value": 9.68}, {"name": "伯克希尔", "value": 14.98}, {"name": "拼多多", "value": 22.17}, {"name": "谷歌", "value": 23.39}, {"name": "谷歌", "value": 24.55}];var names=raw.map(function(d){return d.name;});var vals=raw.map(function(d){return d.value;});function draw(){var el=document.getElementById('tf_li-lu_bar');if(!el||!window.echarts)return;var ch=echarts.init(el);ch.setOption({grid:{left:8,right:56,top:10,bottom:10,containLabel:true},tooltip:{trigger:'axis',axisPointer:{type:'shadow'},valueFormatter:function(v){return v+'%';}},xAxis:{type:'value',axisLabel:{formatter:'{value}%'}},yAxis:{type:'category',data:names,axisLabel:{fontSize:12}},series:[{type:'bar',data:vals,barMaxWidth:22,itemStyle:{color:'#2f6f4f',borderRadius:[0,4,4,0]},label:{show:true,position:'right',formatter:'{c}%',fontSize:11}}]});window.addEventListener('resize',function(){ch.resize();});}if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();
 </script>

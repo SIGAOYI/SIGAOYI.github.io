@@ -6,7 +6,12 @@ name: Gemini review (manual test)
 # 测通、确认用量与费用可接受后，再告诉我加定时（schedule），届时才会自动跑。
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      redo:
+        description: '重做最新一篇 ARK 与 13F 的简评（覆盖已有简评，约 2 次 API 调用）'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -32,7 +37,7 @@ jobs:
             echo "::error::未设置 Secret GEMINI_API_KEY —— 请先在仓库 Settings → Secrets 添加后再运行。"
             exit 1
           fi
-          python3 _scripts/gemini_review.py
+          python3 _scripts/gemini_review.py ${{ inputs.redo && '--redo' || '' }}
       - name: Commit if filled
         run: |
           if [ -n "$(git status --porcelain _posts)" ]; then

@@ -376,7 +376,7 @@ def weight_chart(fund, rows, prev, qtr, pdate, qdate):
         "window.addEventListener('resize',function(){var n2=el.clientWidth<600;"
         "if(n2!==isN){isN=n2;ch.setOption(isN?narrow():wide(),true);}});")
     height = 36 + 26 * len(names)
-    return (f'<div id="{div}" style="width:100%;max-width:860px;margin:6px auto 18px;height:{height}px;"></div>\n'
+    return (f'<div id="{div}" style="letter-spacing:0;width:100%;max-width:860px;margin:6px auto 18px;height:{height}px;"></div>\n'
             + js_boot(div, body))
 
 
@@ -404,7 +404,7 @@ def trades_chart(fund, week):
         "markLine:{silent:true,symbol:'none',label:{show:false},lineStyle:{color:'#ccc',type:'solid'},data:[{xAxis:0}]},"
         "label:{show:true,fontSize:10,formatter:function(p){var v=p.value;return (v>0?'+':'')+v.toFixed(2)+'%';}}}]});")
     height = 16 + 26 * len(names)
-    return (f'<div id="{div}" style="width:100%;max-width:860px;margin:6px auto 18px;height:{height}px;"></div>\n'
+    return (f'<div id="{div}" style="letter-spacing:0;width:100%;max-width:860px;margin:6px auto 18px;height:{height}px;"></div>\n'
             + js_boot(div, body))
 
 
@@ -454,7 +454,7 @@ def price_chart(div, title, prices, trades):
         "series:[{type:'line',data:D.closes,showSymbol:false,smooth:true,lineStyle:{width:2,color:'" + BLUE + "'},"
         "name:'收盘价',z:1},mk(D.buys,'" + RED + "'),mk(D.sells,'" + GREEN + "')]});")
     return (f'<p style="margin:14px 0 2px;font-weight:600;">{h(title)}</p>\n'
-            f'<div id="{div}" style="width:100%;max-width:860px;margin:0 auto 20px;height:320px;"></div>\n'
+            f'<div id="{div}" style="letter-spacing:0;width:100%;max-width:860px;margin:0 auto 20px;height:320px;"></div>\n'
             + js_boot(div, body))
 
 
