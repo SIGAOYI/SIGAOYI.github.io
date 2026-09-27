@@ -6,6 +6,8 @@
 - 数据源：SEC EDGAR 官方 13F-HR 申报（公开、免费）。13F 为季度报、滞后约 45 天。
 - 写入 _posts/（直接发布）；纯脚本、确定性、无 LLM、零 token。
 - 每次运行取各投资者最新一季 13F，对比上一季，渲染 Top 持仓条形图 + 明细 + 季度增减。
+- “季”按报告季（reportDate）区分；同季 13F-HR/A 修正稿：RESTATEMENT 整体替换，NEW HOLDINGS 追加。
+- 期权行（PUT/CALL）与同 CUSIP 正股分开记、分开比，名称加“看涨期权/看跌期权”后缀。
 - 去重：按最新报告季（reportDate）。同季已发过则跳过（NO_NEW_QUARTER）。
 - 合规：仅用 SEC 公开数据做原创整理；非投资建议。
 
@@ -51,7 +53,8 @@ def h(s):
 
 
 def parse_infotable(xml):
-    """13F infotable.xml -> {cusip: {issuer,cls,value,shares}}（按 cusip 聚合）。"""
+    """13F infotable.xml -> {(cusip, put_call): {issuer,cls,put_call,value,shares}}。
+    期权行（<putCall> PUT/CALL）与同 cusip 的正股分开记（正股 put_call=""）；同键多行才合并。"""
     xml = re.sub(r'xmlns(:\w+)?="[^"]+"', '', xml)
     xml = re.sub(r'<(/?)\w+:', r'<\1', xml)
     root = ET.fromstring(xml)
@@ -60,6 +63,7 @@ def parse_infotable(xml):
         cusip = (it.findtext("cusip") or "").strip().upper()
         issuer = (it.findtext("nameOfIssuer") or "").strip()
         cls = (it.findtext("titleOfClass") or "").strip()
+        pc = (it.findtext("putCall") or "").strip().upper()
         try:
             value = float(it.findtext("value") or 0)
         except ValueError:
@@ -71,40 +75,97 @@ def parse_infotable(xml):
             shares = 0.0
         if not cusip:
             continue
-        r = out.setdefault(cusip, {"issuer": issuer, "cls": cls, "value": 0.0, "shares": 0.0})
+        r = out.setdefault((cusip, pc), {"issuer": issuer, "cls": cls, "put_call": pc, "value": 0.0, "shares": 0.0})
         r["value"] += value
         r["shares"] += shares
     return out
 
 
+AMEND_CN = {"RESTATEMENT": "重述", "NEW HOLDINGS": "新增持仓"}
+
+
+def amendment_type(xml):
+    """13F-HR/A 的 primary_doc.xml -> "RESTATEMENT" / "NEW HOLDINGS"；读不到返回 None。"""
+    m = re.search(r"<(?:\w+:)?amendmentType>([^<]*)<", xml)
+    return " ".join(m.group(1).split()).upper() if m else None
+
+
 def fetch_13f(cik):
-    """返回 (latest, prev)；每个 = {report, filed, holdings{cusip:..}} 或 None。"""
+    """返回 (latest, prev)：按报告季（reportDate）取最近两季，不按申报先后。
+    每季 = {report, filed, holdings{(cusip, put_call):..}, amended[{filed,type}]} 或 None。
+    一季持仓 = 最后一份完整报告（13F-HR 原稿，或 RESTATEMENT 类 13F-HR/A：整体替换）
+             + 其后的 NEW HOLDINGS 类 13F-HR/A（追加）；修正类型读不到的 13F-HR/A 忽略并告警。"""
     j = json.loads(get(f"https://data.sec.gov/submissions/CIK{cik:010d}.json"))
     r = j["filings"]["recent"]
-    idxs = [i for i, f in enumerate(r["form"]) if f == "13F-HR"]
-    if not idxs:
+    by_q = {}
+    for i, f in enumerate(r["form"]):
+        if f in ("13F-HR", "13F-HR/A") and r["reportDate"][i]:
+            by_q.setdefault(r["reportDate"][i], []).append(i)
+    qs = sorted((q for q, ix in by_q.items() if any(r["form"][i] == "13F-HR" for i in ix)), reverse=True)  # 有原稿才算一季
+    if not qs:
         return None, None
+    accepted = r.get("acceptanceDateTime") or r["filingDate"]
+
+    def base(i):
+        return f"https://www.sec.gov/Archives/edgar/data/{cik}/{r['accessionNumber'][i].replace('-', '')}"
 
     def load(i):
-        acc = r["accessionNumber"][i].replace("-", "")
-        base = f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc}"
-        li = json.loads(get(base + "/index.json"))
+        li = json.loads(get(base(i) + "/index.json"))
         xmls = [it["name"] for it in li["directory"]["item"] if it["name"].lower().endswith(".xml")]
         cands = [n for n in xmls if "primary_doc" not in n.lower()]
         cands.sort(key=lambda n: 0 if ("infotable" in n.lower() or "table" in n.lower() or "13f" in n.lower()) else 1)
-        holdings = {}
         for n in cands:
             try:
-                holdings = parse_infotable(get(f"{base}/{n}").decode("utf-8", "replace"))
+                holdings = parse_infotable(get(f"{base(i)}/{n}").decode("utf-8", "replace"))
                 if holdings:
-                    break
+                    return holdings
             except Exception:
                 continue
-        return {"report": r["reportDate"][i], "filed": r["filingDate"][i], "holdings": holdings}
+        print(f"[warn] CIK {cik} {r['reportDate'][i]} {r['form'][i]} {r['accessionNumber'][i]} 读不到持仓表")
+        return {}
 
-    latest = load(idxs[0])
-    prev = load(idxs[1]) if len(idxs) > 1 else None
-    return latest, prev
+    def load_amend(i):
+        """修正稿读取失败（含网络错误）只告警、当作没并入（退回原稿，等同旧行为），不连累整个投资人。"""
+        try:
+            return load(i)
+        except Exception as e:
+            print(f"[warn] CIK {cik} {r['reportDate'][i]} 13F-HR/A {r['accessionNumber'][i]} 读取失败（{e}），忽略")
+            return {}
+
+    def kind(i):
+        if r["form"][i] == "13F-HR":
+            return "ORIGINAL"
+        try:
+            t = amendment_type(get(base(i) + "/primary_doc.xml").decode("utf-8", "replace"))
+        except Exception:
+            t = None
+        if t not in AMEND_CN:
+            print(f"[warn] CIK {cik} {r['reportDate'][i]} 13F-HR/A {r['accessionNumber'][i]} 修正类型不明（{t}），忽略")
+        return t
+
+    def quarter(q):
+        idxs = sorted(by_q[q], key=lambda i: (accepted[i], r["accessionNumber"][i]))
+        kinds = [kind(i) for i in idxs]
+        holdings, start = {}, -1
+        for k in reversed([k for k, t in enumerate(kinds) if t in ("ORIGINAL", "RESTATEMENT")]):
+            ld = load if kinds[k] == "ORIGINAL" else load_amend      # 表读不到就退回更早的完整报告
+            holdings, start = ld(idxs[k]), k
+            if holdings:
+                break
+        amended = [start] if start >= 0 and kinds[start] == "RESTATEMENT" else []
+        for k in range(start + 1, len(idxs)):
+            add = load_amend(idxs[k]) if kinds[k] == "NEW HOLDINGS" and holdings else {}   # 底稿为空不拼，免得只剩追加行
+            for key, row in add.items():
+                cur = holdings.setdefault(key, dict(row, value=0.0, shares=0.0))
+                cur["value"] += row["value"]
+                cur["shares"] += row["shares"]
+            if add:
+                amended.append(k)
+        orig = [k for k in range(start + 1) if kinds[k] == "ORIGINAL"]   # 申报日 = 所用原稿的日期
+        return {"report": q, "filed": r["filingDate"][idxs[orig[-1] if orig else 0]], "holdings": holdings,
+                "amended": [{"filed": r["filingDate"][idxs[k]], "type": kinds[k]} for k in amended]}
+
+    return quarter(qs[0]), (quarter(qs[1]) if len(qs) > 1 else None)
 
 
 def diff_13f(latest, prev):
@@ -146,12 +207,15 @@ CN_NAME = {
 }
 
 
-def cn_name(issuer):
+PUT_CALL_CN = {"CALL": "看涨期权", "PUT": "看跌期权"}
+
+
+def cn_name(issuer, put_call=None):
+    """中文简称；期权行加后缀（如“苹果 看跌期权”），与同公司正股区分。"""
     up = (issuer or "").upper()
-    for k, v in CN_NAME.items():
-        if k in up:
-            return v
-    return (issuer or "").title()
+    name = next((v for k, v in CN_NAME.items() if k in up), None) or (issuer or "").title()
+    pc = PUT_CALL_CN.get((put_call or "").upper())
+    return f"{name} {pc}" if pc else name
 
 
 def cn_class(cls):
@@ -174,7 +238,7 @@ def cn_class(cls):
 
 
 def bar_chart(div, rows, total, n=12):
-    data = [{"name": cn_name(r["issuer"]), "value": round(r["value"] / total * 100, 2)} for r in rows[:n]][::-1]
+    data = [{"name": cn_name(r["issuer"], r.get("put_call")), "value": round(r["value"] / total * 100, 2)} for r in rows[:n]][::-1]
     payload = json.dumps(data, ensure_ascii=False)
     js = ("(function(){var raw=" + payload + ";var names=raw.map(function(d){return d.name;});var vals=raw.map(function(d){return d.value;});"
           "function draw(){var el=document.getElementById('" + div + "');if(!el||!window.echarts)return;var ch=echarts.init(el);"
@@ -192,7 +256,7 @@ def bar_chart(div, rows, total, n=12):
 def holdings_table(rows, total, n=15):
     body = ""
     for i, r in enumerate(rows[:n], 1):
-        body += (f'<tr style="border-bottom:1px solid #eee;"><td>{i}</td><td>{h(cn_name(r["issuer"]))}</td><td>{h(cn_class(r["cls"]))}</td>'
+        body += (f'<tr style="border-bottom:1px solid #eee;"><td>{i}</td><td>{h(cn_name(r["issuer"], r.get("put_call")))}</td><td>{h(cn_class(r["cls"]))}</td>'
                  f'<td style="text-align:right;">{fmt_money(r["value"])}</td><td style="text-align:right;">{fmt_int(r["shares"])}</td>'
                  f'<td style="text-align:right;">{r["value"]/total*100:.2f}%</td></tr>')
     return ('<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px;">'
@@ -206,7 +270,7 @@ def change_table(rows, kind):
         return "<p><em>无</em></p>"
     if kind in ("new", "exited"):
         head = '<th>公司</th><th style="text-align:right;">市值</th><th style="text-align:right;">股数</th>'
-        body = "".join(f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"]))}</td>'
+        body = "".join(f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"], r.get("put_call")))}</td>'
                        f'<td style="text-align:right;">{fmt_money(r["value"])}</td><td style="text-align:right;">{fmt_int(r["shares"])}</td></tr>'
                        for r in rows[:12])
     else:
@@ -215,11 +279,21 @@ def change_table(rows, kind):
         for r in rows[:12]:
             sign = "+" if r["dshares"] > 0 else ""
             color = "#c0392b" if r["dshares"] > 0 else "#2e7d32"
-            body += (f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"]))}</td>'
+            body += (f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"], r.get("put_call")))}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{fmt_int(r["dshares"])}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{r["dpct"]:.1f}%</td></tr>')
     return ('<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px;">'
             f'<thead><tr style="text-align:left;border-bottom:2px solid #ccc;">{head}</tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def amend_note(q):
+    """该季并入的 13F-HR/A 修正稿，如“2026-02-19 重述”；没有则空串。"""
+    return "、".join(f"{a['filed']} {AMEND_CN[a['type']]}" for a in ((q or {}).get("amended") or []))
+
+
+def _pc(r):
+    """期权行才写 put_call：纯正股时 sidecar 与旧格式一致，旧读取方不受影响。"""
+    return {"put_call": r["put_call"]} if r.get("put_call") else {}
 
 
 def q_label(report):
@@ -272,6 +346,13 @@ def main():
     if last == max_report and not force:
         print("NO_NEW_QUARTER")
         return 0
+    # 数据明显不对就先不发：持仓表为空，或每一行都标成期权（如 H&H 2024-12-31 原稿全标 Put、3 小时后才重述）。
+    # 同季只发一次、发错不会自动更正；非零退出让 Actions 标红，下次定时重试（届时修正稿多半已在）。
+    bad = [f"{d['inv']['name']} {q['report']}" for d in data.values() for q in (d["latest"], d["prev"])
+           if q and (not q["holdings"] or all(x["put_call"] for x in q["holdings"].values()))]
+    if bad and not force:
+        print("HOLD: 持仓表为空或全部是期权，疑似申报有误，等修正稿再发：" + "；".join(bad))
+        return 3
 
     quarter = q_label(max_report)
     pub_date = max(max(d["latest"]["filed"] for d in data.values()), datetime.date.today().isoformat())
@@ -284,13 +365,19 @@ def main():
         inv = d["inv"]; latest = d["latest"]; diff = d["diff"]
         rows = sorted(latest["holdings"].values(), key=lambda r: -r["value"])
         total = sum(r["value"] for r in rows) or 1
+        an, pn = amend_note(latest), amend_note(d["prev"])
+        n_opt = sum(1 for r in rows if r.get("put_call"))
+        filed = latest["filed"] + (f"（已并入 13F-HR/A 修正：{an}）" if an else "")
+        count = f"{len(rows)} 只持仓" + (f"（含 {n_opt} 笔期权，市值为标的名义价值）" if n_opt else "")
         blocks += [f"## {inv['name']}（{inv['entity']}） — {q_label(latest['report'])}", "",
-                   f"报告季 **{latest['report']}** ｜ 申报日 {latest['filed']} ｜ {len(rows)} 只持仓 ｜ 组合市值约 {fmt_money(total)}", "",
+                   f"报告季 **{latest['report']}** ｜ 申报日 {filed} ｜ {count} ｜ 组合市值约 {fmt_money(total)}", "",
                    bar_chart(f"tf_{inv['slug']}_bar", rows, total), "",
                    "### 持仓明细（Top 15）", "", holdings_table(rows, total), ""]
         if diff:
-            blocks += ["### 季度增减（对比上一季）", "",
-                       "**🟥 新建仓**", "", change_table(diff["new"], "new"), "",
+            blocks += ["### 季度增减（对比上一季）", ""]
+            if pn:
+                blocks += [f"> 上一季（{d['prev']['report']}）已并入 13F-HR/A 修正：{pn}。", ""]
+            blocks += ["**🟥 新建仓**", "", change_table(diff["new"], "new"), "",
                        "**🟩 清仓**", "", change_table(diff["exited"], "exited"), "",
                        "**加仓**", "", change_table(diff["inc"], "inc"), "",
                        "**减仓**", "", change_table(diff["dec"], "dec"), ""]
@@ -300,9 +387,9 @@ def main():
             "name": inv["name"], "entity": inv["entity"], "report": latest["report"],
             "total_value": total,
             "holdings": [{"issuer": r["issuer"], "cls": r["cls"], "value": r["value"],
-                          "shares": r["shares"], "weight": round(r["value"] / total * 100, 2)} for r in rows],
+                          "shares": r["shares"], "weight": round(r["value"] / total * 100, 2), **_pc(r)} for r in rows],
             "changes": ({k: [{"issuer": x["issuer"], "shares": x.get("dshares", x["shares"]),
-                              "value": x["value"]} for x in v] for k, v in diff.items()} if diff else {}),
+                              "value": x["value"], **_pc(x)} for x in v] for k, v in diff.items()} if diff else {}),
         }
 
     md = build_post(pub_date, quarter, blocks)

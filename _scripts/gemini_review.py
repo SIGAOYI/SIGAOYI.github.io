@@ -154,7 +154,7 @@ def _cn_name():
         from thirteenf_post import cn_name
         return cn_name
     except Exception:
-        return lambda s: (s or "").title()
+        return lambda s, pc=None: (s or "").title() + {"CALL": " 看涨期权", "PUT": " 看跌期权"}.get((pc or "").upper(), "")
 
 
 def _shares_txt(n):
@@ -165,25 +165,25 @@ def _shares_txt(n):
 def signals_13f(inv, cn):
     """本季变化按金额排序（新建/清仓/增减持统一折成美元），供模型挑重点。"""
     hs, tot = inv.get("holdings", []), inv.get("total_value") or 0
-    by_issuer = {}
+    by_issuer = {}                                          # 按 (公司, put_call) 对应：期权行不与同名正股撞车
     for r in hs:
-        by_issuer.setdefault(r["issuer"], []).append(r)
+        by_issuer.setdefault((r["issuer"], r.get("put_call") or ""), []).append(r)
     ch, items = inv.get("changes") or {}, []
     for x in ch.get("new", []):
         w = f"，占组合 {x['value']/tot*100:.1f}%" if tot else ""
-        items.append((x["value"], f"新建 {cn(x['issuer'])}，约 {_money(x['value']).lstrip('+')}{w}"))
+        items.append((x["value"], f"新建 {cn(x['issuer'], x.get('put_call'))}，约 {_money(x['value']).lstrip('+')}{w}"))
     for x in ch.get("exited", []):
-        items.append((x["value"], f"清仓 {cn(x['issuer'])}（上季约 {_money(x['value']).lstrip('+')}）"))
+        items.append((x["value"], f"清仓 {cn(x['issuer'], x.get('put_call'))}（上季约 {_money(x['value']).lstrip('+')}）"))
     for k, act in (("inc", "增持"), ("dec", "减持")):
         for x in ch.get(k, []):
             ds, amt, pct = x.get("shares") or 0, None, x.get("dpct")
-            m = by_issuer.get(x["issuer"], [])
+            m = by_issuer.get((x["issuer"], x.get("put_call") or ""), [])
             if len(m) == 1 and m[0].get("shares"):          # 同名多类股时无法对应，只报股数
                 cur = m[0]["shares"]
                 amt = ds * m[0]["value"] / cur
                 if pct is None and cur - ds > 0:
                     pct = ds / (cur - ds) * 100
-            s = f"{act} {cn(x['issuer'])} {_shares_txt(ds)}"
+            s = f"{act} {cn(x['issuer'], x.get('put_call'))} {_shares_txt(ds)}"
             if pct is not None:
                 s += f"（股数 {pct:+.0f}%）"
             if amt is not None:
@@ -196,15 +196,20 @@ def compact_13f(d):
     cn = _cn_name()
     lines = [f"# 13F 季报（{d.get('quarter')}，报告季 {d.get('report_date')}）"]
     for slug, inv in d.get("investors", {}).items():
-        agg = {}                                            # 同一公司多类股（如谷歌 A/C）合并
-        for r in inv.get("holdings", []):
-            n = cn(r["issuer"])
+        hs = inv.get("holdings", [])
+        agg = {}                                            # 同一公司多类股（如谷歌 A/C）合并；期权单列
+        for r in hs:
+            n = cn(r["issuer"], r.get("put_call"))
             agg[n] = agg.get(n, 0) + (r.get("weight") or 0)
         top = sorted(agg.items(), key=lambda kv: -kv[1])
         tot = _money(inv.get("total_value") or 0).lstrip("+")
+        n_co = len({cn(r["issuer"]) for r in hs})          # 家数按公司算，期权行不另计
         # 只给中文人名，不给英文机构名，免得被写进正文
-        lines.append(f"{inv.get('name')}：{len(agg)} 家公司，组合约 {tot}，前三大合计 {sum(w for _, w in top[:3]):.1f}%")
+        lines.append(f"{inv.get('name')}：{n_co} 家公司，组合约 {tot}，前三大合计 {sum(w for _, w in top[:3]):.1f}%")
         lines.append("  重仓: " + ", ".join(f"{n} {w:.1f}%" for n, w in top[:10]))
+        if any(r.get("put_call") for r in hs) or any(
+                x.get("put_call") for v in (inv.get("changes") or {}).values() for x in v):
+            lines.append("  注：名称带“看涨期权/看跌期权”的是期权仓位，金额为标的名义价值，不是期权费")
         sig = signals_13f(inv, cn)
         if sig:
             lines.append("  本季变化（按金额排序）: " + "；".join(sig))
