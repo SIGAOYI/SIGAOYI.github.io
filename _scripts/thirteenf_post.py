@@ -245,7 +245,7 @@ def bar_chart(div, rows, total, n=12):
           "ch.setOption({grid:{left:8,right:56,top:10,bottom:10,containLabel:true},"
           "tooltip:{trigger:'axis',axisPointer:{type:'shadow'},valueFormatter:function(v){return v+'%';}},"
           "xAxis:{type:'value',axisLabel:{formatter:'{value}%'}},yAxis:{type:'category',data:names,axisLabel:{fontSize:12}},"
-          "series:[{type:'bar',data:vals,barMaxWidth:22,itemStyle:{color:'#2f6f4f',borderRadius:[0,4,4,0]},"
+          "series:[{type:'bar',data:vals,barMaxWidth:22,itemStyle:{color:'#3b5b92',borderRadius:[0,4,4,0]},"
           "label:{show:true,position:'right',formatter:'{c}%',fontSize:11}}]});"
           "window.addEventListener('resize',function(){ch.resize();});}"
           "if(window.echarts){draw();}else{var t=setInterval(function(){if(window.echarts){clearInterval(t);draw();}},100);setTimeout(function(){clearInterval(t);},6000);}})();")
@@ -278,7 +278,7 @@ def change_table(rows, kind):
         body = ""
         for r in rows[:12]:
             sign = "+" if r["dshares"] > 0 else ""
-            color = "#c0392b" if r["dshares"] > 0 else "#2e7d32"
+            color = "#2e7d32" if r["dshares"] > 0 else "#c0392b"   # 绿增红减
             body += (f'<tr style="border-bottom:1px solid #eee;"><td>{h(cn_name(r["issuer"], r.get("put_call")))}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{fmt_int(r["dshares"])}</td>'
                      f'<td style="text-align:right;color:{color};">{sign}{r["dpct"]:.1f}%</td></tr>')
@@ -377,8 +377,8 @@ def main():
             blocks += ["### 季度增减（对比上一季）", ""]
             if pn:
                 blocks += [f"> 上一季（{d['prev']['report']}）已并入 13F-HR/A 修正：{pn}。", ""]
-            blocks += ["**🟥 新建仓**", "", change_table(diff["new"], "new"), "",
-                       "**🟩 清仓**", "", change_table(diff["exited"], "exited"), "",
+            blocks += ["**🟩 新建仓**", "", change_table(diff["new"], "new"), "",
+                       "**🟥 清仓**", "", change_table(diff["exited"], "exited"), "",
                        "**加仓**", "", change_table(diff["inc"], "inc"), "",
                        "**减仓**", "", change_table(diff["dec"], "dec"), ""]
         else:

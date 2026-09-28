@@ -8,8 +8,8 @@ Cathie Wood / ARK 每周持仓追踪 -> Jekyll 文章（数据截至周五收盘
   2) 本周概览：ARKK / ARKW / ARKG / ARKQ 卡片（本周涨跌、估算盈亏、规模及较上周变化、净申赎、持仓数）
   3) 每只基金同一套内容：
        · 持仓权重 Top15，并排显示「较上周」「较上季度」权重增减（三栏对齐柱状图）
-       · 本周净买卖（占基金净值 %，红买绿卖）
-  4) 文末：每只基金前 5 大持仓的近两年价格曲线 + 该基金买卖点（🔴B 买 / 🟢S 卖）
+       · 本周净买卖（占基金净值 %，绿买红卖）
+  4) 文末：每只基金前 5 大持仓的近两年价格曲线 + 该基金买卖点（🟢B 买 / 🔴S 卖）
 
 数据源（免费、无 key）：ARK 官方每日持仓 CSV、arkfunds.io（历史持仓 / 交易）、Yahoo（价格）。
 口径：ARK 文件日 D 的持仓＝D 前一交易日收盘；周收盘日 W 的持仓取 W 之后第一份文件，上周/上季同理，
@@ -45,7 +45,7 @@ SHOW = ["ARKK", "ARKW", "ARKG", "ARKQ"]
 TOP_WEIGHT = 15      # 权重图展示前 N 大
 TOP_PRICE = 5        # 每只基金画前 N 大持仓的价格曲线
 TOP_TRADES = 12      # 本周净买卖图最多展示 N 只
-RED, GREEN, BLUE = "#e23b3b", "#2e9e5b", "#3b5b92"   # 中式配色：红涨/买，绿跌/卖
+UP, DOWN, BLUE = "#2e9e5b", "#e23b3b", "#3b5b92"   # 绿涨/买（UP），红跌/卖（DOWN），蓝为中性（权重、价格线）
 
 # 常见持仓中文名（有则用中文，无则用代码/精简英文名）
 TICKER_CN = {
@@ -253,7 +253,7 @@ def money(x, sign=False):
 
 
 def color(x):
-    return RED if (x or 0) > 0 else (GREEN if (x or 0) < 0 else "#666")
+    return UP if (x or 0) > 0 else (DOWN if (x or 0) < 0 else "#666")
 
 
 def is_cjk(s):
@@ -379,7 +379,7 @@ def weight_chart(fund, rows, prev, qtr, pdate, qdate):
         "var D=" + payload + ";"
         "function lbl(a,n){return function(p){var v=a[p.dataIndex];if(v===null||v===undefined)return '';"
         "if(n[p.dataIndex])return '新建';return (v>0?'+':'')+v.toFixed(2);};}"
-        "function col(p){return p.value>0?'" + RED + "':'" + GREEN + "';}"
+        "function col(p){return p.value>0?'" + UP + "':'" + DOWN + "';}"
         "function seg(a,n,i,tag){var v=a[i];if(v===null||v===undefined)return '';"
         "if(n[i])return '{nw|'+tag+'新建}';return (v>0?'{up|':'{dn|')+tag+(v>0?'+':'')+v.toFixed(2)+'}';}"
         "var zero={silent:true,symbol:'none',label:{show:false},lineStyle:{color:'#ccc',type:'solid'},data:[{xAxis:0}]};"
@@ -400,7 +400,7 @@ def weight_chart(fund, rows, prev, qtr, pdate, qdate):
         "label:{show:true,fontSize:10,formatter:lbl(D.dw,D.nw)}},"
         "{type:'bar',xAxisIndex:2,yAxisIndex:2,data:D.dqi,barMaxWidth:12,itemStyle:{color:col},markLine:zero,"
         "label:{show:true,fontSize:10,formatter:lbl(D.dq,D.nq)}}]};}"
-        # 窄屏（手机）：单栏，标签里用红/绿字标出 周/季 权重变化，避免三栏挤压重叠
+        # 窄屏（手机）：单栏，标签里用绿/红字标出 周/季 权重变化，避免三栏挤压重叠
         "function narrow(){return {" + tip +
         "title:[{text:'当前权重（标签：周 / 季 权重变化，百分点）',left:56,top:0,textStyle:ts}],"
         "grid:[{left:56,right:8,top:26,bottom:6}],"
@@ -409,7 +409,7 @@ def weight_chart(fund, rows, prev, qtr, pdate, qdate):
         "series:[{type:'bar',data:D.cur,barMaxWidth:14,itemStyle:{color:'" + BLUE + "',borderRadius:[0,3,3,0]},"
         "label:{show:true,position:'right',fontSize:10,color:'#333',"
         "formatter:function(p){var i=p.dataIndex;return p.value+'%  '+seg(D.dw,D.nw,i,'周')+'  '+seg(D.dq,D.nq,i,'季');},"
-        "rich:{up:{color:'" + RED + "',fontSize:10},dn:{color:'" + GREEN + "',fontSize:10},nw:{color:'#999',fontSize:10}}}}]};}"
+        "rich:{up:{color:'" + UP + "',fontSize:10},dn:{color:'" + DOWN + "',fontSize:10},nw:{color:'#999',fontSize:10}}}}]};}"
         "var isN=el.clientWidth<600;ch.setOption(isN?narrow():wide());"
         "window.addEventListener('resize',function(){var n2=el.clientWidth<600;"
         "if(n2!==isN){isN=n2;ch.setOption(isN?narrow():wide(),true);}});")
@@ -419,7 +419,7 @@ def weight_chart(fund, rows, prev, qtr, pdate, qdate):
 
 
 def trades_chart(fund, week):
-    """本周净买卖（占基金净值 %）：发散柱，红=净买入，绿=净卖出。"""
+    """本周净买卖（占基金净值 %）：发散柱，绿=净买入，红=净卖出。"""
     if not week:
         return '<p style="color:#999;margin:4px 0 18px;">本周无交易。</p>'
     div = f"ark_t_{fund.lower()}"
@@ -438,7 +438,7 @@ def trades_chart(fund, week):
         "grid:{left:56,right:28,top:6,bottom:6},xAxis:{type:'value',show:false,min:-T.m,max:T.m},"
         "yAxis:{type:'category',data:T.names,axisTick:{show:false},axisLine:{show:false},axisLabel:{fontSize:11,color:'#333'}},"
         "series:[{type:'bar',data:T.data,barMaxWidth:14,"
-        "itemStyle:{color:function(p){return p.value>0?'" + RED + "':'" + GREEN + "';}},"
+        "itemStyle:{color:function(p){return p.value>0?'" + UP + "':'" + DOWN + "';}},"
         "markLine:{silent:true,symbol:'none',label:{show:false},lineStyle:{color:'#ccc',type:'solid'},data:[{xAxis:0}]},"
         "label:{show:true,fontSize:10,formatter:function(p){var v=p.value;return (v>0?'+':'')+v.toFixed(2)+'%';}}}]});")
     height = 16 + 26 * len(names)
@@ -463,7 +463,7 @@ def close_on(prices, day):
 
 
 def price_chart(div, title, prices, trades):
-    """价格曲线 + 该基金买卖点（红 B / 绿 S 实心圆，覆盖曲线；只标成交量最大的若干笔）。"""
+    """价格曲线 + 该基金买卖点（绿 B / 红 S 实心圆，覆盖曲线；只标成交量最大的若干笔）。"""
     dates = [p["d"] for p in prices]
     closes = [p["c"] for p in prices]
     pmap = {p["d"]: p["c"] for p in prices}
@@ -490,7 +490,7 @@ def price_chart(div, title, prices, trades):
         "xAxis:{type:'category',data:D.dates,axisLabel:{fontSize:10}},"
         "yAxis:{type:'value',scale:true,axisLabel:{formatter:'${value}'}},"
         "series:[{type:'line',data:D.closes,showSymbol:false,smooth:true,lineStyle:{width:2,color:'" + BLUE + "'},"
-        "name:'收盘价',z:1},mk(D.buys,'" + RED + "'),mk(D.sells,'" + GREEN + "')]});")
+        "name:'收盘价',z:1},mk(D.buys,'" + UP + "'),mk(D.sells,'" + DOWN + "')]});")
     return (f'<p style="margin:14px 0 2px;font-weight:600;">{h(title)}</p>\n'
             f'<div id="{div}" style="letter-spacing:0;width:100%;max-width:860px;margin:0 auto 20px;height:320px;"></div>\n'
             + js_boot(div, body))
@@ -527,12 +527,12 @@ def build_markdown(data_date, funds, stats, week_from):
         f = funds[c]
         body += [f"## {c} · {f['name']}", "",
                  f"**持仓权重 Top{TOP_WEIGHT}**　并列较上周（{f.get('pdate') or '—'}）、较上季度（{f.get('qdate') or '—'}）"
-                 f"的权重增减（百分点；🔴增 🟢减；“新建”=当时未持有）", "",
+                 f"的权重增减（百分点；🟢增 🔴减；“新建”=当时未持有）", "",
                  weight_chart(c, f["rows"], f["prev_w"], f["qtr_w"], f.get("pdate"), f.get("qdate")), "",
-                 f"**本周净买卖**　{week_from.get(c) or '—'} 之后至 {data_date}，按占基金净值 %（🔴买入 🟢卖出）", "",
+                 f"**本周净买卖**　{week_from.get(c) or '—'} 之后至 {data_date}，按占基金净值 %（🟢买入 🔴卖出）", "",
                  trades_chart(c, f["week"]), ""]
     body += ["## 价格曲线 · 买卖点", "",
-             "> 各基金前 5 大持仓的近两年收盘价；🔴 **B**=买入、🟢 **S**=卖出（该基金自己的交易；圆点大小≈交易量，"
+             "> 各基金前 5 大持仓的近两年收盘价；🟢 **B**=买入、🔴 **S**=卖出（该基金自己的交易；圆点大小≈交易量，"
              "只标成交量最大的若干笔；悬停可看日期与股数）。", ""]
     for c in codes:
         f = funds[c]
