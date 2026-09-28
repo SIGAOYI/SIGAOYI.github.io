@@ -8,7 +8,7 @@ Gemini 简评（用 Gemini API 生成一段客观简评）。两种用法：
      rev = gr.build_review_html("ark"|"13f", sidecar_dict)   # 无 GEMINI_API_KEY 或失败 -> None
      if rev: md = gr.fill_slot(md, rev)
 2) 独立运行做补填：为所有“仍是占位符”的文章补简评（读 ark-data/*.json 再写回）；
-   加 --redo 则另把最新一篇 ARK 与最新一篇 13F 的简评重做（覆盖旧简评）。
+   加 --redo=13F / ARK / 全部 则另把该类最新一篇的简评重做（覆盖旧简评）；只写 --redo 等同“全部”。
 
 密钥/模型走环境变量（脚本不含任何密钥）：
   GEMINI_API_KEY   有才会真正调用（放 GitHub Actions Secret）
