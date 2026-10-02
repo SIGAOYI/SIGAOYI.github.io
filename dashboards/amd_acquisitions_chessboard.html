@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMD投资棋局与战略并购版图全景透视 (从ATI、赛灵思到李飞飞World Labs)</title>
+  <!-- 微信/社交分享适配：缩略图、标题、描述（图片绝对路径，300x300，<32K） -->
+  <meta name="description" content="深度解析AMD历年关键收购纪录与82亿美元收购World Labs战局，全景透视芯片巨头从单芯片到物理AI空间智能的投资风向演进。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AMD投资棋局与战略并购版图全景透视 (从ATI、赛灵思到李飞飞World Labs)">
+  <meta property="og:description" content="深度解析AMD历年关键收购纪录与82亿美元收购World Labs战局，全景透视芯片巨头从单芯片到物理AI空间智能的投资风向演进。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/amd_acquisitions_chessboard.html">
+  
+  <!-- Apache ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --bg-elevated: #1a233a;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --amd-red: #ed1c24;
+      --amd-red-subtle: rgba(237, 28, 36, 0.15);
+      --accent-cyan: #38bdf8;
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+    .container { max-width: 1440px; margin: 0 auto; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #162035 0%, #0d1424 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(237, 28, 36, 0.18) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 80%);
+      pointer-events: none;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(237, 28, 36, 0.12);
+      border: 1px solid rgba(237, 28, 36, 0.35);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #f87171;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .header-badge .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--amd-red);
+      box-shadow: 0 0 8px var(--amd-red);
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 1050px;
+      line-height: 1.6;
+    }
+
+    /* KPI Summary Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-cyan);
+    }
+    .kpi-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; }
+    .kpi-val { font-size: 24px; font-weight: 800; color: #fff; font-family: monospace; }
+    .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; display: flex; align-items: center; gap: 6px; }
+    .kpi-pill { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .pill-red { background: rgba(237, 28, 36, 0.15); color: #f87171; border: 1px solid rgba(237, 28, 36, 0.3); }
+    .pill-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .pill-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    /* Navigation Tabs */
+    .tabs-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover { background: var(--bg-elevated); color: #fff; }
+    .tab-btn.active {
+      background: var(--amd-red);
+      color: #fff;
+      border-color: var(--amd-red);
+      box-shadow: 0 0 14px rgba(237, 28, 36, 0.4);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Chessboard Grid Section */
+    .chess-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1100px) {
+      .chess-layout { grid-template-columns: 1fr; }
+    }
+
+    .chessboard-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow-card);
+    }
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sec-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sec-badge {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* Chess Rows / Categories */
+    .tier-block {
+      margin-bottom: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .tier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .tier-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tier-desc { font-size: 11px; color: var(--text-dim); }
+
+    .pieces-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px;
+    }
+    .piece-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .piece-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+    }
+    .piece-card.active {
+      border-color: var(--amd-red);
+      background: #182238;
+      box-shadow: 0 0 12px rgba(237, 28, 36, 0.35);
+    }
+    .piece-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .piece-name { font-size: 14px; font-weight: 700; color: #fff; }
+    .piece-year { font-size: 11px; font-weight: 600; color: var(--text-dim); font-family: monospace; }
+    .piece-val { font-size: 13px; font-weight: 800; color: var(--accent-amber); margin-bottom: 4px; }
+    .piece-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+      display: inline-block;
+    }
+
+    /* Inspector Side Card */
+    .inspector-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 20px;
+    }
+    .inspector-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+    .ins-label { font-size: 11px; text-transform: uppercase; color: var(--text-dim); font-weight: 700; }
+    .ins-target { font-size: 20px; font-weight: 800; color: #fff; margin-top: 2px; }
+    .ins-badges { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+
+    .ins-item { margin-bottom: 14px; }
+    .ins-item-title { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
+    .ins-item-content { font-size: 13px; color: #e2e8f0; line-height: 1.5; }
+    .ins-callout {
+      background: rgba(237, 28, 36, 0.08);
+      border-left: 3px solid var(--amd-red);
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #fca5a5;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* Dual Charts Section */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 960px) {
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+    .chart-box { height: 380px; width: 100%; }
+
+    /* Strategy & Analysis Cards */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card-modern {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card-modern:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-cyan);
+    }
+    .card-modern h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-modern p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .highlight-list {
+      list-style: none;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .highlight-list li {
+      margin-bottom: 8px;
+      padding-left: 14px;
+      position: relative;
+    }
+    .highlight-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+      font-weight: bold;
+    }
+
+    /* World Labs Deep Dive */
+    .deep-dive-box {
+      background: linear-gradient(135deg, #182238 0%, #101726 100%);
+      border: 1px solid #3b82f6;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+    }
+    .dive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 18px;
+    }
+    @media (max-width: 860px) {
+      .dive-grid { grid-template-columns: 1fr; }
+    }
+    .dive-col {
+      background: rgba(11, 15, 25, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .dive-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .title-bull { color: var(--accent-emerald); }
+    .title-bear { color: #f87171; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 微信爬虫分享缩略图 (必须位于 body 最前端隐藏) -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-badge">
+        <span class="dot"></span> 战略复盘 · 2026年9月重大产业并购
+      </div>
+      <h1>AMD 投资棋局与战略并购版图全景透视</h1>
+      <p class="subtitle">
+        从 2006 年 ATI 显示核心，到 2022 年 490 亿美元拿下赛灵思（Xilinx），再到 2024 年机架级云服务器厂商 ZT Systems 与 2026 年 9 月 28 日以 82 亿美元全股票并购李飞飞创办的 World Labs——深度复盘苏姿丰（Lisa Su）执掌下的业务投资棋局与从「底层算力」到「物理AI空间智能」的投资风向演进。
+      </p>
+    </header>
+
+    <!-- KPI Metrics Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">累计核心并购总金额</div>
+        <div class="kpi-val">$70.2B+</div>
+        <div class="kpi-sub">
+          <span class="kpi-pill pill-red">全资/控股</span> 涵盖 9 大核心里程碑交易
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">历史第二大收购（最新）</div>
+        <div class="kpi-val">$8.20B</div>
+        <div class="kpi-sub">
+          <span class="kpi-pill pill-cyan">World Labs</span> 2026年9月28日全股票交易
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">首席科学家新帅入阵</div>
+        <div class="kpi-val">李飞飞 (Dr. Fei-Fei Li)</div>
+        <div class="kpi-sub">
+          <span class="kpi-pill pill-green">EVP兼首席科学家</span> 直报苏姿丰，掌舵物理AI
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">全栈棋局战略层级</div>
+        <div class="kpi-val">5 层阵列</div>
+        <div class="kpi-sub">
+          芯片底座 → 互联DPU → 机架系统 → 编译生态 → 空间智能
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('tab-chess', this)">♟️ 业务投资棋局与互动检视台</button>
+      <button class="tab-btn" onclick="switchTab('tab-charts', this)">📊 并购时间轴与英伟达生态对决图</button>
+      <button class="tab-btn" onclick="switchTab('tab-worldlabs', this)">🔬 82亿美元 World Labs 深度复盘</button>
+      <button class="tab-btn" onclick="switchTab('tab-strategy', this)">🧭 AMD 投资风向与范式演进</button>
+      <button class="tab-btn" onclick="switchTab('tab-debate', this)">⚖️ 华尔街多空激辩与风险指标</button>
+    </div>
+
+    <!-- TAB 1: 业务投资棋局与互动检视台 -->
+    <div id="tab-chess" class="tab-panel active">
+      <div class="chess-layout">
+        <!-- Left: Chessboard Matrix -->
+        <div class="chessboard-container">
+          <div class="sec-head">
+            <div class="sec-title">
+              <span>🏛️ AMD 战略投资五层立体棋局</span>
+              <span class="sec-badge">点击卡片切换右侧深度解构</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-dim);">共 9 家核心战略收购实体</div>
+          </div>
+
+          <!-- Tier 5: 物理AI与空间智能 (World Models & Spatial Intelligence) -->
+          <div class="tier-block">
+            <div class="tier-header">
+              <div class="tier-name">🪐 第五层：物理AI与空间世界模型 (Spatial Intelligence & Physical AI)</div>
+              <div class="tier-desc">下一代具身智能与 Real-to-Sim-to-Real 数据闭环</div>
+            </div>
+            <div class="pieces-grid">
+              <div class="piece-card active" onclick="selectPiece('worldlabs', this)">
+                <div class="piece-top">
+                  <div class="piece-name">World Labs</div>
+                  <div class="piece-year">2026.09</div>
+                </div>
+                <div class="piece-val">$82 亿美元</div>
+                <div class="piece-tag">李飞飞团队 / Atlas世界模型 / 空间智能</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 4: 开源编译与企业落地生态 (Software Compilers & AI Enterprise) -->
+          <div class="tier-block">
+            <div class="tier-header">
+              <div class="tier-name">💻 第四层：开源软件生态与模型编译器 (Open Software & Compilers)</div>
+              <div class="tier-desc">ROCm 底层加速、模型推理调优与主权企业落地</div>
+            </div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('siloai', this)">
+                <div class="piece-top">
+                  <div class="piece-name">Silo AI</div>
+                  <div class="piece-year">2024.07</div>
+                </div>
+                <div class="piece-val">$6.65 亿美元</div>
+                <div class="piece-tag">欧洲最大独立AI实验室 / 大模型定制</div>
+              </div>
+              <div class="piece-card" onclick="selectPiece('nodai', this)">
+                <div class="piece-top">
+                  <div class="piece-name">Nod.ai</div>
+                  <div class="piece-year">2023.10</div>
+                </div>
+                <div class="piece-val">未公开 (技术并购)</div>
+                <div class="piece-tag">开源SHARK / Torch-MLIR 编译器</div>
+              </div>
+              <div class="piece-card" onclick="selectPiece('mipsology', this)">
+                <div class="piece-top">
+                  <div class="piece-name">Mipsology</div>
+                  <div class="piece-year">2023.08</div>
+                </div>
+                <div class="piece-val">未公开 (软件并购)</div>
+                <div class="piece-tag">Zebra 推理栈 / 零代码无缝迁移</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 3: 智算集群与整机系统集成 (AI Cloud Server & Rack-Scale Systems) -->
+          <div class="tier-block">
+            <div class="tier-header">
+              <div class="tier-name">🏗️ 第三层：机架级智算系统与整机工程 (Rack Systems & Integration)</div>
+              <div class="tier-desc">对标英伟达 GB200 NVL72，构建 Helios 液冷超算机柜</div>
+            </div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('ztsystems', this)">
+                <div class="piece-top">
+                  <div class="piece-name">ZT Systems</div>
+                  <div class="piece-year">2024.08</div>
+                </div>
+                <div class="piece-val">$49 亿美元</div>
+                <div class="piece-tag">1000+ 系统工程师 / Helios机架级系统</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 2: 自适应计算与网络互联 (Adaptive Computing & Interconnect DPU) -->
+          <div class="tier-block">
+            <div class="tier-header">
+              <div class="tier-name">⚡ 第二层：自适应计算与云网络互联 (Adaptive FPGA & DPU Fabric)</div>
+              <div class="tier-desc">异构加速基石、低延迟数据中心卸载与边缘拓展</div>
+            </div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('pensando', this)">
+                <div class="piece-top">
+                  <div class="piece-name">Pensando Systems</div>
+                  <div class="piece-year">2022.04</div>
+                </div>
+                <div class="piece-val">$19 亿美元</div>
+                <div class="piece-tag">可编程 DPU / 云网络与虚拟化卸载</div>
+              </div>
+              <div class="piece-card" onclick="selectPiece('xilinx', this)">
+                <div class="piece-top">
+                  <div class="piece-name">Xilinx (赛灵思)</div>
+                  <div class="piece-year">2022.02</div>
+                </div>
+                <div class="piece-val">$490 亿美元</div>
+                <div class="piece-tag">全球FPGA霸主 / 异构自适应计算 / SmartNIC</div>
+              </div>
+              <div class="piece-card" onclick="selectPiece('seamicro', this)">
+                <div class="piece-top">
+                  <div class="piece-name">SeaMicro</div>
+                  <div class="piece-year">2012.02</div>
+                </div>
+                <div class="piece-val">$3.34 亿美元</div>
+                <div class="piece-tag">微服务器架构 / Freedom Fabric 总线</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 1: 算力核心与图形基因 (Core Compute & Graphics / APU Engine) -->
+          <div class="tier-block">
+            <div class="tier-header">
+              <div class="tier-name">💎 第一层：算力底座与图形加速原点 (Core Graphics & Heterogeneous Base)</div>
+              <div class="tier-desc">奠定 CPU + GPU 双引擎与 APU 异构融合基因</div>
+            </div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('ati', this)">
+                <div class="piece-top">
+                  <div class="piece-name">ATI Technologies</div>
+                  <div class="piece-year">2006.07</div>
+                </div>
+                <div class="piece-val">$54 亿美元</div>
+                <div class="piece-tag">Radeon 架构 / APU 融合愿景 / CDNA 雏形</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Inspector Console -->
+        <div class="inspector-box" id="inspectorBox">
+          <div class="inspector-header">
+            <div class="ins-label" id="insCategory">第五层 · 物理AI与空间世界模型</div>
+            <div class="ins-target" id="insName">World Labs (李飞飞团队)</div>
+            <div class="ins-badges" id="insBadges">
+              <span class="kpi-pill pill-red">$82 亿美元全股票</span>
+              <span class="kpi-pill pill-cyan">2026 年 9 月交割</span>
+              <span class="kpi-pill pill-green">李飞飞出任 EVP兼首席科学家</span>
+            </div>
+          </div>
+
+          <div class="ins-item">
+            <div class="ins-item-title">🎯 核心并购标的与团队资产</div>
+            <div class="ins-item-content" id="insAssets">
+              斯坦福 AI 顶尖团队与约 70 名世界级科学家（包括哥大李云珠教授及其实体仿真团队 Skinnex）。核心成果包括 3D 生成世界模型 Marble 与最新发布的物理驱动多模态模型 Atlas。
+            </div>
+          </div>
+
+          <div class="ins-item">
+            <div class="ins-item-title">⚡ 战略协同与硬件反向定义</div>
+            <div class="ins-item-content" id="insSynergy">
+              不仅是买入算法，而是将 Atlas 物理因果算子与空间微分方程固化嵌入进 AMD 正在研发的 Instinct MI350 及 MI400 矩阵运算核心与调度底层，实现「以世界模型反向定义芯片硅片架构」。
+            </div>
+          </div>
+
+          <div class="ins-item">
+            <div class="ins-item-title">🔄 解决产业痛点：Real-to-Sim-to-Real</div>
+            <div class="ins-item-content" id="insPain">
+              真实世界采集具身机器人互动数据综合成本高达数百美元/小时。World Labs 通过单张 2D 图像解算 3D/4D 物理仿真环境，实现无限量高保真物理因果合成数据，解决具身智能「数据荒」。
+            </div>
+          </div>
+
+          <div class="ins-callout" id="insCritique">
+            ⚠️ <strong>市场质疑与警惕点：</strong> 交易溢价高达 64%（估值 7 个月内由 50 亿跃升至 82 亿），全股票稀释老股东；且 World Labs 处于 Pre-revenue 阶段，距离工业产线大规模变现尚需 12-18 个月检验期。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 双图表联动看板 -->
+    <div id="tab-charts" class="tab-panel">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="sec-head">
+            <div class="sec-title">📈 AMD 核心并购交易资本规模演进 (2006-2026)</div>
+          </div>
+          <div id="dealChart" class="chart-box"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="sec-head">
+            <div class="sec-title">⚔️ AMD vs 英伟达 全栈算力生态对决雷达</div>
+          </div>
+          <div id="radarChart" class="chart-box"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: World Labs 深度复盘 -->
+    <div id="tab-worldlabs" class="tab-panel">
+      <div class="deep-dive-box">
+        <div class="sec-head">
+          <div class="sec-title" style="font-size: 20px;">
+            🧬 82 亿美元并购 World Labs：芯片女王与 AI 教母的世纪联手
+          </div>
+          <span class="sec-badge">2026年9月28日官方宣布</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+          2026 年 9 月 28 日，AMD 宣布以约 82 亿美元的全股票交易正式收购「AI 教母」李飞飞（Dr. Fei-Fei Li）创立的空间智能初创企业 World Labs。李飞飞将出任 AMD 执行副总裁兼首席科学家，直接向董事长兼 CEO 苏姿丰汇报，跻身最高技术决策层。这是继赛灵思后 AMD 历史上第二大并购，标志着芯片行业正式从单纯堆砌算力进入「以物理常识与空间世界模型重塑芯片」的全新时代。
+        </p>
+
+        <div class="dive-grid">
+          <div class="dive-col">
+            <div class="dive-col-title title-bull">
+              <span>🚀 为什么苏姿丰愿意豪赌？—— 三大底层破局逻辑</span>
+            </div>
+            <ul class="highlight-list">
+              <li>
+                <strong>错位突围大语言模型红海：</strong> 在 2D 文本和代码领域追赶英伟达 CUDA 极其吃力。而 2026 年开源基模极度内卷，边缘利润向 3D 物理空间世界模型转移，AMD 借此抢夺下一个计算范式的「出题权」。
+              </li>
+              <li>
+                <strong>解渴具身智能「真实数据荒」：</strong> 真实世界机械臂或人形机器人摇操作采集数据成本高昂且易损毁。World Labs 突破了 2D 图像瞬时重建 3D 几何拓扑与动力学的难题，跑通 Real-to-Sim-to-Real 合成数据飞轮。
+              </li>
+              <li>
+                <strong>硅片级的反向定制协同（Reverse Co-design）：</strong> 苏姿丰在彭博访谈中强调，硬件理解模型层越深刻，系统越强大。Atlas 物理算子将被直接固化到 MI350/MI400 与 Helios 系统底层。
+              </li>
+              <li>
+                <strong>老牌盟友与持续两年的尽调：</strong> AMD Ventures 早期领投 World Labs，并在 CES 上由李飞飞展示 MI325X 上的显著加速，是兼具供应商与投资人双重身份的深思熟虑之策。
+              </li>
+            </ul>
+          </div>
+
+          <div class="dive-col">
+            <div class="dive-col-title title-bear">
+              <span>⚠️ 资本市场为什么当天砸盘 3.6%？—— 华尔街四大冷思考</span>
+            </div>
+            <ul class="highlight-list">
+              <li>
+                <strong>估值过山车与稀释代价：</strong> 2026 年 2 月估值仅 50 亿美元，7 个月内暴涨 64% 至 82 亿。全股票交易意味着 AMD 现有股东需直接承担股份稀释，买单潜在试错风险。
+              </li>
+              <li>
+                <strong>买人还是买业务？缺乏商业化闭环：</strong> 创始人及团队持股约 56%（约 46 亿美元，4位联创各分约 8.5 亿）。本质上是一笔巨额「人才与愿景买断」，World Labs 目前尚无稳定商业收入。
+              </li>
+              <li>
+                <strong>技术理想与芯片工程周期的巨大鸿沟：</strong> 从前沿学术论文（Atlas 模型 9 月刚发布）到在芯片硅片上流片固化，需要经过漫长而苛刻的工程验证，稍有延误即面临折旧风险。
+              </li>
+              <li>
+                <strong>英伟达物理 AI 铁幕已成体系：</strong> 黄仁勋已在物理 AI 布局近百亿美元生态（Cosmos、Omniverse、Isaac Sim、Jetson Thor）。AMD 仅靠一家初创公司，能否撕开英伟达生态铁幕仍待检验。
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 投资风向与范式演进 -->
+    <div id="tab-strategy" class="tab-panel">
+      <div class="sec-head">
+        <div class="sec-title">🧭 AMD 业务投资风向的四大范式转移</div>
+        <span class="sec-badge">苏姿丰的资本执剑逻辑</span>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="card-modern">
+          <h3>
+            <span style="color: var(--accent-cyan);">01</span>
+            从「单芯片散件」跃迁至「整机机架级系统」
+          </h3>
+          <p>
+            过去芯片厂商只负责交付 CPU/GPU 裸片，但在面对英伟达以 NVLink 和 NVL72 机架级超算实施全包式垄断时极其被动。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>关键落子：</strong> 49 亿美元并购 ZT Systems，获得 1000+ 顶尖系统工程师。</li>
+            <li><strong>风向转变：</strong> AMD 不再只是半导体公司，而是能够直接交付万卡液冷 Helios 机柜的超算基础设施架构师。</li>
+          </ul>
+        </div>
+
+        <div class="card-modern">
+          <h3>
+            <span style="color: var(--amd-red);">02</span>
+            从「ROCm 编译补课」升级至「算法反向定义硅片」
+          </h3>
+          <p>
+            早期并购（Mipsology、Nod.ai）旨在解决 PyTorch 与 Hugging Face 模型在 ROCm 上的跑通与移植痛点。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>关键落子：</strong> Silo AI（企业落地应用）→ World Labs（底层世界模型）。</li>
+            <li><strong>风向转变：</strong> 让李飞飞团队在芯片设计图纸阶段，就将未来 3 年前沿物理模型的张量算子写入芯片微架构，掌握代际主动权。</li>
+          </ul>
+        </div>
+
+        <div class="card-modern">
+          <h3>
+            <span style="color: var(--accent-emerald);">03</span>
+            战略错位竞争：押注物理 AI 替代 2D Token 苦力层
+          </h3>
+          <p>
+            遵循克里斯坦森「高利润守恒定律」：当文本/代码生成等 2D 任务因开源内卷而使边际成本趋零时，超额利润必然向具备真实物理因果率的专有瓶颈模块转移。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>战略风向：</strong> 具身智能、人形机器人和自动驾驶对 3D 空间理解是刚需，AMD 率先在世界模型上建立核心锚点。</li>
+          </ul>
+        </div>
+
+        <div class="card-modern">
+          <h3>
+            <span style="color: var(--accent-purple);">04</span>
+            资本运作进化：「创投锁标 + 联合研发 + 全股票整编」
+          </h3>
+          <p>
+            AMD Ventures 充当先锋哨兵，先小步参投并提供加速算力（如在 MI325X 上联合调优），深度摸透团队底细后在关键拐点实施全资并购。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>运作特色：</strong> 高度偏好全股票交易，保护自身现金流，同时将顶尖科学家的身家利益与 AMD 长期市值深度捆绑。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: 多空交锋与风险指标 -->
+    <div id="tab-debate" class="tab-panel">
+      <div class="sec-head">
+        <div class="sec-title">⚖️ 华尔街观察：后验检验的两大核心指标</div>
+        <span class="sec-badge">未来 12-18 个月关键落地里程碑</span>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="card-modern" style="border-left: 4px solid var(--accent-cyan);">
+          <h3>📊 指标 1：先行工程落地指标（Real-to-Sim-to-Real 成功率）</h3>
+          <p>
+            纯靠学术论文和开源渲染器无法支撑 82 亿美元估值。华尔街密切关注 World Labs 团队在人形机器人与工业场景中的无干预真机作业成功率。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>及格线：</strong> 具身机器人本体厂商若完全脱离人工示教，依赖合成数据在真机任务上的作业成功率稳定跨越 <strong>90%</strong>。</li>
+            <li><strong>里程碑意义：</strong> 标志着世界模型真正终结了物理世界的「高成本数据采集瓶颈」，使合成训练管线具备商业变现可能。</li>
+          </ul>
+        </div>
+
+        <div class="card-modern" style="border-left: 4px solid var(--accent-amber);">
+          <h3>🎯 指标 2：终局商业份额指标（Instinct 芯片在空间计算的渗透率）</h3>
+          <p>
+            AMD 不直接对外部客户兜售大模型，苏姿丰明确表示 World Labs 是横向赋能，其终极变现归宿是<strong>「卖出更多、毛利更高的芯片」</strong>。
+          </p>
+          <ul class="highlight-list">
+            <li><strong>观察窗口：</strong> 2026-2027 年，新一代 MI350/MI400 在全球前瞻世界模型实验室与工业具身负载中的实际采购占比。</li>
+            <li><strong>破局信号：</strong> 是否能从英伟达垄断的 >90% 算力市场中，硬性撕开 15%-20% 的空间智能专属细分份额。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>看板版本：v2.1 · 专供 <strong>Axe 投资博客 (axelrod.lawootrip.com)</strong> 深度复盘</div>
+      <div>数据来源：SEC 公开文件 · AMD 官方并购公告 · 彭博社专访实录 · 最佳拍档/WEB3AI 研报分析</div>
+    </footer>
+  </div>
+
+  <script>
+    // Entity Database for Inspector
+    const entities = {
+      worldlabs: {
+        category: "第五层 · 物理AI与空间世界模型",
+        name: "World Labs (李飞飞团队)",
+        badges: [
+          { text: "$82 亿美元全股票", class: "pill-red" },
+          { text: "2026 年 9 月交割", class: "pill-cyan" },
+          { text: "李飞飞出任 EVP兼首席科学家", class: "pill-green" }
+        ],
+        assets: "斯坦福 AI 顶尖团队与约 70 名世界级科学家（包括哥大李云珠教授及其实体仿真团队 Skinnex）。核心成果包括 3D 生成世界模型 Marble 与最新发布的物理驱动多模态模型 Atlas。",
+        synergy: "不仅是买入算法，而是将 Atlas 物理因果算子与空间微分方程固化嵌入进 AMD 正在研发的 Instinct MI350 及 MI400 矩阵运算核心与调度底层，实现「以世界模型反向定义芯片硅片架构」。",
+        pain: "真实世界采集具身机器人互动数据综合成本高达数百美元/小时。World Labs 通过单张 2D 图像解算 3D/4D 物理仿真环境，实现无限量高保真物理因果合成数据，解决具身智能「数据荒」。",
+        critique: "⚠️ <strong>市场质疑与警惕点：</strong> 交易溢价高达 64%（估值 7 个月内由 50 亿跃升至 82 亿），全股票稀释老股东；且 World Labs 处于 Pre-revenue 阶段，距离工业产线大规模变现尚需 12-18 个月检验期。"
+      },
+      siloai: {
+        category: "第四层 · 开源生态与模型编译器",
+        name: "Silo AI (欧洲顶尖独立AI实验室)",
+        badges: [
+          { text: "$6.65 亿美元全现金", class: "pill-red" },
+          { text: "2024 年 7 月完成", class: "pill-cyan" },
+          { text: "300+ 欧洲AI科学家", class: "pill-green" }
+        ],
+        assets: "欧洲最大的私营AI实验室，主导开源 Poro 和 Viking 多语言大模型，深度覆盖欧洲工业客户与主权主权AI计算集群。",
+        synergy: "直接补齐 AMD 面向大客户的企业级模型定制、调优与全栈解决方案交付能力，助力 EPYC 与 Instinct 席卷欧洲公有云与主权智算中心。",
+        pain: "过去 AMD 缺乏贴身指导企业客户落地大模型的咨询工程力量，Silo AI 成为其直面客户需求的特种部队。",
+        critique: "规模较小，主要精力局限于欧洲主权AI市场，对北美科技巨头（Hyperscalers）的直接影响力有限。"
+      },
+      nodai: {
+        category: "第四层 · 开源生态与模型编译器",
+        name: "Nod.ai (开源大模型编译器先锋)",
+        badges: [
+          { text: "技术并购 (金额未公开)", class: "pill-red" },
+          { text: "2023 年 10 月交割", class: "pill-cyan" },
+          { text: "SHARK 运行时", class: "pill-green" }
+        ],
+        assets: "主导开源编译器平台 SHARK，拥有极其深厚的 MLIR（多级中间表示）与 Torch-MLIR 编译器技术底蕴。",
+        synergy: "极大加速了 Hugging Face 与开源 PyTorch 模型向 AMD ROCm 与 CDNA 架构的自动化编译转换，削减移植摩擦。",
+        pain: "长期以来开发者抱怨 AMD ROCm 生态与英伟达 CUDA 相比极其难用、报错频出，Nod.ai 是彻底啃下编译器硬骨头的关键落子。",
+        critique: "属于底层技术补课性质，虽大幅改善了可用性，但依然处于追赶 CUDA 既有成熟生态的防守态势。"
+      },
+      mipsology: {
+        category: "第四层 · 开源生态与模型编译器",
+        name: "Mipsology (法国深度学习推理先驱)",
+        badges: [
+          { text: "软件并购 (金额未公开)", class: "pill-red" },
+          { text: "2023 年 8 月交割", class: "pill-cyan" },
+          { text: "Zebra 推理引擎", class: "pill-green" }
+        ],
+        assets: "顶尖编译器工程团队与 Zebra 旗舰软件，能够无需重新训练即可将卷积与 Transformer 模型直接映射加速。",
+        synergy: "整合至 AMD 人工智能事业部，专注打通从数据中心到边缘端的端到端神经网络推理栈。",
+        pain: "消除赛灵思 FPGA 与 AMD GPU 之间的异构推理鸿沟，加速统一软件栈构建。",
+        critique: "规模不大，主要服务于成熟模型的推断，无法单枪匹马扭转通用模型训练市场的竞争劣势。"
+      },
+      ztsystems: {
+        category: "第三层 · 智算集群与整机工程",
+        name: "ZT Systems (全球前三超大规模云服务器商)",
+        badges: [
+          { text: "$49 亿美元现金+股票", class: "pill-red" },
+          { text: "2024 年 8 月宣布", class: "pill-cyan" },
+          { text: "1000+ 系统级工程师", class: "pill-green" }
+        ],
+        assets: "拥有 1000 多名业界顶尖的系统级散热、电路、总线集成与机柜级硬件工程师；AMD 计划剥离其制造代工资产，保留设计核心。",
+        synergy: "让 AMD 获得了自主设计交付万卡级液冷集群的能力，催生了 Helios 整机柜平台，正面迎击英伟达 GB200 NVL72。",
+        pain: "云厂商采购 AI 芯片已从单卡过渡到整机柜（Rack-scale），缺乏整机工程能力的芯片商会被降维排挤淘汰。",
+        critique: "收购耗费巨额现金，剥离代工业务的交割周期长，且与部分第三方服务器 ODM 合作伙伴构成微妙竞合摩擦。"
+      },
+      pensando: {
+        category: "第二层 · 自适应与网络互联",
+        name: "Pensando Systems (可编程 DPU 独角兽)",
+        badges: [
+          { text: "$19 亿美元全资收购", class: "pill-red" },
+          { text: "2022 年 4 月交割", class: "pill-cyan" },
+          { text: "思科传奇团队创办", class: "pill-green" }
+        ],
+        assets: "思科四剑客创办的旗舰网络芯片公司，核心资产为高度可编程的分布式服务卡（DPU/SmartNIC）与网络操作系统。",
+        synergy: "补齐了数据中心算力三驾马车中的最后一角（CPU + GPU + DPU），在数据包处理、零信任安全与存储虚拟化上全面卸载 CPU 负荷。",
+        pain: "在大规模 AI 集群通信中，网络抖动和包丢弃会导致 GPU 集群计算停滞，DPU 提供了线速处理与遥测能力。",
+        critique: "面临来自英伟达 BlueField 与博通网络芯片的极其强劲对抗，市场开拓需要漫长周期。"
+      },
+      xilinx: {
+        category: "第二层 · 自适应与网络互联",
+        name: "Xilinx 赛灵思 (全球自适应计算与FPGA巨头)",
+        badges: [
+          { text: "$490 亿美元全股票", class: "pill-red" },
+          { text: "2022 年 2 月完成", class: "pill-cyan" },
+          { text: "半导体史上最大并购", class: "pill-green" }
+        ],
+        assets: "全球 FPGA 与自适应 SoC 第一霸主，庞大的工业、汽车、5G 通信与国防航天客群，以及顶尖的异构计算 IP。",
+        synergy: "使 AMD 一跃成为全球产品线最完备的半导体巨头之一，赛灵思 CEO Victor Peng 出任 AMD 总裁，为后来的 AI 异构大主升浪奠定坚实支柱。",
+        pain: "彻底破除了 AMD 依赖 PC 与单一 x86 周期波动的脆弱格局，为数据中心与嵌入式业务带来充沛现金流。",
+        critique: "巨额商誉摊销在随后的 2023-2024 年对 AMD 的 GAAP 净利润指标造成长期拖累，且嵌入式库存去化周期较长。"
+      },
+      seamicro: {
+        category: "第二层 · 自适应与网络互联",
+        name: "SeaMicro (超高密度微服务器与互联网络)",
+        badges: [
+          { text: "$3.34 亿美元", class: "pill-red" },
+          { text: "2012 年 2 月收购", class: "pill-cyan" },
+          { text: "Freedom Fabric 总线", class: "pill-green" }
+        ],
+        assets: "微服务器高密度互联总线 Freedom Fabric 专利，能够在极小空间内互联数千颗微处理器。",
+        synergy: "为后来 AMD 研发 Infinity Fabric 架构与芯片间（Die-to-Die）高速互联积累了早期的系统级经验。",
+        pain: "当时面对能耗危机，探索低功耗服务器计算的可能性。",
+        critique: "在 2015 年被计提减值并关闭了微服务器硬件业务，被视为一次昂贵的技术总线学费吸收。"
+      },
+      ati: {
+        category: "第一层 · 算力底座与图形加速原点",
+        name: "ATI Technologies (图形芯片双雄之一)",
+        badges: [
+          { text: "$54 亿美元现金加股票", class: "pill-red" },
+          { text: "2006 年 7 月宣布", class: "pill-cyan" },
+          { text: "诞生 Radeon 图形帝国", class: "pill-green" }
+        ],
+        assets: "全套 Radeon 独立 GPU 架构、移动图形芯片 IP、图形驱动库与全球顶尖视觉计算专家团队。",
+        synergy: "孕育了「The Future is Fusion」的 APU 融合计算理念，演化为今天驱动 PS5/Xbox 的定制 SoC，并为 CDNA AI 加速架构注入最初的图形底盘。",
+        pain: "若当年不买 ATI，AMD 将在今天的 AI 与异构计算大浪潮中彻底沦为只有 x86 CPU 的局外人。",
+        critique: "由于当时收购对价过高，直接引发了随后数年的严重债务危机与现金流枯竭，险些导致 AMD 破产，但最终凤凰涅槃。"
+      }
+    };
+
+    function selectPiece(id, element) {
+      document.querySelectorAll('.piece-card').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      const data = entities[id];
+      if (!data) return;
+
+      document.getElementById('insCategory').textContent = data.category;
+      document.getElementById('insName').textContent = data.name;
+
+      const badgesHtml = data.badges.map(b => `<span class="kpi-pill ${b.class}">${b.text}</span>`).join('');
+      document.getElementById('insBadges').innerHTML = badgesHtml;
+
+      document.getElementById('insAssets').textContent = data.assets;
+      document.getElementById('insSynergy').textContent = data.synergy;
+      document.getElementById('insPain').textContent = data.pain;
+      document.getElementById('insCritique').innerHTML = data.critique;
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetPanel = document.getElementById(tabId);
+      targetPanel.classList.add('active');
+
+      if (tabId === 'tab-charts') {
+        setTimeout(initCharts, 50);
+      }
+    }
+
+    // Chart Initialization
+    let chartsInitialized = false;
+    function initCharts() {
+      if (chartsInitialized) return;
+      chartsInitialized = true;
+
+      // Chart 1: Deal Scale
+      const dealChartEl = document.getElementById('dealChart');
+      const dealChart = echarts.init(dealChartEl);
+      const dealOption = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          backgroundColor: '#1e293b',
+          borderColor: '#38bdf8',
+          textStyle: { color: '#f8fafc' },
+          formatter: function(params) {
+            const p = params[0];
+            return `<strong>${p.name}</strong><br/>交易规模：${p.value} 亿美元<br/>战略层级：${p.data.layer}`;
+          }
+        },
+        grid: { left: '3%', right: '4%', bottom: '8%', top: '10%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: ['2006 ATI', '2012 SeaMicro', '2022 Pensando', '2022 Xilinx', '2023 Nod/Mips', '2024 Silo AI', '2024 ZT Systems', '2026 World Labs'],
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11, rotate: 20 }
+        },
+        yAxis: {
+          type: 'value',
+          name: '对价 (亿美元)',
+          nameTextStyle: { color: '#94a3b8' },
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8' }
+        },
+        series: [{
+          name: '并购规模',
+          type: 'bar',
+          barWidth: '38%',
+          itemStyle: {
+            borderRadius: [6, 6, 0, 0],
+            color: function(params) {
+              const colors = ['#f59e0b', '#64748b', '#3b82f6', '#10b981', '#a855f7', '#06b6d4', '#38bdf8', '#ed1c24'];
+              return colors[params.dataIndex];
+            }
+          },
+          label: {
+            show: true,
+            position: 'top',
+            color: '#e2e8f0',
+            fontSize: 11,
+            formatter: function(val) {
+              return val.value > 0 ? '$' + val.value + 'B' : '技术并购';
+            }
+          },
+          data: [
+            { value: 54, layer: '第一层 · 图形底座' },
+            { value: 3.34, layer: '第二层 · 微服务器' },
+            { value: 19, layer: '第二层 · 可编程DPU' },
+            { value: 490, layer: '第二层 · 自适应FPGA' },
+            { value: 1.5, layer: '第四层 · 编译器软件' },
+            { value: 6.65, layer: '第四层 · 欧洲AI落地' },
+            { value: 49, layer: '第三层 · 机架超算系统' },
+            { value: 82, layer: '第五层 · 空间智能世界模型' }
+          ]
+        }]
+      };
+      dealChart.setOption(dealOption);
+
+      // Chart 2: Radar Ecosystem comparison
+      const radarChartEl = document.getElementById('radarChart');
+      const radarChart = echarts.init(radarChartEl);
+      const radarOption = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          backgroundColor: '#1e293b',
+          borderColor: '#38bdf8',
+          textStyle: { color: '#f8fafc' }
+        },
+        legend: {
+          data: ['AMD (并购重组后全栈阵列)', '英伟达 (NVIDIA 原生闭环阵列)'],
+          textStyle: { color: '#cbd5e1', fontSize: 12 },
+          bottom: 0
+        },
+        radar: {
+          indicator: [
+            { name: '基础算力与制程 (GPU/CPU/FPGA)', max: 100 },
+            { name: '网络互联总线 (DPU/InfiniBand/Ethernet)', max: 100 },
+            { name: '集群系统与整机液冷 (Rack-scale)', max: 100 },
+            { name: '开源编译器与工具链 (ROCm/CUDA)', max: 100 },
+            { name: '物理AI与空间世界模型 (World Models)', max: 100 },
+            { name: '全球开发者生态与心智份额', max: 100 }
+          ],
+          shape: 'polygon',
+          splitArea: { areaStyle: { color: ['rgba(30, 41, 59, 0.4)', 'rgba(15, 23, 42, 0.6)'] } },
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisName: { color: '#94a3b8', fontSize: 11 }
+        },
+        series: [{
+          name: '全栈生态综合能力对比',
+          type: 'radar',
+          data: [
+            {
+              value: [92, 80, 88, 75, 90, 68],
+              name: 'AMD (并购重组后全栈阵列)',
+              itemStyle: { color: '#ed1c24' },
+              areaStyle: { color: 'rgba(237, 28, 36, 0.25)' }
+            },
+            {
+              value: [98, 96, 95, 98, 88, 96],
+              name: '英伟达 (NVIDIA 原生闭环阵列)',
+              itemStyle: { color: '#76b900' },
+              areaStyle: { color: 'rgba(118, 185, 0, 0.2)' }
+            }
+          ]
+        }]
+      };
+      radarChart.setOption(radarOption);
+
+      window.addEventListener('resize', () => {
+        dealChart.resize();
+        radarChart.resize();
+      });
+    }
+  </script>
+</body>
+</html>
