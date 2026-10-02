@@ -37,10 +37,11 @@ tags:
 
 为了更直观地把握 AMD 历年资本运作与产业卡位，我们构建了如下交互式全景看板，涵盖 **5 大业务层级**、**历史资本规模对比** 以及 **AMD 与英伟达的全栈算力生态对决雷达**：
 
-<iframe src="/dashboards/amd_acquisitions_chessboard.html" width="100%" height="960px" frameborder="0" style="border-radius: 8px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"></iframe>
 <p align="center" style="margin-top: 15px;">
   <a href="/dashboards/amd_acquisitions_chessboard.html" target="_blank" class="btn btn-default">在新窗口全屏浏览看板 ↗</a>
 </p>
+
+<iframe src="/dashboards/amd_acquisitions_chessboard.html" width="100%" height="960px" frameborder="0" style="border-radius: 8px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"></iframe>
 
 ---
 

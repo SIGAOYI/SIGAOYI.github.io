@@ -25,11 +25,11 @@ tags:
 
 为了直观呈现美光的量价背离、业务部门矩阵、现金流对决以及 2026-2031 全球晶圆厂投产路线图，我们制作了如下交互式可视化看板：
 
-<iframe src="/micron-2026-q4-earnings-analysis.html" width="100%" height="960px" frameborder="0" style="border-radius: 8px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"></iframe>
-
 <p align="center" style="margin-top: 15px;">
   <a href="/micron-2026-q4-earnings-analysis.html" target="_blank" class="btn btn-default">在新窗口全屏浏览看板 ↗</a>
 </p>
+
+<iframe src="/micron-2026-q4-earnings-analysis.html" width="100%" height="960px" frameborder="0" style="border-radius: 8px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"></iframe>
 
 ---
 
