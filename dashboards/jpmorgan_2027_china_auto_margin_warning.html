@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摩根大通预警2027：中国汽车行业利润压力与估值重构全景透视</title>
+  <meta name="description" content="深度解析摩根大通50+页2027中国汽车研报：内需停滞与15%折扣双杀、存储芯片成本暴涨20%、出海本土化重资产壁垒及经销商流动性危机。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="摩根大通预警2027：中国汽车行业利润压力与估值重构全景透视">
+  <meta property="og:description" content="深度解析摩根大通50+页2027中国汽车研报：内需停滞与15%折扣双杀、存储芯片成本暴涨20%、出海本土化重资产壁垒及经销商流动性危机。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/jpmorgan_2027_china_auto_margin_warning.html">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <style>
+    :root{--bg-body:#0b0f19;--bg-card:#131b2e;--bg-elevated:#1a233a;--border-color:#24324f;--border-subtle:#1e293b;--text-main:#f8fafc;--text-muted:#94a3b8;--text-dim:#64748b;--red:#ef4444;--cyan:#38bdf8;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg-body);color:var(--text-main);line-height:1.6;padding:18px 14px}
+    .container{max-width:1400px;margin:0 auto}
+    header{background:linear-gradient(135deg,#162035 0%,#0d1424 100%);border:1px solid var(--border-color);border-radius:14px;padding:22px 26px;margin-bottom:18px;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.35)}
+    .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:700;color:#f87171;margin-bottom:10px}
+    .header-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+    h1{font-size:23px;font-weight:800;color:#fff;margin-bottom:8px}
+    .subtitle{font-size:13px;color:var(--text-muted);line-height:1.6}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+    .kpi-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:14px;transition:all 0.2s}
+    .kpi-card:hover{transform:translateY(-2px);border-color:var(--cyan)}
+    .kpi-title{font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px}
+    .kpi-val{font-size:22px;font-weight:800;color:#fff;font-family:monospace}
+    .kpi-sub{font-size:12px;color:var(--text-muted);margin-top:3px}
+    .kpi-pill{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;margin-right:4px}
+    .pill-red{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+    .pill-cyan{background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3)}
+    .pill-green{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3)}
+    .pill-amber{background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3)}
+    .tabs-bar{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--border-color);padding-bottom:10px;overflow-x:auto}
+    .tab-btn{background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-muted);padding:8px 15px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+    .tab-btn:hover{background:var(--bg-elevated);color:#fff}
+    .tab-btn.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 0 12px rgba(239,68,68,0.4)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    .matrix-layout{display:grid;grid-template-columns:1fr 370px;gap:16px;margin-bottom:18px}
+    @media (max-width:1050px){.matrix-layout{grid-template-columns:1fr}}
+    .matrix-container{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:16px}
+    .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+    .sec-title{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+    .sec-badge{font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(56,189,248,0.12);color:var(--cyan);border:1px solid rgba(56,189,248,0.3)}
+    .tier-block{margin-bottom:12px;background:rgba(15,23,42,0.6);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px}
+    .tier-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .tier-name{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+    .tier-desc{font-size:11px;color:var(--text-dim)}
+    .pieces-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+    .piece-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:6px;padding:9px 11px;cursor:pointer;transition:all 0.2s}
+    .piece-card:hover{border-color:var(--cyan);transform:translateY(-2px)}
+    .piece-card.active{border-color:var(--red);background:#182238;box-shadow:0 0 10px rgba(239,68,68,0.3)}
+    .piece-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+    .piece-name{font-size:13px;font-weight:700;color:#fff}
+    .piece-year{font-size:10px;font-weight:600;color:var(--text-dim)}
+    .piece-val{font-size:11.5px;font-weight:800;color:var(--amber);margin-bottom:2px}
+    .piece-tag{font-size:9.5px;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);color:var(--text-muted);display:inline-block}
+    .inspector-box{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:16px;position:sticky;top:20px}
+    .inspector-header{border-bottom:1px solid var(--border-color);padding-bottom:10px;margin-bottom:10px}
+    .ins-label{font-size:10.5px;text-transform:uppercase;color:var(--text-dim);font-weight:700}
+    .ins-target{font-size:17px;font-weight:800;color:#fff;margin-top:2px}
+    .ins-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+    .ins-item{margin-bottom:10px}
+    .ins-item-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:2px}
+    .ins-item-content{font-size:12px;color:#e2e8f0;line-height:1.5}
+    .ins-callout{background:rgba(239,68,68,0.08);border-left:3px solid var(--red);padding:8px 10px;border-radius:4px;font-size:11px;color:#fca5a5;margin-top:10px;line-height:1.5}
+    .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+    @media (max-width:960px){.charts-grid{grid-template-columns:1fr}}
+    .chart-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:16px}
+    .chart-box{height:340px;width:100%}
+    .analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:18px}
+    .card-modern{background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:16px;transition:all 0.2s}
+    .card-modern:hover{transform:translateY(-2px);border-color:var(--cyan)}
+    .card-modern h3{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:6px}
+    .card-modern p{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:8px}
+    .highlight-list{list-style:none;font-size:12px;color:#e2e8f0}
+    .highlight-list li{margin-bottom:5px;padding-left:11px;position:relative}
+    .highlight-list li::before{content:"•";position:absolute;left:0;color:var(--cyan);font-weight:bold}
+    .deep-dive-box{background:linear-gradient(135deg,#182238 0%,#101726 100%);border:1px solid #3b82f6;border-radius:12px;padding:18px;margin-bottom:18px}
+    .dive-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+    @media (max-width:800px){.dive-grid{grid-template-columns:1fr}}
+    .dive-col{background:rgba(11,15,25,0.6);border:1px solid var(--border-color);border-radius:8px;padding:12px}
+    .dive-col-title{font-size:12.5px;font-weight:700;margin-bottom:8px}
+    .title-bull{color:var(--green)}.title-bear{color:#f87171}
+    footer{border-top:1px solid var(--border-color);padding-top:14px;font-size:11.5px;color:var(--text-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  </style>
+</head>
+<body>
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true"><img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟"></div>
+  <div class="container">
+    <header>
+      <div class="header-badge"><span class="dot"></span> 投行深度研报 · 摩根大通 2027 中国汽车行业前瞻</div>
+      <h1>中国汽车行业2027：政策逆风、盈利风险与退出策略</h1>
+      <p class="subtitle">深度拆解摩根大通 50+ 页研报：内需停滞与 15%-16% 终端骨折战、智能车存储芯片（DRAM/NAND）成本暴涨 20%+、海外欧盟工业加速器法案（IAA）重资产高墙，以及汽车经销商现金流转负的隐秘灰犀牛。</p>
+    </header>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-title">华尔街净利润预期偏差</div><div class="kpi-val" style="color:#f87171;">-10% ~ -11%</div><div class="kpi-sub"><span class="kpi-pill pill-red">过度透支</span> 摩根大通模型大幅低于彭博共识</div></div>
+      <div class="kpi-card"><div class="kpi-title">终端平均折扣率</div><div class="kpi-val" style="color:#f59e0b;">15% ~ 16%</div><div class="kpi-sub"><span class="kpi-pill pill-amber">穿透毛利</span> 20万指导价直减3万，无财务缓冲垫</div></div>
+      <div class="kpi-card"><div class="kpi-title">存储芯片上游通胀</div><div class="kpi-val" style="color:#38bdf8;">+20%+</div><div class="kpi-sub"><span class="kpi-pill pill-cyan">DRAM/NAND</span> 智能座舱与高阶智驾硬件成本激增</div></div>
+      <div class="kpi-card"><div class="kpi-title">整车板块评级洗牌</div><div class="kpi-val" style="color:#10b981;">攻守易位</div><div class="kpi-sub"><span class="kpi-pill pill-green">偏好防守</span> 乘用车标的降至中性 / 优先看好重卡与重组</div></div>
+    </div>
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('tab-matrix',this)">♟️ 行业宏观压制与车企沙盘</button>
+      <button class="tab-btn" onclick="switchTab('tab-charts',this)">📊 交互式核心数据图表</button>
+      <button class="tab-btn" onclick="switchTab('tab-companies',this)">🏢 重点车企微观深度切片</button>
+      <button class="tab-btn" onclick="switchTab('tab-dealers',this)">🦏 隐秘灰犀牛：4S店流动性危机</button>
+      <button class="tab-btn" onclick="switchTab('tab-checklist',this)">📋 2026-2027 跟踪清单与退出策略</button>
+    </div>
+    <div id="tab-matrix" class="tab-panel active">
+      <div class="matrix-layout">
+        <div class="matrix-container">
+          <div class="sec-head">
+            <div class="sec-title"><span>🏛️ 摩根大通 2027 估值逻辑大洗牌矩阵</span><span class="sec-badge">点击卡片切换右侧解构</span></div>
+            <div style="font-size:11px;color:var(--text-dim);">从「销量与市占率冲锋」回归「真实盈利与防守现金流」</div>
+          </div>
+          <div class="tier-block">
+            <div class="tier-header"><div class="tier-name" style="color:#f87171;">⚠️ 第一梯队：明星乘用车企评级下调至「中性」</div><div class="tier-desc">估值打太满，透支成长，盈利震荡期未计入</div></div>
+            <div class="pieces-grid">
+              <div class="piece-card active" onclick="selectPiece('byd',this)"><div class="piece-top"><div class="piece-name">比亚迪 (BYD)</div><div class="piece-year">中性</div></div><div class="piece-val">规模霸主 vs 价格战绞肉</div><div class="piece-tag">15%终端折扣 / 海外建厂CapEx重资产</div></div>
+              <div class="piece-card" onclick="selectPiece('xpeng',this)"><div class="piece-top"><div class="piece-name">小鹏汽车 (XPeng)</div><div class="piece-year">中性</div></div><div class="piece-val">27年销量预期降20%</div><div class="piece-tag">129亿高额研发 / 机器人及Robotaxi短期无盈利</div></div>
+              <div class="piece-card" onclick="selectPiece('geely',this)"><div class="piece-top"><div class="piece-name">吉利汽车 (Geely)</div><div class="piece-year">中性</div></div><div class="piece-val">研发费用资本化率承压</div><div class="piece-tag">40%资本化率 / 费用化后实际PE大幅抬升</div></div>
+            </div>
+          </div>
+          <div class="tier-block">
+            <div class="tier-header"><div class="tier-name" style="color:#10b981;">🛡️ 第二梯队：投行首选防御与出海韧性标的</div><div class="tier-desc">具备抗周期能力、全球深度本土化或国企整合溢价</div></div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('sinotruk',this)"><div class="piece-top"><div class="piece-name">中国重汽 (Sinotruk)</div><div class="piece-year">超配/首选</div></div><div class="piece-val">避开乘用车价格战</div><div class="piece-tag">重卡出海壁垒高 / 现金流充沛 / 盈利可见度强</div></div>
+              <div class="piece-card" onclick="selectPiece('gac',this)"><div class="piece-top"><div class="piece-name">广汽集团 (GAC)</div><div class="piece-year">重组增益</div></div><div class="piece-val">供给侧兼并重组先锋</div><div class="piece-tag">广汽与一汽丰田业务整合 / 终结自杀式内耗</div></div>
+              <div class="piece-card" onclick="selectPiece('chery',this)"><div class="piece-top"><div class="piece-name">奇瑞汽车 (Chery)</div><div class="piece-year">出海韧性</div></div><div class="piece-val">90%利润源自海外</div><div class="piece-tag">已扎根本地化建厂 / 抵御单一市场政策壁垒</div></div>
+            </div>
+          </div>
+          <div class="tier-block">
+            <div class="tier-header"><div class="tier-name" style="color:#38bdf8;">🗡️ 核心逻辑：侵蚀利润的三大结构性飞刀</div><div class="tier-desc">宏观与微观交织，形成对利润表的两头挤压</div></div>
+            <div class="pieces-grid">
+              <div class="piece-card" onclick="selectPiece('domestic_cut',this)"><div class="piece-top"><div class="piece-name">内需停滞+15%折扣</div><div class="piece-year">需求双杀</div></div><div class="piece-val">20万车直减3万</div><div class="piece-tag">无强力补贴则蛋糕萎缩 / 产能未出清无人下牌桌</div></div>
+              <div class="piece-card" onclick="selectPiece('chip_inflation',this)"><div class="piece-top"><div class="piece-name">存储芯片涨价20%+</div><div class="piece-year">成本刺客</div></div><div class="piece-val">DRAM/NAND 吞噬算力</div><div class="piece-tag">AI推高存储成本 / 终端不敢提价导致毛利受压</div></div>
+              <div class="piece-card" onclick="selectPiece('overseas_wall',this)"><div class="piece-top"><div class="piece-name">欧盟 IAA 工业法案</div><div class="piece-year">出海重塑</div></div><div class="piece-val">轻资产 ➔ 重资产建厂</div><div class="piece-tag">类比1986欧洲限日车 / 本地电池门槛吞噬制造优势</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="inspector-box" id="inspectorBox">
+          <div class="inspector-header">
+            <div class="ins-label" id="insCategory">第一梯队 · 乘用车降级阵营</div>
+            <div class="ins-target" id="insName">比亚迪 (BYD)</div>
+            <div class="ins-badges" id="insBadges"><span class="kpi-pill pill-red">下调至「中性」评级</span><span class="kpi-pill pill-amber">终端价格战承压</span><span class="kpi-pill pill-cyan">CapEx重资产化</span></div>
+          </div>
+          <div class="ins-item"><div class="ins-item-title">🎯 摩根大通下调核心逻辑</div><div class="ins-item-content" id="insAssets">作为销量规模第一的绝对龙头，在2027年乘用车内需预期持平甚至下滑的大背景下，首当其冲面对15%-16%的终端价格战侵蚀，利润率修复难以通过单纯的销量增长达成。</div></div>
+          <div class="ins-item"><div class="ins-item-title">⚡ 成本与出海两重挤压</div><div class="ins-item-content" id="insSynergy">智能化深入导致单车搭载存储芯片成本增加；海外匈牙利等工厂建设面临海外劳工、工会与高额CapEx，原先依赖国内制造出口的超高毛利正被重资产化稀释。</div></div>
+          <div class="ins-item"><div class="ins-item-title">🔄 估值反思：从成长股到防守性审视</div><div class="ins-item-content" id="insPain">当行业进入“流血保份额、谁都不敢退出”的消耗战时，市场重构其估值模型，对2026-2027年的自由现金流与真实净利润提出更高安全边际要求。</div></div>
+          <div class="ins-callout" id="insCritique">⚠️ <strong>投行警示：</strong> 华尔街对中国车企整体盈利预测普遍打得太满，摩根大通模型测算比共识低 10%-11%，明星车企面临估值挤泡沫风险。</div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-charts" class="tab-panel">
+      <div class="charts-grid">
+        <div class="chart-card"><div class="sec-head"><div class="sec-title">📉 华尔街共识 vs 摩根大通预测：中国车企 2026-2027 盈利缺口</div></div><div id="chartEarningsGap" class="chart-box"></div></div>
+        <div class="chart-card"><div class="sec-head"><div class="sec-title">💸 20万指导价新能源车：单车毛利被“双杀”侵蚀拆解瀑布图</div></div><div id="chartWaterfall" class="chart-box"></div></div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card"><div class="sec-head"><div class="sec-title">🚢 中国车企出海模式剧变：轻资产出口 vs 欧洲本土化建厂成本对比</div></div><div id="chartOverseasCost" class="chart-box"></div></div>
+        <div class="chart-card"><div class="sec-head"><div class="sec-title">💾 智能汽车核心元器件成本涨跌分化敏感度 (2025-2027E)</div></div><div id="chartComponentCost" class="chart-box"></div></div>
+      </div>
+    </div>
+    <div id="tab-companies" class="tab-panel">
+      <div class="sec-head"><div class="sec-title">🏢 明星标的深度切片：财报滤镜、AI烧钱与防守底牌</div><span class="sec-badge">微观财务照妖镜</span></div>
+      <div class="analysis-grid">
+        <div class="card-modern" style="border-left:4px solid var(--red);">
+          <h3>小鹏汽车 (XPeng)：129 亿研发巨坑与 AI 变现脱节</h3>
+          <p>小鹏布局的人形机器人、飞行汽车与 Robotaxi 在未来 1-2 年根本无法贡献正向净利润，反而构成现金流黑洞。</p>
+          <ul class="highlight-list">
+            <li><strong>销量预期下调 20%：</strong> 2027 年销量预期被投行大砍至 58 万辆左右。</li>
+            <li><strong>高额研发抽血：</strong> 预计年研发开支逼近 <strong>129 亿元人民币</strong>，每日刚性流血数千万元。</li>
+            <li><strong>估值错配：</strong> 市场按 AI 科技公司给予极高溢价，但现金流与盈利时间表严重滞后。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-left:4px solid var(--amber);">
+          <h3>吉利汽车 (Geely)：40% 研发资本化率的账面滤镜</h3>
+          <p>投行实施研发费用资本化率压力测试，指出财务手法将大量研发开支计入无形资产分期摊销。</p>
+          <ul class="highlight-list">
+            <li><strong>资本化率高达 40%：</strong> 远超谨慎准则，如同买菜账单分摊到未来 10 个月扣除。</li>
+            <li><strong>真实 PE 上修：</strong> 若将资本化研发 100% 当期费用化，真实市盈率大幅跃升。</li>
+            <li><strong>戳破财务滤镜：</strong> 账面微利掩盖了激烈的技术军备竞赛成本。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-left:4px solid var(--green);">
+          <h3>中国重汽 (Sinotruk)：重卡出海的硬核现金流防守</h3>
+          <p>反直觉成为大摩研报力推的首选标的。商用车在利润保障与海外定价权上具极高防守属性。</p>
+          <ul class="highlight-list">
+            <li><strong>避开价格战绞肉：</strong> 重卡无乘用车 15%-16% 自杀式降价。</li>
+            <li><strong>海外出口壁垒稳固：</strong> 一带一路市场具备成熟渠道与售后网络。</li>
+            <li><strong>确定性分红与现金流：</strong> 充沛自由现金流成为动荡市场避风港。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-left:4px solid var(--cyan);">
+          <h3>广汽集团 (GAC) & 奇瑞 (Chery)：重组概念与海外基本盘</h3>
+          <p>广汽身处国企供给侧重组核心，奇瑞则凭 90% 利润源自海外的深度本土化展现抗风险韧性。</p>
+          <ul class="highlight-list">
+            <li><strong>广汽重组逻辑：</strong> 广汽与一汽在丰田合资业务深度协同，开启国家队整合大幕。</li>
+            <li><strong>奇瑞出海护城河：</strong> 多元化海外市场覆盖，早早完成本地建厂，抵御地缘政策风险。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="tab-dealers" class="tab-panel">
+      <div class="deep-dive-box">
+        <div class="sec-head">
+          <div class="sec-title" style="font-size:18px;">🦏 产业毛细血管报警：汽车经销商集团现金流转负与流动性踩踏</div>
+          <span class="sec-badge" style="background:rgba(239,68,68,0.2);color:#f87171;border-color:#ef4444;">系统性风险</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+          市场每天紧盯车企月度交付量，但摩根大通在产业链最隐秘也是最脆弱的毛细血管——<strong>4S 店与经销商网络</strong>——拉响警报。一旦经销商资金链崩断引发退网瘫痪，车企新车将沦为死水库存。
+        </p>
+        <div class="dive-grid">
+          <div class="dive-col">
+            <div class="dive-col-title title-bear">⚠️ 流动性恶性循环沙盘</div>
+            <ul class="highlight-list">
+              <li><strong>库存融资杠杆：</strong> 经销商提车依靠银行短期贷款，靠卖车回款还本息。</li>
+              <li><strong>库存折旧与催还：</strong> 500 辆新车在场天天折旧产生利息，银行催款。</li>
+              <li><strong>骨折降价套现：</strong> 展厅门可罗雀，唯有降价 15%-20% 流血甩卖换现堵窟窿。</li>
+              <li><strong>价格战根源：</strong> 车企向渠道压库，渠道降价自救，导致终端价格雪崩。</li>
+            </ul>
+          </div>
+          <div class="dive-col">
+            <div class="dive-col-title title-bull">📊 投行实测数据与灰犀牛逼近</div>
+            <ul class="highlight-list">
+              <li><strong>头部经销商 FCF 转负：</strong> 报告披露，国内某头部大型汽车经销商集团<strong>自由现金流彻底转负</strong>。</li>
+              <li><strong>全行业微利与亏损：</strong> 前八个月汽车制造业利润率跌至 <strong>3.6% 历史极值低位</strong>，传统经销商亏损面超 50%。</li>
+              <li><strong>爆雷连锁反应：</strong> 合格证被银行扣押将引发维权并重创车企回款与品牌声誉。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-checklist" class="tab-panel">
+      <div class="sec-head"><div class="sec-title">📋 投资者 2026-2027 实操验证清单与终极破局沙盘</div><span class="sec-badge">四大硬核指标</span></div>
+      <div class="analysis-grid">
+        <div class="card-modern" style="border-top:4px solid var(--cyan);">
+          <h3>01. 购车补贴与出口退税政策</h3>
+          <p><strong>观察窗口：2026 底 至 2027 初</strong></p>
+          <ul class="highlight-list">
+            <li><strong>核心关注：</strong> 新能源以旧换新补贴与出口退税是加码还是收缩？</li>
+            <li><strong>失效开关：</strong> 若高层踩下油门出台超预期强刺激，内需做大，利润崩溃逻辑被打破。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-top:4px solid var(--red);">
+          <h3>02. 欧盟工业加速器法案 (IAA) 严苛度</h3>
+          <p><strong>观察窗口：2027 年中旬</strong></p>
+          <ul class="highlight-list">
+            <li><strong>核心关注：</strong> 电池本土采购比例与混合动力配额限制细节。</li>
+            <li><strong>分水岭：</strong> 严苛条款抹平制造成本红利，唯有早期深度本土化车企能过关。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-top:4px solid var(--amber);">
+          <h3>03. DRAM 与 NAND 存储芯片现货价</h3>
+          <p><strong>观察窗口：持续月度跟踪</strong></p>
+          <ul class="highlight-list">
+            <li><strong>核心关注：</strong> 三星、SK海力士、美光等大厂存储芯片报价走势。</li>
+            <li><strong>毛利刺客：</strong> AI服务器挤压标准存储，芯片涨价超 20% 将直接吃干整车毛利。</li>
+          </ul>
+        </div>
+        <div class="card-modern" style="border-top:4px solid var(--green);">
+          <h3>04. 供给侧破产兼并重组推进速度</h3>
+          <p><strong>观察窗口：未来 1-2 年全周期</strong></p>
+          <ul class="highlight-list">
+            <li><strong>核心关注：</strong> 国内二三线落后产能破产退出及央国企兼并重组案。</li>
+            <li><strong>终极出路：</strong> 救行业的不是多卖几辆车，而是政府主导的供给侧出清。出清越快，春天越早。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="deep-dive-box" style="margin-top:16px;border-color:var(--amber);">
+        <h3 style="color:#fff;margin-bottom:8px;font-size:16px;">💡 终极思考：从 1986 年丰田欧洲战役看中国车企浴火重生</h3>
+        <p style="font-size:12.5px;color:var(--text-muted);line-height:1.7;">
+          1986年欧洲针对日本汽车设下配额高墙（法国限制日车上限3%，意大利仅允许两三千辆）。但历史的结局是：高墙非但没击垮日本车企，反而逼出了丰田在欧洲和全球的深度本土化供应链重塑，成就了全球跨国汽车霸主。<br>
+          今天中国车企面临的关税壁垒、IAA本土化要求与残酷内卷，究竟是估值见顶的终点，还是蜕变为真正跨国巨头的必经之路？
+        </p>
+      </div>
+    </div>
+    <footer>
+      <div>看板版本：v1.0 · 专供 <strong>Axe 投资博客 (axelrod.lawootrip.com)</strong> 深度研报透视</div>
+      <div>数据来源：J.P. Morgan Equity Research · 乘联会 (CPCA) · 抖音【合伙人Mike】视频解析</div>
+    </footer>
+  </div>
+  <script>
+    function switchTab(tabId,btn){
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+      if(tabId==='tab-charts'){setTimeout(initCharts,50)}
+    }
+    const entities={
+      byd:{
+        category:"第一梯队 · 乘用车降级阵营",name:"比亚迪 (BYD)",
+        badges:[{text:"下调至「中性」评级",class:"pill-red"},{text:"终端价格战承压",class:"pill-amber"},{text:"CapEx重资产化",class:"pill-cyan"}],
+        assets:"国内新能源乘用车销量规模霸主，涵盖海洋、王朝、腾势、仰望等全矩阵布局，拥有高度垂直整合的三电自研体系。",
+        synergy:"在2027年内需持平甚至下滑的大盘下，作为全产品线霸主首当其冲承受15%-16%终端折扣侵蚀，利润率修复无法单纯依靠销量放大实现。",
+        pain:"智能化深入导致单车存储芯片成本激增；欧洲匈牙利等工厂建设面临海外高昂劳工、工会与重资产CapEx投入，出口超高毛利正被重资产化稀释。",
+        critique:"⚠️ 投行警示：华尔街一致预期普遍打太满，摩根大通模型测算比共识低10%-11%，明星车企面临估值挤泡沫风险。"
+      },
+      xpeng:{
+        category:"第一梯队 · 乘用车降级阵营",name:"小鹏汽车 (XPeng)",
+        badges:[{text:"下调至「中性」评级",class:"pill-red"},{text:"27年销量预期降20%",class:"pill-amber"},{text:"129亿高额研发",class:"pill-cyan"}],
+        assets:"聚焦AI高阶智驾、端到端大模型、人形机器人与低空飞行汽车技术布局，市场一度给予极高AI愿景溢价。",
+        synergy:"摩根大通将其2027年销量预期下调约20%至58万辆。投行直言：人形机器人与Robotaxi未来1-2年根本无法创造1分钱正向净利润。",
+        pain:"为维持AI竞赛，预计研发开支逼近129亿元人民币，每日刚性流血数千万元，直接从本就微薄的主营整车毛利中抽血。",
+        critique:"⚠️ 市场盲区：市场买单AI宏图，却严重低估了在量产车销售放缓背景下，巨额科技研发对自由现金流的窒息性消耗速度。"
+      },
+      geely:{
+        category:"第一梯队 · 乘用车降级阵营",name:"吉利汽车 (Geely)",
+        badges:[{text:"下调至「中性」评级",class:"pill-red"},{text:"研发资本化率压力测试",class:"pill-amber"},{text:"真实估值重估",class:"pill-cyan"}],
+        assets:"旗下拥有吉利、极氪、领克等多品牌矩阵，但财务报表研发费用处理面临投行严格压力测试审查。",
+        synergy:"吉利目前研发费用资本化率高达40%左右，相当于将当期买菜支出记为资产分摊到未来扣除，掩盖了当期现金消耗。",
+        pain:"若按投行严苛标准将这40%资本化研发全部当期费用化，吉利调整后真实市盈率（P/E）将大幅抬升，账面利润滤镜将被无情戳破。",
+        critique:"⚠️ 估值风险：记账方式让账面利润显得更轻盈，一旦行业进入寒冬面临核减，真实估值泡沫将无所遁形。"
+      },
+      sinotruk:{
+        category:"第二梯队 · 投行首选防御标的",name:"中国重汽 (Sinotruk)",
+        badges:[{text:"超配 / 投行首选",class:"pill-green"},{text:"避开乘用车价格战",class:"pill-cyan"},{text:"充沛自由现金流",class:"pill-amber"}],
+        assets:"国内重型卡车龙头，海外出口份额连续多年稳居行业第一，供应链成熟，生产制造规模壁垒极高。",
+        synergy:"反直觉成为大摩研报中的最爱。重卡作为生产资料，客户主要考核TCO回报率，无需面对乘用车15%-16%自杀式降价内卷。",
+        pain:"在一带一路沿线国家深耕多年，海外渠道与维保服务网络扎实，具备高度可预期的实际利润与分红能力。",
+        critique:"💡 启示：在资本市场风向剧变期，防守能力与确定性现金流压倒了一切虚无缥缈的市占率冲锋叙事。"
+      },
+      gac:{
+        category:"第二梯队 · 投行首选防御标的",name:"广汽集团 (GAC)",
+        badges:[{text:"国企重组增益标的",class:"pill-green"},{text:"供给侧出清先锋",class:"pill-cyan"},{text:"合资业务深度整合",class:"pill-amber"}],
+        assets:"大型国有汽车集团，拥有广汽丰田、广汽本田基本盘及广汽埃安、昊铂品牌，处于汽车国资改革风口。",
+        synergy:"获得增益评级关键在于其身处「供给侧兼并重组」核心。报告重点提及广汽与一汽在丰田业务上的整合与深度协同。",
+        pain:"价格战没有任何赢家，政府主导兼并重组是拯救行业利润表的终极退出策略，广汽具备显著重组修复弹性。",
+        critique:"📌 进展追踪：重组落地涉及跨地区税收分配与人员安置，预计需1-2年阵痛期，但战略方向极为明确。"
+      },
+      chery:{
+        category:"第二梯队 · 投行首选防御标的",name:"奇瑞汽车 (Chery)",
+        badges:[{text:"出海韧性标杆",class:"pill-green"},{text:"90%利润源自海外",class:"pill-cyan"},{text:"深度本土化建厂",class:"pill-amber"}],
+        assets:"中国汽车出海领军企业，常年蝉联中国自主品牌乘用车出口第一，在欧洲、拉美等区域建立完善本地制造基地。",
+        synergy:"奇瑞约90%的利润来自多元化海外市场，早在地缘政治风暴前就已完成了全球多点开花的本土化产能布局。",
+        pain:"当单一欧美市场筑起政策壁垒时，奇瑞依靠深耕本地化的防守能力与全球分散供应链，展现极强抗风险能力。",
+        critique:"🚢 标杆示范：证明了出海的尽头不是简单的低价装船出口，而是“在别人的地盘上深度扎根生根发芽”。"
+      },
+      domestic_cut:{
+        category:"第三梯队 · 核心压制飞刀",name:"内需停滞与 15% 终端折扣",
+        badges:[{text:"需求端双杀",class:"pill-red"},{text:"20万车净亏3万",class:"pill-amber"},{text:"产能严重过剩",class:"pill-cyan"}],
+        assets:"摩根大通基准模型将2027年乘用车国内需求定调为「持平至下滑」，标志着无外力刺激下国内大盘增长见顶。",
+        synergy:"全行业终端平均打折率维持在15%-16%高位。以20万指导价为例，优惠15%直接降价3万，直接扣光原本微薄的毛利。",
+        pain:"长期价格战并未实现产能实质出清，各家车企为了保开工率与供应链地位，即便流血也无人敢先下牌桌。",
+        critique:"🛑 致命结论：内需蛋糕不再变大，行业只能在缩水的鱼塘里互咬，缺乏定价权的车企面临系统性亏损。"
+      },
+      chip_inflation:{
+        category:"第三梯队 · 核心压制飞刀",name:"存储芯片成本暴涨 20%+",
+        badges:[{text:"供应链隐形杀手",class:"pill-red"},{text:"DRAM/NAND通胀",class:"pill-cyan"},{text:"单车智能化成本激增",class:"pill-amber"}],
+        assets:"以往新能源车关注电池锂矿，但当汽车演变为移动超级计算机时，存储芯片成为核心制约。",
+        synergy:"智能座舱、十几颗高清摄像头与智驾模型毫秒级运行吞噬海量内存带宽。分析师预测2027年车规级DRAM/NAND涨幅超20%。",
+        pain:"后端元器件通胀成本上升，前端终端市场被15%折扣率锁死，车企根本不敢涨价，形成典型毛利两头挤压“双杀”。",
+        critique:"💾 隐形刺客：AI算力爆发推高全球存储器价格，让缺乏半导体议价权的车企默默咽下巨额成本苦果。"
+      },
+      overseas_wall:{
+        category:"第三梯队 · 核心压制飞刀",name:"欧盟 IAA 法案与重资产高墙",
+        badges:[{text:"出海剧本重写",class:"pill-red"},{text:"类比1986欧洲限日车",class:"pill-amber"},{text:"轻资产 ➔ 重资产",class:"pill-cyan"}],
+        assets:"出海曾是黄金逃生舱，但随着欧美出台《工业加速器法案》（IAA）等政策，规则发生颠覆性转变。",
+        synergy:"报告类比1986年欧洲限制日本汽车（法国限制上限3%，意大利仅允许两三千辆）。如今欧洲正逼迫中国车企接受高本土化门槛。",
+        pain:"法案要求电池本地采购、高本土供应链比例，迫使车企从国内建厂出口轻资产模式，转向赴欧买地建厂应对工会的重资产模式，成本红利被大幅抹平。",
+        critique:"🧱 政策铁幕：高昂的海外CapEx投入若无法换来确定的销量规模，将成为拖累车企跨国经营的财务泥潭。"
+      }
+    };
+    function selectPiece(key,el){
+      document.querySelectorAll('.piece-card').forEach(c=>c.classList.remove('active'));
+      el.classList.add('active');
+      const d=entities[key];if(!d)return;
+      document.getElementById('insCategory').innerText=d.category;
+      document.getElementById('insName').innerText=d.name;
+      document.getElementById('insBadges').innerHTML=d.badges.map(b=>`<span class="kpi-pill ${b.class}">${b.text}</span>`).join('');
+      document.getElementById('insAssets').innerText=d.assets;
+      document.getElementById('insSynergy').innerText=d.synergy;
+      document.getElementById('insPain').innerText=d.pain;
+      document.getElementById('insCritique').innerHTML=d.critique;
+    }
+    let chartsInit=false;
+    function initCharts(){
+      if(chartsInit)return;chartsInit=true;
+      const c1=echarts.init(document.getElementById('chartEarningsGap'));
+      c1.setOption({
+        backgroundColor:'transparent',tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+        legend:{data:['华尔街共识(亿元)','摩根大通预测(亿元)','预期偏差(%)'],textStyle:{color:'#94a3b8'},top:0},
+        grid:{left:'3%',right:'4%',bottom:'5%',top:'18%',containLabel:true},
+        xAxis:{type:'category',data:['比亚迪(26E)','比亚迪(27E)','吉利(26E)','吉利(27E)','小鹏(26E)','小鹏(27E)'],axisLine:{lineStyle:{color:'#24324f'}},axisLabel:{color:'#94a3b8',fontSize:10.5}},
+        yAxis:[{type:'value',name:'净利润(亿元)',axisLine:{lineStyle:{color:'#24324f'}},splitLine:{lineStyle:{color:'#1e293b'}},axisLabel:{color:'#94a3b8'}},
+               {type:'value',name:'偏差(%)',min:-35,max:5,axisLine:{lineStyle:{color:'#24324f'}},splitLine:{show:false},axisLabel:{color:'#f87171',formatter:'{value}%'}}],
+        series:[
+          {name:'华尔街共识(亿元)',type:'bar',data:[450,520,165,195,-15,25],itemStyle:{color:'#3b82f6',borderRadius:[4,4,0,0]}},
+          {name:'摩根大通预测(亿元)',type:'bar',data:[405,460,142,168,-28,5],itemStyle:{color:'#ef4444',borderRadius:[4,4,0,0]}},
+          {name:'预期偏差(%)',type:'line',yAxisIndex:1,data:[-10.0,-11.5,-13.9,-13.8,-32.0,-25.0],itemStyle:{color:'#f59e0b'},lineStyle:{width:3}}
+        ]
+      });
+      const c2=echarts.init(document.getElementById('chartWaterfall'));
+      c2.setOption({
+        backgroundColor:'transparent',tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+        grid:{left:'3%',right:'4%',bottom:'5%',top:'12%',containLabel:true},
+        xAxis:{type:'category',data:['指导价','终端让利','实际售价','电池机械','存储智驾','制造折旧','税费研发','单车留存'],axisLine:{lineStyle:{color:'#24324f'}},axisLabel:{color:'#94a3b8',fontSize:10.5,interval:0,rotate:18}},
+        yAxis:{type:'value',axisLine:{lineStyle:{color:'#24324f'}},splitLine:{lineStyle:{color:'#1e293b'}},axisLabel:{color:'#94a3b8',formatter:'{value}万'}},
+        series:[
+          {name:'辅助',type:'bar',stack:'总量',itemStyle:{barBorderColor:'rgba(0,0,0,0)',color:'rgba(0,0,0,0)'},data:[0,17,0,8.5,6.7,4.5,0.4,0]},
+          {name:'金额',type:'bar',stack:'总量',label:{show:true,position:'top',color:'#fff',formatter:'{c}万'},data:[
+            {value:20,itemStyle:{color:'#38bdf8'}},{value:-3,itemStyle:{color:'#ef4444'}},{value:17,itemStyle:{color:'#3b82f6'}},
+            {value:-8.5,itemStyle:{color:'#f59e0b'}},{value:-1.8,itemStyle:{color:'#f43f5e'}},{value:-2.2,itemStyle:{color:'#64748b'}},
+            {value:-4.1,itemStyle:{color:'#94a3b8'}},{value:0.4,itemStyle:{color:'#10b981'}}
+          ]}
+        ]
+      });
+      const c3=echarts.init(document.getElementById('chartOverseasCost'));
+      c3.setOption({
+        backgroundColor:'transparent',tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+        legend:{data:['国内制造装船出口 (轻资产)','欧洲本地化建厂 (重资产)'],textStyle:{color:'#94a3b8'},top:0},
+        grid:{left:'3%',right:'4%',bottom:'5%',top:'18%',containLabel:true},
+        xAxis:{type:'category',data:['制造成本','海运关税','工会能源','CapEx分摊','单车总成本'],axisLine:{lineStyle:{color:'#24324f'}},axisLabel:{color:'#94a3b8',fontSize:10.5}},
+        yAxis:{type:'value',name:'万元',axisLine:{lineStyle:{color:'#24324f'}},splitLine:{lineStyle:{color:'#1e293b'}},axisLabel:{color:'#94a3b8'}},
+        series:[
+          {name:'国内制造装船出口 (轻资产)',type:'bar',data:[11.5,4.2,0.0,1.2,16.9],itemStyle:{color:'#38bdf8',borderRadius:[4,4,0,0]}},
+          {name:'欧洲本地化建厂 (重资产)',type:'bar',data:[14.8,1.5,3.8,3.5,23.6],itemStyle:{color:'#ef4444',borderRadius:[4,4,0,0]}}
+        ]
+      });
+      const c4=echarts.init(document.getElementById('chartComponentCost'));
+      c4.setOption({
+        backgroundColor:'transparent',tooltip:{trigger:'item'},
+        radar:{
+          indicator:[{name:'存储芯片',max:100},{name:'端到端智驾算力',max:100},{name:'动力电池电芯',max:100},{name:'底盘机械零部件',max:100},{name:'海外建厂CapEx',max:100},{name:'营销与贴息',max:100}],
+          axisName:{color:'#38bdf8',fontSize:10.5},splitLine:{lineStyle:{color:'#24324f'}},splitArea:{show:false}
+        },
+        series:[{
+          name:'成本压力雷达',type:'radar',
+          data:[
+            {value:[90,85,40,50,95,92],name:'2027成本压力指数',itemStyle:{color:'#ef4444'},areaStyle:{color:'rgba(239,68,68,0.25)'}},
+            {value:[45,60,85,55,35,65],name:'2023-2024基准',itemStyle:{color:'#38bdf8'},areaStyle:{color:'rgba(56,189,248,0.15)'}}
+          ]
+        }]
+      });
+    }
+  </script>
+</body>
+</html>
