@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenAI 进化史：商业帝国崛起的鱼骨全景图 (2015-2026)</title>
+  
+  <!-- WeChat & Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OpenAI 进化史：商业帝国崛起的鱼骨全景图 (2015-2026)">
+  <meta property="og:description" content="以 AGI 演进为主脊梁，贯穿高管血泪洗牌与资本估值三级跳，全息解构从非营利乌托邦到 1570 亿美元商业帝国的权力与资本博弈。">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/openai_evolution_fishbone_timeline.html">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/home-bg.jpg">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ECharts 5 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#080d1a',
+              card: '#0f172a',
+              cardBorder: '#1e293b',
+              accent: '#38bdf8',
+              pers: '#c084fc',
+              fund: '#34d399',
+              news: '#fbbf24',
+              main: '#60a5fa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #070b14;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Fishbone Timeline Styles */
+    .fishbone-container {
+      position: relative;
+      min-width: 3200px;
+      padding: 120px 40px;
+    }
+
+    .main-spine {
+      position: absolute;
+      top: 50%;
+      left: 60px;
+      right: 80px;
+      height: 6px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #34d399, #38bdf8);
+      border-radius: 3px;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    .spine-arrow {
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-left: 24px solid #38bdf8;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
+      z-index: 11;
+    }
+
+    .rib-line-up {
+      position: absolute;
+      bottom: 50%;
+      width: 2px;
+      background: linear-gradient(to top, rgba(192, 132, 252, 0.9), rgba(192, 132, 252, 0.2));
+      transform-origin: bottom center;
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+
+    .rib-line-down {
+      position: absolute;
+      top: 50%;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(52, 211, 153, 0.9), rgba(52, 211, 153, 0.2));
+      transform-origin: top center;
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+
+    .node-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+    }
+    .node-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.6), 0 0 18px rgba(56, 189, 248, 0.3);
+      z-index: 30;
+    }
+
+    .node-active {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.6) !important;
+    }
+
+    /* Glow dots on spine */
+    .spine-node-dot {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 3px solid #38bdf8;
+      box-shadow: 0 0 12px #38bdf8;
+      z-index: 15;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .spine-node-dot:hover {
+      transform: translate(-50%, -50%) scale(1.35);
+      background: #38bdf8;
+    }
+
+    .epoch-marker {
+      position: absolute;
+      top: 20px;
+      transform: translateX(-50%);
+      padding: 4px 14px;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid #334155;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      z-index: 8;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Hidden WeChat 300x300 share thumbnail -->
+  <img src="https://axelrod.lawootrip.com/img/home-bg.jpg" style="position:absolute; width:300px; height:300px; overflow:hidden; display:block; opacity:0; pointer-events:none; left:-9999px; top:-9999px;" alt="share" />
+
+  <!-- Main Container -->
+  <div class="max-w-[1700px] mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+    
+    <!-- Top Nav & Title Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-full text-xs font-semibold tracking-wider uppercase flex items-center gap-1.5">
+              <i data-lucide="git-merge" class="w-3.5 h-3.5"></i> 鱼骨时间轴全息看板
+            </span>
+            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-medium">
+              2015 ➔ 2026 纪事
+            </span>
+            <span class="text-xs text-slate-400 flex items-center gap-1">
+              <i data-lucide="video" class="w-3.5 h-3.5 text-red-400"></i> 解读原出处：硅谷101
+            </span>
+          </div>
+          
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <span>OpenAI 进化史：商业帝国崛起的鱼骨全景图</span>
+          </h1>
+          
+          <p class="text-slate-400 text-sm sm:text-base max-w-4xl leading-relaxed">
+            以 <span class="text-blue-400 font-semibold">AGI 演进与大模型发布为主脊梁</span>，以 <span class="text-purple-400 font-semibold">高管人事血泪洗牌</span> 与 <span class="text-emerald-400 font-semibold">融资估值三级跳</span> 为骨刺分支，穿透还原从 2015 年 501(c)(3) 非营利纯粹理想主义，蜕变为 2026 年估值超 1570 亿美元超级商业帝国的权力与资本博弈。
+          </p>
+        </div>
+
+        <div class="flex flex-wrap lg:flex-nowrap gap-3 items-center">
+          <a href="https://youtu.be/mEnhPDCttBs?si=IV1dH9obgaaapS9j" target="_blank" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 flex items-center gap-2 transition">
+            <i data-lucide="external-link" class="w-4 h-4 text-red-400"></i> 原视频：硅谷101 深度回顾
+          </a>
+          <button onclick="window.scrollTo({top: document.getElementById('fishbone-sec').offsetTop - 30, behavior: 'smooth'})" class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white rounded-lg text-xs font-semibold shadow-lg shadow-cyan-500/25 flex items-center gap-2 transition">
+            <i data-lucide="compass" class="w-4 h-4"></i> 探查鱼骨时间轴
+          </button>
+        </div>
+      </div>
+
+      <!-- Top KPI Quick Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-8 pt-6 border-t border-slate-800">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5">
+          <div class="text-slate-400 text-xs flex items-center justify-between">
+            <span>最新投后估值</span>
+            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white mt-1">$1,570 亿</div>
+          <div class="text-xs text-emerald-400 mt-0.5">2024.10 破全球创投记录</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5">
+          <div class="text-slate-400 text-xs flex items-center justify-between">
+            <span>累计实融金额</span>
+            <i data-lucide="dollar-sign" class="w-3.5 h-3.5 text-cyan-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white mt-1">$179+ 亿</div>
+          <div class="text-xs text-cyan-400 mt-0.5">含微软$130亿+2024轮$66亿</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5">
+          <div class="text-slate-400 text-xs flex items-center justify-between">
+            <span>初创11人留存率</span>
+            <i data-lucide="user-x" class="w-3.5 h-3.5 text-rose-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white mt-1">18.2% <span class="text-xs font-normal text-slate-400">(2/11)</span></div>
+          <div class="text-xs text-rose-400 mt-0.5">仅剩 Altman 与 Zaremba</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5">
+          <div class="text-slate-400 text-xs flex items-center justify-between">
+            <span>治理架构迭代</span>
+            <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white mt-1">3 代蜕变</div>
+          <div class="text-xs text-purple-400 mt-0.5">非营利 ➔ 封顶LP ➔ 营利PBC</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 col-span-2 sm:col-span-1">
+          <div class="text-slate-400 text-xs flex items-center justify-between">
+            <span>基座算力跃迁</span>
+            <i data-lucide="cpu" class="w-3.5 h-3.5 text-amber-400"></i>
+          </div>
+          <div class="text-xl sm:text-2xl font-black text-white mt-1">100,000x+</div>
+          <div class="text-xs text-amber-400 mt-0.5">从Dota单卡到Stargate 5GW</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Interactive Control Toolbar -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sticky top-3 z-40 backdrop-blur-md shadow-xl flex flex-wrap items-center justify-between gap-4">
+      <!-- Dimension filter tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-xs text-slate-400 font-semibold mr-1 flex items-center gap-1">
+          <i data-lucide="filter" class="w-3.5 h-3.5"></i> 维度筛选:
+        </span>
+        <button onclick="setDimensionFilter('all')" id="btn-dim-all" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition">
+          全部鱼骨视图
+        </button>
+        <button onclick="setDimensionFilter('main')" id="btn-dim-main" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-blue-300 hover:bg-slate-700 border border-slate-700 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-blue-400"></span> ⚡ AGI主线演进
+        </button>
+        <button onclick="setDimensionFilter('personnel')" id="btn-dim-personnel" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-purple-300 hover:bg-slate-700 border border-slate-700 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-purple-400"></span> 👥 人事变动分支
+        </button>
+        <button onclick="setDimensionFilter('funding')" id="btn-dim-funding" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-emerald-300 hover:bg-slate-700 border border-slate-700 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 💰 融资估值分支
+        </button>
+        <button onclick="setDimensionFilter('news')" id="btn-dim-news" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-amber-300 hover:bg-slate-700 border border-slate-700 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span> 📰 节点大事件新闻
+        </button>
+      </div>
+
+      <!-- Quick Search & Epoch Jumper -->
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="relative flex-1 sm:w-64">
+          <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="searchInput" oninput="handleSearch()" placeholder="搜索事件、人物(马斯克/Ilya/纳德拉/o1)..." class="w-full pl-9 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
+        </div>
+        <button onclick="resetViews()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs text-slate-300 transition" title="重置视图">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1: The Interactive Fishbone Diagram -->
+    <section id="fishbone-sec" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-800">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="git-branch" class="w-5 h-5 text-cyan-400"></i>
+            <span>全息鱼骨时间轴交互图（可横向拖拽滚动或点击节点）</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">
+            上方骨刺映射【高管权力更迭】，中央主脊椎承载【核心技术破晓】，下方骨刺下沉【资本融资与估值跨越】。
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="flex items-center gap-1 text-purple-400"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 上侧: 人事震荡</span>
+          <span class="flex items-center gap-1 text-blue-400"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 中脊: 主线里程碑</span>
+          <span class="flex items-center gap-1 text-emerald-400"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 下侧: 资本融资</span>
+          <span class="flex items-center gap-1 text-amber-400"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 徽章: 历史新闻</span>
+        </div>
+      </div>
+
+      <!-- Epoch Quick Nav Buttons -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 text-xs">
+        <span class="text-slate-500 whitespace-nowrap">纪元跳转:</span>
+        <button onclick="scrollToEpoch('2015-2017')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2015-2017 理想乌托邦</button>
+        <button onclick="scrollToEpoch('2018-2019')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2018-2019 决裂与商业破土</button>
+        <button onclick="scrollToEpoch('2020-2021')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2020-2021 ScalingLaw与分流</button>
+        <button onclick="scrollToEpoch('2022-2023')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2022-2023 ChatGPT与宫斗</button>
+        <button onclick="scrollToEpoch('2024')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2024 离散与$157B巨轮</button>
+        <button onclick="scrollToEpoch('2025-2026')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 whitespace-nowrap">2025-2026 算力帝国与终局</button>
+      </div>
+
+      <!-- Horizontal Scrollable Fishbone Area -->
+      <div id="timelineScrollWrapper" class="overflow-x-auto relative rounded-xl border border-slate-800/80 bg-slate-950/60 p-4 shadow-inner" style="cursor: grab;">
+        <div id="fishboneContainer" class="fishbone-container">
+          <!-- The Glowing Spine Line -->
+          <div class="main-spine"></div>
+          <div class="spine-arrow"></div>
+
+          <!-- Dynamic SVG connector overlay for diagonal rib bones -->
+          <svg id="boneSvg" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+
+          <!-- Dynamic Nodes will be rendered here by JS -->
+          <div id="nodesLayer" class="relative z-20 w-full h-full"></div>
+        </div>
+      </div>
+      <div class="text-right text-[11px] text-slate-500 mt-2">
+        💡 提示：按住鼠标可左右拖动时间轴，点击任意卡片可在右侧查看幕后推演与深度细节。
+      </div>
+    </section>
+
+    <!-- Section 2: Dual Analytical Charts (ECharts) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Chart 1: Valuation vs Cumulative Funding -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="line-chart" class="w-4 h-4 text-emerald-400"></i>
+              <span>OpenAI 估值飙升与融资注入历程 (2015-2026)</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">从天使认缴到全球创投史最大一笔 66 亿美元单轮融资</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md">单位: 亿美元</span>
+        </div>
+        <div id="valuationChart" style="width: 100%; height: 350px;"></div>
+      </div>
+
+      <!-- Chart 2: Founders Retention vs Team Headcount -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="users" class="w-4 h-4 text-purple-400"></i>
+              <span>初创11人离散阶梯 vs 商业化人员规模扩张</span>
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5">理想主义学者离散与产业工程师军团涌入的戏剧性交锋</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-md">单位: 人</span>
+        </div>
+        <div id="retentionChart" style="width: 100%; height: 350px;"></div>
+      </div>
+    </div>
+
+    <!-- Section 3: Deep Review & Structural Matrix -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+      <div class="border-b border-slate-800 pb-4">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-cyan-400"></i>
+          <span>OpenAI 权力与资本博弈：历史深度推演复盘</span>
+        </h2>
+        <p class="text-sm text-slate-400 mt-1">
+          基于视频出处《【深度】OpenAI成长史：顶级资本的冲突与科技大佬们的理想主义》与 2015-2026 全息史实精炼
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-950/60 border border-slate-800 p-5 rounded-xl space-y-3">
+          <div class="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            <span>1. 理想主义的原罪与算力高墙</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            OpenAI 创立伊始立志做“拯救全人类于 AGI 垄断”的学术圣殿。但 Transformer 与 Scaling Law 确立后，暴力美学带来了每小时数万乃至数百万美元的 GPU 能源黑洞。单纯靠富豪慈善捐赠不仅难以为继，而且随着马斯克因夺权未遂愤而决裂，OpenAI 被迫在“饿死”与“商业化”之间做出生死抉择。
+          </p>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 p-5 rounded-xl space-y-3">
+          <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
+            <i data-lucide="swords" class="w-4 h-4"></i>
+            <span>2. 安全派的大溃败与权力商人化</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            从 2021 年 Dario 兄妹带队出走创办 Anthropic，到 2023 年 11 月 Ilya 联合董事会发动五日流产政变，再到 2024 年 9 月 Mira Murati 与研究高管集体辞职，OpenAI 完成了从“顶级科学家主导”向“Sam Altman 商业铁腕独裁”的彻底演变。安全与对齐团队的边缘化，标志着硅谷古典学术乌托邦的终结。
+          </p>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 p-5 rounded-xl space-y-3">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+            <i data-lucide="landmark" class="w-4 h-4"></i>
+            <span>3. 微软与 1570 亿的资本对赌终局</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            纳德拉力排比尔·盖茨的怀疑促成 10 亿美元联盟，为微软抢得下个世代算力船票。而 2024 年 10 月 66 亿美元融资附带了极具法律杀伤力的对赌：两年内必须彻底取消非营利限制、转为营利性公司（PBC），否则投资人有权赎回。OpenAI 已经被推上必须用巨额 ARR 和公开 IPO 回报全球顶级资本的不可逆列车。
+          </p>
+        </div>
+      </div>
+
+      <!-- Filterable Full Milestone Table -->
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i data-lucide="table" class="w-4 h-4 text-cyan-400"></i>
+            <span>全生命周期 25 大里程碑纵横对比全表</span>
+          </h3>
+          <span class="text-xs text-slate-500">点击表头快速查看事件全景</span>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-800">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">时间 / 纪元</th>
+                <th class="py-3 px-4">分类分支</th>
+                <th class="py-3 px-4">事件标题</th>
+                <th class="py-3 px-4">核心博弈与内幕摘要</th>
+                <th class="py-3 px-4">关键人物</th>
+                <th class="py-3 px-4 text-right">操作</th>
+              </tr>
+            </thead>
+            <tbody id="milestoneTableBody" class="divide-y divide-slate-800/60 bg-slate-900/50">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-500 space-y-2 border-t border-slate-800">
+      <p>OpenAI Evolution Fishbone Timeline · Interactive Blog Post Dashboard</p>
+      <p>参考来源：硅谷101《【深度】OpenAI成长史：顶级资本的冲突与科技大佬们的理想主义》及公开投融资报道与监管文件</p>
+      <p class="text-[11px] text-slate-600">Produced for Axelrod's Blog · 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- Detail Inspection Drawer (Slide-over Modal) -->
+  <div id="inspectorDrawer" class="fixed inset-y-0 right-0 max-w-lg w-full bg-slate-900/95 border-l border-slate-800 shadow-2xl backdrop-blur-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 overflow-y-auto flex flex-col justify-between">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-2" id="drawerBadgeContainer">
+          <span id="drawerBadge" class="px-2.5 py-1 bg-cyan-500/20 text-cyan-300 rounded text-xs font-semibold">标签</span>
+          <span id="drawerEpoch" class="text-xs text-slate-400 font-mono">2015-2017</span>
+        </div>
+        <button onclick="closeDrawer()" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <div class="text-xs font-mono text-cyan-400" id="drawerDate">2015-12-11</div>
+        <h3 class="text-xl font-bold text-white leading-snug" id="drawerTitle">事件标题</h3>
+        <p class="text-xs text-slate-400 leading-relaxed" id="drawerSummary">事件简要说明</p>
+      </div>
+
+      <div class="bg-slate-950/80 rounded-xl p-4 border border-slate-800/80 space-y-3">
+        <div class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+          <i data-lucide="file-text" class="w-4 h-4 text-cyan-400"></i>
+          <span>深度内幕与推演</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed" id="drawerDetails">
+          详细内容在此处呈现。
+        </p>
+      </div>
+
+      <div class="bg-slate-950/60 rounded-xl p-4 border border-slate-800/60 space-y-2" id="drawerQuoteBox">
+        <div class="text-xs font-semibold text-amber-400 flex items-center gap-1.5">
+          <i data-lucide="quote" class="w-3.5 h-3.5"></i>
+          <span>历史名言 / 关键引言</span>
+        </div>
+        <blockquote class="text-xs italic text-slate-300" id="drawerQuote"></blockquote>
+      </div>
+
+      <div class="space-y-2">
+        <div class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>核心博弈人物</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5" id="drawerFigures"></div>
+      </div>
+
+      <div class="bg-blue-950/20 border border-blue-900/40 rounded-xl p-3.5 space-y-1">
+        <div class="text-xs font-semibold text-blue-400 flex items-center gap-1">
+          <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+          <span>蝴蝶效应与深远影响</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed" id="drawerImpact"></p>
+      </div>
+    </div>
+
+    <div class="pt-6 border-t border-slate-800 mt-6 flex justify-end">
+      <button onclick="closeDrawer()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg transition">
+        关闭详情
+      </button>
+    </div>
+  </div>
+
+  <!-- Background Dim Overlay when Drawer Open -->
+  <div id="drawerOverlay" onclick="closeDrawer()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity"></div>
+
+  <!-- Embedded Data & Scripts -->
+  <script>
+    const eventsData = [{"id": "e1-main", "epoch": "2015-2017", "epochName": "理想主义创立期", "date": "2015-12-11", "branch": "main", "title": "OpenAI 宣布成立：非营利理想主义启航", "summary": "旨在构建造福全人类的安全 AGI，以 501(c)(3) 非营利组织形式注册，向谷歌垄断宣战。", "badge": "组织成立", "details": "面对谷歌收购 DeepMind 带来的 AGI 垄断担忧，Sam Altman、Elon Musk、Greg Brockman、Ilya Sutskever 等在旧金山正式宣布成立 OpenAI。确立了开源、非营利、研究成果与专利完全公享的愿景，旨在防止人工智能被单一商业寡头私有化。", "quote": "“我们的目标是促进和发展友好的人工智能，使全人类受益，而不是为股东赚取利润。” —— OpenAI 成立宣言 (2015)", "keyFigures": ["Sam Altman", "Elon Musk", "Ilya Sutskever", "Greg Brockman"], "impact": "确立了全球学术界对 OpenAI 的顶级技术信誉，吸引了全球最顶尖的深度学习年轻学者加入。"}, {"id": "e1-fund", "epoch": "2015-2017", "epochName": "理想主义创立期", "date": "2015-12-11", "branch": "funding", "title": "认缴 10 亿美元启动资金（口头承诺陷阱）", "summary": "马斯克、彼得·蒂尔、里德·霍夫曼等联合承诺捐赠 10 亿美元，但实到资金仅约 1.3 亿。", "badge": "天使承诺", "details": "尽管新闻通稿宣称获得 10 亿美元资本支持，但这笔款项是多年期非营利认缴制。马斯克在前期提供了数千万美元运营现金与推特办公场地支持，但随着算力消耗急剧扩大，单纯依靠慈善捐赠的资金池迅速枯竭。", "quote": "“实际上我们只收到了大约 1.3 亿美元的捐赠，其中绝大部分来自马斯克。” —— Sam Altman 后来在播客中坦言", "keyFigures": ["Elon Musk", "Peter Thiel", "Reid Hoffman"], "impact": "为日后 OpenAI 资金见底、与马斯克决裂并被迫改组为商业公司埋下了根本伏笔。"}, {"id": "e1-pers", "epoch": "2015-2017", "epochName": "理想主义创立期", "date": "2016-01-01", "branch": "personnel", "title": "全明星全神仙创始阵容集结", "summary": "Altman 与马斯克任联席主席，Greg 任 CTO，Ilya 任研究总监，共计 11 位初创成员。", "badge": "创始团队", "details": "初创 11 人名单：Sam Altman、Elon Musk、Greg Brockman（前 Stripe CTO）、Ilya Sutskever（Hinton关门弟子、AlexNet作者）、Wojciech Zaremba、John Schulman、Andrej Karpathy、Trevor Blackwell、Vicki Cheung、Durk Kingma、Pamela Vagata。团队放弃了谷歌和科技巨头的数百万美金天价年薪，仅领取普通非营利薪资。", "quote": "“我为了把 Ilya 从谷歌挖过来，给埃隆打了无数通电话，并开出了我们能给的最高非营利薪水。” —— Sam Altman", "keyFigures": ["Ilya Sutskever", "Greg Brockman", "Andrej Karpathy", "John Schulman"], "impact": "奠定了 OpenAI 最早期的神经网络与强化学习学术基因。"}, {"id": "e1-news", "epoch": "2015-2017", "epochName": "理想主义创立期", "date": "2017-08-11", "branch": "news", "title": "Dota 2 Bot 击败世界冠军，强化学习威震全球", "summary": "OpenAI 训练的 AI 在 The International (TI7) 1v1 比赛中击败顶级人类选手 Dendi。", "badge": "重大突破", "details": "OpenAI 选择以复杂竞技游戏为演练场，通过大规模自我对弈（Self-Play）在短短两周内实现了超越顶尖人类职业选手的战术理解。这标志着强化学习在大规模模拟环境中的巨大潜能，也坚定了团队坚信‘算力与规模决定一切’的信念。", "quote": "“这个机器人真的太可怕了，它完全看穿了我的每一个微小走位。” —— Dendi", "keyFigures": ["Greg Brockman", "Jakub Pachocki"], "impact": "证明了大规模并行算力在复杂策略博弈中的决定性优势，但也让团队首次感受到每小时数万美元 GPU 云账单的恐怖压力。"}, {"id": "e2-pers", "epoch": "2018-2019", "epochName": "决裂与商业转型", "date": "2018-02-20", "branch": "personnel", "title": "马斯克逼宫夺权未遂，愤而决裂撤资", "summary": "马斯克认为 OpenAI 严重落后于谷歌，要求全面接管被拒，退出董事会并切断资金。", "badge": "高层分裂", "details": "2018年初，马斯克向 Sam Altman 与董事会提出将 OpenAI 彻底并入特斯拉，由特斯拉提供算力与汽车业务补贴，自己兼任一把手。Sam Altman 与 Ilya Sutskever 联合拒绝了这一方案。马斯克随后宣布退出董事会，撤回了剩余的数亿美元出资承诺，切断了推特数据接口，并从 OpenAI 挖走 Andrej Karpathy 出任特斯拉 Autopilot 负责人。", "quote": "“埃隆认为我们成功的概率为零，他想接管，我们说了‘不’，于是他拂袖而去。” —— Greg Brockman", "keyFigures": ["Elon Musk", "Sam Altman", "Ilya Sutskever"], "impact": "将 OpenAI 逼入生死存亡的财务深渊，直接促使 Sam Altman 放弃理想主义、踏上商业化不归路。"}, {"id": "e2-main", "epoch": "2018-2019", "epochName": "决裂与商业转型", "date": "2018-06-11", "branch": "main", "title": "无监督预训练破晓：GPT-1 低调诞生", "summary": "Alec Radford 等人发表论文，首次将 Transformer 架构用于生成式自回归预训练。", "badge": "技术奠基", "details": "在业界普遍痴迷于特定任务监督学习之时，研究员 Alec Radford 等人坚信通过海量未标注文本的‘预测下一个词’能够涌现出通用语言理解能力。GPT-1 参数仅 1.17 亿，但在多项 NLP 基准上超越了复杂的专用模型，为后续 Scaling Law 路线指明了灯塔。", "quote": "“无监督预训练就像暗物质，它是通往真正通用认知架构的核心引擎。” —— Alec Radford", "keyFigures": ["Alec Radford", "Karthik Narasimhan", "Tim Salimans", "Ilya Sutskever"], "impact": "开启了 GPT 系列的辉煌征程，确立了生成式预训练的主航道。"}, {"id": "e2-fund", "epoch": "2018-2019", "epochName": "决裂与商业转型", "date": "2019-03-01", "branch": "funding", "title": "成立 OpenAI LP：独创“利润上限（Capped-Profit）”", "summary": "设立营利性子公司以吸引数十亿美元风险投资，第一轮回报上限设定为 100 倍。", "badge": "架构重组", "details": "为了解决每年上亿美元的算力开销，OpenAI 创造性设计了一种混合型治理架构：保留原 501(c)(3) 非营利董事会作为最高权力决策层，下设 OpenAI LP 营利性有限合伙企业。投资人和员工收益设定回报上限（第一批投资者上限为本金的 100 倍），超额利润全部回流非营利母公司用于 AGI 安全事业。", "quote": "“如果我们成功实现 AGI，它创造的财富将是数以万亿美元计的，没有任何单一私人实体应该全部占有它。” —— Sam Altman", "keyFigures": ["Sam Altman", "Greg Brockman"], "impact": "打破了非营利组织的融资天花板，为吸纳科技巨头的巨额资本打开了制度闸门。"}, {"id": "e2-news", "epoch": "2018-2019", "epochName": "决裂与商业转型", "date": "2019-07-22", "branch": "news", "title": "纳德拉力排众议：微软 10 亿美元独家深度注资", "summary": "微软 CEO Satya Nadella 无视比尔·盖茨等元老的质疑，10 亿美元绑定 Azure 独家算力。", "badge": "巨头结盟", "details": "微软 CEO 萨提亚·纳德拉敏锐嗅到了大模型范式对云计算产业的重构潜力，果断拍板 10 亿美元战略投资，成为 OpenAI 的独家云计算伙伴。作为回报，微软获得 OpenAI 技术的商业化优先授权，双方联合在 Azure 上构建全球最大的专用 AI 超级计算机集群。", "quote": "“这是一场关于下个十年计算平台的豪赌，微软必须站在最前线。” —— Satya Nadella", "keyFigures": ["Satya Nadella", "Bill Gates", "Sam Altman", "Kevin Scott"], "impact": "解决了 OpenAI 极其致命的算力饥渴，将 OpenAI 与微软深度捆绑为坚固的攻守同盟。"}, {"id": "e3-main", "epoch": "2020-2021", "epochName": "范式确立与安全分歧", "date": "2020-05-28", "branch": "main", "title": "暴力美学巅峰：1750 亿参数 GPT-3 震撼业界", "summary": "模型参数狂飙 100 倍，Few-shot In-context Learning 涌现能力征服全球开发者。", "badge": "奇点涌现", "details": "GPT-3 将模型参数从 GPT-2 的 15 亿一举拉升到 1750 亿。其展现出不需要微调即可写代码、作诗、翻译和逻辑推理的通用‘涌现’特性，验证了由 Jared Kaplan 和 Ilya Sutskever 总结的‘计算量、数据量与参数规模缩放定律（Scaling Law）’的绝对正确性。", "quote": "“规模就是一切。只要你敢堆算力和高质量数据，智能就会源源不断地涌现出来。” —— Ilya Sutskever", "keyFigures": ["Ilya Sutskever", "Dario Amodei", "Tom Brown"], "impact": "彻底终结了学术界对小模型手工调参的幻想，确立了全球大模型暴力美学的主流军备竞赛路线。"}, {"id": "e3-pers", "epoch": "2020-2021", "epochName": "范式确立与安全分歧", "date": "2021-01-15", "branch": "personnel", "title": "安全派大出走：Dario 兄妹带队创立 Anthropic", "summary": "原研究副总裁 Dario Amodei 担忧商业化失控，带领核心团队出走创办 Claude 母公司。", "badge": "阵营分裂", "details": "因不满 Sam Altman 接受微软商业化条款后急躁的产品变现节奏以及在模型安全测试上的妥协，OpenAI 核心技术掌门人 Dario Amodei 及其妹 Daniela Amodei 率领 GPT-3 核心贡献者团队（包括 Jared Kaplan、Jack Clark、Tom Brown 等十余位顶尖科学家）集体离职，成立了主打‘宪政 AI（Constitutional AI）’的竞争对手 Anthropic。", "quote": "“我们离开是因为我们认为开发强大的 AGI 必须把可控性与安全机制置于商业变现之前。” —— Dario Amodei", "keyFigures": ["Dario Amodei", "Daniela Amodei", "Jack Clark"], "impact": "直接催生了 OpenAI 日后最强大的宿敌 Anthropic，也令 OpenAI 内部的安全派力量遭到首次大规模失血。"}, {"id": "e3-fund", "epoch": "2020-2021", "epochName": "范式确立与安全分歧", "date": "2021-06-01", "branch": "funding", "title": "老股要约收购：估值攀升至 140 亿美元", "summary": "老虎环球、红杉资本、Bedrock 等老牌顶级风投通过要约受让员工股，估值达 140 亿美元。", "badge": "百亿独角兽", "details": "随着 GPT-3 商业 API 的上线以及 DALL·E 的技术突破，硅谷顶级资本疯狂争抢 OpenAI 的老股份额。老虎环球与红杉资本以 140 亿美元的估值入局，让 OpenAI 早期核心员工实现了财富自由，也极大刺激了其商业变现野心。", "quote": "“OpenAI 已经从一个非营利实验室，实质性演变为硅谷最炙手可热的超级科技商业巨擘。”", "keyFigures": ["Tiger Global", "Sequoia Capital", "Sam Altman"], "impact": "公司资金储备大幅充盈，支持了后续 GPT-4 与 ChatGPT 极为庞大的训练预算。"}, {"id": "e3-news", "epoch": "2020-2021", "epochName": "范式确立与安全分歧", "date": "2021-01-05", "branch": "news", "title": "多模态破局：DALL·E 与 CLIP 同日惊艳登场", "summary": "文本生成高保真图像突破，CLIP 开创视觉-文本对比学习全新范式。", "badge": "多模态起点", "details": "OpenAI 同时发布了 DALL·E（120亿参数文生图模型）和 CLIP。CLIP 通过对比学习将图像和文本映射到同一向量空间，成为日后全球视觉大模型、Stable Diffusion 以及多模态交互的工业基石。", "quote": "“AI 不仅懂文字，它终于开始看懂这个物理世界的视觉表象了。”", "keyFigures": ["Aditya Ramesh", "Alec Radford", "Ilya Sutskever"], "impact": "标志着 OpenAI 从纯粹的语言处理拓展为全模态通用人工智能先锋。"}, {"id": "e4-main", "epoch": "2022-2023", "epochName": "ChatGPT狂飙与五日宫斗", "date": "2022-11-30", "branch": "main", "title": "历史转折点：ChatGPT 悄然发布，引爆全球海啸", "summary": "基于 RLHF 对齐技术的对话机器人上线，5 天百万用户，2 个月突破 1 亿活跃。", "badge": "科技海啸", "details": "Sam Altman 决定将原本作为研究附赠品的对话测试接口上线。得益于 John Schulman 带领的强化学习人类反馈（RLHF）团队的精细调校，ChatGPT 展现出不可思议的自然对话、代码生成与多轮逻辑推理能力。它成为了人类历史上用户增长最快的消费级互联网应用，直接导致谷歌宣布进入‘代码红色（Code Red）’全公司戒备状态。", "quote": "“我们原本以为这只是一个不起眼的研究预览，但它在人类科技史上撕开了一个新纪元。” —— Greg Brockman", "keyFigures": ["John Schulman", "Sam Altman", "Mira Murati", "Liam Fedus"], "impact": "开启了全人类生成式 AI 的商业革命，颠覆了搜索、编程与内容创作产业。"}, {"id": "e4-fund", "epoch": "2022-2023", "epochName": "ChatGPT狂飙与五日宫斗", "date": "2023-01-23", "branch": "funding", "title": "微软追加 100 亿美元超级注资，估值破 290 亿美元", "summary": "分批注入百亿美元现金与算力，深度绑定 Windows、Office 365 与 Azure。", "badge": "百亿注资", "details": "微软宣布对 OpenAI 进行第三阶段的多年度数十亿美元投资（总额达 100 亿美元）。微软将其全面整合进 Copilot，并锁定未来在收回全部投资前的优先利润分成权利。OpenAI 估值跳涨至 290 亿美元，跃升为全球估值第三高的独角兽。", "quote": "“在这场大模型竞争中，微软拥有最好的引擎，而且我们将全速前进。” —— Satya Nadella", "keyFigures": ["Satya Nadella", "Sam Altman", "Amy Hood"], "impact": "锁定了未来 3 年最顶级的 GPU 集群基础设施，奠定了 GPT-4 的算力基石。"}, {"id": "e4-news", "epoch": "2022-2023", "epochName": "ChatGPT狂飙与五日宫斗", "date": "2023-03-14", "branch": "news", "title": "GPT-4 登峰造极；千名科学家签署暂停研发公开信", "summary": "GPT-4 展现前所未有的推理能力；马斯克等人发起呼吁暂停超强大模型研发联名信。", "badge": "全球争议", "details": "GPT-4 展现出接近人类顶尖水平的考试得分与复杂图文理解能力。数天后，未来生命研究所（FLI）联合马斯克、Yoshua Bengio 等 1000 多名学者签署公开信，警告先进 AI 可能对社会和人类生存带来灾难性威胁，呼吁全球暂停训练超越 GPT-4 的系统 6 个月。意大利等国甚至开出禁令罚单。", "quote": "“我们必须问自己：我们是否应该让机器充斥我们的信息渠道？我们是否应该冒失去对文明控制的风险？” —— 千人公开信 (2023)", "keyFigures": ["Elon Musk", "Yoshua Bengio", "Max Tegmark", "Sam Altman"], "impact": "将 OpenAI 与 Sam Altman 推上全球地缘政治与监管听证会的最前沿。"}, {"id": "e4-pers", "epoch": "2022-2023", "epochName": "ChatGPT狂飙与五日宫斗", "date": "2023-11-17", "branch": "personnel", "title": "黑色星期五“五日宫斗”爆发，Altman 遭闪电开除", "summary": "首席科学家 Ilya 联合非营利董事会突然罢黜 Altman，引发硅谷史上最戏剧性反转。", "badge": "高层政变", "details": "2023年11月17日，非营利董事会成员（Ilya Sutskever、Helen Toner、Tasha McCauley、Adam D'Angelo）以‘在沟通中未能保持坦诚、阻碍董事会履行职责’为由突然解除 Sam Altman CEO 职务并驱逐出董事会。Greg Brockman 随后辞任总裁表达抗议。\n然而在接下来的 96 小时内：纳德拉迅速宣布接盘 Altman 成立新团队；OpenAI 全体 770 名员工中有超过 730 人联名签署罢免董事会逼宫信；Ilya 最终公开认错表达悔恨。\n11月22日，Sam Altman 强势回归重掌 CEO，原董事会除 Quora CEO Adam D'Angelo 外全员解散，引入前财长 Larry Summers、Bret Taylor 等华尔街与建制派元老组建新董事会。", "quote": "“我对我参与董事会的行动深表遗憾。我从来没有想过要伤害 OpenAI。我热爱我们一起建立的一切，我将尽一切努力让公司重新团结起来。” —— Ilya Sutskever (2023-11-20)", "keyFigures": ["Sam Altman", "Ilya Sutskever", "Greg Brockman", "Satya Nadella", "Helen Toner", "Larry Summers"], "impact": "理想主义与非营利治理权彻底被商业实用主义与员工资本同盟粉碎，Sam Altman 获得绝对控制权。"}, {"id": "e5-pers1", "epoch": "2024", "epochName": "核心大溃散与超级融资", "date": "2024-05-14", "branch": "personnel", "title": "Ilya 决绝离职，超级对齐安全派全面瓦解", "summary": "Ilya 离职创立 SSI，超级对齐负责人 Jan Leike 愤而投奔 Anthropic 并公开抨击。", "badge": "图腾离散", "details": "宫斗平息半年后，OpenAI 精神图腾与技术之魂 Ilya Sutskever 宣布正式离开 OpenAI，随后在 6 月创办 Safe Superintelligence (SSI)。同日，其搭档 Jan Leike 辞职，公开在 X 平台上怒斥 OpenAI 高层：‘安全文化和安全流程已经让位于光鲜亮丽的商业产品，安全团队的计算资源被严重挤占’。整个 Superalignment（超级对齐）团队被彻底解散。", "quote": "“在过去的几年里，安全文化和流程已经退居次席，让位于抢占市场份额的光鲜产品。” —— Jan Leike", "keyFigures": ["Ilya Sutskever", "Jan Leike", "Sam Altman"], "impact": "标志着 OpenAI 彻底告别学者主导的安全理想主义时代，转向纯粹的工业化商业扩张。"}, {"id": "e5-main", "epoch": "2024", "epochName": "核心大溃散与超级融资", "date": "2024-05-13", "branch": "main", "title": "全模态实时王炸：GPT-4o 与苹果全面结盟", "summary": "实现毫秒级语音-视觉-文本端到端交互；苹果宣布 Siri 深度整合 ChatGPT。", "badge": "工业革命", "details": "OpenAI 发布 GPT-4o（Omni），彻底摒弃传统转写模型，实现多模态原生端到端训练，带来极具拟人化情感与实时打断能力的语音交互。6月，苹果在 WWDC 上宣布将 ChatGPT 深度整合进 iOS 18 与 Apple Intelligence，为全球数亿 iPhone 用户提供原生入口，商业护城河达到前所未有的广度。", "quote": "“GPT-4o 感觉就像电影《Her》中的智能体照进了现实。” —— Sam Altman", "keyFigures": ["Mira Murati", "Mark Chen", "Sam Altman", "Tim Cook"], "impact": "锁定了全球最大的消费级移动终端流量分发入口，极大拉开了与谷歌和开源阵营的产品体验差距。"}, {"id": "e5-news", "epoch": "2024", "epochName": "核心大溃散与超级融资", "date": "2024-09-12", "branch": "news", "title": "慢思考推理新范式：OpenAI o1 (草莓) 正式亮相", "summary": "通过强化学习激发大模型内在思维链（Chain of Thought），开启测试时计算缩放定律。", "badge": "范式跃迁", "details": "OpenAI 正式发布代号 Strawberry 的 o1-preview 模型。与传统 Pre-training 规模缩放不同，o1 证明了在推理时间（Inference/Test-Time）增加思考算力，同样能产生强大的智能阶跃。在国际数学奥林匹克竞赛资格赛中答对 83% 的题目（相比 GPT-4 的 13%），在博士级科学基准与复杂编程中展现碾压级战力。", "quote": "“我们发现了继预训练之后的全新缩放定律（Inference Scaling Law）。” —— Noam Brown, OpenAI 研究员", "keyFigures": ["Noam Brown", "Jakub Pachocki", "Jerry Tworek"], "impact": "终结了‘大模型预训练数据枯竭导致 Scaling Law 见顶’的行业悲观论调，开启了 RL 推理时代。"}, {"id": "e5-pers2", "epoch": "2024", "epochName": "核心大溃散与超级融资", "date": "2024-09-25", "branch": "personnel", "title": "单日三大顶级高管集体辞职，创始班底名存实亡", "summary": "CTO Mira Murati、首席研究官 Bob McGrew、研究副总 Barret Zoph 同日宣布出走。", "badge": "雪崩式离职", "details": "继 8 月联合创始人 John Schulman 出走 Anthropic、Greg Brockman 长期休假后，9月25日，效力 6 年半、主导 ChatGPT 和 GPT-4o 研发落地的 CTO Mira Murati 突然在社交媒体宣布辞职。数小时内，首席研究官 Bob McGrew 与研究副总裁 Barret Zoph 也同步宣布离职。至此，OpenAI 的 11 位创始人中仅剩下 Sam Altman 与 Wojciech Zaremba 两人留任，元老技术派几乎全军覆没。", "quote": "“我离开是为了腾出时间和空间来进行自己的探索。我将永远珍视我们共同创造的一切。” —— Mira Murati", "keyFigures": ["Mira Murati", "Bob McGrew", "Barret Zoph", "John Schulman"], "impact": "引发全球科技界对于 OpenAI 高层控制权过度集中与企业文化全面商人化的空前担忧。"}, {"id": "e5-fund", "epoch": "2024", "epochName": "核心大溃散与超级融资", "date": "2024-10-02", "branch": "funding", "title": "创纪录狂揽 66 亿美元融资，估值飙破 1570 亿美元", "summary": "Thrive 领投，微软、英伟达、软银孙正义参投，附带‘两年内转型营利性公司’对赌条款。", "badge": "超级独角兽", "details": "OpenAI 正式完成全球创投史上规模空前的 66 亿美元巨额融资，投后估值高达 1570 亿美元。Thrive Capital 领投约 13 亿美元，微软追投 7.5 亿美元，英伟达投资 1 亿美元，软银孙正义出资 5 亿美元，阿联酋主权基金 MGX 等参投。融资附带极具法律风险的约束条款：OpenAI 必须在 2 年内完成公司架构重组，彻底取消非营利董事会的利润上限限制并转型为营利性公益公司（PBC），否则投资人有权收回全部投资与利息。", "quote": "“每周有超过 2.5 亿人在使用 ChatGPT。这笔资金将巩固我们在前沿 AGI 研究中的绝对领导地位。” —— OpenAI 官方声明", "keyFigures": ["Sam Altman", "Josh Kushner (Thrive)", "Jensen Huang (NVIDIA)", "Masayoshi Son (SoftBank)"], "impact": "完成了从理想主义非营利研究所到全球顶级资本商业怪兽的终极蜕变，但也迎来了马斯克的诉讼与严峻的法律重组高墙。"}, {"id": "e6-main", "epoch": "2025-2026", "epochName": "算力帝国与资本终局", "date": "2025-06-01", "branch": "main", "title": "o3 慢思考与下一代基座：万亿美金工业垄断", "summary": "推理模型全面融入企业工作流与 Agent 具身智能，全球 ARR 破百亿美元。", "badge": "商业霸权", "details": "随着 o3 和下一代基座模型在数学、物理、科研与复杂法律金融领域的落地，ChatGPT 企业订阅用户突破 1000 万，Fortune 500 企业采购渗透率超过 92%。OpenAI 成为现代软件工业不可替代的底层智力发电厂。", "quote": "“AI 正从一个令人惊奇的对话玩物，演变为人类工业社会运转的全新智力基础设施。”", "keyFigures": ["Sam Altman", "Jakub Pachocki"], "impact": "确立了全球最高 ARR 增速软件巨头的王座地位。"}, {"id": "e6-news", "epoch": "2025-2026", "epochName": "算力帝国与资本终局", "date": "2025-11-15", "branch": "news", "title": "“星际之门（Stargate）”千亿美元超级算力矩阵推进", "summary": "与微软、软银规划 5GW 级核能/清洁能源超算集群，容纳百万张定制 AI 芯片。", "badge": "星际之门", "details": "为了支撑 2026-2028 年超越人类顶尖智能的超大规模训练，OpenAI 与微软正式推进代号 Stargate 的超级算力工程。计划耗资逾 1000 亿美元，横跨多个州建立独立核电站供电设施与定制超低延迟光学网络，直接将国家级能源基建卷入 AGI 军备竞赛。", "quote": "“未来的 AGI 竞赛不再是纯粹的算法之争，而是百万张 GPU、吉瓦级核电与重工业供应链的终极国力对决。”", "keyFigures": ["Sam Altman", "Satya Nadella", "Jensen Huang"], "impact": "将 AI 竞争彻底拉入重资产物理基建时代，形成了极高的寡头进入壁垒。"}, {"id": "e6-pers", "epoch": "2025-2026", "epochName": "算力帝国与资本终局", "date": "2026-03-01", "branch": "personnel", "title": "改制落地：董事会全面华尔街化与军政防务化", "summary": "商业与防务精英全面入主董事会，老一代学术乌托邦治理彻底绝迹。", "badge": "权力终局", "details": "随着营利性公益公司（PBC）方案逐步获批，董事会扩容吸纳了具备深厚美国国安、国防工业与华尔街背景的顶级建制派领袖。非营利监督机构被实质性边缘化，Sam Altman 获得包括数十亿美元潜在股权在内的顶级科技领袖股权激励方案，彻底化身为硅谷当代洛克菲勒。", "quote": "“我们必须在务实与全球现实政治竞争中找到平衡，强大的经济与国家实力是 AGI 繁荣的先决条件。”", "keyFigures": ["Sam Altman", "Bret Taylor", "Larry Summers"], "impact": "完成了权力结构的根本转型，OpenAI 与美国国家科技战略形成了深度绑定。"}, {"id": "e6-fund", "epoch": "2025-2026", "epochName": "算力帝国与资本终局", "date": "2026-09-30", "branch": "funding", "title": "筹备史上最大科技 IPO：二级市场估值破 2200 亿美元", "summary": "高盛、摩根士丹利入场辅导，2027 年赴美上市，估值或剑指 3000 亿美元大关。", "badge": "资本终局", "details": "在完成 1570 亿美元融资后的两年窗口期内，OpenAI 凭借数百亿美元营收飞轮与强大的企业端黏性，在二级私募股权交易市场中的隐含估值突破 2200 亿美元。投资银行顶级财团全面进驻，为人类有史以来估值最高的超级科技 IPO 铺平道路。", "quote": "“这不仅是一家软件公司的上市，这是人类第一次为一个可能诞生通用智能的实体进行公开资本定价。”", "keyFigures": ["Sam Altman", "Goldman Sachs", "Morgan Stanley"], "impact": "标志着全球科技资本盛宴的最高潮，也将面临反垄断与公共利益审查的终极审判。"}];
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFishbone();
+      renderTable();
+      initValuationChart();
+      initRetentionChart();
+      lucide.createIcons();
+      initDragScroll();
+    });
+
+    // Fishbone layout calculation & rendering
+    function renderFishbone() {
+      const container = document.getElementById('nodesLayer');
+      const svg = document.getElementById('boneSvg');
+      container.innerHTML = '';
+      svg.innerHTML = '';
+
+      // Dimensions
+      const totalWidth = 3200;
+      const centerY = 340; // center spine position in container
+      const startX = 140;
+      const endX = 3050;
+      const stepX = (endX - startX) / (eventsData.length - 1);
+
+      // Define epoch regions
+      const epochs = [
+        { name: "2015-2017: 理想主义创立期", startIdx: 0, endIdx: 3 },
+        { name: "2018-2019: 决裂与商业转型", startIdx: 4, endIdx: 7 },
+        { name: "2020-2021: 范式确立与分流", startIdx: 8, endIdx: 11 },
+        { name: "2022-2023: ChatGPT与五日宫斗", startIdx: 12, endIdx: 15 },
+        { name: "2024: 核心大溃散与$157B巨轮", startIdx: 16, endIdx: 20 },
+        { name: "2025-2026: 算力帝国与终局", startIdx: 21, endIdx: 24 }
+      ];
+
+      // Draw epoch label headers
+      epochs.forEach(ep => {
+        const epStartX = startX + ep.startIdx * stepX;
+        const epEndX = startX + ep.endIdx * stepX;
+        const epMidX = (epStartX + epEndX) / 2;
+
+        const epTag = document.createElement('div');
+        epTag.className = 'epoch-marker';
+        epTag.style.left = `${epMidX}px`;
+        epTag.id = `epoch-marker-${ep.name.split(':')[0].trim()}`;
+        epTag.innerHTML = `<span class="text-cyan-400 mr-1.5">●</span>${ep.name}`;
+        container.appendChild(epTag);
+      });
+
+      // Render each event
+      eventsData.forEach((evt, idx) => {
+        const posX = startX + idx * stepX;
+        
+        // Filter match check
+        const matchDim = (currentFilter === 'all') || (evt.branch === currentFilter);
+        const matchSearch = searchQuery === '' || 
+          (evt.title + evt.summary + evt.details + evt.keyFigures.join(' ')).toLowerCase().includes(searchQuery.toLowerCase());
+        const isVisible = matchDim && matchSearch;
+
+        // Spine dot
+        const dot = document.createElement('div');
+        dot.className = `spine-node-dot ${isVisible ? '' : 'opacity-20'}`;
+        dot.style.left = `${posX}px`;
+        dot.style.top = `${centerY}px`;
+        dot.onclick = () => openDrawer(evt.id);
+        container.appendChild(dot);
+
+        // Determine if placed top or bottom
+        // Personnel & News typically go UP, Funding & Main go DOWN, but let's arrange alternatingly to make it balanced
+        const isUp = (evt.branch === 'personnel' || (evt.branch === 'news' && idx % 2 === 0));
+        
+        // Rib bone endpoint
+        const ribLength = isUp ? 210 : 210;
+        const ribEndX = posX + (isUp ? 40 : -40);
+        const ribEndY = isUp ? (centerY - ribLength) : (centerY + ribLength);
+
+        // Branch color
+        let strokeColor = '#38bdf8';
+        let badgeColor = 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+        if (evt.branch === 'personnel') {
+          strokeColor = '#c084fc';
+          badgeColor = 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+        } else if (evt.branch === 'funding') {
+          strokeColor = '#34d399';
+          badgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        } else if (evt.branch === 'news') {
+          strokeColor = '#fbbf24';
+          badgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+        }
+
+        // Draw diagonal rib SVG line
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const d = `M ${posX} ${centerY} L ${ribEndX} ${ribEndY}`;
+        path.setAttribute('d', d);
+        path.setAttribute('stroke', strokeColor);
+        path.setAttribute('stroke-width', isVisible ? '2.5' : '1');
+        path.setAttribute('stroke-opacity', isVisible ? '0.75' : '0.15');
+        path.setAttribute('stroke-dasharray', evt.branch === 'news' ? '4 3' : 'none');
+        svg.appendChild(path);
+
+        // Node card element
+        const card = document.createElement('div');
+        card.id = `card-${evt.id}`;
+        card.className = `node-card absolute p-3.5 rounded-xl border bg-slate-900/90 shadow-xl cursor-pointer w-72 text-left z-20 ${isVisible ? 'border-slate-700/80 hover:border-cyan-400' : 'opacity-20 pointer-events-none'}`;
+        card.style.left = `${ribEndX}px`;
+        card.style.top = isUp ? `${ribEndY - 130}px` : `${ribEndY}px`;
+        card.style.transform = 'translateX(-50%)';
+        card.onclick = () => openDrawer(evt.id);
+
+        let branchIcon = 'zap';
+        let branchLabel = '主干突破';
+        if (evt.branch === 'personnel') { branchIcon = 'user-check'; branchLabel = '人事更迭'; }
+        if (evt.branch === 'funding') { branchIcon = 'dollar-sign'; branchLabel = '资本运作'; }
+        if (evt.branch === 'news') { branchIcon = 'newspaper'; branchLabel = '大事件'; }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-1 mb-1.5">
+            <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${badgeColor}">
+              ${evt.date} · ${evt.badge}
+            </span>
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <i data-lucide="${branchIcon}" class="w-3 h-3 text-cyan-400"></i> ${branchLabel}
+            </span>
+          </div>
+          <h4 class="text-xs font-bold text-white leading-snug line-clamp-2 hover:text-cyan-300 transition">
+            ${evt.title}
+          </h4>
+          <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+            ${evt.summary}
+          </p>
+          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
+            <span class="truncate max-w-[150px]">${evt.keyFigures.slice(0, 2).join(', ')}</span>
+            <span class="text-cyan-400 flex items-center gap-0.5 hover:underline font-medium">详情 ↗</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Table rendering
+    function renderTable() {
+      const tbody = document.getElementById('milestoneTableBody');
+      tbody.innerHTML = '';
+
+      eventsData.forEach(evt => {
+        let tagColor = 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+        let branchName = '⚡ AGI主线';
+        if (evt.branch === 'personnel') { tagColor = 'bg-purple-500/20 text-purple-300 border-purple-500/30'; branchName = '👥 人事变动'; }
+        if (evt.branch === 'funding') { tagColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'; branchName = '💰 融资估值'; }
+        if (evt.branch === 'news') { tagColor = 'bg-amber-500/20 text-amber-300 border-amber-500/30'; branchName = '📰 节点新闻'; }
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/50 transition cursor-pointer';
+        tr.onclick = () => openDrawer(evt.id);
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-mono whitespace-nowrap text-slate-400">
+            <div>${evt.date}</div>
+            <div class="text-[10px] text-slate-500">${evt.epoch}</div>
+          </td>
+          <td class="py-3 px-4 whitespace-nowrap">
+            <span class="px-2 py-0.5 rounded text-[11px] border font-medium ${tagColor}">${branchName}</span>
+          </td>
+          <td class="py-3 px-4 font-semibold text-white max-w-xs">
+            ${evt.title}
+          </td>
+          <td class="py-3 px-4 text-slate-400 max-w-md">
+            ${evt.summary}
+          </td>
+          <td class="py-3 px-4 text-slate-400 whitespace-nowrap">
+            ${evt.keyFigures.join(', ')}
+          </td>
+          <td class="py-3 px-4 text-right whitespace-nowrap">
+            <button class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded border border-slate-700 text-[11px] font-medium transition">
+              深拆
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Drawer management
+    function openDrawer(eventId) {
+      const evt = eventsData.find(e => e.id === eventId);
+      if (!evt) return;
+
+      document.getElementById('drawerTitle').innerText = evt.title;
+      document.getElementById('drawerDate').innerText = evt.date;
+      document.getElementById('drawerEpoch').innerText = evt.epochName + ' (' + evt.epoch + ')';
+      document.getElementById('drawerSummary').innerText = evt.summary;
+      document.getElementById('drawerDetails').innerText = evt.details;
+      document.getElementById('drawerImpact').innerText = evt.impact;
+
+      const quoteBox = document.getElementById('drawerQuoteBox');
+      if (evt.quote) {
+        quoteBox.classList.remove('hidden');
+        document.getElementById('drawerQuote').innerText = evt.quote;
+      } else {
+        quoteBox.classList.add('hidden');
+      }
+
+      // Badge style
+      const badge = document.getElementById('drawerBadge');
+      badge.innerText = evt.badge;
+      badge.className = 'px-2.5 py-1 rounded text-xs font-semibold ' + 
+        (evt.branch === 'personnel' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' :
+         evt.branch === 'funding' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' :
+         evt.branch === 'news' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' :
+         'bg-blue-500/20 text-blue-300 border border-blue-500/40');
+
+      // Figures tags
+      const figuresDiv = document.getElementById('drawerFigures');
+      figuresDiv.innerHTML = '';
+      evt.keyFigures.forEach(f => {
+        const span = document.createElement('span');
+        span.className = 'px-2 py-0.5 bg-slate-800 text-slate-300 rounded text-[11px] border border-slate-700';
+        span.innerText = f;
+        figuresDiv.appendChild(span);
+      });
+
+      // Show drawer
+      document.getElementById('inspectorDrawer').classList.remove('translate-x-full');
+      document.getElementById('drawerOverlay').classList.remove('hidden');
+    }
+
+    function closeDrawer() {
+      document.getElementById('inspectorDrawer').classList.add('translate-x-full');
+      document.getElementById('drawerOverlay').classList.add('hidden');
+    }
+
+    // Filter handlers
+    function setDimensionFilter(dim) {
+      currentFilter = dim;
+      const dims = ['all', 'main', 'personnel', 'funding', 'news'];
+      dims.forEach(d => {
+        const btn = document.getElementById(`btn-dim-${d}`);
+        if (!btn) return;
+        if (d === dim) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition shadow-sm';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition';
+        }
+      });
+      renderFishbone();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.trim();
+      renderFishbone();
+    }
+
+    function resetViews() {
+      currentFilter = 'all';
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      setDimensionFilter('all');
+      document.getElementById('timelineScrollWrapper').scrollTo({left: 0, behavior: 'smooth'});
+    }
+
+    function scrollToEpoch(epochStr) {
+      const idx = eventsData.findIndex(e => e.epoch === epochStr);
+      if (idx !== -1) {
+        const totalWidth = 3200;
+        const startX = 140;
+        const endX = 3050;
+        const stepX = (endX - startX) / (eventsData.length - 1);
+        const targetX = startX + idx * stepX - 100;
+        document.getElementById('timelineScrollWrapper').scrollTo({left: targetX, behavior: 'smooth'});
+      }
+    }
+
+    // Drag-to-scroll implementation
+    function initDragScroll() {
+      const slider = document.getElementById('timelineScrollWrapper');
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.style.cursor = 'grabbing';
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+      });
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+      });
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        slider.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    // ECharts 1: Valuation Curve
+    function initValuationChart() {
+      const chartDom = document.getElementById('valuationChart');
+      const myChart = echarts.init(chartDom, 'dark', { backgroundColor: 'transparent' });
+      
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross', label: { backgroundColor: '#1e293b' } },
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#e2e8f0', fontSize: 12 }
+        },
+        legend: {
+          data: ['估值 ($B)', '单次融资到账 ($B)'],
+          top: 0,
+          textStyle: { color: '#94a3b8' }
+        },
+        grid: { left: '3%', right: '4%', bottom: '8%', top: '15%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: ['2015.12
+创立认缴', '2019.07
+微软初投', '2021.06
+机构要约', '2023.01
+微软百亿', '2024.02
+员工要约', '2024.10
+超级巨轮', '2026.09
+IPO筹备期'],
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 10 }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '估值 ($B)',
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisLabel: { color: '#94a3b8' }
+          },
+          {
+            type: 'value',
+            name: '注资 ($B)',
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { show: false },
+            axisLabel: { color: '#94a3b8' }
+          }
+        ],
+        series: [
+          {
+            name: '估值 ($B)',
+            type: 'line',
+            smooth: true,
+            data: [10, 20, 140, 290, 860, 1570, 2200],
+            lineStyle: { width: 3, color: '#34d399' },
+            itemStyle: { color: '#34d399', borderWidth: 2, borderColor: '#fff' },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(52, 211, 153, 0.4)' },
+                { offset: 1, color: 'rgba(52, 211, 153, 0.0)' }
+              ])
+            }
+          },
+          {
+            name: '单次融资到账 ($B)',
+            type: 'bar',
+            yAxisIndex: 1,
+            barWidth: '35%',
+            data: [1.3, 10, 15, 100, 10, 66, 0],
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: '#38bdf8' },
+                { offset: 1, color: '#0369a1' }
+              ]),
+              borderRadius: [4, 4, 0, 0]
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+
+    // ECharts 2: Founders Retention vs Team Headcount
+    function initRetentionChart() {
+      const chartDom = document.getElementById('retentionChart');
+      const myChart = echarts.init(chartDom, 'dark', { backgroundColor: 'transparent' });
+
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross' },
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#e2e8f0', fontSize: 12 }
+        },
+        legend: {
+          data: ['初创11人在职人数', '全职员工总规模'],
+          top: 0,
+          textStyle: { color: '#94a3b8' }
+        },
+        grid: { left: '3%', right: '4%', bottom: '8%', top: '15%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: ['2015 创立', '2018 马斯克出走', '2021 Dario离散', '2023 宫斗前夕', '2024.05 Ilya出走', '2024.09 CTO等离职', '2026 现状'],
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 10 }
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: '创始人在职',
+            min: 0,
+            max: 12,
+            interval: 2,
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisLabel: { color: '#c084fc' }
+          },
+          {
+            type: 'value',
+            name: '团队总人数',
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { show: false },
+            axisLabel: { color: '#94a3b8' }
+          }
+        ],
+        series: [
+          {
+            name: '初创11人在职人数',
+            type: 'step',
+            step: 'end',
+            data: [11, 10, 8, 6, 4, 2, 2],
+            lineStyle: { width: 3, color: '#c084fc' },
+            itemStyle: { color: '#c084fc' },
+            markPoint: {
+              data: [
+                { name: '马斯克退董', value: 'Musk退', xAxis: 1, yAxis: 10 },
+                { name: 'Ilya创办SSI', value: 'Ilya退', xAxis: 4, yAxis: 4 },
+                { name: 'Murati离任', value: 'Murati退', xAxis: 5, yAxis: 2 }
+              ],
+              itemStyle: { color: '#e11d48' }
+            }
+          },
+          {
+            name: '全职员工总规模',
+            type: 'line',
+            yAxisIndex: 1,
+            smooth: true,
+            data: [15, 60, 220, 770, 1400, 1700, 2500],
+            lineStyle: { width: 2.5, color: '#60a5fa', type: 'dashed' },
+            itemStyle: { color: '#60a5fa' }
+          }
+        ]
+      };
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+  </script>
+</body>
+</html>
