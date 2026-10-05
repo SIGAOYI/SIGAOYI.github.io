@@ -52,7 +52,7 @@
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
-      height: 6px;
+      height: 8px;
     }
     ::-webkit-scrollbar-track {
       background: #0b1120;
@@ -66,15 +66,25 @@
     }
 
     /* Fishbone Timeline Styles */
+    .fishbone-wrapper {
+      position: relative;
+      height: 760px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+
     .fishbone-container {
       position: relative;
-      min-width: 3200px;
-      padding: 120px 40px;
+      width: 3300px;
+      height: 720px;
+      padding: 0 40px;
     }
 
     .main-spine {
       position: absolute;
-      top: 50%;
+      top: 360px;
       left: 60px;
       right: 80px;
       height: 6px;
@@ -88,7 +98,7 @@
     .spine-arrow {
       position: absolute;
       right: 50px;
-      top: 50%;
+      top: 360px;
       transform: translateY(-50%);
       width: 0;
       height: 0;
@@ -99,34 +109,14 @@
       z-index: 11;
     }
 
-    .rib-line-up {
-      position: absolute;
-      bottom: 50%;
-      width: 2px;
-      background: linear-gradient(to top, rgba(192, 132, 252, 0.9), rgba(192, 132, 252, 0.2));
-      transform-origin: bottom center;
-      transition: all 0.3s ease;
-      z-index: 5;
-    }
-
-    .rib-line-down {
-      position: absolute;
-      top: 50%;
-      width: 2px;
-      background: linear-gradient(to bottom, rgba(52, 211, 153, 0.9), rgba(52, 211, 153, 0.2));
-      transform-origin: top center;
-      transition: all 0.3s ease;
-      z-index: 5;
-    }
-
     .node-card {
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
     .node-card:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.6), 0 0 18px rgba(56, 189, 248, 0.3);
-      z-index: 30;
+      transform: translateX(-50%) translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.35);
+      z-index: 35;
     }
 
     .node-active {
@@ -137,7 +127,7 @@
     /* Glow dots on spine */
     .spine-node-dot {
       position: absolute;
-      top: 50%;
+      top: 360px;
       transform: translate(-50%, -50%);
       width: 18px;
       height: 18px;
@@ -156,10 +146,10 @@
 
     .epoch-marker {
       position: absolute;
-      top: 20px;
+      top: 16px;
       transform: translateX(-50%);
       padding: 4px 14px;
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(30, 41, 59, 0.85);
       border: 1px solid #334155;
       border-radius: 9999px;
       font-size: 12px;
@@ -333,17 +323,17 @@
       </div>
 
       <!-- Horizontal Scrollable Fishbone Area -->
-      <div id="timelineScrollWrapper" class="overflow-x-auto relative rounded-xl border border-slate-800/80 bg-slate-950/60 p-4 shadow-inner" style="cursor: grab;">
+      <div id="timelineScrollWrapper" class="fishbone-wrapper rounded-xl border border-slate-800/80 bg-slate-950/60 p-4 shadow-inner">
         <div id="fishboneContainer" class="fishbone-container">
           <!-- The Glowing Spine Line -->
           <div class="main-spine"></div>
           <div class="spine-arrow"></div>
 
           <!-- Dynamic SVG connector overlay for diagonal rib bones -->
-          <svg id="boneSvg" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+          <svg id="boneSvg" class="absolute inset-0 w-full h-full pointer-events-none z-10" style="width:3300px; height:720px;"></svg>
 
           <!-- Dynamic Nodes will be rendered here by JS -->
-          <div id="nodesLayer" class="relative z-20 w-full h-full"></div>
+          <div id="nodesLayer" class="relative z-20 w-full h-full" style="width:3300px; height:720px;"></div>
         </div>
       </div>
       <div class="text-right text-[11px] text-slate-500 mt-2">
@@ -538,28 +528,42 @@
     let currentFilter = 'all';
     let searchQuery = '';
 
+    // Safe Lucide helper
+    function safeLucide() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
     // Initialize on load
-    document.addEventListener('DOMContentLoaded', () => {
-      renderFishbone();
-      renderTable();
-      initValuationChart();
-      initRetentionChart();
-      lucide.createIcons();
-      initDragScroll();
-    });
+    function initDashboard() {
+      try { renderFishbone(); } catch(e) { console.error('Fishbone render error:', e); }
+      try { renderTable(); } catch(e) { console.error('Table render error:', e); }
+      try { initValuationChart(); } catch(e) { console.error('Valuation chart error:', e); }
+      try { initRetentionChart(); } catch(e) { console.error('Retention chart error:', e); }
+      try { safeLucide(); } catch(e) {}
+      try { initDragScroll(); } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDashboard);
+    } else {
+      initDashboard();
+    }
 
     // Fishbone layout calculation & rendering
     function renderFishbone() {
       const container = document.getElementById('nodesLayer');
       const svg = document.getElementById('boneSvg');
+      if (!container || !svg) return;
       container.innerHTML = '';
       svg.innerHTML = '';
 
       // Dimensions
-      const totalWidth = 3200;
-      const centerY = 340; // center spine position in container
+      const totalWidth = 3300;
+      const centerY = 360; // center spine position in container
       const startX = 140;
-      const endX = 3050;
+      const endX = 3150;
       const stepX = (endX - startX) / (eventsData.length - 1);
 
       // Define epoch regions
@@ -580,9 +584,8 @@
 
         const epTag = document.createElement('div');
         epTag.className = 'epoch-marker';
-        epTag.style.left = `${epMidX}px`;
-        epTag.id = `epoch-marker-${ep.name.split(':')[0].trim()}`;
-        epTag.innerHTML = `<span class="text-cyan-400 mr-1.5">●</span>${ep.name}`;
+        epTag.style.left = epMidX + 'px';
+        epTag.innerHTML = '<span class="text-cyan-400 mr-1.5">●</span>' + ep.name;
         container.appendChild(epTag);
       });
 
@@ -598,19 +601,18 @@
 
         // Spine dot
         const dot = document.createElement('div');
-        dot.className = `spine-node-dot ${isVisible ? '' : 'opacity-20'}`;
-        dot.style.left = `${posX}px`;
-        dot.style.top = `${centerY}px`;
+        dot.className = 'spine-node-dot ' + (isVisible ? '' : 'opacity-20');
+        dot.style.left = posX + 'px';
+        dot.style.top = centerY + 'px';
         dot.onclick = () => openDrawer(evt.id);
         container.appendChild(dot);
 
         // Determine if placed top or bottom
-        // Personnel & News typically go UP, Funding & Main go DOWN, but let's arrange alternatingly to make it balanced
         const isUp = (evt.branch === 'personnel' || (evt.branch === 'news' && idx % 2 === 0));
         
         // Rib bone endpoint
-        const ribLength = isUp ? 210 : 210;
-        const ribEndX = posX + (isUp ? 40 : -40);
+        const ribLength = 175;
+        const ribEndX = posX + (isUp ? 35 : -35);
         const ribEndY = isUp ? (centerY - ribLength) : (centerY + ribLength);
 
         // Branch color
@@ -629,20 +631,23 @@
 
         // Draw diagonal rib SVG line
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const d = `M ${posX} ${centerY} L ${ribEndX} ${ribEndY}`;
+        const d = 'M ' + posX + ' ' + centerY + ' L ' + ribEndX + ' ' + ribEndY;
         path.setAttribute('d', d);
         path.setAttribute('stroke', strokeColor);
         path.setAttribute('stroke-width', isVisible ? '2.5' : '1');
         path.setAttribute('stroke-opacity', isVisible ? '0.75' : '0.15');
-        path.setAttribute('stroke-dasharray', evt.branch === 'news' ? '4 3' : 'none');
+        if (evt.branch === 'news') {
+          path.setAttribute('stroke-dasharray', '4 3');
+        }
         svg.appendChild(path);
 
         // Node card element
         const card = document.createElement('div');
-        card.id = `card-${evt.id}`;
-        card.className = `node-card absolute p-3.5 rounded-xl border bg-slate-900/90 shadow-xl cursor-pointer w-72 text-left z-20 ${isVisible ? 'border-slate-700/80 hover:border-cyan-400' : 'opacity-20 pointer-events-none'}`;
-        card.style.left = `${ribEndX}px`;
-        card.style.top = isUp ? `${ribEndY - 130}px` : `${ribEndY}px`;
+        card.id = 'card-' + evt.id;
+        card.className = 'node-card absolute p-3 rounded-xl border bg-slate-900/95 shadow-xl cursor-pointer w-72 text-left z-20 ' + 
+          (isVisible ? 'border-slate-700/80 hover:border-cyan-400' : 'opacity-20 pointer-events-none');
+        card.style.left = ribEndX + 'px';
+        card.style.top = isUp ? (ribEndY - 135) + 'px' : ribEndY + 'px';
         card.style.transform = 'translateX(-50%)';
         card.onclick = () => openDrawer(evt.id);
 
@@ -653,7 +658,7 @@
         if (evt.branch === 'news') { branchIcon = 'newspaper'; branchLabel = '大事件'; }
 
         card.innerHTML = `
-          <div class="flex items-center justify-between gap-1 mb-1.5">
+          <div class="flex items-center justify-between gap-1 mb-1">
             <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${badgeColor}">
               ${evt.date} · ${evt.badge}
             </span>
@@ -667,7 +672,7 @@
           <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
             ${evt.summary}
           </p>
-          <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
+          <div class="mt-2 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
             <span class="truncate max-w-[150px]">${evt.keyFigures.slice(0, 2).join(', ')}</span>
             <span class="text-cyan-400 flex items-center gap-0.5 hover:underline font-medium">详情 ↗</span>
           </div>
@@ -676,12 +681,13 @@
         container.appendChild(card);
       });
 
-      lucide.createIcons();
+      safeLucide();
     }
 
     // Table rendering
     function renderTable() {
       const tbody = document.getElementById('milestoneTableBody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       eventsData.forEach(evt => {
@@ -776,7 +782,7 @@
       currentFilter = dim;
       const dims = ['all', 'main', 'personnel', 'funding', 'news'];
       dims.forEach(d => {
-        const btn = document.getElementById(`btn-dim-${d}`);
+        const btn = document.getElementById('btn-dim-' + d);
         if (!btn) return;
         if (d === dim) {
           btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition shadow-sm';
@@ -803,9 +809,9 @@
     function scrollToEpoch(epochStr) {
       const idx = eventsData.findIndex(e => e.epoch === epochStr);
       if (idx !== -1) {
-        const totalWidth = 3200;
+        const totalWidth = 3300;
         const startX = 140;
-        const endX = 3050;
+        const endX = 3150;
         const stepX = (endX - startX) / (eventsData.length - 1);
         const targetX = startX + idx * stepX - 100;
         document.getElementById('timelineScrollWrapper').scrollTo({left: targetX, behavior: 'smooth'});
@@ -815,6 +821,7 @@
     // Drag-to-scroll implementation
     function initDragScroll() {
       const slider = document.getElementById('timelineScrollWrapper');
+      if (!slider) return;
       let isDown = false;
       let startX;
       let scrollLeft;
@@ -845,6 +852,7 @@
     // ECharts 1: Valuation Curve
     function initValuationChart() {
       const chartDom = document.getElementById('valuationChart');
+      if (!chartDom || !window.echarts) return;
       const myChart = echarts.init(chartDom, 'dark', { backgroundColor: 'transparent' });
       
       const option = {
@@ -863,14 +871,7 @@
         grid: { left: '3%', right: '4%', bottom: '8%', top: '15%', containLabel: true },
         xAxis: {
           type: 'category',
-          data: ['2015.12
-创立认缴', '2019.07
-微软初投', '2021.06
-机构要约', '2023.01
-微软百亿', '2024.02
-员工要约', '2024.10
-超级巨轮', '2026.09
-IPO筹备期'],
+          data: ['2015.12 创立认缴', '2019.07 微软初投', '2021.06 机构要约', '2023.01 微软百亿', '2024.02 员工要约', '2024.10 超级巨轮', '2026.09 IPO筹备期'],
           axisLine: { lineStyle: { color: '#334155' } },
           axisLabel: { color: '#94a3b8', fontSize: 10 }
         },
@@ -928,6 +929,7 @@ IPO筹备期'],
     // ECharts 2: Founders Retention vs Team Headcount
     function initRetentionChart() {
       const chartDom = document.getElementById('retentionChart');
+      if (!chartDom || !window.echarts) return;
       const myChart = echarts.init(chartDom, 'dark', { backgroundColor: 'transparent' });
 
       const option = {
