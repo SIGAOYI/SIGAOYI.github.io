@@ -9,6 +9,6 @@
 
 ---
 
-我的邮箱：lawootrip@gmail.com
+我的邮箱：axe@lawootrip.com
 
 欢迎
