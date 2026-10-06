@@ -78,6 +78,24 @@ def fetch_text(url, tries=2):
 def fetch_json(url):
     return json.loads(fetch_text(url))
 
+def check_live_status(url, tries=3):
+    """检查线上 URL 是否已可访问（HTTP 200）。返回 True/False。"""
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA}, method="HEAD")
+            with urllib.request.urlopen(req, timeout=10) as r:
+                if r.status == 200:
+                    return True
+        except urllib.error.HTTPError as e:
+            if e.code == 200:
+                return True
+        except Exception:
+            pass
+        if i + 1 < tries:
+            time.sleep(2)
+    return False
+
+
 
 def fetch_prices(ticker, rng="2y"):
     """Yahoo 日线收盘 -> [{'d','c'}]（升序），失败/过旧返回 []。"""
@@ -642,8 +660,33 @@ def main():
     last_file = os.path.join(STATE_DIR, "last_date.txt")
     last = open(last_file).read().strip() if os.path.exists(last_file) else None
     if last == data_date and not force and not backfill:
-        print("NO_NEW_DATA")
-        return 0
+        live_url = f"https://axelrod.lawootrip.com/{data_date.replace('-', '/')}/ark-cathie-wood/"
+        if check_live_status(live_url):
+            print(f"NO_NEW_DATA: {data_date} 文章已在线生效 ({live_url})")
+            return 0
+
+        print(f"[heal] 检测到 {data_date} 已在 state 记录，但线上链接未生效（{live_url} 未返回 200）！")
+        out_path = os.path.join(POSTS_DIR, f"{data_date}-ark-cathie-wood.markdown")
+        if os.path.exists(out_path):
+            print(f"[heal] 本地文章 {out_path} 已存在，附加自愈重推标记以唤醒 GitHub Pages 重新构建部署...")
+            c_text = open(out_path, encoding="utf-8").read()
+            ts = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            tag = chr(10) + f"<!-- auto-heal-deploy: {ts} -->" + chr(10)
+            c_text = re.sub(r"\n<!-- auto-heal-deploy:.*?-->\n", "", c_text) + tag
+            open(out_path, "w", encoding="utf-8").write(c_text)
+            sidecar_path = os.path.join(SIDECAR_DIR, f"{data_date}.json")
+            if os.path.exists(sidecar_path):
+                try:
+                    sc = json.loads(open(sidecar_path, encoding="utf-8").read())
+                    sc["rebuilt_at"] = ts
+                    open(sidecar_path, "w", encoding="utf-8").write(
+                        json.dumps(sc, ensure_ascii=False, indent=2))
+                except Exception:
+                    pass
+            print("POST:" + os.path.relpath(out_path, ROOT))
+            return 0
+        else:
+            print("[heal] 本地文章文件不存在，继续执行完整生成流程...")
 
     dW = datetime.date.fromisoformat(data_date)
     week_close = prev_week_close(td, data_date)                                   # 上周收盘（通常上周五）
