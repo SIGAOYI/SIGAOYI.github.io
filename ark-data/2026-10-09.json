@@ -1,0 +1,477 @@
+{
+  "date": "2026-10-09",
+  "generated_at": "2026-10-12T21:21:53",
+  "funds": {
+    "ARKK": {
+      "name": "颠覆式创新",
+      "aum": 6701445232,
+      "aum_prev": 9259013001,
+      "daum_pct": -27.62,
+      "ret_pct": -0.23,
+      "pnl": -21645249,
+      "flow": -2535922520,
+      "prev_date": "2026-10-02",
+      "quarter_date": "2026-07-10",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 9.73,
+          "d_week": 0.34,
+          "d_quarter": -0.81
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 6.62,
+          "d_week": 0.17,
+          "d_quarter": 2.25
+        },
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 5.08,
+          "d_week": -0.39,
+          "d_quarter": -0.66
+        },
+        {
+          "ticker": "CRCL",
+          "label": "CRCL",
+          "weight": 4.67,
+          "d_week": 0.19,
+          "d_quarter": 1.3
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 4.23,
+          "d_week": -0.19,
+          "d_quarter": -0.64
+        },
+        {
+          "ticker": "COIN",
+          "label": "COIN",
+          "weight": 4.21,
+          "d_week": -0.07,
+          "d_quarter": 0.12
+        },
+        {
+          "ticker": "",
+          "label": "OpenAI",
+          "weight": 4.07,
+          "d_week": 2.16,
+          "d_quarter": 2.01
+        },
+        {
+          "ticker": "SHOP",
+          "label": "SHOP",
+          "weight": 3.34,
+          "d_week": 0.07,
+          "d_quarter": -1.25
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 3.31,
+          "d_week": -0.92,
+          "d_quarter": 0.02
+        },
+        {
+          "ticker": "HOOD",
+          "label": "HOOD",
+          "weight": 3.17,
+          "d_week": -0.66,
+          "d_quarter": -0.62
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "KTOS",
+            "label": "KTOS",
+            "pct": 0.211,
+            "shares": 469820
+          },
+          {
+            "ticker": "CRWV",
+            "label": "CRWV",
+            "pct": 0.199,
+            "shares": 209532
+          },
+          {
+            "ticker": "RXRX",
+            "label": "RXRX",
+            "pct": 0.144,
+            "shares": 2985160
+          },
+          {
+            "ticker": "ACHR",
+            "label": "ACHR",
+            "pct": 0.098,
+            "shares": 2008357
+          },
+          {
+            "ticker": "NTLA",
+            "label": "NTLA",
+            "pct": 0.018,
+            "shares": 134346
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "HOOD",
+            "label": "HOOD",
+            "pct": -0.481,
+            "shares": -417180
+          },
+          {
+            "ticker": "ILMN",
+            "label": "ILMN",
+            "pct": -0.298,
+            "shares": -105321
+          },
+          {
+            "ticker": "TWST",
+            "label": "TWST",
+            "pct": -0.265,
+            "shares": -140283
+          },
+          {
+            "ticker": "SHOP",
+            "label": "SHOP",
+            "pct": -0.264,
+            "shares": -150269
+          },
+          {
+            "ticker": "TXG",
+            "label": "TXG",
+            "pct": -0.2,
+            "shares": -246935
+          },
+          {
+            "ticker": "AMD",
+            "label": "AMD",
+            "pct": -0.169,
+            "shares": -25911
+          },
+          {
+            "ticker": "META",
+            "label": "META",
+            "pct": -0.153,
+            "shares": -19779
+          },
+          {
+            "ticker": "GOOG",
+            "label": "谷歌",
+            "pct": -0.113,
+            "shares": -31336
+          }
+        ]
+      }
+    },
+    "ARKG": {
+      "name": "基因革命",
+      "aum": 2129941320,
+      "aum_prev": 2272492198,
+      "daum_pct": -6.27,
+      "ret_pct": -5.0,
+      "pnl": -113624610,
+      "flow": -28926268,
+      "prev_date": "2026-10-02",
+      "quarter_date": "2026-07-10",
+      "top": [
+        {
+          "ticker": "TXG",
+          "label": "TXG",
+          "weight": 9.26,
+          "d_week": -1.12,
+          "d_quarter": 1.33
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 8.65,
+          "d_week": -1.47,
+          "d_quarter": 1.27
+        },
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 8.18,
+          "d_week": -0.22,
+          "d_quarter": 0.28
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 5.4,
+          "d_week": 0.12,
+          "d_quarter": -1.12
+        },
+        {
+          "ticker": "ABSI",
+          "label": "ABSI",
+          "weight": 5.05,
+          "d_week": -0.18,
+          "d_quarter": -1.25
+        },
+        {
+          "ticker": "ILMN",
+          "label": "ILMN",
+          "weight": 4.83,
+          "d_week": 0.32,
+          "d_quarter": 0.73
+        },
+        {
+          "ticker": "NTRA",
+          "label": "NTRA",
+          "weight": 4.65,
+          "d_week": 0.13,
+          "d_quarter": 0.76
+        },
+        {
+          "ticker": "GH",
+          "label": "GH",
+          "weight": 4.64,
+          "d_week": 0.02,
+          "d_quarter": 0.27
+        },
+        {
+          "ticker": "CDNA",
+          "label": "CDNA",
+          "weight": 3.91,
+          "d_week": -0.6,
+          "d_quarter": 1.05
+        },
+        {
+          "ticker": "PSNL",
+          "label": "PSNL",
+          "weight": 3.72,
+          "d_week": -1.19,
+          "d_quarter": -2.66
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "VCYT",
+            "label": "VCYT",
+            "pct": 1.0,
+            "shares": 509894
+          },
+          {
+            "ticker": "KYMR",
+            "label": "KYMR",
+            "pct": 0.434,
+            "shares": 90329
+          },
+          {
+            "ticker": "NRIX",
+            "label": "NRIX",
+            "pct": 0.401,
+            "shares": 389373
+          },
+          {
+            "ticker": "FRNM",
+            "label": "FRNM",
+            "pct": 0.149,
+            "shares": 204943
+          },
+          {
+            "ticker": "RXRX",
+            "label": "RXRX",
+            "pct": 0.143,
+            "shares": 717581
+          },
+          {
+            "ticker": "SCTX",
+            "label": "SCTX",
+            "pct": 0.058,
+            "shares": 83623
+          },
+          {
+            "ticker": "GH",
+            "label": "GH",
+            "pct": 0.058,
+            "shares": 7210
+          },
+          {
+            "ticker": "CRSP",
+            "label": "CRSP",
+            "pct": 0.055,
+            "shares": 21487
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "PSNL",
+            "label": "PSNL",
+            "pct": -1.296,
+            "shares": -1830698
+          },
+          {
+            "ticker": "CDNA",
+            "label": "CDNA",
+            "pct": -0.594,
+            "shares": -200549
+          },
+          {
+            "ticker": "TWST",
+            "label": "TWST",
+            "pct": -0.453,
+            "shares": -50053
+          },
+          {
+            "ticker": "TXG",
+            "label": "TXG",
+            "pct": -0.166,
+            "shares": -40954
+          }
+        ]
+      }
+    },
+    "ARKQ": {
+      "name": "自动化与机器人",
+      "aum": 1946286642,
+      "aum_prev": 1941315721,
+      "daum_pct": 0.26,
+      "ret_pct": -0.78,
+      "pnl": -15127541,
+      "flow": 20098462,
+      "prev_date": "2026-10-02",
+      "quarter_date": "2026-07-10",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 11.16,
+          "d_week": 0.43,
+          "d_quarter": 0.21
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 8.93,
+          "d_week": 0.26,
+          "d_quarter": 3.07
+        },
+        {
+          "ticker": "NVDA",
+          "label": "英伟达",
+          "weight": 5.82,
+          "d_week": -0.08,
+          "d_quarter": 2.79
+        },
+        {
+          "ticker": "PLTR",
+          "label": "PLTR",
+          "weight": 5.2,
+          "d_week": 0.54,
+          "d_quarter": 1.58
+        },
+        {
+          "ticker": "TER",
+          "label": "泰瑞达",
+          "weight": 5.06,
+          "d_week": -2.43,
+          "d_quarter": -0.97
+        },
+        {
+          "ticker": "KTOS",
+          "label": "KTOS",
+          "weight": 4.91,
+          "d_week": -0.05,
+          "d_quarter": -0.03
+        },
+        {
+          "ticker": "GOOG",
+          "label": "谷歌",
+          "weight": 4.67,
+          "d_week": 0.13,
+          "d_quarter": -0.09
+        },
+        {
+          "ticker": "RKLB UQ",
+          "label": "RKLB UQ",
+          "weight": 4.2,
+          "d_week": -0.32,
+          "d_quarter": 0.48
+        },
+        {
+          "ticker": "AMD",
+          "label": "AMD",
+          "weight": 4.17,
+          "d_week": -0.14,
+          "d_quarter": -3.26
+        },
+        {
+          "ticker": "TSM",
+          "label": "台积电",
+          "weight": 3.77,
+          "d_week": -0.14,
+          "d_quarter": 0.32
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "SYM",
+            "label": "SYM",
+            "pct": 0.453,
+            "shares": 206559
+          },
+          {
+            "ticker": "AVAV",
+            "label": "AVAV",
+            "pct": 0.249,
+            "shares": 35001
+          },
+          {
+            "ticker": "JOBY",
+            "label": "JOBY",
+            "pct": 0.249,
+            "shares": 855534
+          },
+          {
+            "ticker": "LUNR",
+            "label": "LUNR",
+            "pct": 0.191,
+            "shares": 263631
+          },
+          {
+            "ticker": "AUR",
+            "label": "AUR",
+            "pct": 0.154,
+            "shares": 529654
+          },
+          {
+            "ticker": "ACHR",
+            "label": "ACHR",
+            "pct": 0.149,
+            "shares": 626816
+          },
+          {
+            "ticker": "KDK",
+            "label": "KDK",
+            "pct": 0.103,
+            "shares": 1198523
+          },
+          {
+            "ticker": "PONY",
+            "label": "PONY",
+            "pct": 0.098,
+            "shares": 321761
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "TER",
+            "label": "泰瑞达",
+            "pct": -1.769,
+            "shares": -82386
+          }
+        ]
+      }
+    }
+  }
+}
