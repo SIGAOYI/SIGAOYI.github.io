@@ -273,7 +273,7 @@
           <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
             <div class="text-xs text-slate-400 font-semibold">Tree / Multi-Rail All-Reduce 轮数</div>
             <div class="text-2xl font-black text-emerald-400 font-mono mt-1">~28 轮</div>
-            <p class="text-xs text-slate-400 mt-2">公式：$2 	imes \log_2(N)$ 步。利用树状汇聚或多轨并行，轮数降低超 1,000 倍，大幅削减固定网络跳数延迟。</p>
+            <p class="text-xs text-slate-400 mt-2">公式：$2 \times \log_2(N)$ 步。利用树状汇聚或多轨并行，轮数降低超 1,000 倍，大幅削减固定网络跳数延迟。</p>
           </div>
           <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
             <div class="text-xs text-slate-400 font-semibold">单步数据喂入量 (Batch Tokens)</div>
@@ -390,7 +390,7 @@
           </div>
 
           <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed font-mono">
-            最优检查点间隔公式：<span class="text-cyan-400 font-bold">$	au = \sqrt{2 	imes \delta 	imes M}$</span><br>
+            最优检查点间隔公式：<span class="text-cyan-400 font-bold">$\tau = \sqrt{2 \times \delta \times M}$</span><br>
             <span class="text-slate-400 font-sans">其中 $\delta$ 为每次写入检查点耗时（分钟），$M$ 为集群平均故障间隔时间 MTBF（小时）。</span>
           </div>
 
@@ -419,7 +419,7 @@
           <!-- Calculator Outputs -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700">
-              <div class="text-[11px] text-slate-400 uppercase font-semibold">推荐检查点间隔 $	au$</div>
+              <div class="text-[11px] text-slate-400 uppercase font-semibold">推荐检查点间隔 $\tau$</div>
               <div id="res-interval" class="text-xl font-black text-cyan-400 font-mono mt-1">~57.7 分钟</div>
               <div class="text-[10px] text-slate-400 mt-1">理论最优保存周期</div>
             </div>

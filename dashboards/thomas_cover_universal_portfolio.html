@@ -177,13 +177,13 @@
           <div class="bg-slate-950/80 border border-slate-800/80 rounded-lg p-3.5 space-y-2 text-xs">
             <div class="font-bold text-slate-200">🔍 关键数学推导：</div>
             <div class="text-slate-400 leading-relaxed">
-              • <strong class="text-rose-400">买入持有股票</strong>：2 轮后价格为 $1.0 	imes 2.0 	imes 0.5 = 1.0$。尽管单期期望收益为 $(+100\% - 50\%)/2 = +25\%$，但路径几何增长率恒为 <strong class="text-rose-400">0%</strong>，永远原地踏步！
+              • <strong class="text-rose-400">买入持有股票</strong>：2 轮后价格为 $1.0 \times 2.0 \times 0.5 = 1.0$。尽管单期期望收益为 $(+100\% - 50\%)/2 = +25\%$，但路径几何增长率恒为 <strong class="text-rose-400">0%</strong>，永远原地踏步！
             </div>
             <div class="text-slate-400 leading-relaxed">
               • <strong class="text-emerald-400">50:50 每日再平衡</strong>：<br>
-              - 翻倍日：$0.5 	imes 1 + 0.5 	imes 2 = 1.5$ (+50%)，调仓卖出；<br>
-              - 腰斩日：$0.5 	imes 1 + 0.5 	imes 0.5 = 0.75$ (-25%)，调仓抄底；<br>
-              - 2 轮复合净值：$1.5 	imes 0.75 = 1.125$；<br>
+              - 翻倍日：$0.5 \times 1 + 0.5 \times 2 = 1.5$ (+50%)，调仓卖出；<br>
+              - 腰斩日：$0.5 \times 1 + 0.5 \times 0.5 = 0.75$ (-25%)，调仓抄底；<br>
+              - 2 轮复合净值：$1.5 \times 0.75 = 1.125$；<br>
               - 单期复合增长率：$\sqrt{1.125} - 1 = \mathbf{+6.066\%}$！
             </div>
           </div>
@@ -315,7 +315,7 @@
           <p class="text-xs text-slate-400 mb-3">资产下跌越深，未来回本所要求的几何反弹幅度呈非线性暴增</p>
           <div id="chart-vol-drag" class="w-full h-[340px]"></div>
           <div class="text-xs text-slate-400 mt-2 bg-slate-950/60 p-3 rounded-lg border border-slate-800">
-            公式：$g pprox \mu - rac{1}{2}\sigma^2$。几何增长率 $g$ 等于算术平均收益 $\mu$ 减去二分之一的方差 $\sigma^2$。当波动率 $\sigma$ 极大时，即使算术期望为正，长期对数财富也必然无限趋近于 0（破产）。
+            公式：$g \approx \mu - \frac{1}{2}\sigma^2$。几何增长率 $g$ 等于算术平均收益 $\mu$ 减去二分之一的方差 $\sigma^2$。当波动率 $\sigma$ 极大时，即使算术期望为正，长期对数财富也必然无限趋近于 0（破产）。
           </div>
         </div>
 

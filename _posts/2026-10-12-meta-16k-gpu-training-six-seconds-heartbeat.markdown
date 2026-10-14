@@ -55,7 +55,7 @@ tags:
 - **静态模型参数**：405B 参数以 BF16（2 字节）存储，仅模型权重就需要 **810 GB** 显存，相当于 10 张 H100 仅用来放参数就已爆显存；
 - **动态训练状态（Training State）**：反向传播需要存储与参数等大的梯度（810 GB），以及 AdamW 优化器所必需的 FP32 原始主权重（1.62 TB）、一阶动量（1.62 TB）和二阶动量（1.62 TB）。
 - **总显存需求**：
-  $$810	ext{ GB (权重)} + 810	ext{ GB (梯度)} + 4.86	ext{ TB (优化器)} = 6.48	ext{ TB}$$
+  $$810\text{ GB (权重)} + 810\text{ GB (梯度)} + 4.86\text{ TB (优化器)} = 6.48\text{ TB}$$
 如果再加上前向激活值（Activation Memory）与通信临时缓冲区，整个状态逼近 **10 TB**。不进行深度切分，训练根本无法启动。
 
 #### 2. 4D 嵌套并行设计
@@ -110,10 +110,10 @@ tags:
 #### 1. Ring All-Reduce vs Tree All-Reduce：万卡下的维度灾难
 在百卡或千卡时代，经典的 **Ring All-Reduce**（环形规约）是行业标配，因为它的数据传输量与节点数无关。但在 16,384 规模下，它遭遇了毁灭性的延迟瓶颈：
 - **Ring 通信轮数**：
-  $$	ext{Rounds}_{	ext{Ring}} = 2 	imes (N - 1) = 2 	imes (16,384 - 1) = 32,766	ext{ 轮}$$
+  $$\text{Rounds}_{\text{Ring}} = 2 \times (N - 1) = 2 \times (16,384 - 1) = 32,766\text{ 轮}$$
   这意味着一个数据包要在 1.6 万张卡之间顺序接力传递 3 万多次。哪怕每次交换机的跳转延迟只有 1 微秒，仅网络握手与打包延迟就高达 **32 毫秒**，严重吞噬计算时间。
 - **Tree / Multi-Rail All-Reduce**：
-  $$	ext{Rounds}_{	ext{Tree}} = 2 	imes \log_2(N) = 2 	imes 14 = 28	ext{ 轮}$$
+  $$\text{Rounds}_{\text{Tree}} = 2 \times \log_2(N) = 2 \times 14 = 28\text{ 轮}$$
   通过将网络拓扑组织为多层树状汇聚，通信轮数直接暴跌至 **28 轮**，降幅超千倍。这也是为什么现代万卡数据中心必须采用昂贵的两层或三层无收敛（Non-blocking）胖树（Fat-Tree）拓扑。
 
 #### 2. 最慢的 GPU（Stragglers）与 MFU 现实
@@ -157,14 +157,14 @@ Meta 深度应用了 **NCCL Flight Recorder**：它在主机的共享内存中�
 - 如果存得太稀疏（比如每 12 小时存一次），一旦崩溃，必须回滚重新跑数小时的数据，白白烧掉数十万美元。
 
 计算机科学先驱 J.W. Young 在 1974 年推导出的经典容错定理给出了完美答案：
-$$	au = \sqrt{2 	imes \delta 	imes M}$$
+$$\tau = \sqrt{2 \times \delta \times M}$$
 其中：
-- $	au$：最优检查点保存间隔；
+- $\tau$：最优检查点保存间隔；
 - $\delta$：保存一次检查点所需的时间开销（分钟）；
 - $M$：系统平均无故障时间 MTBF（分钟）。
 
 在 Meta 真实工况下，保存一次检查点约耗时 5 分钟，系统 MTBF 约为 2.78 小时（167 分钟）。代入公式：
-$$	au = \sqrt{2 	imes 5 	imes 167} = \sqrt{1670} pprox 40.8	ext{ 分钟}$$
+$$\tau = \sqrt{2 \times 5 \times 167} = \sqrt{1670} \approx 40.8\text{ 分钟}$$
 通过科学调优，工程团队将快照间隔严格锚定在数学最优解附近，将全流程有效利用率拉升至极限。
 
 #### 4. 静默数据腐败（SDC, Silent Data Corruption）
