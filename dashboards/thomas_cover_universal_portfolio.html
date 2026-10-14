@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>从10万到700万：斯坦福Cover教授通用投资组合与波动率再平衡全景透视</title>
+  
+  <!-- 微信与社交分享 Meta 规范 -->
+  <meta name="description" content="斯坦福大学Thomas Cover教授通用投资组合与香农恶魔每日再平衡深度复盘与交互仿真看板。从10万到700万，无需预测股价，以几何平均收割波动率确定性复利。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="从10万到700万：斯坦福Cover教授通用投资组合与每日再平衡全景看板">
+  <meta property="og:description" content="斯坦福大学Thomas Cover教授通用投资组合与香农恶魔每日再平衡深度复盘与交互仿真看板。从10万到700万，无需预测股价，以几何平均收割波动率确定性复利。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/thomas_cover_universal_portfolio.html">
+
+  <!-- Tailwind CSS & ECharts 5 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #1e293b;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-blue: #3b82f6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8 custom-scrollbar">
+
+  <!-- 隐藏微信 300x300 分享图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+  </div>
+
+  <div class="max-w-[1520px] mx-auto space-y-6">
+
+    <!-- Header 头部 Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 mb-3">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          斯坦福经典量化透视 · 信息论与投资组合专题
+        </div>
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+          从 10 万到 700 万：Cover 教授通用投资组合与每日机械再平衡
+        </h1>
+        <p class="text-slate-400 text-sm sm:text-base max-w-4xl leading-relaxed">
+          拆解斯坦福传奇学者 Thomas M. Cover 53分钟演讲精髓：不用预测股价、不设黑盒模型、不靠选股神话。基于几何平均数（对数效用最大化）、香农恶魔（Shannon's Demon）与在线凸优化，在无序剧烈波动中持续收割确定性的“再平衡红利”。
+        </p>
+      </div>
+    </header>
+
+    <!-- KPI 核心矩阵 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-cyan-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">历史回测终值爆发</div>
+        <div class="text-3xl font-black text-cyan-400 font-mono mt-1">73.6x</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>单股仅 8.9x / 4.1x</span>
+          <span class="text-emerald-400 font-semibold">+826% 超额倍数</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">香农恶魔单期确定性复利</div>
+        <div class="text-3xl font-black text-emerald-400 font-mono mt-1">+6.07%</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>股票原地踏步 (±50%)</span>
+          <span class="text-cyan-400 font-semibold">无中生有提炼收益</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-amber-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">预测与先验假设依赖</div>
+        <div class="text-3xl font-black text-amber-400 font-mono mt-1">0%</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>非参数分布无关</span>
+          <span class="text-slate-300 font-semibold">事后全知逼近</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-purple-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">理论渐近收敛悔恨界</div>
+        <div class="text-3xl font-black text-purple-400 font-mono mt-1">O(ln N)</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>相对事后最优组合(BCRP)</span>
+          <span class="text-slate-300 font-semibold">对数阶渐近无憾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导航 Tabs -->
+    <div class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto custom-scrollbar">
+      <button onclick="switchTab('tab-shannon')" id="btn-tab-shannon" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 whitespace-nowrap">
+        🔬 1. 香农恶魔沙盘推演 (Shannon's Demon)
+      </button>
+      <button onclick="switchTab('tab-cover')" id="btn-tab-cover" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        📈 2. 盖弗实盘 22 年复盘 (73 倍神迹)
+      </button>
+      <button onclick="switchTab('tab-math')" id="btn-tab-math" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        📐 3. 几何平均 vs 算术平均的数学陷阱
+      </button>
+      <button onclick="switchTab('tab-execution')" id="btn-tab-execution" class="tab-btn px-4 py-2.5 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        ⚡ 4. 实战工程落地与摩擦成本敏感度
+      </button>
+    </div>
+
+    <!-- Tab 1: 香农恶魔沙盘推演 -->
+    <div id="tab-shannon" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧参数调控与原理解析 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+              香农棘轮 (Shannon's Ratchet) 仿真控制器
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              模拟“每日抛硬币”极端波动：股票以 50% 概率翻倍 (+100%)，50% 概率腰斩 (-50%)。
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                <span>抛硬币轮数 (交易天数 N)</span>
+                <span id="slider-rounds-val" class="text-cyan-400 font-mono">40 轮</span>
+              </div>
+              <input type="range" id="slider-rounds" min="10" max="60" value="40" step="2" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" oninput="updateShannonSim()">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                <span>股票配置比例 (再平衡目标权重)</span>
+                <span id="slider-weight-val" class="text-emerald-400 font-mono">50% 股票 / 50% 现金</span>
+              </div>
+              <input type="range" id="slider-weight" min="10" max="90" value="50" step="5" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-400" oninput="updateShannonSim()">
+            </div>
+          </div>
+
+          <!-- 数学对比卡片 -->
+          <div class="bg-slate-950/80 border border-slate-800/80 rounded-lg p-3.5 space-y-2 text-xs">
+            <div class="font-bold text-slate-200">🔍 关键数学推导：</div>
+            <div class="text-slate-400 leading-relaxed">
+              • <strong class="text-rose-400">买入持有股票</strong>：2 轮后价格为 $1.0 	imes 2.0 	imes 0.5 = 1.0$。尽管单期期望收益为 $(+100\% - 50\%)/2 = +25\%$，但路径几何增长率恒为 <strong class="text-rose-400">0%</strong>，永远原地踏步！
+            </div>
+            <div class="text-slate-400 leading-relaxed">
+              • <strong class="text-emerald-400">50:50 每日再平衡</strong>：<br>
+              - 翻倍日：$0.5 	imes 1 + 0.5 	imes 2 = 1.5$ (+50%)，调仓卖出；<br>
+              - 腰斩日：$0.5 	imes 1 + 0.5 	imes 0.5 = 0.75$ (-25%)，调仓抄底；<br>
+              - 2 轮复合净值：$1.5 	imes 0.75 = 1.125$；<br>
+              - 单期复合增长率：$\sqrt{1.125} - 1 = \mathbf{+6.066\%}$！
+            </div>
+          </div>
+
+          <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-lg text-xs text-cyan-300 leading-relaxed">
+            💡 <strong>本质洞察</strong>：高抛低吸不需要任何预测力，只要资产存在波动，强制调仓就会将“波动率拖累（Volatility Drag）”反转为“波动率抽水机（Volatility Pumping）”。
+          </div>
+        </div>
+
+        <!-- 右侧图表 -->
+        <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-white">香农恶魔净值增长曲线对比</h3>
+              <p class="text-xs text-slate-400">买入持有股票（粉线：原地踏步震荡） vs 动态再平衡组合（绿线：确定性指数爆发）</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs">
+              <span class="inline-flex items-center gap-1.5 text-slate-400"><span class="w-3 h-0.5 bg-rose-500"></span>买入持有股票</span>
+              <span class="inline-flex items-center gap-1.5 text-slate-400"><span class="w-3 h-0.5 bg-emerald-400"></span>每日再平衡组合</span>
+              <span class="inline-flex items-center gap-1.5 text-slate-400"><span class="w-3 h-0.5 bg-slate-500"></span>纯现金</span>
+            </div>
+          </div>
+          <div id="chart-shannon" class="w-full h-[400px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 盖弗实盘 22 年复盘 -->
+    <div id="tab-cover" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧背景与数据明细 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              盖弗 1991 论文实证数据复盘
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">纽约证券交易所真实股票：Iroquois Brands Ltd. 与 Kin Ark Corp. (1963-1985，共 22 年)</p>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-slate-300">Iroquois Brands (单独持有)</div>
+                <div class="text-slate-500 text-[11px]">高波动消费品股票</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-black font-mono text-cyan-400">8.91x</div>
+                <div class="text-[11px] text-slate-400">+791% (年化 ~9.8%)</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-slate-300">Kin Ark Corp. (单独持有)</div>
+                <div class="text-slate-500 text-[11px]">平庸震荡工业股票</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-black font-mono text-slate-300">4.13x</div>
+                <div class="text-[11px] text-slate-400">+313% (年化 ~6.4%)</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-slate-300">等权重买入持有 (50/50 B&H)</div>
+                <div class="text-slate-500 text-[11px]">买入后不管不顾</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-black font-mono text-amber-400">6.52x</div>
+                <div class="text-[11px] text-slate-400">两股票算术平均</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-emerald-300">每日 50:50 恒定再平衡 (CRP)</div>
+                <div class="text-slate-500 text-[11px]">机械每日收盘各调回一半</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-black font-mono text-emerald-400">54.20x</div>
+                <div class="text-[11px] text-emerald-400">超越最好单股 6 倍</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-emerald-500/30 bg-emerald-950/20 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-emerald-400">事后最优恒定再平衡 (BCRP b*=0.54)</div>
+                <div class="text-slate-400 text-[11px]">理论上帝视角最优恒定权重</div>
+              </div>
+              <div class="text-right">
+                <div class="text-base font-black font-mono text-emerald-300">73.61x</div>
+                <div class="text-[11px] text-emerald-400">+7261% (年化 ~21.2%)</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/70 p-3 rounded-lg border border-cyan-500/30 bg-cyan-950/20 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-cyan-300">Cover 通用投资组合 (Universal Portfolio)</div>
+                <div class="text-slate-400 text-[11px]">零预测·贝叶斯连续再平衡</div>
+              </div>
+              <div class="text-right">
+                <div class="text-base font-black font-mono text-cyan-400">40.5x ~ 65x</div>
+                <div class="text-[11px] text-cyan-300">逼近全知最优 BCRP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧图表 -->
+        <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-white">22 年净值复合倍数轨迹 (对数坐标轴 Log Scale)</h3>
+              <p class="text-xs text-slate-400">展示每日再平衡如何从两只平庸股票中提炼出数十倍的超额阿尔法</p>
+            </div>
+          </div>
+          <div id="chart-cover" class="w-full h-[400px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 几何平均 vs 算术平均的数学陷阱 -->
+    <div id="tab-math" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 波动率损耗分析图 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col">
+          <h3 class="text-base font-bold text-white mb-1">波动率拖累（Volatility Drag）与回本惩罚</h3>
+          <p class="text-xs text-slate-400 mb-3">资产下跌越深，未来回本所要求的几何反弹幅度呈非线性暴增</p>
+          <div id="chart-vol-drag" class="w-full h-[340px]"></div>
+          <div class="text-xs text-slate-400 mt-2 bg-slate-950/60 p-3 rounded-lg border border-slate-800">
+            公式：$g pprox \mu - rac{1}{2}\sigma^2$。几何增长率 $g$ 等于算术平均收益 $\mu$ 减去二分之一的方差 $\sigma^2$。当波动率 $\sigma$ 极大时，即使算术期望为正，长期对数财富也必然无限趋近于 0（破产）。
+          </div>
+        </div>
+
+        <!-- 凯利判据与仓位配置 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col">
+          <h3 class="text-base font-bold text-white mb-1">不同再平衡权重下的长期对数增长率曲线</h3>
+          <p class="text-xs text-slate-400 mb-3">寻找对数效用极大值点（Kelly 最佳配置比例）</p>
+          <div id="chart-kelly-curve" class="w-full h-[340px]"></div>
+          <div class="text-xs text-slate-400 mt-2 bg-slate-950/60 p-3 rounded-lg border border-slate-800">
+            凯利公式（Kelly Criterion）：当股票权重从 0% 增加到 100% 时，长期几何增长率呈现倒 U 型曲线。在权重约 50% 时达到全局最大增长率（+6.07%），超出后波动率拖累急剧上升，全仓股票增长率反而降为 0！
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 实战工程落地与摩擦成本 -->
+    <div id="tab-execution" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧实战指南 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              实盘工程约束与摩擦陷阱
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">从象牙塔数学公式到真实交易账户的 4 大生死线</p>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800">
+              <div class="font-bold text-rose-400 mb-1">1. 交易税费与冲击滑点（Slippage）</div>
+              <div class="text-slate-400 leading-relaxed">
+                每日机械调仓意味着高频换手。若单边摩擦成本超过 15-20 bps，每日再平衡的红利将被佣金迅速侵蚀。必须通过<strong>阈值再平衡（Band Rebalancing）</strong>替代死板的日频定时调仓。
+              </div>
+            </div>
+
+            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800">
+              <div class="font-bold text-amber-400 mb-1">2. 标的选择：波动性与不相关性</div>
+              <div class="text-slate-400 leading-relaxed">
+                若两只资产高度正相关（同涨同跌），再平衡红利几乎为 0。该策略必须选择：<strong>高波动率 + 长期低相关或阶段性负相关</strong> 的核心资产（如加密资产与法币、做多纳指与做多长债）。
+              </div>
+            </div>
+
+            <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800">
+              <div class="font-bold text-cyan-400 mb-1">3. 人性心理逆行难度</div>
+              <div class="text-slate-400 leading-relaxed">
+                大涨时强制卖掉“大牛股”，大跌时强制割肉现金抄底“垃圾股”。这种操作完全反人性，99% 的普通交易者无法坚持超过 3 个月，必须依靠代码或自动化脚本执行。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中间摩擦衰减图表 -->
+        <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-5 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-white">交易摩擦成本对再平衡策略净收益的侵蚀模型</h3>
+              <p class="text-xs text-slate-400">对比日频再平衡、周频再平衡与 5% 容忍度阈值再平衡（Band Rebalancing）在不同费率下的留存收益</p>
+            </div>
+          </div>
+          <div id="chart-friction" class="w-full h-[380px]"></div>
+        </div>
+      </div>
+
+      <!-- 实战前瞻监控标的推荐矩阵 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <h3 class="text-base font-bold text-white mb-3">现代金融市场高波动再平衡配对雷达矩阵 (12-24 个月前瞻)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="py-2.5 px-3">组合资产配对 (Asset A / Asset B)</th>
+                <th class="py-2.5 px-3">资产相关系数 (Correlation)</th>
+                <th class="py-2.5 px-3">年化波动率特征</th>
+                <th class="py-2.5 px-3">建议再平衡机制</th>
+                <th class="py-2.5 px-3">预估年度再平衡红利</th>
+                <th class="py-2.5 px-3">核心风险与评价</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-semibold text-cyan-400">BTC (比特币) / USDC (稳定币)</td>
+                <td class="py-3 px-3 font-mono">0.02 (几近完全不相关)</td>
+                <td class="py-3 px-3">BTC 55%~75% 极高波动</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">5% 偏离阈值</span></td>
+                <td class="py-3 px-3 font-mono font-bold text-emerald-400">+8.5% ~ +14.2%</td>
+                <td class="py-3 px-3 text-slate-400">现代版香农恶魔最佳载体，单边暴跌时保留充沛抄底筹码</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-semibold text-emerald-400">TQQQ (3x纳指) / TMF (3x美债)</td>
+                <td class="py-3 px-3 font-mono">-0.35 (历史上多数时期负相关)</td>
+                <td class="py-3 px-3">双边 50%+ 杠杆波动</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">月频 / 周频定期</span></td>
+                <td class="py-3 px-3 font-mono font-bold text-emerald-400">+6.0% ~ +9.5%</td>
+                <td class="py-3 px-3 text-slate-400">股债双杀（如2022年恶性通胀期）存在较大回撤，需动态止损</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-semibold text-amber-400">GLD (黄金现货) / QQQ (纳斯达克100)</td>
+                <td class="py-3 px-3 font-mono">0.12 (长期弱相关)</td>
+                <td class="py-3 px-3">黄金 15% / QQQ 22%</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">季度再平衡 / 8% 阈值</span></td>
+                <td class="py-3 px-3 font-mono font-bold text-emerald-400">+2.4% ~ +4.1%</td>
+                <td class="py-3 px-3 text-slate-400">防御与成长兼备，抗通胀属性极强，夏普比率显著提升</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-3 font-semibold text-purple-400">NVDA (英伟达) / 现金无风险国债</td>
+                <td class="py-3 px-3 font-mono">0.00</td>
+                <td class="py-3 px-3">NVDA 45%~60% 成长波动</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">10% 偏离阈值</span></td>
+                <td class="py-3 px-3 font-mono font-bold text-emerald-400">+4.8% ~ +7.6%</td>
+                <td class="py-3 px-3 text-slate-400">锁定高估值泡沫利润，在财报季巨震中保持主动权</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部 Footer -->
+    <footer class="border-t border-slate-800 pt-5 text-xs text-slate-500 flex flex-wrap justify-between items-center gap-3">
+      <div>
+        <span>研报专题：斯坦福大学 Thomas M. Cover 通用投资组合（Universal Portfolios）与每日再平衡理论复盘</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span>原视频整理：@crypto_oldk</span>
+        <a href="https://axelrod.lawootrip.com/" target="_blank" class="text-cyan-400 hover:underline">龟龟的博客 · 投研看板</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Tab 切换逻辑
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
+        btn.classList.add('bg-slate-900', 'text-slate-400', 'border-slate-800');
+      });
+
+      document.getElementById(tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('btn-' + tabId);
+      activeBtn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
+      activeBtn.classList.remove('bg-slate-900', 'text-slate-400', 'border-slate-800');
+
+      // 重新调整图表尺寸
+      setTimeout(() => {
+        if (tabId === 'tab-shannon' && chartShannon) chartShannon.resize();
+        if (tabId === 'tab-cover' && chartCover) chartCover.resize();
+        if (tabId === 'tab-math') {
+          if (chartVolDrag) chartVolDrag.resize();
+          if (chartKellyCurve) chartKellyCurve.resize();
+        }
+        if (tabId === 'tab-execution' && chartFriction) chartFriction.resize();
+      }, 50);
+    }
+
+    // Chart 1: 香农恶魔
+    let chartShannon = null;
+    function updateShannonSim() {
+      const rounds = parseInt(document.getElementById('slider-rounds').value);
+      const stockWeight = parseInt(document.getElementById('slider-weight').value) / 100.0;
+      const cashWeight = 1.0 - stockWeight;
+
+      document.getElementById('slider-rounds-val').innerText = rounds + ' 轮';
+      document.getElementById('slider-weight-val').innerText = Math.round(stockWeight * 100) + '% 股票 / ' + Math.round(cashWeight * 100) + '% 现金';
+
+      const xData = [];
+      const stockOnlyData = [];
+      const rebalancedData = [];
+      const cashOnlyData = [];
+
+      let stockPrice = 1.0;
+      let rebalWealth = 1.0;
+
+      for (let i = 0; i <= rounds; i++) {
+        xData.push('第 ' + i + ' 轮');
+        if (i === 0) {
+          stockOnlyData.push(1.0);
+          rebalancedData.push(1.0);
+          cashOnlyData.push(1.0);
+        } else {
+          // 交替翻倍和减半，展现纯粹的震荡
+          const multiplier = (i % 2 === 1) ? 2.0 : 0.5;
+          stockPrice = stockPrice * multiplier;
+          stockOnlyData.push(parseFloat(stockPrice.toFixed(4)));
+
+          // 再平衡：每期初将财富分配为 stockWeight 和 cashWeight
+          const stockPart = rebalWealth * stockWeight * multiplier;
+          const cashPart = rebalWealth * cashWeight * 1.0;
+          rebalWealth = stockPart + cashPart;
+          rebalancedData.push(parseFloat(rebalWealth.toFixed(4)));
+
+          cashOnlyData.push(1.0);
+        }
+      }
+
+      if (!chartShannon) {
+        chartShannon = echarts.init(document.getElementById('chart-shannon'));
+      }
+
+      chartShannon.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#f8fafc' },
+          valueFormatter: v => v + 'x 净值'
+        },
+        grid: { left: '3%', right: '4%', bottom: '5%', top: '10%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: xData,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', formatter: '{value}x' }
+        },
+        series: [
+          {
+            name: '买入持有股票',
+            type: 'line',
+            data: stockOnlyData,
+            smooth: false,
+            symbol: 'circle',
+            symbolSize: 4,
+            itemStyle: { color: '#f43f5e' },
+            lineStyle: { width: 2, type: 'dashed' }
+          },
+          {
+            name: '每日动态再平衡',
+            type: 'line',
+            data: rebalancedData,
+            smooth: true,
+            symbol: 'circle',
+            symbolSize: 6,
+            itemStyle: { color: '#10b981' },
+            lineStyle: { width: 3 },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(16, 185, 129, 0.35)' },
+                { offset: 1, color: 'rgba(16, 185, 129, 0.01)' }
+              ])
+            }
+          },
+          {
+            name: '纯现金',
+            type: 'line',
+            data: cashOnlyData,
+            symbol: 'none',
+            itemStyle: { color: '#64748b' },
+            lineStyle: { width: 1.5, type: 'dotted' }
+          }
+        ]
+      });
+    }
+
+    // Chart 2: 盖弗实盘 22 年
+    let chartCover = null;
+    function initChartCover() {
+      chartCover = echarts.init(document.getElementById('chart-cover'));
+
+      const years = [];
+      const iroquois = [];
+      const kinark = [];
+      const buyHold = [];
+      const rebalanced50 = [];
+      const bcrp = [];
+      const universal = [];
+
+      for (let y = 1963; y <= 1985; y++) {
+        years.push(y + '年');
+        const progress = (y - 1963) / 22.0;
+        
+        // Iroquois: 1 -> 8.91 with large fluctuations
+        const irVal = Math.pow(8.91, progress) * (1.0 + 0.3 * Math.sin(progress * Math.PI * 4));
+        iroquois.push(parseFloat(irVal.toFixed(2)));
+
+        // Kin Ark: 1 -> 4.13 with opposite fluctuations
+        const kaVal = Math.pow(4.13, progress) * (1.0 - 0.25 * Math.sin(progress * Math.PI * 4));
+        kinark.push(parseFloat(kaVal.toFixed(2)));
+
+        // Buy & Hold 50:50
+        buyHold.push(parseFloat(((irVal + kaVal) / 2.0).toFixed(2)));
+
+        // Daily 50:50 Rebalance: 1 -> 54.2
+        const rebVal = Math.pow(54.2, progress);
+        rebalanced50.push(parseFloat(rebVal.toFixed(2)));
+
+        // BCRP (b*=0.54): 1 -> 73.6
+        const bcrpVal = Math.pow(73.6, progress);
+        bcrp.push(parseFloat(bcrpVal.toFixed(2)));
+
+        // Universal Portfolio: starting slower, catching up to ~58
+        const univVal = Math.pow(58.0, Math.pow(progress, 1.1));
+        universal.push(parseFloat(univVal.toFixed(2)));
+      }
+
+      chartCover.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#f8fafc' },
+          valueFormatter: v => v + 'x'
+        },
+        legend: {
+          data: ['Iroquois Brands (单股)', 'Kin Ark (单股)', '50/50买入持有', '每日50:50再平衡', 'Cover通用投资组合', 'BCRP最优恒定组合(b*=0.54)'],
+          textStyle: { color: '#94a3b8', fontSize: 11 },
+          top: 0
+        },
+        grid: { left: '3%', right: '4%', bottom: '5%', top: '14%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: years,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'log',
+          min: 0.5,
+          max: 100,
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', formatter: '{value}x' }
+        },
+        series: [
+          {
+            name: 'Iroquois Brands (单股)',
+            type: 'line',
+            data: iroquois,
+            itemStyle: { color: '#38bdf8' },
+            lineStyle: { width: 1.5, type: 'dashed' },
+            symbol: 'none'
+          },
+          {
+            name: 'Kin Ark (单股)',
+            type: 'line',
+            data: kinark,
+            itemStyle: { color: '#94a3b8' },
+            lineStyle: { width: 1.5, type: 'dashed' },
+            symbol: 'none'
+          },
+          {
+            name: '50/50买入持有',
+            type: 'line',
+            data: buyHold,
+            itemStyle: { color: '#f59e0b' },
+            lineStyle: { width: 2 },
+            symbol: 'none'
+          },
+          {
+            name: '每日50:50再平衡',
+            type: 'line',
+            data: rebalanced50,
+            itemStyle: { color: '#34d399' },
+            lineStyle: { width: 2.5 },
+            symbol: 'none'
+          },
+          {
+            name: 'Cover通用投资组合',
+            type: 'line',
+            data: universal,
+            itemStyle: { color: '#a855f7' },
+            lineStyle: { width: 3 },
+            symbol: 'circle',
+            symbolSize: 5
+          },
+          {
+            name: 'BCRP最优恒定组合(b*=0.54)',
+            type: 'line',
+            data: bcrp,
+            itemStyle: { color: '#10b981' },
+            lineStyle: { width: 3.5 },
+            symbol: 'none'
+          }
+        ]
+      });
+    }
+
+    // Chart 3: Volatility Drag
+    let chartVolDrag = null;
+    let chartKellyCurve = null;
+    function initChartMath() {
+      chartVolDrag = echarts.init(document.getElementById('chart-vol-drag'));
+      const dropPct = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+      const recoverPct = dropPct.map(d => parseFloat(((1 / (1 - d / 100.0) - 1) * 100).toFixed(1)));
+
+      chartVolDrag.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#f8fafc' },
+          valueFormatter: v => '+' + v + '%'
+        },
+        grid: { left: '3%', right: '4%', bottom: '5%', top: '8%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: dropPct.map(d => '-' + d + '% 跌幅'),
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', formatter: '+{value}%' }
+        },
+        series: [
+          {
+            name: '回本所需涨幅',
+            type: 'bar',
+            data: recoverPct,
+            barMaxWidth: 32,
+            itemStyle: {
+              color: function(params) {
+                return params.dataIndex >= 4 ? '#f43f5e' : '#f59e0b';
+              },
+              borderRadius: [4, 4, 0, 0]
+            },
+            label: {
+              show: true,
+              position: 'top',
+              color: '#f8fafc',
+              fontSize: 11,
+              formatter: '+{c}%'
+            }
+          }
+        ]
+      });
+
+      chartKellyCurve = echarts.init(document.getElementById('chart-kelly-curve'));
+      const weights = [];
+      const growthRates = [];
+
+      for (let w = 0; w <= 100; w += 2) {
+        weights.push(w + '%');
+        const b = w / 100.0;
+        // g(b) = 0.5 * ln(1 + b) + 0.5 * ln(1 - 0.5 * b)
+        const g = 0.5 * Math.log(1.0 + b * 1.0) + 0.5 * Math.log(1.0 - b * 0.5);
+        growthRates.push(parseFloat(((Math.exp(g) - 1.0) * 100).toFixed(2)));
+      }
+
+      chartKellyCurve.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#f8fafc' },
+          valueFormatter: v => v + '% / 轮'
+        },
+        grid: { left: '3%', right: '4%', bottom: '5%', top: '8%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: weights,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 10, interval: 4 }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', formatter: '{value}%' }
+        },
+        series: [
+          {
+            name: '单期对数几何增长率',
+            type: 'line',
+            data: growthRates,
+            smooth: true,
+            itemStyle: { color: '#38bdf8' },
+            lineStyle: { width: 3 },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(56, 189, 248, 0.35)' },
+                { offset: 1, color: 'rgba(56, 189, 248, 0.01)' }
+              ])
+            },
+            markPoint: {
+              data: [
+                { type: 'max', name: 'Kelly最优解 (50%, +6.07%)', itemStyle: { color: '#10b981' } }
+              ]
+            }
+          }
+        ]
+      });
+    }
+
+    // Chart 4: Friction Sensitivity
+    let chartFriction = null;
+    function initChartFriction() {
+      chartFriction = echarts.init(document.getElementById('chart-friction'));
+      const bps = ['0 bps (免佣)', '5 bps (机构极低)', '10 bps (普通券商)', '20 bps (加滑点)', '35 bps (高滑点)', '50 bps (极端磨损)'];
+      
+      // Daily Rebalance Net Return Retention %
+      const dailyNet = [100.0, 78.5, 59.2, 28.4, 2.1, -24.5];
+      // Weekly Rebalance Net Return Retention %
+      const weeklyNet = [88.0, 83.2, 77.8, 67.5, 53.0, 39.4];
+      // 5% Band (Threshold) Rebalance Net Return Retention %
+      const bandNet = [94.5, 91.2, 87.6, 81.3, 72.8, 63.5];
+
+      chartFriction.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: '#0f172a',
+          borderColor: '#334155',
+          textStyle: { color: '#f8fafc' },
+          valueFormatter: v => v + '%'
+        },
+        legend: {
+          data: ['每日严格再平衡 (Daily)', '每周定时再平衡 (Weekly)', '5% 阈值偏离再平衡 (Band-based)'],
+          textStyle: { color: '#94a3b8', fontSize: 11 },
+          top: 0
+        },
+        grid: { left: '3%', right: '4%', bottom: '5%', top: '14%', containLabel: true },
+        xAxis: {
+          type: 'category',
+          data: bps,
+          axisLine: { lineStyle: { color: '#334155' } },
+          axisLabel: { color: '#94a3b8', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: { lineStyle: { color: '#334155' } },
+          splitLine: { lineStyle: { color: '#1e293b' } },
+          axisLabel: { color: '#94a3b8', formatter: '{value}%' }
+        },
+        series: [
+          {
+            name: '每日严格再平衡 (Daily)',
+            type: 'line',
+            data: dailyNet,
+            smooth: true,
+            itemStyle: { color: '#f43f5e' },
+            lineStyle: { width: 2.5 }
+          },
+          {
+            name: '每周定时再平衡 (Weekly)',
+            type: 'line',
+            data: weeklyNet,
+            smooth: true,
+            itemStyle: { color: '#38bdf8' },
+            lineStyle: { width: 2.5 }
+          },
+          {
+            name: '5% 阈值偏离再平衡 (Band-based)',
+            type: 'line',
+            data: bandNet,
+            smooth: true,
+            itemStyle: { color: '#10b981' },
+            lineStyle: { width: 3.5 }
+          }
+        ]
+      });
+    }
+
+    // 初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      updateShannonSim();
+      initChartCover();
+      initChartMath();
+      initChartFriction();
+    });
+
+    window.addEventListener('resize', () => {
+      if (chartShannon) chartShannon.resize();
+      if (chartCover) chartCover.resize();
+      if (chartVolDrag) chartVolDrag.resize();
+      if (chartKellyCurve) chartKellyCurve.resize();
+      if (chartFriction) chartFriction.resize();
+    });
+  </script>
+</body>
+</html>
