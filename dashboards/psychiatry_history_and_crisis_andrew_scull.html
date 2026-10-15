@@ -2,20 +2,28 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>为什么人类治不好心病？精神医学200年荒诞史与现代危机（零基础通俗导读） | Lex Fridman #502</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>精神医学的200年困局与现代危机：从疯人院、脑叶切除到百亿脑科学迷思 | Lex Fridman #502 深度解析</title>
   <!-- 微信/社交分享适配：缩略图、标题、描述（图片绝对路径，300x300，无英文双引号描述） -->
-  <meta name="description" content="专为好奇读者打造的零门槛深度导读：用大白话讲透Lex Fridman第502期播客，从拔牙切肠、冰锥捅脑子拿诺贝尔奖，到百忧解真相与200亿美元脑科学迷思。">
+  <meta name="description" content="深度解析Lex Fridman播客第502期对话医学史权威Andrew Scull：系统梳理精神医学200年演进逻辑、DSM诊断效度危机、躯体干预历史教训与现代精神药理学真相。">
   <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
   <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="为什么人类治不好心病？精神医学200年荒诞史与现代危机（零基础通俗导读）">
-  <meta property="og:description" content="专为好奇读者打造的零门槛深度导读：用大白话讲透Lex Fridman第502期播客，从拔牙切肠、冰锥捅脑子拿诺贝尔奖，到百忧解真相与200亿美元脑科学迷思。">
+  <meta property="og:title" content="精神医学的200年困局与现代危机：从疯人院、脑叶切除到百亿脑科学迷思">
+  <meta property="og:description" content="深度解析Lex Fridman播客第502期对话医学史权威Andrew Scull：系统梳理精神医学200年演进逻辑、DSM诊断效度危机、躯体干预历史教训与现代精神药理学真相。">
   <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
   <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/psychiatry_history_and_crisis_andrew_scull.html">
 
-  <!-- Apache ECharts CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <!-- 异步非阻塞加载 ECharts（含多 CDN 自动容灾切换，彻底杜绝移动端网络阻塞导致交互脚本失效） -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="window.__loadFallbackEcharts && window.__loadFallbackEcharts()"></script>
+  <script>
+    window.__loadFallbackEcharts = function() {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+  </script>
 
   <style>
     :root {
@@ -37,13 +45,20 @@
       --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: rgba(56, 189, 248, 0.2);
+    }
+    html, body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background-color: var(--bg-body);
       color: var(--text-main);
-      line-height: 1.7;
-      padding: 24px 16px;
+      line-height: 1.68;
+      padding: 20px 14px;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
     }
     a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s; }
     a:hover { opacity: 0.85; text-decoration: underline; }
@@ -54,8 +69,8 @@
       background: linear-gradient(135deg, #162035 0%, #0d1424 100%);
       border: 1px solid var(--border-color);
       border-radius: 16px;
-      padding: 28px 32px;
-      margin-bottom: 22px;
+      padding: 26px 30px;
+      margin-bottom: 20px;
       position: relative;
       box-shadow: var(--shadow-card);
       overflow: hidden;
@@ -65,29 +80,29 @@
       position: absolute;
       top: -60px; right: -60px;
       width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(129, 140, 248, 0.08) 50%, transparent 80%);
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(129, 140, 248, 0.08) 50%, transparent 80%);
       pointer-events: none;
     }
     .header-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       padding: 4px 14px;
       border-radius: 9999px;
       font-size: 12px;
       font-weight: 700;
-      color: #34d399;
+      color: var(--accent-cyan);
       margin-bottom: 12px;
       letter-spacing: 0.5px;
     }
     .header-badge .dot {
-      width: 8px; height: 8px; border-radius: 50%; background: #10b981;
-      box-shadow: 0 0 8px #10b981;
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
     }
     h1 {
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: -0.02em;
@@ -95,16 +110,16 @@
       line-height: 1.35;
     }
     .subtitle {
-      font-size: 14.5px;
+      font-size: 14px;
       color: #cbd5e1;
       max-width: 1150px;
-      line-height: 1.7;
+      line-height: 1.68;
       margin-bottom: 16px;
     }
     .meta-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 18px;
+      gap: 16px;
       font-size: 12.5px;
       color: var(--text-muted);
       padding-top: 14px;
@@ -112,19 +127,19 @@
     }
     .meta-item b { color: #e2e8f0; }
 
-    /* 3-Minute Layperson Analogy Strip */
+    /* Three Core Analytical Frameworks Strip */
     .analogy-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
     }
     .analogy-card {
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
       border: 1px solid rgba(56, 189, 248, 0.3);
       border-top: 3px solid var(--accent-cyan);
       border-radius: 12px;
-      padding: 18px 20px;
+      padding: 16px 18px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     }
     .analogy-card.purple { border-top-color: var(--accent-purple); border-color: rgba(129, 140, 248, 0.3); }
@@ -141,10 +156,10 @@
     .analogy-card.purple .analogy-tag { color: var(--accent-purple); }
     .analogy-card.amber .analogy-tag { color: var(--accent-amber); }
     .analogy-title {
-      font-size: 15.5px;
+      font-size: 15px;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .analogy-body {
       font-size: 13px;
@@ -155,19 +170,18 @@
     /* KPI Summary Row */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
     }
     .kpi-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 16px 18px;
+      padding: 14px 16px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.25);
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
     }
     .kpi-card::before {
       content: "";
@@ -175,14 +189,10 @@
       top: 0; left: 0; width: 100%; height: 3px;
       background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
     }
-    .kpi-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-cyan);
-    }
-    .kpi-title { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px; }
-    .kpi-val { font-size: 23px; font-weight: 800; color: #fff; font-family: monospace; margin-bottom: 4px; }
-    .kpi-sub { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .kpi-pill { font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+    .kpi-title { font-size: 11.5px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px; }
+    .kpi-val { font-size: 20px; font-weight: 800; color: #fff; font-family: monospace; margin-bottom: 4px; }
+    .kpi-sub { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; }
+    .kpi-pill { font-size: 10.5px; padding: 1px 6px; border-radius: 4px; font-weight: 600; display: inline-block; margin-right: 4px; margin-bottom: 2px; }
     .pill-rose { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
     .pill-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
     .pill-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
@@ -190,30 +200,47 @@
     .pill-purple { background: rgba(129, 140, 248, 0.15); color: #a5b4fc; border: 1px solid rgba(129, 140, 248, 0.3); }
 
     /* Navigation Tabs */
+    .tabs-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding-top: 6px;
+      margin-bottom: 20px;
+    }
     .tabs-bar {
       display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
+      gap: 8px;
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .tabs-bar::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: var(--text-muted);
-      padding: 10px 18px;
+      padding: 10px 16px;
       border-radius: 8px;
       font-size: 13.5px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
       white-space: nowrap;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-shrink: 0;
     }
     .tab-btn:hover { background: var(--bg-elevated); color: #fff; }
+    .tab-btn:active { transform: scale(0.98); }
     .tab-btn.active {
       background: linear-gradient(135deg, #2563eb, #4f46e5);
       color: #fff;
@@ -230,23 +257,21 @@
       grid-template-columns: 1fr 420px;
       gap: 20px;
       margin-bottom: 24px;
-    }
-    @media (max-width: 1120px) {
-      .chess-layout { grid-template-columns: 1fr; }
+      align-items: start;
     }
 
     .chessboard-container {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 22px;
+      padding: 20px;
       box-shadow: var(--shadow-card);
     }
     .sec-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
       gap: 8px;
     }
@@ -303,28 +328,43 @@
       border-radius: 8px;
       padding: 12px 14px;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
       position: relative;
+      display: block;
+      width: 100%;
+      text-align: left;
     }
     .piece-card:hover {
       border-color: var(--accent-cyan);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+    }
+    .piece-card:active {
+      background: #1c2b4b;
     }
     .piece-card.active {
-      border-color: #60a5fa;
+      border-color: #38bdf8;
       background: #192540;
-      box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
     }
     .piece-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 4px;
+      pointer-events: none;
     }
-    .piece-name { font-size: 13.5px; font-weight: 700; color: #fff; }
-    .piece-year { font-size: 11px; font-weight: 600; color: var(--text-dim); font-family: monospace; }
-    .piece-val { font-size: 12.5px; font-weight: 700; color: var(--accent-amber); margin-bottom: 4px; }
+    .piece-name { font-size: 13.5px; font-weight: 700; color: #fff; pointer-events: none; }
+    .piece-year { font-size: 11px; font-weight: 600; color: var(--text-dim); font-family: monospace; pointer-events: none; }
+    .piece-val { font-size: 12.5px; font-weight: 700; color: var(--accent-amber); margin-bottom: 6px; pointer-events: none; }
+    .piece-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
     .piece-tag {
       font-size: 11px;
       padding: 2px 6px;
@@ -332,26 +372,34 @@
       background: rgba(255,255,255,0.06);
       color: var(--text-muted);
       display: inline-block;
+      pointer-events: none;
+    }
+    .piece-hint {
+      font-size: 11px;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      display: none;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
     /* Inspector Console */
     .inspector-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      background: #152038;
+      border: 1.5px solid #38bdf8;
       border-radius: 14px;
-      padding: 22px;
-      box-shadow: var(--shadow-card);
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
       position: sticky;
-      top: 20px;
-      align-self: start;
+      top: 68px;
     }
     .inspector-header {
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 14px;
+      padding-bottom: 12px;
       margin-bottom: 14px;
     }
     .ins-label { font-size: 11.5px; color: var(--accent-cyan); font-weight: 700; }
-    .ins-target { font-size: 19px; font-weight: 800; color: #fff; margin-top: 4px; line-height: 1.35; }
+    .ins-target { font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px; line-height: 1.35; }
     .ins-badges { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 
     .ins-item { margin-bottom: 14px; }
@@ -375,9 +423,6 @@
       gap: 20px;
       margin-bottom: 24px;
     }
-    @media (max-width: 960px) {
-      .charts-grid { grid-template-columns: 1fr; }
-    }
     .chart-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -388,7 +433,7 @@
     .chart-sub {
       font-size: 12.5px;
       color: var(--text-muted);
-      margin-top: -10px;
+      margin-top: -8px;
       margin-bottom: 14px;
     }
     .chart-box { height: 360px; width: 100%; }
@@ -396,7 +441,7 @@
     /* Cards & Tables */
     .analysis-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -406,20 +451,16 @@
       border-radius: 12px;
       padding: 20px;
       box-shadow: var(--shadow-card);
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .card-modern:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-cyan);
     }
     .card-modern h3 {
-      font-size: 16.5px;
+      font-size: 16px;
       font-weight: 700;
       color: #fff;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 8px;
+      line-height: 1.4;
     }
     .card-modern p {
       font-size: 13.5px;
@@ -451,6 +492,7 @@
       border: 1px solid var(--border-color);
       border-radius: 12px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin-bottom: 24px;
       box-shadow: var(--shadow-card);
     }
@@ -489,6 +531,81 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+
+    /* ==========================================================
+       MOBILE & TABLET OPTIMIZATION (<= 1024px & <= 640px)
+       ========================================================== */
+    @media (max-width: 1024px) {
+      .analogy-strip { grid-template-columns: 1fr; gap: 12px; }
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .chess-layout { grid-template-columns: 1fr; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .piece-hint { display: inline-block; }
+
+      /* On mobile/tablet, inspector-box expands directly below the tapped card */
+      .inspector-box {
+        position: relative;
+        top: 0;
+        margin-top: 6px;
+        margin-bottom: 10px;
+        border: 1.5px solid #38bdf8;
+        background: linear-gradient(180deg, #172542 0%, #111a2e 100%);
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      html, body { padding: 10px 8px; }
+      header { padding: 16px 14px; border-radius: 12px; margin-bottom: 14px; }
+      h1 { font-size: 19px; line-height: 1.35; }
+      .subtitle { font-size: 13px; line-height: 1.6; }
+      .meta-bar { gap: 6px 12px; font-size: 11.5px; }
+
+      .analogy-card { padding: 14px; }
+      .analogy-title { font-size: 14px; }
+      .analogy-body { font-size: 12.5px; }
+
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+      .kpi-card { padding: 11px 12px; }
+      .kpi-val { font-size: 17px; }
+      .kpi-title { font-size: 11px; }
+      .kpi-sub { font-size: 10.5px; }
+
+      .tabs-bar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        overflow-x: visible;
+      }
+      .tab-btn {
+        padding: 9px 10px;
+        font-size: 12px;
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.3;
+      }
+      .tab-btn:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .chessboard-container { padding: 12px 10px; }
+      .tier-block { padding: 12px 10px; margin-bottom: 12px; }
+      .pieces-grid { grid-template-columns: 1fr; gap: 8px; }
+      .piece-card { padding: 12px; }
+
+      .inspector-box { padding: 15px 13px; border-radius: 10px; }
+      .ins-target { font-size: 16px; }
+      .ins-item-content { font-size: 13px; }
+
+      .chart-card { padding: 14px 10px; }
+      .chart-box { height: 290px; }
+      .sec-title { font-size: 15px; }
+      .card-modern { padding: 15px 13px; }
+      .card-modern h3 { font-size: 15px; }
+      thead th, tbody td { padding: 10px; font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -501,43 +618,43 @@
     <!-- Header -->
     <header>
       <div class="header-badge">
-        <span class="dot"></span> 零基础好奇者导读版 · Lex Fridman Podcast #502 深度故事笔记
+        <span class="dot"></span> 深度跨学科导读 · Lex Fridman Podcast #502
       </div>
-      <h1>为什么人类治不好“心病”？精神医学 200 年荒诞史与现代危机</h1>
+      <h1>精神医学的 200 年困局与现代危机：从疯人院、脑叶切除到百亿脑科学迷思</h1>
       <p class="subtitle">
-        无需任何脑科学或医学背景！带你像听侦探故事一样读懂 <a href="https://www.youtube.com/watch?v=s7d2d8FhevU" target="_blank">Lex Fridman #502</a> 对话精神医学史泰斗 <a href="https://sociology.ucsd.edu/people/faculty/emeritus/andrew-scull.html" target="_blank">Andrew Scull</a> 教授的 3.5 小时访谈：为什么肺炎打一针青霉素就能除根，而面对抑郁症和精神分裂症，人类折腾了 200 年（拔光牙齿切大肠、拿碎冰锥捅脑子、甚至连拿两次诺贝尔奖）、砸了 200 亿美元研究脑细胞，至今连“病根在哪”都没摸清？
+        基于 <a href="https://www.youtube.com/watch?v=s7d2d8FhevU" target="_blank">Lex Fridman #502</a> 对话加州大学圣地亚哥分校（UCSD）社会学与科学史权威 <a href="https://sociology.ucsd.edu/people/faculty/emeritus/andrew-scull.html" target="_blank">Andrew Scull</a> 教授的 216 分钟访谈。面向非脑科学背景的深度读者，系统梳理现代精神医学为何在投入数百亿美元后仍未找到“精神科的青霉素”，剖析 DSM 诊断体系的效度悖论、20 世纪激进躯体干预的历史教训，以及现代精神药理学的真实临床边界。
       </p>
       <div class="meta-bar">
-        <span class="meta-item">原视频出处：<b><a href="https://www.youtube.com/watch?v=s7d2d8FhevU" target="_blank">Lex Fridman Podcast #502 (YouTube)</a></b></span>
-        <span class="meta-item">讲述人：<b><a href="https://sociology.ucsd.edu/people/faculty/emeritus/andrew-scull.html" target="_blank">Andrew Scull</a> (《绝望的疗法》作者)</b></span>
-        <span class="meta-item">官方文稿：<b><a href="https://lexfridman.com/andrew-scull-transcript/" target="_blank">Transcript 全文</a> / <a href="https://lexfridman.com/andrew-scull/" target="_blank">节目主页</a></b></span>
-        <span class="meta-item">通俗改写与制图：<b>龟龟 (LawooTrip)</b></span>
+        <span class="meta-item">原视频：<b><a href="https://www.youtube.com/watch?v=s7d2d8FhevU" target="_blank">Lex Fridman Podcast #502 (YouTube)</a></b></span>
+        <span class="meta-item">受访学者：<b><a href="https://sociology.ucsd.edu/people/faculty/emeritus/andrew-scull.html" target="_blank">Andrew Scull</a> (《绝望的疗法》作者)</b></span>
+        <span class="meta-item">官方档案：<b><a href="https://lexfridman.com/andrew-scull-transcript/" target="_blank">Transcript 全文</a> / <a href="https://lexfridman.com/andrew-scull/" target="_blank">Episode Notes</a></b></span>
+        <span class="meta-item">研究整理：<b>龟龟 (LawooTrip)</b></span>
       </div>
     </header>
 
-    <!-- 3-Minute Layperson Analogy Strip -->
+    <!-- Three Core Frameworks Strip -->
     <div class="analogy-strip">
       <div class="analogy-card">
-        <div class="analogy-tag">🎯 比喻一：为什么说精神科没有“青霉素”？</div>
-        <div class="analogy-title">止痛退烧片 vs 杀菌除根药</div>
+        <div class="analogy-tag">🎯 核心命题一：对症控制 vs 靶向根治</div>
+        <div class="analogy-title">为什么精神医学至今没有“青霉素”？</div>
         <div class="analogy-body">
-          你得肺炎发高烧，<b>青霉素</b>能直接杀死肺里的细菌（这叫<b>除病根</b>）；而退烧药只能让你暂时不烧（这叫<b>压症状</b>）。现代所有的抗抑郁药、抗精神病药和心理咨询，本质上都是<b>“情绪退烧片”</b>——对一部分人有用，但没人知道病根在哪，而且常有严重副作用。
+          在感染医学中，<b>青霉素</b>能直接杀灭肺炎病原体（消除病因）；而退烧药仅能缓解发热感受（控制症状）。现代抗抑郁药、抗精神病药与心理治疗本质上均属于<b>“对症缓解工具”</b>——它们能帮助部分患者控制急性症状，但学界至今未能阐明绝大多数精神障碍的底层致病机制。
         </div>
       </div>
 
       <div class="analogy-card purple">
-        <div class="analogy-tag">📋 比喻二：精神科医生是怎么看病打勾的？</div>
-        <div class="analogy-title">把所有发烧都叫“1号发热病”</div>
+        <div class="analogy-tag">📋 核心命题二：信度（Reliability）≠ 效度（Validity）</div>
+        <div class="analogy-title">DSM 诊断手册的“18世纪热病”困境</div>
         <div class="analogy-body">
-          假设古代医生不懂病毒细菌，规定“体温超38度+头晕+出汗”就统一确诊为<b>“发热病”</b>。全天下医生按表打勾，结论100%一致（行话叫<b>信度高</b>）；但其实有人是感冒、有人是阑尾炎，根本不是同一种病（行话叫<b>没效度</b>）。今天的精神科诊断手册（DSM）干的就是这种表面打勾游戏！
+          18 世纪医生尚不知晓细菌与病毒，若规定“凡体温超38.5℃伴乏力出汗即确诊为热病”，则所有医生的诊断高度一致（<b>高信度</b>），但实质上将肺炎、疟疾与阑尾炎混为一谈（<b>低效度</b>）。现行 DSM 手册依赖表面症状勾选，虽满足了药企报批与医保理赔的标准化需求，却缺乏生物学病理支撑。
         </div>
       </div>
 
       <div class="analogy-card amber">
-        <div class="analogy-tag">💻 比喻三：从“不看脑子”到“只看脑子”</div>
-        <div class="analogy-title">修电脑只查童年，还是只换电容？</div>
+        <div class="analogy-tag">⚖️ 核心命题三：还原论的钟摆效应</div>
+        <div class="analogy-title">从“无脑（Brainless）”到“无心（Mindless）”</div>
         <div class="analogy-body">
-          哈佛名医感叹精神科走过两个极端：前50年（弗洛伊德时代）像<b>“不拆机箱修电脑”</b>，不管大脑硬件，觉得一切疯癫全怪童年缺爱；后50年（吃药时代）又变成<b>“无心机器”</b>，不管你是不是失业、丧偶或孤独，进门10分钟只管开药补“脑内化学水”。
+          哈佛大学 Leon Eisenberg 教授指出精神医学在百年间经历了两次极端摇摆：20 世纪中叶弗洛伊德学派统治时期，完全无视大脑作为生物器官的作用（<b>无脑</b>）；而 1980 年代后生物精神病学全面主导，门诊沦为 10 分钟开药流水线，忽视了患者的创伤经历、家庭压力与社会孤立（<b>无心</b>）。
         </div>
       </div>
     </div>
@@ -545,93 +662,101 @@
     <!-- KPI Summary Row -->
     <div class="kpi-grid">
       <div class="kpi-card">
-        <div class="kpi-title">“80% 治愈率”吹牛魔咒</div>
-        <div class="kpi-val">80% ➔ 10%</div>
+        <div class="kpi-title">“80% 治愈率”历史周期律</div>
+        <div class="kpi-val">80% vs 10%</div>
         <div class="kpi-sub">
-          <span class="kpi-pill pill-rose">历史老剧本</span> 疯人院/拔牙/昏迷疗法当年全吹嘘80%治好
+          <span class="kpi-pill pill-rose">过度承诺</span> 疯人院/感染切除/胰岛素昏迷初期均宣称80%治愈
         </div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">美国脑科学豪赌打水漂</div>
+        <div class="kpi-title">NIMH 脑科学与基因投入</div>
         <div class="kpi-val">$200 亿+</div>
         <div class="kpi-sub">
-          <span class="kpi-pill pill-amber">局长亲口认栽</span> 论文发了无数篇，病人处境没改善分毫
+          <span class="kpi-pill pill-amber">转化停滞</span> 前主任 Insel 坦言巨额科研未改善患者现实处境
         </div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">百忧解等抗抑郁药真实得分</div>
-        <div class="kpi-val">仅多 1~2 分</div>
+        <div class="kpi-title">GWAS 基因变异解释上限</div>
+        <div class="kpi-val">~10%</div>
         <div class="kpi-sub">
-          <span class="kpi-pill pill-purple">60分满分表</span> 比吃淀粉糖丸只高1-2分，超40%人完全无效
+          <span class="kpi-pill pill-purple">连续谱系</span> 300+微效基因位点仅能解释约10%精神分裂症风险
         </div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">天价二代精神病药退赛率</div>
+        <div class="kpi-title">CATIE 抗精神病药脱落率</div>
         <div class="kpi-val">67%–82%</div>
         <div class="kpi-sub">
-          <span class="kpi-pill pill-rose">贵10倍没更好</span> 受不了暴肥50斤或没效果，大半病人中途停药
+          <span class="kpi-pill pill-rose">二代药祛魅</span> 因疗效不佳或严重代谢副作用中途退出试验
         </div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">重度患者平均少活多少年</div>
+        <div class="kpi-title">SSRIs 抑郁量表净效应</div>
+        <div class="kpi-val">+1~2 分 / 60</div>
+        <div class="kpi-sub">
+          <span class="kpi-pill pill-cyan">统计vs临床</span> 60分量表仅优于安慰剂1-2分，逾40%患者无应答
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">重度患者预期寿命折损</div>
         <div class="kpi-val">-15~25 年</div>
         <div class="kpi-sub">
-          <span class="kpi-pill pill-rose">全美前3大精神病院是监狱</span> 关掉疯人院却没建社区诊所
-        </div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-title">拔牙切肠与冰锥手术受害者</div>
-        <div class="kpi-val">70% 是女性</div>
-        <div class="kpi-sub">
-          <span class="kpi-pill pill-cyan">残酷性别偏见</span> 女性更容易被当成“情绪失控”推上手术台
+          <span class="kpi-pill pill-rose">公共政策溃败</span> 去机构化后全美前三大精神病收容所沦为监狱
         </div>
       </div>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="tabs-bar">
-      <button class="tab-btn active" onclick="switchTab('tab-study', this)">📖 11个骇人听闻的真实历史故事（点击卡片互动）</button>
-      <button class="tab-btn" onclick="switchTab('tab-charts', this)">📊 一眼看懂：吹牛治愈率 vs 残酷真相图表</button>
-      <button class="tab-btn" onclick="switchTab('tab-dimensions', this)">💡 核心解惑：关于吃药、心理咨询与医院的4大真相</button>
-      <button class="tab-btn" onclick="switchTab('tab-rivalry', this)">⚔️ 5场神仙打架：弗洛伊德、荣格、CBT与药企恩怨</button>
-      <button class="tab-btn" onclick="switchTab('tab-watchlist', this)">🛡️ 普通人防坑指南 & 黑话翻译词典</button>
+    <div class="tabs-wrapper">
+      <div class="tabs-bar" id="tabsBar">
+        <button type="button" class="tab-btn active" data-tab="tab-study" onclick="window.switchTab('tab-study', this)">🏛️ 200年演进脉络与15章导读</button>
+        <button type="button" class="tab-btn" data-tab="tab-charts" onclick="window.switchTab('tab-charts', this)">📊 临床数据与诊断图表</button>
+        <button type="button" class="tab-btn" data-tab="tab-dimensions" onclick="window.switchTab('tab-dimensions', this)">🧠 四大核心维度推演</button>
+        <button type="button" class="tab-btn" data-tab="tab-rivalry" onclick="window.switchTab('tab-rivalry', this)">⚔️ 学派与产业五大交锋</button>
+        <button type="button" class="tab-btn" data-tab="tab-watchlist" onclick="window.switchTab('tab-watchlist', this)">🔭 前瞻指标与概念词典</button>
+      </div>
     </div>
 
-    <!-- TAB 1: 11个历史故事与15章导读 -->
+    <!-- TAB 1: 200年演进脉络与15章导读 -->
     <div id="tab-study" class="tab-panel active">
-      <div class="chess-layout">
-        <!-- Left: 4 Story Chapters Matrix -->
+      <div class="chess-layout" id="chessLayout">
+        <!-- Left: 4 Historical Eras Matrix -->
         <div class="chessboard-container">
           <div class="sec-head">
             <div class="sec-title">
-              <span>🧭 精神医学 200 年闯关地图：从好心办坏事到现代反思</span>
-              <span class="sec-badge">👈 点击下方任意卡片，右侧立刻讲故事给你听</span>
+              <span>🧭 精神医学 200 年四大历史阶段与关键干预实验</span>
+              <span class="sec-badge">轻触任意卡片展开深度解析（手机端直接在卡片下方展开）</span>
             </div>
-            <div style="font-size: 12px; color: var(--text-dim);">共 11 个关键故事节点</div>
+            <div style="font-size: 12px; color: var(--text-dim);">共 11 个关键历史节点</div>
           </div>
 
           <!-- Era 1 -->
           <div class="tier-block">
             <div class="tier-header">
-              <div class="tier-name">🏛️ 第一幕：从“田园疗养院”变成“纳粹毒气室” (1800s – 1945)</div>
-              <div class="tier-desc">最初想把疯子从铁链地牢里救出来，治不好就开始怪病人“基因劣等”</div>
+              <div class="tier-name">🏛️ 第一阶段：道德治疗乌托邦的破产与优生学灾难 (1800s – 1945)</div>
+              <div class="tier-desc">从人道主义疗养院的慢性拥挤危机，滑向“生物退化论”、美国强制绝育与纳粹 T4 屠杀</div>
             </div>
             <div class="pieces-grid">
-              <div class="piece-card active" onclick="selectNode('asylum', this)">
+              <div class="piece-card active" role="button" tabindex="0" data-node="asylum" onclick="window.selectNode('asylum', this)">
                 <div class="piece-top">
-                  <div class="piece-name">19世纪疯人院的幻灭</div>
+                  <div class="piece-name">19世纪疗养院运动</div>
                   <div class="piece-year">1820s-1900</div>
                 </div>
-                <div class="piece-val">吹牛治好 80% ➔ 实际 10%</div>
-                <div class="piece-tag">好心建庄园 / 塞满慢性病人 / 甩锅基因坏</div>
+                <div class="piece-val">宣称 80% 治愈 ➔ 实则 ~10%</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">道德治疗 / 慢性积压 / 退化论归因</span>
+                  <span class="piece-hint">当前展开 ▾</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('eugenics', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="eugenics" onclick="window.selectNode('eugenics', this)">
                 <div class="piece-top">
-                  <div class="piece-name">强制绝育与纳粹大屠杀</div>
+                  <div class="piece-name">强制绝育与纳粹 T4 计划</div>
                   <div class="piece-year">1907-1945</div>
                 </div>
-                <div class="piece-val">美国绝育6万 / 德国毒杀25万</div>
-                <div class="piece-tag">加州带头绝育 / 德国医生帮希特勒建毒气室</div>
+                <div class="piece-val">全美6万绝育 / 德国25万屠杀</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">加州立法 / 洛克菲勒资助 / 毒气室起源</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
             </div>
           </div>
@@ -639,49 +764,64 @@
           <!-- Era 2 -->
           <div class="tier-block">
             <div class="tier-header">
-              <div class="tier-name">🔪 第二幕：像恐怖片一样的“肉体折腾狂潮” (1916 – 1950s)</div>
-              <div class="tier-desc">为什么拔牙切大肠、拿冰锥捅脑子不仅合法，还拿了两次诺贝尔奖？</div>
+              <div class="tier-name">🔪 第二阶段：激进躯体干预实验时期 (1917 – 1950s)</div>
+              <div class="tier-desc">受晚期梅毒发热疗法启发，在缺乏对照试验与患者知情权的封闭病房内推行高致死率干预</div>
             </div>
             <div class="pieces-grid">
-              <div class="piece-card" onclick="selectNode('malaria', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="malaria" onclick="window.selectNode('malaria', this)">
                 <div class="piece-top">
-                  <div class="piece-name">用疟疾高烧“烧死”梅毒</div>
+                  <div class="piece-name">疟疾高热疗法 (治神经梅毒)</div>
                   <div class="piece-year">1917 / 1937诺奖</div>
                 </div>
-                <div class="piece-val">把所有医生带进沟里的成功</div>
-                <div class="piece-tag">四分之一疯子其实是梅毒入脑 / 放毒蚊子咬人</div>
+                <div class="piece-val">Wagner-Jauregg</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">GPI占入院25% / 高烧杀灭梅毒螺旋体</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('cotton', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="cotton" onclick="window.selectNode('cotton', this)">
                 <div class="piece-top">
-                  <div class="piece-name">拔光牙齿、切掉大肠治疯病</div>
+                  <div class="piece-name">局灶性感染与器官切除</div>
                   <div class="piece-year">1916-1960</div>
                 </div>
-                <div class="piece-val">切大肠死亡率高达 45%</div>
-                <div class="piece-tag">怀疑细菌放毒 / 普林斯顿捧场 / 70%切的是女性</div>
+                <div class="piece-val">腹部手术死亡率达 45%</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">Henry Cotton / 拔牙切结肠 / 70%女性</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('insulin', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="insulin" onclick="window.selectNode('insulin', this)">
                 <div class="piece-top">
-                  <div class="piece-name">打胰岛素让人濒死昏迷60次</div>
+                  <div class="piece-name">胰岛素深度昏迷疗法</div>
                   <div class="piece-year">1933-1950s</div>
                 </div>
-                <div class="piece-val">《美丽心灵》纳什也挨过</div>
-                <div class="piece-tag">宣称饿死的是发疯脑细胞 / 吹嘘80%治愈率</div>
+                <div class="piece-val">单疗程诱发 50–60 次昏迷</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">Manfred Sakel / 纳什曾受治 / RCT证伪</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('lobotomy', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="lobotomy" onclick="window.selectNode('lobotomy', this)">
                 <div class="piece-top">
-                  <div class="piece-name">拿碎冰锥从眼眶捅进脑子</div>
+                  <div class="piece-name">经眶冰锥脑叶白质切除术</div>
                   <div class="piece-year">1935 / 1949诺奖</div>
                 </div>
-                <div class="piece-val">下午连捅30人 / 肯尼迪妹妹变2岁</div>
-                <div class="piece-tag">史上最耻辱诺奖 / 冰锥大篷车全美巡演</div>
+                <div class="piece-val">Moniz & Walter Freeman</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">切断前额叶连接 / 巡回手术车 / 肯尼迪妹妹</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('ect', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="ect" onclick="window.selectNode('ect', this)">
                 <div class="piece-top">
-                  <div class="piece-name">屠宰场电猪启发的电休克</div>
+                  <div class="piece-name">电休克疗法 (ECT) 的演变</div>
                   <div class="piece-year">1938-至今</div>
                 </div>
-                <div class="piece-val">唯一真正管用但至今不懂原理</div>
-                <div class="piece-tag">《飞越疯人院》原型 / 救活重度自杀抑郁</div>
+                <div class="piece-val">唯一留存的休克干预手段</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">屠宰场电击启发 / 飞越疯人院 / 重度抑郁兜底</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
             </div>
           </div>
@@ -689,25 +829,31 @@
           <!-- Era 3 -->
           <div class="tier-block">
             <div class="tier-header">
-              <div class="tier-name">🛋️ 第三幕：不动刀子改“聊心事”——弗洛伊德 vs 现代 CBT (1900 – 1980s)</div>
-              <div class="tier-desc">从躺沙发聊几年童年阴影，到只管纠正当下钻牛角尖的快餐心理课</div>
+              <div class="tier-name">🛋️ 第三阶段：心理治疗的范式更替——精神分析 vs 认知行为疗法 (1900 – 1980s)</div>
+              <div class="tier-desc">二战催生美国精神分析黄金时代，后因缺乏实证效度被短程、可量化的 CBT 取代</div>
             </div>
             <div class="pieces-grid">
-              <div class="piece-card" onclick="selectNode('freud', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="freud" onclick="window.selectNode('freud', this)">
                 <div class="piece-top">
-                  <div class="piece-name">弗洛伊德与“冰箱母亲”冤案</div>
+                  <div class="piece-name">弗洛伊德与精神分析霸权</div>
                   <div class="piece-year">1909-1970s</div>
                 </div>
-                <div class="piece-val">曾垄断全美80%精神科医生</div>
-                <div class="piece-tag">什么都怪童年和性冲动 / 变成富人奢侈品</div>
+                <div class="piece-val">1958年全美80%医师门诊化</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">潜意识冲突 / 荣格决裂 / 冰箱母亲归因谬误</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('cbt', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="cbt" onclick="window.selectNode('cbt', this)">
                 <div class="piece-top">
-                  <div class="piece-name">认知行为疗法 (CBT) 逆袭</div>
+                  <div class="piece-name">阿伦·贝克与认知行为疗法 (CBT)</div>
                   <div class="piece-year">1960s-至今</div>
                 </div>
-                <div class="piece-val">英国官方列为抑郁症首选</div>
-                <div class="piece-tag">不翻旧账只改当下消极念头 / 比吃药少受罪</div>
+                <div class="piece-val">英国 NICE 指南轻中度抑郁首选</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">靶向当下认知扭曲 / 临床心理学崛起</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
             </div>
           </div>
@@ -715,65 +861,71 @@
           <!-- Era 4 -->
           <div class="tier-block">
             <div class="tier-header">
-              <div class="tier-name">💊 第四幕：神奇药丸的猫腻与“监狱疯人院” (1952 – 2026)</div>
-              <div class="tier-desc">歪打正着发现的药片被吹成“补脑神药”，关掉疯人院后病人全进了监狱</div>
+              <div class="tier-name">💊 第四阶段：精神药理学的偶然发源与现代制度困局 (1952 – 2026)</div>
+              <div class="tier-desc">偶然发现的化合物被商业包装为“纠正化学失衡”，去机构化改革失灵与神经科学瓶颈</div>
             </div>
             <div class="pieces-grid">
-              <div class="piece-card" onclick="selectNode('pharma', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="pharma" onclick="window.selectNode('pharma', this)">
                 <div class="piece-top">
-                  <div class="piece-name">抗抑郁药与“缺血清素”谎言</div>
+                  <div class="piece-name">抗精神病药与 SSRIs 临床真相</div>
                   <div class="piece-year">1954-至今</div>
                 </div>
-                <div class="piece-val">15次试验失败13次照样上市</div>
-                <div class="piece-tag">百忧解只比糖丸高1-2分 / 二代药暴肥50斤</div>
+                <div class="piece-val">发表偏倚与 CATIE 试验审判</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">氯丙嗪 / 迟发性运动障碍 / 血清素假说祛魅</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
-              <div class="piece-card" onclick="selectNode('crisis', this)">
+              <div class="piece-card" role="button" tabindex="0" data-node="crisis" onclick="window.selectNode('crisis', this)">
                 <div class="piece-top">
-                  <div class="piece-name">三大监狱成全美最大精神病院</div>
+                  <div class="piece-name">去机构化溃败与百亿脑科学反思</div>
                   <div class="piece-year">1980-2026</div>
                 </div>
-                <div class="piece-val">200亿脑科学打水漂</div>
-                <div class="piece-tag">去机构化空手套白狼 / 警惕迷幻药新泡沫</div>
+                <div class="piece-val">全美三大监狱沦为最大精神病院</div>
+                <div class="piece-bottom">
+                  <span class="piece-tag">社区医疗缺位 / 迷幻药泡沫预警 / 社会支持</span>
+                  <span class="piece-hint">点击展开 ▸</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Right: Inspector Console -->
+        <!-- Right (Desktop) / Inline (Mobile): Inspector Console -->
         <div class="inspector-box" id="inspectorBox">
           <div class="inspector-header">
-            <div class="ins-label" id="insEra">第一幕 · 从田园乌托邦到甩锅病人</div>
-            <div class="ins-target" id="insTitle">19 世纪疯人院的幻灭 (Asylum Era)</div>
+            <div class="ins-label" id="insEra">第一阶段 · 道德治疗乌托邦与异化</div>
+            <div class="ins-target" id="insTitle">19 世纪疗养院运动 (Asylum Era)</div>
             <div class="ins-badges" id="insBadges">
-              <span class="kpi-pill pill-cyan">视频节点 00:28:55</span>
-              <span class="kpi-pill pill-rose">吹牛 80% 治愈率</span>
-              <span class="kpi-pill pill-amber">实际仅 10% 康复</span>
+              <span class="kpi-pill pill-cyan">播客节点 00:28:55</span>
+              <span class="kpi-pill pill-rose">宣称 80% 治愈率</span>
+              <span class="kpi-pill pill-amber">实际 ~10% 长期康复</span>
             </div>
           </div>
 
           <div class="ins-item">
-            <div class="ins-item-title">💡 一句话大白话秒懂</div>
+            <div class="ins-item-title">💡 核心背景与改革初衷</div>
             <div class="ins-item-content" id="insContext">
-              200 年前，一群好心人为了把精神病人从铁链、地牢和猪圈里救出来，在风景优美的乡下建了“道德疗养院”，以为只要给病人好饭好菜、晒太阳干农活，就能治好 80% 的疯病。
+              19 世纪初，欧美社会改革者（如英国 William Tuke、法国 Pinel 及美国 Dorothea Dix）发起人道主义运动，主张将精神病患从监狱、地牢与铁链束缚中解救出来，送入环境优美的乡村疗养院（Asylums），通过规律作息、温和劳动与尊重的“道德治疗（Moral Treatment）”恢复患者的理性自控。
             </div>
           </div>
 
           <div class="ins-item">
-            <div class="ins-item-title">📖 后来发生了什么？（从度假村变成集中营）</div>
+            <div class="ins-item-title">🔬 运作机制与“慢性病人积压”悖论</div>
             <div class="ins-item-content" id="insMechanism">
-              为了骗政府拨款建院，早期的精神科医生（当时叫 Alienists）拍胸脯保证“80% 能治好”。结果真正住进来才发现，只有约 10%–12% 的人能彻底好转！每年治不好的老病人越攒越多，原本住 100 人的温馨小院，最后塞进了五千甚至上万人，变成了屎尿横流、充满绝望的人间炼狱。
+              早期精神病医生（当时称 Alienists）为争取议会拨款，乐观承诺早期收治可实现 60%–80% 的治愈率。然而实际运营中，仅有 35%–40% 患者得以出院且复发率极高，真正长期康复者不足 10%–12%。由于每年新增患者中近六成无法出院，慢性病患逐年累积，疗养院规模从最初的百余人被迫扩建至数千乃至上万人，最终沦为拥挤不堪的收容仓库。
             </div>
           </div>
 
           <div class="ins-item">
-            <div class="ins-item-title">💥 医生是怎么甩锅的？</div>
+            <div class="ins-item-title">⚠️ 制度性后果：向“生物退化论”甩锅</div>
             <div class="ins-item-content" id="insHarm">
-              牛皮吹破了怎么办？医生们没有承认自己医术不行，反而怪病人“基因太烂”！他们编造了一套“生物退化论”，说精神病人天生就是退化的劣等物种，而且“像兔子一样乱生孩子”，必须把他们一辈子关起来甚至绝育——这就直接引出了后面的纳粹大屠杀。
+              面对“80% 治愈承诺”的破产，精神医学界并未反思自身理论的局限，而是将失败归咎于患者本人——结合社会达尔文主义提出“生物退化论（Degeneration Theory）”，宣称精神病患是遗传基因劣等、缺乏自控且高繁殖率的退化群体。这一叙事直接将疗养院的职能从“治疗恢复”扭转为“永久隔离”，并为 20 世纪初的强制绝育埋下伏笔。
             </div>
           </div>
 
           <div class="ins-callout" id="insQuote">
-            🎙️ <strong>给我们的启发：</strong> 精神医学史上最可怕的规律，就是医生先为了拿钱或出名吹一个“80% 治愈率”的大牛皮，等治砸了，再把责任推给病人！
+            🎙️ <strong>Andrew Scull 历史洞察：</strong> “精神医学的权威多次建立在虚假的自信之上——先以 80% 治愈率的宏大承诺换取资源与社会授权，当现实演变为灾难时，再通过重构话语体系将责任推给患者。”
           </div>
         </div>
       </div>
@@ -781,89 +933,104 @@
       <!-- 15 Chapters Full Study Directory -->
       <div class="sec-head" style="margin-top: 28px;">
         <div class="sec-title">
-          <span>📑 原视频 15 个章节时间戳与“大白话看点”速查表</span>
-          <span class="sec-badge">点击蓝色时间直接跳转到 YouTube 对应片段</span>
+          <span>📑 原视频 15 大章节完整时间戳与核心论点导读</span>
+          <span class="sec-badge">点击蓝色时间戳直接跳转 YouTube 对应片段</span>
         </div>
       </div>
       <div class="table-container">
         <table>
           <thead>
             <tr>
-              <th>视频时间点</th>
+              <th>视频时间戳</th>
               <th>章节主题</th>
-              <th>大白话核心看点（非专业读者一秒听懂）</th>
+              <th>核心讨论人物与事件</th>
+              <th>核心逻辑与知识要点提炼</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=0s" target="_blank"><b>00:00:00</b></a></td>
-              <td><b>开场白 (Introduction)</b></td>
-              <td>这期播客聊什么？一部医学界“好心办坏事”的恐怖故事集，以及人类探索内心痛苦的艰难旅程。</td>
+              <td><b>引言 (Introduction)</b></td>
+              <td>Lex Fridman, Andrew Scull</td>
+              <td>界定全片主旨：梳理医学史上因盲目自信导致的灾难性干预，探讨人类理解心智障碍的科学边界与人文困境。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=490s" target="_blank"><b>00:08:10</b></a></td>
               <td><b>精神医学的现代危机</b></td>
-              <td>为什么说精神科陷入了大危机？① 只有止痛片没有“青霉素”；② 诊断手册（DSM）全靠症状打勾，不知道病根；③ 花了 200 亿美元研究脑子，病人却一点没享到福。</td>
+              <td>Spitzer, Frances, Insel, Hyman, Rosenhan</td>
+              <td>剖析三大危机：① 缺乏根治性疗法（仅有对症控制而无“精神科青霉素”）；② DSM 诊断手册依赖表象症状勾选，具备一致性（信度）却无病理真实性（效度）；③ NIMH 投入 200 亿美元研究脑科学与基因未能转化为临床疗效。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=2268s" target="_blank"><b>00:37:48</b></a></td>
-              <td><b>精神病都有哪些分类？</b></td>
-              <td>什么是精神分裂症（听到不存在的声音、觉得电视机在对自己说话）？什么是躁郁症（一会儿狂喜乱花钱到累死，一会儿绝望想自杀）？原来它们在基因上并没有明确分界线。</td>
+              <td><b>精神疾病的分类学演进</b></td>
+              <td>Emil Kraepelin, Eugen Bleuler, Robin Murray</td>
+              <td>克雷佩林归纳“早发性痴呆（后由布洛伊勒命名为精神分裂症）”与“躁郁症”二元框架；现代全基因组关联研究（GWAS）证实精神分裂症、双相障碍与自闭症存在广泛遗传重叠，实为连续谱系（Continuum）。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=2707s" target="_blank"><b>00:45:07</b></a></td>
-              <td><b>疯人院、优生学与纳粹毒气室</b></td>
-              <td>美国加州带头给 6 万多名精神病人强制绝育；洛克菲勒基金会出钱资助德国专家，结果纳粹把精神病人当成“浪费粮食的废物”，发明了伪装成澡堂的毒气室，杀了 25 万病人。</td>
+              <td><b>疗养院、优生学与纳粹 T4</b></td>
+              <td>Ernst Rüdin, 洛克菲勒基金会</td>
+              <td>美国加州率先立法对精神病患实施强制绝育（全美累计超 6 万例）；洛克菲勒基金会资助德国精神遗传学家 Rüdin，纳粹掌权后将患者定性为“无用食客”，在 T4 计划中由精神科医生配合建立毒气室杀害约 25 万人。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=3433s" target="_blank"><b>00:57:13</b></a></td>
-              <td><b>碎冰锥捅脑子手术 (Lobotomy)</b></td>
-              <td>拿了 1949 年诺贝尔奖的惊天丑闻：美国医生 Freeman 用厨房碎冰锥从眼珠子上方敲进脑子，右手累了换左手，一下午连捅 30 个人，把肯尼迪总统的亲妹妹捅成了 2 岁智商。</td>
+              <td><b>经眶冰锥脑叶白质切除术</b></td>
+              <td>Egas Moniz (1949诺奖), Walter Freeman</td>
+              <td>Freeman 为绕开无菌手术室，发明用碎冰锥经眼眶敲入颅内切断前额叶神经的门诊术式，乘手术房车全美推广，单日下午可做 20–30 例；约 60%–70% 受术者为女性，包括肯尼迪总统之妹 Rosemary Kennedy。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=3806s" target="_blank"><b>01:03:26</b></a></td>
-              <td><b>疟疾治梅毒与“拔牙切肠狂魔”</b></td>
-              <td>当年四分之一的疯子其实是晚期梅毒钻进脑子，给他们打疟疾发高烧真能烧死梅毒（拿了1937诺奖）；受此误导，美国名医 Cotton 以为疯病都是细菌感染，狂拔病人牙齿、切大肠，害死 45% 开腹病人。</td>
+              <td><b>疟疾发热疗法与外科细菌学</b></td>
+              <td>Wagner-Jauregg (1937诺奖), Henry Cotton</td>
+              <td>20世纪初 25% 入院患者实为晚期神经梅毒（GPI），注射疟疾引发高烧杀灭螺旋体获 1937 年诺奖；特伦顿医院院长 Cotton 进而推演“局灶性感染学说”，拔除患者牙齿并切除扁桃体、胃与结肠，宣称 80% 治愈，实则腹部手术一年内死亡率高达 45%。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=4902s" target="_blank"><b>01:21:42</b></a></td>
               <td><b>胰岛素昏迷疗法</b></td>
-              <td>给病人打大剂量胰岛素，活活饿晕 60 次（《美丽心灵》数学家纳什就挨过），发明者还狡辩说“饿死的刚好是发疯的脑细胞”。</td>
+              <td>Manfred Sakel, 约翰·纳什 (John Nash)</td>
+              <td>对精神分裂症患者注射大剂量胰岛素诱发单疗程最高 60 次濒死低血糖昏迷，死亡率 1%–5% 且伴随脑损伤；宣称 80% 治愈率，直至 1950 年代随机对照试验（RCT）证实其无效。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=5374s" target="_blank"><b>01:29:34</b></a></td>
-              <td><b>电休克疗法 (ECT) 的诞生</b></td>
-              <td>意大利医生去罗马屠宰场看杀猪，发现电击猪头能让猪晕过去，于是抓了个火车站流浪汉做实验。虽然曾被中情局拿去搞洗脑，但改良后的电休克至今仍是拯救重度自杀抑郁的王牌。</td>
+              <td><b>电休克疗法 (ECT) 的诞生与争议</b></td>
+              <td>Ladislas Meduna, Cerletti & Bini, Ewen Cameron</td>
+              <td>受罗马屠宰场电击猪头启发发明 ECT；早年无肌松剂常致脊椎骨折并被用作病房惩罚工具，CIA 亦曾资助加拿大医生 Cameron 进行高强度电击抹除记忆实验；现代改良 ECT 对极重度自杀性抑郁确有实证疗效，但作用机制仍未明晰且伴随记忆受损。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=6543s" target="_blank"><b>01:49:03</b></a></td>
-              <td><b>《飞越疯人院》与女性受害者</b></td>
-              <td>电影里护士长用电击惩罚不听话的病人是真的！更扎心的数据：无论是拔牙切肠、电击还是冰锥捅脑子，60%–70% 的受害者全是被丈夫或父权家庭送进去的女性。</td>
+              <td><b>《飞越疯人院》与性别偏倚</b></td>
+              <td>Ken Kesey (肯·克西)</td>
+              <td>Kesey 基于退伍军人医院夜班经历完成名作，精准还原 1950–60 年代精神病院的制度性规训；Scull 强调历史躯体干预存在显著性别偏倚（Cotton 手术 70% 与脑叶切除 60%–70% 均为女性患者）。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=7595s" target="_blank"><b>02:06:35</b></a></td>
-              <td><b>弗洛伊德与荣格的恩怨</b></td>
-              <td>弗洛伊德自己催眠术太烂，干脆让病人躺沙发上随便聊（自由联想）。他脾气极其霸道，谁不同意“一切都怪性冲动”就把谁开除出教门，连最器重的接班人荣格也跟他彻底翻脸。</td>
+              <td><b>弗洛伊德与精神分析学派</b></td>
+              <td>Sigmund Freud, Breuer, Anna O., Carl Jung</td>
+              <td>从歇斯底里症与 Anna O. 案例出发建立自由联想与心理动力学模型；1909 年克拉克大学演讲开启北美传播，弗洛伊德对异见者（如荣格）采取教派式驱逐。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=9390s" target="_blank"><b>02:36:30</b></a></td>
               <td><b>二战与认知行为疗法 (CBT) 崛起</b></td>
-              <td>二战士兵被炮火吓崩溃，谈话疗法立了功；后来叛出弗洛伊德门派的阿伦·贝克（Aaron Beck）发明了 CBT：不翻童年旧账，专治当下的胡思乱想，见效快还能打分，一举取代了弗洛伊德。</td>
+              <td>William Menninger, Aaron Beck</td>
+              <td>二战美军采用谈话疗法处理战斗应激反应，战后至 1958 年全美 80% 精神科医生转向门诊；受过严格实验统计训练的临床心理学家与叛出精神分析的 Aaron Beck 创立 CBT，凭借短程、可量化测试优势取代精神分析。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=10624s" target="_blank"><b>02:57:04</b></a></td>
-              <td><b>抗精神病药：歪打正着与大翻车</b></td>
-              <td>第一款精神病药本来是抗过敏麻醉剂，能让人像木头一样安静；后来药企推出贵 10 倍的二代新药，结果美国政府一测（CATIE试验），发现疗效根本没变好，67%–82% 病人因暴肥几十斤或没效退出了。</td>
+              <td><b>抗精神病药物的偶然发现与局限</b></td>
+              <td>Henri Laborit, Delay & Deniker, CATIE 研究</td>
+              <td>氯丙嗪源于抗组胺麻醉增效剂，从“强效镇静剂”被药企更名为“抗精神病药”；仅能控制阳性症状（幻觉妄想）而无助于阴性症状（情感淡漠），且引发迟发性运动障碍；2005 年 CATIE 试验证实高价二代药疗效未超一代，67%–82% 患者中途脱落。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=12024s" target="_blank"><b>03:20:24</b></a></td>
-              <td><b>抗抑郁药（百忧解）的真相</b></td>
-              <td>“抑郁症是因为脑子缺血清素”其实是广告词！在 60 分满分表上，吃抗抑郁药比吃淀粉糖丸只高 1–2 分，超 40% 的人吃了没用，还会导致情绪麻木、彻底丧失性欲和恐怖的戒断反应。</td>
+              <td><b>抗抑郁药 (SSRIs) 与血清素假说</b></td>
+              <td>百忧解 (Prozac), 英国 NICE 指南</td>
+              <td>剖析“血清素化学失衡”营销叙事与 FDA 审批规则漏洞（隐匿阴性试验）；SSRIs 在 60 分量表上仅优于安慰剂 1–2 分，逾 40% 患者无应答，且伴随情感钝化、性功能障碍与停药戒断反应。</td>
             </tr>
             <tr>
               <td><a href="https://www.youtube.com/watch?v=s7d2d8FhevU&t=12798s" target="_blank"><b>03:33:18</b></a></td>
-              <td><b>精神医学的未来与希望在哪？</b></td>
-              <td>警惕现在吹上天的“氯胺酮和迷幻蘑菇”重演 80% 治愈率泡沫；别光指望药片，真正的良药是消除孤独、给病人家庭搭把手、重建人与人的温暖连接。</td>
+              <td><b>精神医学的未来与希望</b></td>
+              <td>氯胺酮与迷幻药预警、社会心理支持</td>
+              <td>警惕当下对氯胺酮（Ketamine）与致幻剂的过度热捧重演“80%治愈率”历史周期；呼吁将科研与公共财政引向社区支持性住房、家庭照护减负与重建社会连接。</td>
             </tr>
           </tbody>
         </table>
@@ -875,259 +1042,267 @@
       <div class="charts-grid">
         <div class="chart-card">
           <div class="sec-head">
-            <div class="sec-title">📉 “80% 治愈率吹牛魔咒”：医生吹的牛 vs 病人的真实下场</div>
+            <div class="sec-title">📉 “80% 治愈率周期律”：历代疗法早期宣称疗效 vs 后验临床结局</div>
           </div>
-          <p class="chart-sub">过去 200 年每次出新疗法都吹嘘 80% 能治好，结果真正长期好转的寥寥无几，反而死伤惨重</p>
+          <p class="chart-sub">200 年间多次出现早期宣称 70%–80% 治愈率，而后验对照证实长期缓解率低下或伴随高致残/脱落率</p>
           <div id="chartCureMyth" class="chart-box"></div>
         </div>
 
         <div class="chart-card">
           <div class="sec-head">
-            <div class="sec-title">📈 精神病名字越来越多（106种➔374种），找到病根了吗？</div>
+            <div class="sec-title">📈 DSM 诊断类别膨胀趋势 vs 临床信度与病理效度对比 (1952–2013)</div>
           </div>
-          <p class="chart-sub">紫柱是《诊断手册》里编出来的病名数量，黄虚线是“到底有没有找准真实病根”——60年几乎原地踏步</p>
+          <p class="chart-sub">诊断病名从 106 种扩张至 374 种，诊断一致性（信度）在 1980 年后跃升，但底层病理真实性（效度）停滞</p>
           <div id="chartDsmInflation" class="chart-box"></div>
         </div>
 
         <div class="chart-card">
           <div class="sec-head">
-            <div class="sec-title">🕸️ 四种治心病的方法，到底哪个靠谱？（六维打分雷达）</div>
+            <div class="sec-title">🕸️ 四大干预范式六维临床与社会价值评估雷达</div>
           </div>
-          <p class="chart-sub">对比“早期开刀电击”、“吃现代精神科药”、“做CBT心理咨询”和“改善生活与家人陪伴”</p>
+          <p class="chart-sub">综合对比早期躯体干预、现代精神药物、认知行为疗法（CBT）与社会心理支持体系的优劣边界</p>
           <div id="chartParadigmRadar" class="chart-box"></div>
         </div>
 
         <div class="chart-card">
           <div class="sec-head">
-            <div class="sec-title">⚠️ 触目惊心的真相数字：女性受害比例与药企退赛率</div>
+            <div class="sec-title">⚠️ 关键流行病学与临床试验核心数据透视</div>
           </div>
-          <p class="chart-sub">为什么说不要盲目迷信权威？看看这 7 个写进医学史的真实百分比</p>
+          <p class="chart-sub">涵盖基因解释力上限、历史手术死亡率、女性受试者偏倚比例及 CATIE 临床试验脱落率</p>
           <div id="chartHarmBreakdown" class="chart-box"></div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: 四大核心解惑 -->
+    <!-- TAB 3: 四大核心维度深度推演 -->
     <div id="tab-dimensions" class="tab-panel">
       <div class="sec-head">
-        <div class="sec-title">💡 好奇读者最想问的 4 个核心问题（大白话拆解）</div>
-        <span class="sec-badge">剥掉所有专业术语，直接看最底层的逻辑</span>
+        <div class="sec-title">🧠 四大核心维度深度推演：现代精神医学何以陷入困局？</div>
+        <span class="sec-badge">制度激励、科学方法论与临床现实的交叉剖析</span>
       </div>
 
       <div class="analysis-grid">
         <div class="card-modern">
           <h3>
-            <span style="color: var(--accent-cyan);">追问 01</span>
-            为什么花 200 亿美元研究大脑，还是找不到病根？
+            <span style="color: var(--accent-cyan);">01</span>
+            诊断体系的认识论悖论：高信度（Reliability）掩盖下的低效度（Validity）
           </h3>
           <p>
-            1990 年代起，美国国家精神卫生研究所（NIMH）的两任局长觉得：“心病就是脑子这个硬件坏了！只要把人类基因测出来、把脑神经拍清楚，就能像治肺炎一样治好精神病！”
+            1970 年代，精神科诊断的主观随意性饱受质疑。1973 年斯坦福大学心理学家罗森汉（David Rosenhan）在《Science》发表《在疯人院里保持正常》（派假病人谎称听到“空洞”声音即全员被诊断为精神分裂症或双相障碍——尽管后世档案揭示罗森汉自身存在数据造假，但在当时引发了行业的合法性危机）。
           </p>
           <ul class="highlight-list">
-            <li><strong>200 亿美元打了水漂：</strong> 钱全分给了大学实验室去养小白鼠、发高分论文。结果局长 Thomas Insel 退休时自己承认：“我们花了 200 亿美元，发了无数漂亮的论文，但没有让任何一个精神病人的处境变好一点点。”</li>
-            <li><strong>基因根本解释不了：</strong> 科学家对比了几万人的基因，发现 300 多个基因小突变加起来，**只能解释 10% 的精神分裂症原因**！</li>
-            <li><strong>原因很简单：</strong> 大脑不是独立于生活的计算机。失业、童年创伤、没人聊天、长期贫穷，会反过来改变大脑的结构。只看显微镜下的脑细胞，就像想通过研究显卡电路来搞懂“为什么这局游戏打输了”一样荒唐。</li>
+            <li><strong>DSM-III 的症状勾选妥协（1980）：</strong> 哥伦比亚大学 Robert Spitzer 主持制定的 DSM-III 放弃了病因学探讨，改用“症状勾选清单（Tick-the-boxes）”——满足 10 项表象症状中的 6 项即确诊重度抑郁。这一标准化方案同时迎合了<strong>制药巨头</strong>（便于针对特定标签研发报批药物）、<strong>商业保险公司</strong>（提供明确的理赔核算依据）与<strong>患者家属</strong>（获得确定性病名安慰）的诉求。</li>
+            <li><strong>信度与效度的背离：</strong> <strong>信度</strong>指不同临床医生面对同一患者得出相同结论的一致性；<strong>效度</strong>指该结论真实反映客观底层病理机制的程度。DSM 体系如同 18 世纪医生将一切发热统称为“热病（Fever）”，实现了高信度，却缺乏生物学效度。</li>
+            <li><strong>遗传学证伪离散分类：</strong> 2013 年 DSM-5 试图引入生物标志物彻底失败，遭两任 NIMH 主任（Insel 与 Hyman）及前主编联手批评。全基因组关联分析（GWAS）表明，精神分裂症、双相障碍与自闭症存在高度遗传风险重叠，它们并非界限分明的独立疾病，而是处于同一连续谱系（Continuum）的不同位置。</li>
           </ul>
         </div>
 
         <div class="card-modern">
           <h3>
-            <span style="color: var(--accent-rose);">追问 02</span>
-            当年那些拿冰锥捅脑子、拔牙切肠的医生，为什么没人阻止？
+            <span style="color: var(--accent-rose);">02</span>
+            全控机构与激进躯体干预：为何极端实验能两夺诺贝尔奖？
           </h3>
           <p>
-            今天我们听着觉得像恐怖分子，但在 1920–1950 年代，干这些事的可是普林斯顿座上宾和诺贝尔奖得主！为什么全社会都瞎了眼？
+            1917 至 1950 年代，欧美精神医学界掀起了一系列高致死率、高致残率的躯体干预浪潮，其中疟疾发热疗法（1937）与脑叶白质切除术（1949）甚至两度斩获诺贝尔生理学或医学奖。
           </p>
           <ul class="highlight-list">
-            <li><strong>病人被关在“双重黑箱”里：</strong> 精神病人不仅身体被锁在疯人院高墙里，更重要的是**“他们说的话没人信”**——当病人哭喊“别拔我的牙、别电我，好疼”时，医生只会冷冷记下一笔：“今日病人妄想加重，继续手术。”</li>
-            <li><strong>为什么 70% 挨刀的是女性？</strong> 在过去男权家庭里，一个男人发脾气、乱砸东西，大家觉得是“爷们脾气暴”；但一个妻子如果顶嘴、焦虑、不愿做家务，丈夫或父亲就会签字让医生“把她脑子治安静点”。于是女性成了冰锥手术和切器官最大的牺牲品。</li>
+            <li><strong>神经梅毒（GPI）的误导性示范：</strong> 20 世纪初疯人院高达 25% 的收治患者实为潜伏 10–25 年的三期神经梅毒（麻痹性痴呆）。Wagner-Jauregg 通过注射疟疾血液引发高热杀死对温度敏感的梅毒螺旋体。这一特定病原体感染的成功，误导学界将所有精神障碍均假设为“隐匿感染或病变脑组织”，开启了盲目躯体干预的大门。</li>
+            <li><strong>双重失语的制度环境：</strong> 精神病院患者在物理空间被隔离的同时，其语言申诉权也被剥夺——患者对疼痛与恐惧的抗议往往被医生直接归类为“精神病性症状的发作”，且当时完全缺乏随机对照试验（RCT）与知情同意约束。</li>
+            <li><strong>显著的性别偏倚：</strong> 无论是 Henry Cotton 的拔牙与结肠切除术（腹部手术一年死亡率达 45%，70% 为女性），还是 Walter Freeman 的经眶冰锥脑叶切除术（60%–70% 为女性），女性在当时的家庭与医疗权力结构中更易因情绪反抗或行为越轨而被送入手术室。</li>
           </ul>
         </div>
 
         <div class="card-modern">
           <h3>
-            <span style="color: var(--accent-amber);">追问 03</span>
-            药企是怎么把只有 1~2 分优势的药，包装成“救命神药”的？
+            <span style="color: var(--accent-amber);">03</span>
+            精神药理学的偶然发源与临床试验的“抽屉问题”
           </h3>
           <p>
-            我们常听说“抑郁症是因为脑内缺少血清素（5-HT），吃药补上就行”。Andrew Scull 教授明确告诉你：**这其实是一句非常成功的广告词，而不是科学事实。**
+            1950 年代开启的精神药理学革命并非源于对大脑病理机制的预先破译，而是典型的偶然发现（Serendipity）与随后的商业话语重构。
           </p>
           <ul class="highlight-list">
-            <li><strong>藏起 13 张不及格试卷：</strong> 美国药监局（FDA）规定，药企只要交出 **2 次成功**的临床试验就能批准上市。于是药企就算做了 15 次试验、失败了 13 次，只要把那 13 次失败结果锁进保险柜不发表，只拿 2 次及格的去报批，就能合法大卖特卖！</li>
-            <li><strong>百忧解（SSRIs）的真实成绩单：</strong> 把所有藏起来的数据翻出来重算，在总分 60 分的抑郁测试表上，吃抗抑郁药比吃面粉糖丸（安慰剂）**平均只多好了 1 到 2 分**！超过 40% 的人吃了完全没用，还会带来感情麻木（哭不出也笑不出）、性欲彻底消失和极痛苦的停药反应。</li>
+            <li><strong>从“强效镇静剂”到“抗精神病药”：</strong> 氯丙嗪（Thorazine）最初是煤焦油工业衍生的抗组胺麻醉增效剂，法国军医 Laborit 观察到其能使术前患者陷入漠然平静，称之为“化学脑叶切除术”。药企购入专利后将其更名为“抗精神病药”。它能有效抑制<strong>阳性症状</strong>（幻觉、妄想、激越等异常亢进表现），但无法改善<strong>阴性症状</strong>（情感淡漠、意志减退、社交退缩等正常功能缺失），且易诱发不可逆的<strong>迟发性运动障碍</strong>。</li>
+            <li><strong>CATIE 试验对二代高价药的祛魅：</strong> 2005 年由 NIMH 独立资助的 CATIE 大型对照研究证实，售价高出 10 倍的第二代抗精神病药（维思通、奥氮平等）在疗效上并未超越第一代老药，67%–82% 的受试者因疗效不彰或难以忍受严重代谢副作用（体重暴增 10–50 磅、糖尿病风险）而中途退组。</li>
+            <li><strong>FDA 审批规则与 SSRIs 真实净效应：</strong> 药企仅需提交 2 项阳性临床试验即可获批上市，即便进行了 15 项试验而 13 项失败，只需将阴性数据束之高阁（发表偏倚）。纳入未发表数据的全量分析显示，百忧解等 SSRIs 在 60 分抑郁量表上平均仅比安慰剂高出 1–2 分，逾 40% 患者无应答，且常伴随情感钝化、性功能障碍与停药戒断综合征。</li>
           </ul>
         </div>
 
         <div class="card-modern">
           <h3>
-            <span style="color: var(--accent-purple);">追问 04</span>
-            为什么把疯人院关掉之后，病人反而全进了监狱？
+            <span style="color: var(--accent-purple);">04</span>
+            去机构化改革的溃败与学术激励机制的扭曲
           </h3>
           <p>
-            1960 年代大家看了《飞越疯人院》，觉得把病人关在疯人院太不人道了。政客们立刻顺水推舟：“好！我们把疯人院全关了，让病人回社区温暖疗养！”
+            20 世纪下半叶，精神卫生领域在公共政策与基础科研两端同时遭遇了严重的制度性失灵。
           </p>
           <ul class="highlight-list">
-            <li><strong>空手套白狼的省钱把戏：</strong> 州政府高高兴兴地把精神病院大楼拆了、地卖了，省下了几十亿美元医疗预算；但当初答应建的“社区精神护理中心”，一分钱都没掏！Scull 称之为一个“碗底下根本没藏豌豆的老千骗局”。</li>
-            <li><strong>从病床到铁窗：</strong> 重度精神病人没地方去，只能睡大街、住桥洞；一旦犯病产生幻觉在街上挥舞拳头，警察就把他们抓进看守所。结果今天**全美国收留精神病人最多的三个地方，竟然是洛杉矶县监狱、芝加哥库克县监狱和纽约赖克斯岛监狱**！重度精神病人平均比普通人少活 **15 到 25 年**。</li>
+            <li><strong>“没有豌豆的猜壳骗局（Shell Game Without a Pea）”：</strong> 1960 年代末启动的“去机构化”拆除了州立精神病院，政客承诺以社区精神卫生中心替代；但财政保守派顺势削减了预算，从未足额建设社区支持设施。大批重度患者流落街头，最终导致<strong>洛杉矶县监狱、芝加哥库克县监狱和纽约赖克斯岛监狱沦为今日美国最大的三所住院精神病收容机构</strong>，重度患者预期寿命较常人缩短 15–25 年。</li>
+            <li><strong>200 亿美元分子还原论的瓶颈：</strong> 1990 年代“脑的十年”以来，NIMH 将超 200 亿美元资金集中投向神经生物学与遗传学，却未能产出突破性临床靶点，跨国药企已纷纷裁撤精神科研发管线。</li>
+            <li><strong>课题经费导向的失衡：</strong> 医学院考核与顶级期刊（Nature/Science）高度偏好分子机制与阳性结果，而针对“如何改善重度患者社区照护、如何减轻患者家庭负担、如何重建社会连接”的临床与社会学研究极难获得经费支持。</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- TAB 4: 5场神仙打架 -->
+    <!-- TAB 4: 学术流派与产业五大交锋 -->
     <div id="tab-rivalry" class="tab-panel">
       <div class="sec-head">
-        <div class="sec-title">⚔️ 5 场改变历史的“神仙打架”（谁赢了？谁输了？）</div>
-        <span class="sec-badge">看懂这 5 场吵架，你就看懂了整个心理学和精神科的派系江湖</span>
+        <div class="sec-title">⚔️ 精神医学史五大范式与产业路线交锋复盘</div>
+        <span class="sec-badge">理解精神医学演进内在张力的五个关键切面</span>
       </div>
 
       <div class="table-container">
         <table>
           <thead>
             <tr>
-              <th>吵架主题</th>
-              <th>甲方代表（老派霸主）</th>
-              <th>乙方代表（挑战者）</th>
-              <th>最后谁赢了？大白话复盘</th>
+              <th>交锋维度</th>
+              <th>路线 A（早期主导 / 挑战方）</th>
+              <th>路线 B（演进路线 / 现代对照方）</th>
+              <th>历史演进结果与方法论启示</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>1. 人发疯到底怪硬件还是怪心事？</b></td>
-              <td><b>克雷佩林 (德国老祖)</b><br>研究了上万份病历，咬定精神病就是“大脑硬件烂了”，跟心理没关系。</td>
-              <td><b>弗洛伊德 (维也纳教父)</b><br>咬定是“童年心理阴影和潜意识性冲动”作祟，躺沙发聊开就好了。</td>
-              <td><b>打了个平手，但也各错一半：</b>1945–1975年弗洛伊德派赢麻了（全美医学院主任全是他的徒子徒孙）；1980年后脑科学派翻盘把弗洛伊德踢出局。其实两边都太极端——脑子和心情本来就是互相影响的。</td>
+              <td><b>1. 致病本体论之争</b><br><span style="font-size:11.5px;color:#64748b;">大脑器质论 vs 心理动力论</span></td>
+              <td><b>克雷佩林 (Emil Kraepelin) 生物分类学派</b><br>基于数千份住院病历归纳出早发性痴呆与躁郁症，主张精神障碍源于大脑器质性病变。</td>
+              <td><b>弗洛伊德 (Sigmund Freud) 精神分析学派</b><br>从歇斯底里症与潜意识冲突切入，主张童年创伤与本能压抑是致病核心。</td>
+              <td><b>钟摆式交替：</b>二战后弗洛伊德学派垄断美国医学院系主任职位达 30 年；1980 年后生物精神病学全面反扑。Scull 指出人类大脑具有高度环境可塑性，割裂生理硬件与心理社会因素均属还原论谬误。</td>
             </tr>
             <tr>
-              <td><b>2. 师徒反目：一切都因为“性”吗？</b></td>
-              <td><b>弗洛伊德 (师父)</b><br>独裁教主脾气，谁敢怀疑“性本能决定一切”，直接开除出精神分析学会。</td>
-              <td><b>卡尔·荣格 (原本钦定的太子)</b><br>在瑞士疯人院见过真疯子，觉得不能啥都往“性”上扯，还有文化和灵魂追求。</td>
-              <td><b>两人彻底决裂：</b>弗洛伊德把荣格踢出了群。这也暴露了早期精神分析像“宗教门派”多过像科学——全凭祖师爷一张嘴，没法做实验证明谁对谁错。</td>
+              <td><b>2. 精神分析内部路线分歧</b><br><span style="font-size:11.5px;color:#64748b;">维也纳正统派 vs 苏黎世学派</span></td>
+              <td><b>弗洛伊德泛性论正统</b><br>坚持性本能（Libido）与俄狄浦斯情结的绝对核心地位，对异见者采取教派式除名。</td>
+              <td><b>卡尔·荣格 (Carl Jung) 分析心理学</b><br>基于瑞士 Burghölzli 精神病院重症临床经验，拒绝单一性驱力解释，引入文化与集体潜意识维度。</td>
+              <td><b>教条化加速衰落：</b>弗洛伊德与荣格的决裂暴露出早期精神分析缺乏可证伪的科学检验标准（Karl Popper 批判的核心样本），过度依赖学派权威，最终在实证医学浪潮中边缘化。</td>
             </tr>
             <tr>
-              <td><b>3. 心理咨询一哥之争：聊三年还是练八周？</b></td>
-              <td><b>传统精神分析 (躺沙发派)</b><br>一聊就是三五年，收费死贵，还不肯用打分表做验证。</td>
-              <td><b>阿伦·贝克 (CBT 认知行为派)</b><br>原本也是弗洛伊德门徒，后来倒戈：不翻童年旧账，只训练你怎么改掉当下的消极念头。</td>
-              <td><b>CBT 大获全胜：</b>CBT 只要做十几次、能打分做对比实验，保险公司愿意报销、政府愿意给科研经费。今天英国官方直接把 CBT 定为轻中度抑郁首选（排在吃药前面）。</td>
+              <td><b>3. 心理治疗主导权更替</b><br><span style="font-size:11.5px;color:#64748b;">长程自由联想 vs 认知行为疗法</span></td>
+              <td><b>传统长程精神动力学</b><br>耗时数年、费用高昂，聚焦回溯童年潜意识根源，排斥标准化量表评估。</td>
+              <td><b>阿伦·贝克 (Aaron Beck) 认知行为疗法 (CBT)</b><br>结合临床心理学家的实验统计方法，直接修正患者当下的自动化消极认知与行为模式。</td>
+              <td><b>CBT 成为主流循证标准：</b>CBT 疗程短、结构化强、易于开展随机对照试验（RCT），获得联邦科研经费与医保体系青睐；英国 NICE 指南将其列为轻中度抑郁一线首选（优先于抗抑郁药），但对重度精神分裂症仍具局限。</td>
             </tr>
             <tr>
-              <td><b>4. 药企新旧大战：3块钱老药 vs 30块钱新药</b></td>
-              <td><b>第一代老药 (氯丙嗪等)</b><br>专利早过期了，便宜如白菜，能镇住幻觉，但容易让人手抖、吐舌头。</td>
-              <td><b>第二代专利新药 (维思通/奥氮平等)</b><br>药企吹上天，卖贵 10 倍，号称“既更有效、又没副作用”。</td>
-              <td><b>2005年美国政府裁判（CATIE试验）打脸新药：</b>花大钱测下来，贵10倍的二代药疗效根本没比老药好！虽然吐舌头少了，但让人狂胖三五十斤、得糖尿病，高达 67%–82% 病人中途受不了退赛。</td>
+              <td><b>4. 抗精神病药代际评估</b><br><span style="font-size:11.5px;color:#64748b;">一代传统药物 vs 二代非典型专利药</span></td>
+              <td><b>第一代多巴胺受体拮抗剂 (如氯丙嗪)</b><br>专利过期、价格低廉，可控制阳性症状，但易诱发帕金森样震颤与迟发性运动障碍。</td>
+              <td><b>第二代非典型抗精神病药 (如维思通、奥氮平)</b><br>药企以“更高效、无运动副作用”营销推广，定价高达一代药物的 10 倍。</td>
+              <td><b>CATIE 试验修正行业共识：</b>2005 年 NIMH 独立研究证实二代药物总体疗效并未优于一代药物，67%–82% 患者中途停药，且以严重的体重暴增、高血脂与糖尿病风险置换了运动障碍。</td>
             </tr>
             <tr>
-              <td><b>5. 救命钱该花在哪：买显微镜还是建温暖社区？</b></td>
-              <td><b>技术官僚派 (NIMH 前局长们)</b><br>把 200 多亿美元全砸进实验室测基因、看脑细胞切片。</td>
-              <td><b>人文关怀派 (Andrew Scull 等学者)</b><br>呼吁把钱花在给重度病人提供安稳住房、帮家属分担照护压力、减少孤独上。</td>
-              <td><b>实验室派已走到死胡同：</b>连大药企都因为找不到新脑靶点而纷纷解散了精神科研发部。未来只有把钱花在“活生生的人和社会支持”上，才能真正救命。</td>
+              <td><b>5. 当代公共与科研资源配置</b><br><span style="font-size:11.5px;color:#64748b;">纯分子脑科学 vs 社会心理支持体系</span></td>
+              <td><b>NIMH 纯生物还原论路线 (Hyman & Insel)</b><br>耗资超 200 亿美元主攻神经环路成像与 GWAS 基因测序，试图寻找单一分子靶点。</td>
+              <td><b>生物-心理-社会整合照护路线 (Scull 倡导)</b><br>在维持基础研发的同时，重点投入支持性社区住房、家庭照护喘息服务与社会连接重建。</td>
+              <td><b>亟待结构性纠偏：</b>单一分子路径边际效益递减，大型药企纷纷撤出精神科管线；改善患者生存质量与缩短 15–25 年寿命鸿沟，必须依赖公共卫生政策与社区支持网络的实质性重建。</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- TAB 5: 普通人防坑指南 & 黑话翻译词典 -->
+    <!-- TAB 5: 前瞻观察指标与概念词典 -->
     <div id="tab-watchlist" class="tab-panel">
       <div class="sec-head">
-        <div class="sec-title">🛡️ 普通人的 4 条防坑指南（看完这期播客，我能用上什么？）</div>
-        <span class="sec-badge">给关心自己与家人心理健康的你</span>
+        <div class="sec-title">🔭 未来 12–24 个月前瞻观察指标与理性认知指南</div>
+        <span class="sec-badge">如何以历史与循证视角审视心理健康领域的最新动态？</span>
       </div>
 
       <div class="analysis-grid">
         <div class="card-modern" style="border-left: 4px solid var(--accent-rose);">
-          <h3>🚨 指南 1：再看到“新疗法 80% 治愈率”，立刻捂紧钱包</h3>
+          <h3>🚨 观察指标 1：氯胺酮（Ketamine）与致幻剂（Psychedelics）III期长期随访数据</h3>
           <p>
-            最近几年，硅谷和医药圈都在疯传“打一针氯胺酮（K粉成分）或吃一次迷幻蘑菇（裸盖菇素），就能奇迹般治好顽固抑郁症和创伤（PTSD）”。
+            当前生物医药资本与媒体正高度热捧氯胺酮、裸盖菇素（Psilocybin）与 MDMA 治疗难治性抑郁和 PTSD，部分早期研究再次出现了“70%–80% 显著缓解”的宣传口径。
           </p>
           <ul class="highlight-list">
-            <li><strong>历史学家的冷笑：</strong> Andrew Scull 说“这部电影我看了不下五遍”——当年疯人院、拔牙切肠、胰岛素昏迷、冰锥捅脑子刚出来时，全都宣称 80% 治愈率！</li>
-            <li><strong>为什么迷幻药试验容易虚高？</strong> 因为“双盲试验”根本瞒不住（吃了致幻剂的人立马知道自己嗨了，没吃到的人极为失望），心理暗示极强。等过几年热潮退去，长期副作用和复发才会暴露。</li>
+            <li><strong>方法论审视（功能性揭盲问题）：</strong> 致幻剂具有强烈的主观感知效应，受试者极易分辨自己服用的是活性药物还是安慰剂，导致双盲试验的“盲法失效”并放大预期安慰剂效应。</li>
+            <li><strong>跟踪重点：</strong> 关注约翰·霍普金斯等严谨机构的多中心大样本长期随访数据，核验 12 个月以上的真实复发率、成瘾性及诱发精神病性症状的风险边界。</li>
           </ul>
         </div>
 
         <div class="card-modern" style="border-left: 4px solid var(--accent-emerald);">
-          <h3>💊 指南 2：把药片当“临时拐杖”，轻中度抑郁先试 CBT 咨询</h3>
+          <h3>🧭 观察指标 2：个体与家庭的循证应对策略（阶梯式干预原则）</h3>
           <p>
-            知道了抗抑郁药（SSRIs）比糖丸只高 1–2 分、还有性功能丧失和戒断反应，是不是就绝对不能吃药了？**不是的！**
+            认识到精神药理学的局限与发表偏倚，并不意味着走向反医学的极端，而是建立更为理性的阶梯式决策框架。
           </p>
           <ul class="highlight-list">
-            <li><strong>重度崩溃时，拐杖能救命：</strong> 对于连床都起不来、出现严重幻觉或自杀念头的重度患者，抗精神病药、锂盐或改良电休克（ECT）依然是目前能救命的“灭火器”。</li>
-            <li><strong>轻中度困扰，别急着先吞药片：</strong> 参照英国 NICE 官方指南，如果是工作压力、失恋或轻中度抑郁焦虑，优先尝试**认知行为疗法（CBT）**、规律运动和改善人际环境——效果不比药差，且没有身体副作用。</li>
+            <li><strong>急性重症期的医疗兜底：</strong> 面对伴随严重幻觉妄想的精神病性发作、双相躁狂或极重度自杀风险，抗精神病药、锂盐与现代改良电休克（ECT）依然是不可或缺的急性期保护手段。</li>
+            <li><strong>轻中度困扰的非药物优先：</strong> 遵循英国 NICE 循证指南，针对轻中度抑郁与焦虑情绪，优先采用<strong>认知行为疗法（CBT）</strong>、规律运动与社会支持干预，避免过早承受 SSRIs 的情感钝化与停药反跳代价。</li>
           </ul>
         </div>
 
         <div class="card-modern" style="border-left: 4px solid var(--accent-cyan);">
-          <h3>🏷️ 指南 3：别被医院诊断书上的“病名标签”吓垮</h3>
+          <h3>🧬 观察指标 3：诊断学从“离散标签”向“连续谱系（Continuum）”的范式演进</h3>
           <p>
-            很多人一旦在医院拿到一张写着“双相情感障碍”、“重度抑郁”或“ADHD”的单子，就觉得自己脑子硬件彻底废了，一辈子完蛋了。
+            随着精神遗传学证实各大精神障碍共享底层微效基因变异，传统 DSM 将疾病切割为独立盒子的做法正面临重构。
           </p>
           <ul class="highlight-list">
-            <li><strong>标签只是“症状竹篮”：</strong> 记住播客里讲的真相——DSM 诊断手册只是医生为了统一口径和走医保报销而设计的“打勾分类篮”，并不代表你脑子里长了某种无法消除的肿瘤。</li>
-            <li><strong>人是在光谱上流动的：</strong> 人的心理状态是一个连续的光谱（Continuum），随着环境改善、压力减轻和社会支持增加，你完全可以从光谱的暗区走回亮区。</li>
+            <li><strong>去污名化启示：</strong> 临床诊断书上的标签（如抑郁症、双相障碍、ADHD）本质上是当前症状群的描述性归类，而非不可逆的器质性判决。</li>
+            <li><strong>跟踪重点：</strong> 观察后 DSM-5 时代与 ICD-11 临床实践中，跨诊断维度评估（Transdiagnostic Approach）能否逐步替代僵硬的二元贴标签模式。</li>
           </ul>
         </div>
 
         <div class="card-modern" style="border-left: 4px solid var(--accent-amber);">
-          <h3>🤝 指南 4：孤独是最毒的致病源，“人的连接”是最好的药</h3>
+          <h3>🤝 观察指标 4：AI 辅助心理干预与社区支持性公共政策改革</h3>
           <p>
-            在长达 3 小时 37 分钟的访谈最后，Lex Fridman 问 Scull 教授：到底什么才是未来的希望？
+            在访谈尾声，Lex Fridman 与 Andrew Scull 探讨了技术赋能与公共卫生制度修复的潜在突破口。
           </p>
           <ul class="highlight-list">
-            <li><strong>药片代替不了拥抱与陪伴：</strong> 现代社会把一切痛苦都推给医院开药，却忽视了人最底层的需求——被理解、被需要、与真实的人产生连接。</li>
-            <li><strong>AI 心理助手的潜力：</strong> 传统的深度谈心疗法太贵，未来结合了 CBT 逻辑的 AI 陪伴助手，或许能让普通人随时随地获得零门槛的倾诉与思维疏导，但最终仍需回到真实的人际温暖中。</li>
+            <li><strong>AI 对谈话疗法的普惠化潜力：</strong> 高质量心理咨询长期受限于高昂的人力成本与地域分布；结合实证 CBT 框架的大语言模型有望提供低门槛的日常认知疏导与倾听陪伴。</li>
+            <li><strong>重建社会连接（Social Connection）：</strong> 孤独与社会隔离是精神恶化的核心推手；观察各国公共财政能否从单纯的司法监禁转向带医疗监护的支持性社区住房（Supportive Housing）与家庭照护喘息支持。</li>
           </ul>
         </div>
       </div>
 
-      <!-- Plain Language Glossary -->
+      <!-- Core Terminology & Booklist -->
       <div class="sec-head" style="margin-top: 28px;">
-        <div class="sec-title">🗣️ 听懂播客必看：把吓人的“医学黑话”翻译成大白话</div>
+        <div class="sec-title">📚 核心专业概念解析与延伸阅读书单</div>
       </div>
       <div class="table-container">
         <table>
           <thead>
             <tr>
-              <th>播客里的专业词</th>
-              <th>字面意思</th>
-              <th>一句话大白话翻译（秒懂版）</th>
+              <th>专业术语 / 经典著作</th>
+              <th>中文译名</th>
+              <th>清晰定义与播客语境下的核心内涵</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>Iatrogenic Harm</b></td>
-              <td>医源性伤害</td>
-              <td><b>“病没治好，反而被医生的治法弄出了新毛病”</b>——比如吃精神病药吃出了面部抽搐和糖尿病，或者被冰锥把脑子捅傻了。</td>
-            </tr>
-            <tr>
               <td><b>Reliability vs. Validity</b></td>
               <td>信度 vs. 效度</td>
-              <td><b>信度</b> = 10个算命先生看同一个人的手相，算出的结果一模一样（口供一致）；<b>效度</b> = 算出来的东西到底准不准（符不符合事实）。精神科手册是“口供很一致，但没摸准病根”。</td>
+              <td><b>信度</b>衡量诊断的“可重复性与一致性”（不同医生对同一患者得出相同结论）；<b>效度</b>衡量诊断的“准确性与真实性”（该诊断是否对应客观存在的单一病理机制）。DSM-III 实现了高信度，但始终缺乏生物学效度。</td>
             </tr>
             <tr>
               <td><b>Positive vs. Negative Symptoms</b></td>
               <td>阳性症状 vs. 阴性症状</td>
-              <td>别把阳性当好事！<b>阳性症状</b> = 正常人没有、病人“多出来”的疯狂表现（如幻听、妄想、乱砸东西）；<b>阴性症状</b> = 正常人有、病人“丢掉”的能力（如目光呆滞、不爱说话、没法社交）。吃药只能压住前者，治不好后者。</td>
+              <td>精神分裂症的两类核心表现：<b>阳性症状</b>指正常生理功能之外“附加出现”的异常体验（如幻听、被迫害妄想、思维紊乱）；<b>阴性症状</b>指正常心理与社会功能的“减退或缺失”（如情感淡漠、言语贫乏、意志减退、社交退缩）。现有抗精神病药主要抑制阳性症状，对阴性症状几乎无效。</td>
+            </tr>
+            <tr>
+              <td><b>Iatrogenic Harm</b></td>
+              <td>医源性伤害</td>
+              <td>指医疗干预手段本身直接诱发的新发疾病或身心损害（例如脑叶切除导致额叶失能综合征、抗精神病药引发迟发性运动障碍或重度代谢综合征）。</td>
+            </tr>
+            <tr>
+              <td><b>General Paralysis of the Insane (GPI)</b></td>
+              <td>麻痹性痴呆（晚期神经梅毒）</td>
+              <td>由梅毒螺旋体潜伏 10–25 年后侵入中枢神经系统引发的器质性脑病，表现为进行性肢体麻痹与夸大妄想，20 世纪初占精神病院收治人数的 25%，青霉素普及后绝迹。</td>
             </tr>
             <tr>
               <td><b>Tardive Dyskinesia (TD)</b></td>
               <td>迟发性运动障碍</td>
-              <td>长期吃第一代抗精神病药把脑神经吃坏了，导致病人<b>不受控制地一直吐舌头、挤眉弄眼、手脚乱晃</b>，就算停药也往往好不了。</td>
+              <td>长期使用多巴胺受体拮抗剂（第一代抗精神病药）引起的锥体外系不可逆神经损伤，表现为面部肌肉抽搐、不自主吐舌、咀嚼动作及肢体舞蹈样摆动。</td>
             </tr>
             <tr>
-              <td><b>Transorbital Lobotomy</b></td>
-              <td>经眶脑叶白质切除术</td>
-              <td>就是臭名昭著的<b>“冰锥捅脑术”</b>——不钻头骨，直接把碎冰锥从眼珠子上方捅进脑子里乱搅，把前额叶神经切断，让人变成听话的木偶。</td>
+              <td><b>Publication Bias / File Drawer Problem</b></td>
+              <td>发表偏倚（抽屉问题）</td>
+              <td>药企在临床试验中仅公开发表得出阳性显著结果的研究，而将占多数的阴性或无效试验锁入文件柜隐匿不报，从而在文献荟萃中人为拔高药物有效率。</td>
             </tr>
             <tr>
-              <td><b>Deinstitutionalization</b></td>
-              <td>去机构化运动</td>
-              <td>1960年代末美国政府打着“还病人自由”的旗号<b>把公立疯人院全关了</b>，结果省下的钱没去建社区诊所，导致几百万重度病人流落街头和进监狱。</td>
+              <td><b><a href="https://amzn.to/4vmBquI" target="_blank">Desperate Remedies (2022)</a></b></td>
+              <td>《绝望的疗法：精神医学治愈精神疾病的动荡探索》</td>
+              <td>Andrew Scull 代表作，以详实的档案史料剖析 19 世纪至今美国精神医学从躯体休克实验到现代药理学危机的完整历程。</td>
             </tr>
             <tr>
-              <td><b>SSRIs (如百忧解 Prozac)</b></td>
-              <td>选择性血清素再摄取抑制剂</td>
-              <td>现在医院最常开的<b>主流抗抑郁药</b>。广告说它能补脑子里的“快乐水（血清素）”，但试验表明它比淀粉糖丸只强一点点（60分里多1-2分）。</td>
+              <td><b><a href="https://amzn.to/3SZhd0I" target="_blank">Madness in Civilization (2015)</a></b></td>
+              <td>《文明中的疯癫：从圣经到弗洛伊德，从疯人院到现代医学》</td>
+              <td>Andrew Scull 撰写的跨文化精神医学通史，全景展现人类社会如何认知、规训与救治精神痛苦。</td>
             </tr>
           </tbody>
         </table>
@@ -1136,384 +1311,508 @@
 
     <!-- Footer -->
     <footer>
-      <div>看板版本：v2.0 零基础通俗导读版 · 专供 <strong>LawooTrip 龟龟的博客 (axelrod.lawootrip.com)</strong></div>
+      <div>看板版本：v3.0 深度通俗与移动端适配版 · 专供 <strong>LawooTrip 龟龟的博客 (axelrod.lawootrip.com)</strong></div>
       <div>核心信源：<a href="https://www.youtube.com/watch?v=s7d2d8FhevU" target="_blank">Lex Fridman Podcast #502</a> · <a href="https://lexfridman.com/andrew-scull-transcript/" target="_blank">官方全文文稿</a> · <a href="https://sociology.ucsd.edu/people/faculty/emeritus/andrew-scull.html" target="_blank">Andrew Scull 教授</a></div>
     </footer>
   </div>
 
   <script>
-    // Interactive Story Nodes Data (Plain Language Edition)
+    // Interactive Nodes Database (Rigorous & Accessible Edition)
     const studyNodes = {
       asylum: {
-        era: "第一幕 · 从田园乌托邦到甩锅病人",
-        title: "19 世纪疯人院的幻灭 (Asylum Era)",
+        era: "第一阶段 · 道德治疗乌托邦与异化",
+        title: "19 世纪疗养院运动 (Asylum Era)",
         badges: [
-          { text: "视频节点 00:28:55", class: "pill-cyan" },
-          { text: "吹牛 80% 治愈率", class: "pill-rose" },
-          { text: "实际仅 10% 康复", class: "pill-amber" }
+          { text: "播客节点 00:28:55", class: "pill-cyan" },
+          { text: "宣称 80% 治愈率", class: "pill-rose" },
+          { text: "实际 ~10% 长期康复", class: "pill-amber" }
         ],
-        context: "200 年前，一群好心人为了把精神病人从铁链、地牢和猪圈里救出来，在风景优美的乡下建了“道德疗养院”，以为只要给病人好饭好菜、晒太阳干农活，就能治好 80% 的疯病。",
-        mechanism: "为了骗政府拨款建院，早期的精神科医生拍胸脯保证“80% 能治好”。结果真正住进来才发现，只有约 10%–12% 的人能彻底好转！每年治不好的老病人越攒越多，原本住 100 人的温馨小院，最后塞进了五千甚至上万人，变成了屎尿横流、充满绝望的人间炼狱。",
-        harm: "牛皮吹破了怎么办？医生们没有承认自己医术不行，反而怪病人“基因太烂”！他们编造了一套“生物退化论”，说精神病人天生就是退化的劣等物种，而且“像兔子一样乱生孩子”，必须把他们一辈子关起来甚至绝育——这就直接引出了后面的纳粹大屠杀。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 精神医学史上最可怕的规律，就是医生先为了拿钱或出名吹一个“80% 治愈率”的大牛皮，等治砸了，再把责任推给病人！"
+        context: "19 世纪初，欧美社会改革者（如英国 William Tuke、法国 Pinel 及美国 Dorothea Dix）发起人道主义运动，主张将精神病患从监狱、地牢与铁链束缚中解救出来，送入环境优美的乡村疗养院（Asylums），通过规律作息、温和劳动与尊重的“道德治疗（Moral Treatment）”恢复患者的理性自控。",
+        mechanism: "早期精神病医生（当时称 Alienists）为争取议会拨款，乐观承诺早期收治可实现 60%–80% 的治愈率。然而实际运营中，仅有 35%–40% 患者得以出院且复发率极高，真正长期康复者不足 10%–12%。由于每年新增患者中近六成无法出院，慢性病患逐年累积，疗养院规模从最初的百余人被迫扩建至数千乃至上万人，最终沦为拥挤不堪的收容仓库。",
+        harm: "面对“80% 治愈承诺”的破产，精神医学界并未反思自身理论的局限，而是将失败归咎于患者本人——结合社会达尔文主义提出“生物退化论（Degeneration Theory）”，宣称精神病患是遗传基因劣等、缺乏自控且高繁殖率的退化群体。这一叙事直接将疗养院的职能从“治疗恢复”扭转为“永久隔离”，并为 20 世纪初的强制绝育埋下伏笔。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “精神医学的权威多次建立在虚假的自信之上——先以 80% 治愈率的宏大承诺换取资源与社会授权，当现实演变为灾难时，再通过重构话语体系将责任推给患者。”"
       },
       eugenics: {
-        era: "第一幕 · 当医生变成屠夫的帮凶",
-        title: "美国强制绝育与纳粹 T4 毒气室 (1907–1945)",
+        era: "第一阶段 · 优生学运动与极权暴行",
+        title: "强制绝育立法与纳粹 T4 屠杀计划 (1907–1945)",
         badges: [
-          { text: "视频节点 00:45:07", class: "pill-cyan" },
-          { text: "美国绝育 60,000+ 人", class: "pill-rose" },
-          { text: "纳粹毒杀 250,000 人", class: "pill-rose" }
+          { text: "播客节点 00:45:07", class: "pill-cyan" },
+          { text: "全美 60,000+ 强制绝育", class: "pill-rose" },
+          { text: "纳粹 T4 杀害 25 万人", class: "pill-rose" }
         ],
-        context: "既然治不好精神病，20世纪初的欧美医学界产生了一个恶魔般的念头：“干脆别让他们生孩子，把坏基因从人类里清除掉！”一位英国精神病医生甚至公开说：“如果这群病人是一窝小狗，我们早就把他们装进麻袋绑上石头沉塘淹死了。”",
-        mechanism: "美国加州带头立法，强行给精神病人做绝育手术，一直干到 1960 年，全美国足足绝育了 6 万多人！1930 年，富可敌国的美国洛克菲勒基金会想赞助精神病研究，把大笔美金投给了德国头号精神遗传学家 Ernst Rüdin。",
-        harm: "Rüdin 把美国加州的绝育经验学了个底朝天。希特勒一上台，Rüdin 和德国精神科医生们立刻倒向纳粹，把精神病人叫做“白吃饭的无用食客”。在臭名昭著的“T4 计划”里，德国精神科医生亲自勾名单，用大巴车把 25 万名精神病人拉进伪装成洗澡间的毒气室全部杀害！后来屠杀犹太人的集中营毒气室，就是精神病院这套设备直接搬过去的。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 只要一旦把病人当成“劣等生物”而不是“正在受苦的同类”，穿白大褂的医生离集中营屠夫就只有一步之遥。"
+        context: "在 20 世纪初优生学与生物退化论的影响下，欧美精神医学界普遍将精神障碍视为威胁人口质量的“遗传污染”。一位英国精神病学家甚至在学术场合公开宣称：“如果这些入院患者是一窝小狗，我们早就把他们装进麻袋绑上铅块沉塘淹死了。”",
+        mechanism: "美国加利福尼亚州率先通过并大规模执行精神病患强制绝育法案，截至 1960 年全美累计实施逾 6 万例绝育手术。1930 年前后，富可敌国的洛克菲勒基金会将精神医学列为重点资助领域，巨额资金流入德国顶尖精神遗传学家 Ernst Rüdin 领导的慕尼黑研究所。",
+        harm: "Rüdin 系统吸收了美国加州的强制绝育经验，并在纳粹上台后直接参与起草绝育与安乐死政策。希特勒发起的“T4 计划（因柏林动物园大街 4 号得名）”将精神病患定性为“无用食客（Useless Eaters）”，德国精神科医生主动参与筛选患者，用大巴将其送入伪装成淋浴间的毒气室杀害，累计屠杀约 25 万人——这套毒气室技术与伪装机制随后被直接移交至犹太人大屠杀集中营。",
+        quote: "🎙️ <strong>历史镜鉴：</strong> 英美民主制度的法律制衡阻止了优生学跨越肉体消灭的红线，但在极权体制下，丧失人文底线的医学权威直接沦为了种族灭绝的先行试验场。"
       },
       malaria: {
-        era: "第二幕 · 一个真突破把全行业带进沟里",
-        title: "故意打疟疾高烧，居然真治好了“梅毒疯子” (1917)",
+        era: "第二阶段 · 激进躯体干预的起点",
+        title: "晚期神经梅毒 (GPI) 与疟疾高热疗法 (1917)",
         badges: [
-          { text: "视频节点 01:03:26", class: "pill-cyan" },
+          { text: "播客节点 01:03:26", class: "pill-cyan" },
           { text: "1937 诺贝尔医学奖", class: "pill-green" },
-          { text: "占当时疯人院 25% 病人", class: "pill-amber" }
+          { text: "占当时入院患者 25%", class: "pill-amber" }
         ],
-        context: "100 多年前，精神病院里每 4 个病人就有 1 个（占 25%）得了一种怪病：手脚慢慢瘫痪，同时疯言疯语觉得自己是拿破仑或耶稣。后来科学家解剖大脑大吃一惊：他们根本不是普通心理病，而是十多年前染上的“梅毒细菌”钻进了脑子！",
-        mechanism: "当时还没有青霉素，怎么杀脑子里的梅毒？奥地利医生瓦格纳-尧雷格（Wagner-Jauregg）发现梅毒细菌特别怕烫。于是他抽了疟疾患者的血打进疯子体内，或者把病人绑在房间里放毒蚊子咬！病人染上疟疾后狂烧到 40 多度，真把脑子里的梅毒烧死了，最后再吃奎宁治好疟疾。这招让他拿了 1937 年诺贝尔奖。",
-        harm: "本来这是特定细菌感染的特例（后来青霉素一出，这种病直接消失了），但它把全世界精神科医生带进了沟里！所有医生都眼红诺贝尔奖，心想：“原来疯子都是因为身体里有细菌或坏细胞！那我只要使劲折腾病人的肉体，岂不是也能拿诺奖？”于是，后面惨绝人寰的拔牙切肠、打昏迷、捅脑子全登场了。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 把“梅毒细菌入脑”这一个特例，盲目扩大成“所有心病都是细菌或脑细胞作祟”，开启了长达 40 年的肉体折磨狂潮。"
+        context: "19 世纪末至 20 世纪初，精神病院收治的患者中多达 25% 患有“麻痹性痴呆（GPI）”——患者既出现进行性肢体瘫痪，又伴随夸大妄想与精神错乱。洛克菲勒研究所最终在患者脑组织切片中证实，该病是由潜伏长达 10–25 年的梅毒螺旋体侵入大脑所致。",
+        mechanism: "在青霉素问世前，奥地利精神病学家 Julius Wagner-Jauregg 注意到梅毒螺旋体对高温极为敏感。1917 年，他尝试将疟疾患者的血液注入 GPI 患者体内（部分欧美医院甚至专门建立饲养疟蚊的病房，让穿束缚衣的患者接受叮咬），利用间日疟诱发的 40℃ 以上周期性高热杀灭脑内螺旋体，随后再用奎宁控制疟疾。该疗法使他荣获 1937 年诺贝尔生理学或医学奖。",
+        harm: "尽管 Wagner-Jauregg 晚年私下承认其早期公布的治愈率存在夸大（且该疗法在二战青霉素普及后即被淘汰），但“查明梅毒螺旋体并借物理高热治愈疯癫”的成功，在精神医学界产生了强大的示范效应——医界由此坚信其他精神疾病同样源于某种隐匿的生物毒素或脑部病灶，从而为后续数十年的极端躯体实验提供了正当性。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “GPI 被证实为细菌感染，给了生物精神病学巨大的鼓舞；但不幸的是，学界将一个特定感染性脑病的特例，错误地推广成了所有精神障碍的普遍范式。”"
       },
       cotton: {
-        era: "第二幕 · 恐怖片级别的肉体折腾",
-        title: "名医 Henry Cotton：拔光牙齿、切掉大肠治精神病 (1916–1960)",
+        era: "第二阶段 · 激进躯体干预实验",
+        title: "Henry Cotton 的“局灶性感染”与器官切除术 (1916–1960)",
         badges: [
-          { text: "视频节点 01:08:00", class: "pill-cyan" },
-          { text: "吹嘘 80% 治愈率", class: "pill-rose" },
-          { text: "切大肠一年内死掉 45%", class: "pill-rose" }
+          { text: "播客节点 01:08:00", class: "pill-cyan" },
+          { text: "宣称 80% 治愈率", class: "pill-rose" },
+          { text: "结肠切除死亡率 45%", class: "pill-rose" }
         ],
-        context: "受梅毒发现的刺激，美国新泽西州特伦顿精神病院院长 Henry Cotton 提出了一个听起来特像那么回事的理论：人之所以发疯，是因为牙齿、扁桃体或者肚子里藏着看不见的慢性细菌，细菌放出的毒素顺着血飘进脑子，把人毒疯了！",
-        mechanism: "怎么排毒？当时没抗生素，Cotton 直接上菜刀！病人一进院，先把满口牙齿拔得一颗不剩、切掉扁桃体；如果病人还在说胡话，Cotton 就说“看来细菌藏得更深”，接着剖开肚子切掉胃、脾脏、卵巢、子宫，甚至把整段大肠（结肠）切掉！",
-        harm: "Cotton 拍胸脯对外宣布“80% 的病人被我切好了”，普林斯顿大学请他去演讲，牛津大学出版社帮他出书，《纽约时报》夸他是医学伟人，全美有钱人纷纷花重金送亲人去挨刀。其实医院内部有一份被死死捂住的秘密调查：被他开肚子切大肠的病人，足足有 45% 在一年内活活疼死或感染死！而且 70% 挨刀的是女性。更离谱的是，1933 年 Cotton 心脏病死了，他医院里的牙医居然继续给病人拔牙拔到了 1960 年退休！",
-        quote: "🎙️ <strong>给我们的启发：</strong> 哪怕有常春藤名校背书、《纽约时报》吹捧、“80%治愈率”光环，只要没有严格的科学对照和公开监督，名医也能变成合法的开膛手。"
+        context: "曾师从克雷佩林与阿道夫·迈耶的美国精神病学家 Henry Cotton 出任新泽西州特伦顿州立精神病院院长后，提出“局灶性感染（Focal Sepsis）”假说：认为精神疾病是由人体内部慢性细菌感染释放的毒素随血液侵袭大脑所致。",
+        mechanism: "在缺乏抗生素的年代，Cotton 推行激进的“外科细菌学（Surgical Bacteriology）”：入院患者首先被拔除所有疑似感染的牙齿、切除扁桃体；若精神症状未缓解，则进一步剖腹切除胃、脾脏、卵巢、子宫乃至整段结肠。普林斯顿大学邀请其作系列学术演讲，牛津与普林斯顿大学出版社为其出版专著，《纽约时报》更盛赞其开创了精神医学的新纪元。",
+        harm: "Cotton 对外宣称高达 80% 的治愈率，吸引全美富裕家庭纷纷送亲属入院手术。然而医院董事会迫于压力聘请独立学者 Phyllis Greenacre 展开的内部调查显示：接受腹部结肠切除术的患者高达 45% 在术后一年内死于腹膜炎或败血症，且约 70% 的受术患者为女性。调查报告被院方长期封存；Cotton 于 1933 年死于心脏病后，该院拔牙与切扁桃体的惯例竟一直延续至 1960 年驻院牙医退休方才终止。",
+        quote: "🎙️ <strong>方法论教训：</strong> 在缺乏独立同行核查、随机对照试验与负面数据公开机制的时代，名校光环与媒体背书足以让高致死率的伪科学长期横行。"
       },
       insulin: {
-        era: "第二幕 · 恐怖片级别的肉体折腾",
-        title: "把病人饿晕 60 次：胰岛素昏迷疗法 (1933–1950s)",
+        era: "第二阶段 · 激进躯体干预实验",
+        title: "Manfred Sakel 的胰岛素深度昏迷疗法 (1933–1950s)",
         badges: [
-          { text: "视频节点 01:21:42", class: "pill-cyan" },
-          { text: "吹嘘 80% 治愈率", class: "pill-rose" },
-          { text: "《美丽心灵》纳什曾受此刑", class: "pill-amber" }
+          { text: "播客节点 01:21:42", class: "pill-cyan" },
+          { text: "宣称 80% 治愈率", class: "pill-rose" },
+          { text: "1%–5% 致死率与脑损伤", class: "pill-amber" }
         ],
-        context: "1933 年，奥地利医生 Manfred Sakel 发明了一种新折腾法：给精神分裂症病人注射超大剂量的胰岛素。胰岛素会把血液里的糖瞬间抽干，大脑一旦没糖，病人就会剧烈抽搐、大汗淋漓，直接掉进濒死的深度昏迷里。",
-        mechanism: "病人在鬼门关躺一两个小时后，护士再插鼻管灌糖水或者打葡萄糖针把人救醒。这样一个来回还不算完，一个疗程要连续把人打晕 50 到 60 次！电影《美丽心灵》的原型、诺贝尔经济学奖得主约翰·纳什（John Nash）当年住进精神病院时，就被按着做了整整一个疗程的胰岛素昏迷。",
-        harm: "每次昏迷都有 1%–5% 的病人再也没醒过来，活下来的很多脑子被饿坏了、身材暴肥。有同行质问 Sakel：“你这样做是在杀死病人的脑细胞！”Sakel 居然脸不红心不跳地回答：“没错，但死掉的刚好都是那些发疯的脑细胞！”他也吹牛说 80% 能治好，在纽约赚了 200 万美元豪宅遗产。直到 1950 年代做了第一次双盲对比实验，才发现这招跟吃普通安眠药毫无区别。",
-        quote: "🎙️ <strong>给我们的启发：</strong> “死掉的刚好是发疯的脑细胞”——当一个专家用无法验证的漂亮话为你解释严重副作用时，一定要擦亮眼睛。"
+        context: "1933 年，奥地利医生 Manfred Sakel 将原本用于吗啡成瘾戒断的胰岛素引入精神分裂症治疗，通过注射大剂量胰岛素人为抽干患者血糖，诱发濒死状态的深度低血糖昏迷。",
+        mechanism: "患者在剧烈抽搐与深度昏迷中维持一至两小时后，由医护人员通过鼻饲或静脉注射葡萄糖唤醒；一个完整疗程需反复经历 50 至 60 次深度昏迷。Sakel 同样宣称高达 80% 的治愈率，1936 年赴美示范后迅速成为全美精神病院的标准疗法（诺贝尔经济学奖得主约翰·纳什曾于特伦顿医院接受此项治疗）。",
+        harm: "该疗法不仅耗费极大的专科护理资源，且直接导致 1%–5% 的患者死于不可逆低血糖脑死亡，幸存者亦普遍出现永久性神经损伤与重度肥胖。当同行质疑低血糖缺氧正在杀死脑细胞时，Sakel 辩称：“它杀死的恰恰是那些导致精神分裂的病变脑细胞。”直至 1950 年代英国学者开展严格的双盲随机对照试验（与巴比妥类镇静剂对照），才证实胰岛素昏迷并无特殊疗效。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “‘80% 治愈率’这一数字在精神医学史上以近乎荒诞的规律反复重现——从早期疯人院、Cotton 的器官切除到胰岛素昏迷，皆是如此。”"
       },
       lobotomy: {
-        era: "第二幕 · 诺贝尔奖历史上最大的污点",
-        title: "拿碎冰锥从眼眶捅进脑子：脑叶切除大篷车 (1935–1970s)",
+        era: "第二阶段 · 诺贝尔奖史上的重大争议",
+        title: "Moniz 与 Freeman 的经眶冰锥脑叶切除术 (1935–1970s)",
         badges: [
-          { text: "视频节点 00:57:13", class: "pill-cyan" },
+          { text: "播客节点 00:57:13", class: "pill-cyan" },
           { text: "1949 诺贝尔医学奖", class: "pill-rose" },
-          { text: "60%–70% 受害者是女性", class: "pill-amber" }
+          { text: "60%–70% 受术者为女性", class: "pill-amber" }
         ],
-        context: "如果疯子总是胡思乱想、大吵大闹，把大脑负责思考和情绪的“前额叶”电线直接剪断，他不就不闹了吗？葡萄牙医生 Moniz 在 1935 年干了这件事，而且居然凭这个拿到了 1949 年的诺贝尔医学奖！随后，美国医生 Walter Freeman 把它变成了恐怖的流水线。",
-        mechanism: "Freeman 嫌进手术室钻头骨太慢，直接从自家厨房拿了一把敲冰块用的碎冰锥（Ice Pick）！他不用麻药，先拿电击器把病人电晕，然后掀起病人的上眼皮，把冰锥顺着眼球上方的眼窝塞进去，拿小锤子咔嚓一敲刺穿薄骨插进前额叶，像雨刷器一样左右一扳，直接把脑神经搅断！",
-        harm: "Freeman 天生左右手通用，右手敲累了换左手，开着一辆被他取名为“脑叶切除大篷车（Lobotomobile）”的房车巡回全美各大精神病院表演，一个下午能连捅 20 到 30 个人！他还得意洋洋地吹牛：“我能在 20 分钟内教会任何蠢货做这个手术——哪怕是个精神科医生。”成千上万病人（60%–70%是女性）术后变成了大小便失禁、呆若木鸡的废人。肯尼迪总统 23 岁的妹妹 Rosemary 因为有点叛逆爱发脾气，被老爸送去给 Freeman 捅了一刀，余生智商永远停留在了 2 岁婴儿。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 把一个活生生的人变成“不吵不闹的木偶”，不叫治好了病，那叫毁灭了一个人。哪怕顶着诺贝尔奖的光环，反人性的医疗终究会被钉在耻辱柱上。"
+        context: "1935 年，葡萄牙神经学家 Egas Moniz 尝试通过手术切断大脑前额叶皮层与丘脑之间的神经纤维束（Leucotomy），以消除患者的严重焦虑与狂躁冲动，并于 1949 年获颁诺贝尔生理学或医学奖。美国神经学家 Walter Freeman 随后将其改造为可在门诊快速实施的工业化流水线技术。",
+        mechanism: "为摆脱对神经外科医生与无菌手术室的依赖，Freeman 发明了“经眶脑叶白质切除术（Transorbital Lobotomy）”：先以电休克使患者昏迷，随后将一把形似厨房碎冰锥的器械从眼球上方插入眼窝，用小锤敲穿眼眶顶部薄骨刺入前额叶，左右摆动手柄直接切断额叶神经连接。",
+        harm: "Freeman 驾驶被称为“Lobotomobile”的手术房车巡回全美州立精神病院，凭借天生左右手通用的能力，右手疲惫时换用左手，单日下午可连续实施 20–30 例手术，并自诩“能在 20 分钟内教会任何傻瓜做脑叶切除——哪怕是个精神科医生”。成千上万名患者（其中 60%–70% 为女性，包括肯尼迪总统 23 岁的妹妹 Rosemary Kennedy）术后虽不再吵闹，却永久丧失了高级认知、情感共鸣与生活自理能力。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “如果诺贝尔奖委员会有机会撤回历史上颁出的一项医学奖，1949 年授予脑叶白质切除术的奖项无疑位居榜首。”"
       },
       ect: {
-        era: "第二幕 · 唯一活下来的“电击疗法”",
-        title: "从屠宰场电猪到《飞越疯人院》：电休克疗法 (ECT)",
+        era: "第二阶段 · 唯一留存至今的休克疗法",
+        title: "电休克疗法 (ECT) 的诞生、滥用与现代改良 (1938–至今)",
         badges: [
-          { text: "视频节点 01:29:34", class: "pill-cyan" },
-          { text: "罗马屠宰场杀猪启发", class: "pill-purple" },
-          { text: "至今对重度自杀抑郁最管用", class: "pill-green" }
+          { text: "播客节点 01:29:34 / 01:49:03", class: "pill-cyan" },
+          { text: "罗马屠宰场电击启发", class: "pill-purple" },
+          { text: "极重度自杀性抑郁兜底有效", class: "pill-green" }
         ],
-        context: "1930 年代有个医生误以为“得癫痫（羊角风）的人不会得精神分裂症”，就给病人打樟脑丸或卡地阿唑硬生生诱发全身大抽搐，结果经常把病人的脊椎骨和胯骨活活震断。意大利医生 Cerletti 想改用电击，但一开始拿狗做实验，总是把狗直接电死。",
-        mechanism: "有一天 Cerletti 去罗马屠宰场参观，看到屠夫用两个电极夹在猪头两侧，一通电猪就晕过去抽搐，但不会死！他大受启发，在罗马火车站抓来一个说胡话的流浪汉做实验：第一次电流太小没电晕，流浪汉听到医生商量要加大电压，吓得求饶说“别再来一次，会死人的”！医生不管三七二十一直接加大电压，流浪汉一阵抽搐停止呼吸，醒来后居然真的不胡说了！",
-        harm: "因为机器便宜又省事，1940–60 年代电休克在精神病院被疯狂滥用——不打麻药直接电，成了护士惩罚不听话病人的皮鞭（电影《飞越疯人院》演的完全是真事，片中演院长的演员干脆就是俄勒冈州精神病院的真院长！）；美国中情局（CIA）还出钱让加拿大医生每天电病人几十次搞“洗脑格式化”。但奇妙的是，加上麻醉和肌肉松弛剂后的“现代改良电休克”，经过严格检验，确实对吃药无效的极重度自杀性抑郁症有奇效！只是直到今天，没人知道它为什么管用，而且会造成记忆力明显受损。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 科学不是非黑即白。电休克虽然出身荒诞、曾被滥用，但严格管住边界、加上麻醉保护后，它成了绝境中挽救重度自杀抑郁患者的一道最后防线。"
+        context: "1930 年代匈牙利医生 Meduna 提出“癫痫与精神分裂症生物学互斥”的错误假说，尝试注射卡地阿唑诱发全身抽搐，但剧烈惊厥常导致患者脊椎与髋骨骨折，且发作前伴随极度濒死恐惧。意大利医生 Cerletti 与 Bini 转而探索安全的电击诱发方式。",
+        mechanism: "Cerletti 在罗马屠宰场观察到工人用电极夹住生猪头部两侧可将其电晕而不致死，遂于 1938 年在一名罗马火车站流浪汉身上首次实施电休克（ECT）。由于操作简便、成本低廉，ECT 迅速席卷全球精神病院。",
+        harm: "在 1940–60 年代未配合麻醉与肌松剂的“非改良时代”，ECT 常被用作维持病房秩序的惩罚工具（如 Ken Kesey 小说及电影《飞越疯人院》所真实呈现），美国中情局（CIA）更曾资助加拿大精神病学家 Ewen Cameron 实施每日数十次电击的“去模式化（Depatterning）”洗脑实验。然而值得注意的是，引入短效麻醉与肌肉松弛剂后的现代改良 ECT，经严格对照试验证实对药物难治性、极重度自杀性抑郁症确有显著救命疗效，尽管其确切作用机制至今仍未阐明，且伴随逆行性记忆丧失等代价。",
+        quote: "🎙️ <strong>临床辩证认知：</strong> 历史批判并非全盘否定。改良 ECT 的留存表明，即便源于错误的早期假说，经过严格的适应症收敛与伦理安全改造后，部分经验性疗法仍具不可替代的临床兜底价值。"
       },
       freud: {
-        era: "第三幕 · 不动刀子改聊童年阴影",
-        title: "弗洛伊德的“沙发谈心帝国”与冰箱母亲冤案 (1900–1970s)",
+        era: "第三阶段 · 心理动力学霸权的兴衰",
+        title: "弗洛伊德精神分析学派的崛起与衰落 (1900–1970s)",
         badges: [
-          { text: "视频节点 02:06:35", class: "pill-cyan" },
-          { text: "曾占领全美80%精神科", class: "pill-purple" },
-          { text: "如今变成富人奢侈品", class: "pill-amber" }
+          { text: "播客节点 02:06:35", class: "pill-cyan" },
+          { text: "1958年全美80%医师门诊化", class: "pill-purple" },
+          { text: "缺乏科学可证伪性", class: "pill-amber" }
         ],
-        context: "当医院里的医生在拔牙、捅脑子时，维也纳的弗洛伊德（Sigmund Freud）走上了另一条路：不碰大脑，只聊心事。他发现自己催眠术水平太次，干脆让病人躺在沙发上，想到什么说什么（自由联想），认为一切心理疾病都是童年创伤和潜意识里的“性冲动（俄狄浦斯情结）”被压抑的结果。",
-        mechanism: "二战爆发成了弗洛伊德学派最大的跳板：一方面希特勒迫害犹太人，把欧洲大批精神分析师赶到了美国；另一方面二战美军很多士兵在战场上心理崩溃，美军精神科总管 Menninger 觉得谈话疗法最管用。结果二战后，弗洛伊德派彻底接管了美国精神医学界！到 1958 年，全美 80% 的精神科医生都不去医院管重病号了，全在城里开私人诊所陪中产阶级聊童年。",
-        harm: "但弗洛伊德学派有两大死穴：① 像宗教一样容不下异见（谁质疑性冲动理论就被弗洛伊德开除，比如荣格），且完全没法用科学实验证明对错；② 对真正的重度精神分裂症毫无办法，甚至编造出缺德的“冰箱母亲（Refrigerator Mother）”理论——对崩溃的家属说“孩子得精神分裂症/自闭症，全怪当妈的太冷漠”！如今，耗时几年、花费数万美元的精神分析已经退化成富人专属的奢侈品，但有趣的是，Lex 和 Scull 认为未来的 AI 大模型倒有可能让这种深度倾听重新平民化。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 弗洛伊德教会了医生“坐下来认真听病人说话”，这是他伟大的地方；但他把一切都怪罪给童年和父母（尤其是母亲），既不科学也极其残忍。"
+        context: "神经病学出身的西格蒙德·弗洛伊德在巴黎师从沙可（Charcot）研究歇斯底里症后，与 Breuer 合作探讨 Anna O. 案例，放弃催眠术并创立“自由联想”与本我/自我/超我心理动力学模型，将精神困扰归因于童年创伤压抑与潜意识性驱力冲突。",
+        mechanism: "1909 年弗洛伊德应邀赴美国克拉克大学发表五场演讲，开启北美传播。1930 年代纳粹迫害犹太学者迫使大批欧洲精神分析师流亡美英；二战期间，美军精神科主管 William Menninger 推崇以心理动力学处理士兵战场心理崩溃。战后精神分析全面主导美国精神病学界，至 1958 年全美约 80% 的精神科医生脱离州立医院转向私人门诊。",
+        harm: "精神分析学派在内部治理上具有强烈的教条排他性（弗洛伊德将质疑泛性论的荣格等人逐出学派），在外部则缺乏实证科学的可证伪性。面对重度精神分裂症与自闭症，精神分析不仅束手无策，反而衍生出“冰箱母亲（Refrigerator Mother）”等荒谬理论，将病因归咎于母亲的情感冷漠，对患者家庭造成严重二次伤害。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “精神分析如今已退化为仅少数富裕阶层负担得起的利基消费品；但在人工智能时代，大语言模型或许能以低成本方式重新激活深度倾听与谈话疗法的积极元素。”"
       },
       cbt: {
-        era: "第三幕 · 现代心理咨询的真正主力",
-        title: "阿伦·贝克叛出师门：认知行为疗法 (CBT) 的逆袭 (1960s–至今)",
+        era: "第三阶段 · 实证心理治疗革命",
+        title: "阿伦·贝克与认知行为疗法 (CBT) 的循证逆袭 (1960s–至今)",
         badges: [
-          { text: "视频节点 02:36:30", class: "pill-cyan" },
-          { text: "英国官方定为抑郁首选", class: "pill-green" },
-          { text: "不翻旧账只改当下念头", class: "pill-cyan" }
+          { text: "播客节点 02:36:30", class: "pill-cyan" },
+          { text: "英国 NICE 轻中度抑郁首选", class: "pill-green" },
+          { text: "短程结构化可量化验证", class: "pill-cyan" }
         ],
-        context: "到了 1960 年代，原本也是弗洛伊德门徒的美国医生阿伦·贝克（Aaron Beck）想做实验证明师爷的理论是对的，结果做完实验发现全错了！与此同时，大学里培养的“临床心理学家（学过严格的数学统计和实验设计）”开始跟医学院的精神科医生抢饭碗。",
-        mechanism: "贝克干脆另起炉灶，发明了今天大名鼎鼎的“认知行为疗法（CBT）”。它的逻辑特别简单接地气：不花三年去挖你三岁时尿床的童年阴影，而是直接改你“当下脑子里的钻牛角尖念头”！比如你给朋友发微信没回，你立刻想“他讨厌我了➔我人缘太差➔活着没意思”，CBT 就像健身教练一样，带着你一条条拿证据反驳这些灾难化念头，逼你先出门走两步。",
-        harm: "因为 CBT 只要练十来次、能用分数测效果、省钱又快，政府科研基金和保险公司全都愛上了它，把弗洛伊德派打得落花流水。今天英国国家医疗指南（NICE）明确规定：轻中度抑郁症首选做 CBT，不要先吃药！但 Scull 教授也实话实说：对于出现严重幻觉的重度精神分裂症，光靠聊 CBT 依然不管用。",
-        quote: "🎙️ <strong>给我们的启发：</strong> 如果你只是中轻度焦虑抑郁，像 CBT 这样“停止反刍过去、动手改变当下思维习惯”的方法，往往比吃抗抑郁药更安全有效。"
+        context: "二战后，接受过大学严格统计学与实验设计训练的“临床心理学家（Clinical Psychologists）”进入心理治疗领域，与医学院培养的精神科医生形成竞争。与此同时，原本受训为精神分析师的阿伦·贝克（Aaron Beck）在用实验检验弗洛伊德抑郁理论时发现其无法成立，并于 1960 年代初率先用实证数据揭示了传统精神科诊断的低信度。",
+        mechanism: "贝克摒弃了漫长的童年潜意识回溯，创立认知行为疗法（CBT）：聚焦识别并修正患者当下的“自动化消极思维”与认知扭曲，通过结构化的行为激活训练打破负面情绪循环。",
+        harm: "由于 CBT 疗程短（通常 8–20 周）、流程标准化且易于通过随机对照试验（RCT）量化评估，迅速赢得了联邦科研基金与医疗保险体系的支持。英国国家卫生与临床优化研究所（NICE）明确将 CBT 列为轻中度抑郁症的一线首选方案（排在抗抑郁药物之前）。但 Scull 同时指出，Cochrane 循证医学评价显示 CBT 的整体证据强度仍属中等，且对重度精神分裂症等精神病性障碍效果甚微。",
+        quote: "🎙️ <strong>临床启示：</strong> 对于轻中度抑郁与焦虑困扰，CBT 提供了至少不逊于抗抑郁药物的疗效，同时避免了药物带来的生理副作用与戒断困境。"
       },
       pharma: {
-        era: "第四幕 · 现代神药的意外诞生与商业猫腻",
-        title: "百忧解与抗精神病药：瞎猫碰死耗子与药企藏试卷 (1954–至今)",
+        era: "第四阶段 · 精神药理学革命与商业偏差",
+        title: "抗精神病药与抗抑郁药 (SSRIs) 的临床真相 (1954–至今)",
         badges: [
-          { text: "视频节点 02:57:04 / 03:20:24", class: "pill-cyan" },
-          { text: "60分量表仅比糖丸高1-2分", class: "pill-rose" },
-          { text: "二代贵药退赛率 67%-82%", class: "pill-amber" }
+          { text: "播客节点 02:57:04 / 03:20:24", class: "pill-cyan" },
+          { text: "SSRIs 60分量表仅胜安慰剂1-2分", class: "pill-rose" },
+          { text: "CATIE 试验脱落率 67%-82%", class: "pill-amber" }
         ],
-        context: "在 1950 年代以前，没人觉得吃药能治心病。现代两大类精神科药物的诞生，全都是滑稽的意外：第一款抗精神病药“氯丙嗪（Thorazine）”原本是煤焦油提炼的抗过敏麻醉药，军医发现病人吃完了像木头人一样淡定，称之为“化学脑叶切除术”；第一代抗抑郁药原本是治肺结核的药，结果肺结核病人吃完了在病房里开心地跳舞！",
-        mechanism: "药企看到了印钞机：史克必成公司买下氯丙嗪，去州议会给政客放电影（看，闹事的疯子吃一片就老实了！），两年内全美 200 万人吃上，还把名字从“强力镇静剂”改成了听起来能治本的“抗精神病药”。到了 1980 年代末，礼来公司推出百忧解（Prozac 等 SSRIs），打出响彻全球的广告语：“抑郁症是因为脑子里缺血清素，吃药就能补上！”",
-        harm: "但 Scull 揭开了三个惊天内幕：① 抗精神病药只能压住吵闹幻觉（阳性症状），治不好呆滞孤僻（阴性症状），长期吃还会让人不受控制地吐舌头抽搐（医生假装没看见长达20年）；② 药企后来推出贵10倍的“二代新药”，结果2005年美国政府独立测试（CATIE研究）发现新药根本没更管用，反而让人暴肥三五十斤得糖尿病，67%–82% 病人中途受不了退赛；③ 药企只要交 2 份成功试验就能过 FDA 审批，哪怕做了 15 次失败了 13 次，只要把失败试卷藏起来就行！把所有数据摊开看，抗抑郁药在 60 分满分表上比吃淀粉糖丸只高 1–2 分，超 40% 人吃了完全没用，还会导致感情麻木、彻底失去性欲和恐怖的戒断反应。",
-        quote: "🎙️ <strong>Andrew Scull 原话：</strong> “医学界没有免费的午餐。药企做了 15 次试验哪怕失败 13 次，只要挑出 2 次及格就能拿走批文——这就是他们所谓的黄金标准。”"
+        context: "1950 年代现代精神药物的诞生纯属偶然：第一款抗精神病药氯丙嗪（Thorazine）源于抗组胺麻醉增效剂；第一代抗抑郁药异烟肼则源于抗结核病药物（医生偶然发现服药后的肺结核患者情绪异常欣快）。史克必成公司购入氯丙嗪北美专利后大力游说州议会，两年内全美服药人数突破 200 万。",
+        mechanism: "制药工业通过概念重塑推动了市场扩张：将氯丙嗪从“强效镇静剂（Major Tranquilizer）”更名为“抗精神病药（Antipsychotic）”，并在 1980 年代末将百忧解（Prozac）等 SSRIs 包装为“纠正脑内血清素（5-HT）化学失衡”的靶向药物。然而临床证据表明，抗精神病药仅能压制阳性症状（幻觉、妄想），无法恢复阴性症状（情感淡漠、社交退缩）；而“抑郁症源于单一血清素缺乏”的假说在神经科学界早已被证伪。",
+        harm: "Scull 重点剖析了两大结构性问题：① 第一代抗精神病药引发不可逆的迟发性运动障碍，医学界对此忽视长达 20 年；2005 年 NIMH 独立资助的 CATIE 研究进一步证实，价格昂贵 10 倍的第二代抗精神病药疗效并未超越一代老药，高达 67%–82% 患者中途退组，且诱发严重的肥胖（增重 10–50 磅）与代谢综合征；② FDA 审批仅要求药企提交 2 项阳性试验，药企得以隐匿大量失败的阴性试验（发表偏倚）。全量数据分析显示，SSRIs 在 60 分抑郁量表上平均仅比安慰剂高出 1–2 分，逾 40% 患者无应答，却伴随普遍的情感钝化、性功能减退及停药戒断综合征。",
+        quote: "🎙️ <strong>Andrew Scull 历史洞察：</strong> “药企可以开展 15 项临床试验，哪怕其中 13 项彻底失败，只要挑出 2 项阳性结果提交即可获得 FDA 批准——这导致已发表文献严重高估了药物的真实净效益。”"
       },
       crisis: {
-        era: "第四幕 · 我们正在经历的现代危机",
-        title: "去机构化骗局、三大监狱疯人院与迷幻药新泡沫 (1980–2026)",
+        era: "第四阶段 · 当代公共政策与科研困局",
+        title: "去机构化溃败、监狱收容化与 200 亿脑科学反思 (1980–2026)",
         badges: [
-          { text: "视频节点 00:11:42 / 00:27:10", class: "pill-cyan" },
-          { text: "全美最大精神病院是3座监狱", class: "pill-rose" },
-          { text: "重度患者平均少活 15-25 年", class: "pill-rose" }
+          { text: "播客节点 00:11:42 / 00:27:10", class: "pill-cyan" },
+          { text: "三大监狱沦为最大精神病院", class: "pill-rose" },
+          { text: "重度患者寿命缩短 15-25 年", class: "pill-rose" }
         ],
-        context: "把过去 200 年串起来看，今天的精神医学站在一个尴尬的十字路口：旧的疯人院全拆了，花了 200 亿美元研究脑细胞没找到新靶点，大药企纷纷觉得不赚钱撤出了精神科研发，而街头的重度精神病人却越来越多。",
-        mechanism: "为什么街头疯子越来越多？因为 1960 年代末政府关掉州立精神病院时，答应建的“社区疗养中心”根本是个空头支票（没有豌豆的猜壳骗局）！医院关了省下钱，病人全被赶到大街上，犯病闹事就被警察抓进牢里——结果今天全美国收容精神病人最多的三个地方，居然是洛杉矶县监狱、芝加哥库克县监狱和纽约赖克斯岛监狱！",
-        harm: "由于缺乏照护和药物副作用，今天重度精神疾病患者的平均寿命比普通人短 15 到 25 年，而且差距还在拉大！与此同时，媒体和资本又在狂炒“氯胺酮（K粉）和迷幻蘑菇能一针根治抑郁症”。Scull 警告：千万别再被新一轮“80% 治愈率”的泡沫忽悠了，真正能拯救病人的，不是某颗神奇药丸，而是给他们一间安稳的房子、给崩溃的家属搭一把手、让孤独的人重新回到温暖的人际社会连接中。",
-        quote: "🎙️ <strong>温暖的结语：</strong> 尽管历史充满黑暗与弯路，但永远不要放弃希望。正如片尾引用的尼采名言：“活着就是受苦，而活下去就是在苦难中寻找意义。”"
+        context: "自 1960 年代末起，欧美各国普遍推进关闭大型州立精神病院的“去机构化（Deinstitutionalization）”政策；与此同时，1990 年代以来 NIMH 在 Hyman 与 Insel 两任主任领导下，将逾 200 亿美元联邦科研经费全面押注于基础神经生物学与精神遗传学。",
+        mechanism: "这两项宏大工程在现实中双双受挫：① 去机构化承诺的“社区精神卫生照护”沦为财政削减的借口（Scull 称之为“没有豌豆的猜壳骗局”），在拆毁医院的同时并未建立配套社区支持设施；② Insel 离任时公开承认，耗资 200 亿美元发表海量基础科研论文后，“精神病患的现实处境没有改善分毫”，跨国药企巨头因缺乏新分子靶点已纷纷撤出精神科研发管线。",
+        harm: "制度缺位导致大批重度精神病患流落街头，在急诊室、收容所与司法系统间恶性循环。今日美国最大的三所“住院精神病医疗中心”竟是洛杉矶县监狱、芝加哥库克县监狱与纽约赖克斯岛监狱；重度精神疾病患者的平均预期寿命较常人缩短 15–25 年，且差距仍在扩大。此外，Scull 警告当前针对氯胺酮（Ketamine）与致幻剂的商业热潮存在重演历史“80%治愈率”泡沫的风险。",
+        quote: "🎙️ <strong>未来出路：</strong> 走出危机的关键在于重塑科学的谦卑——将科研资源与公共政策从单一的“分子还原论”拓展至支持性社区住房、家庭照护减负与重建患者的社会连接。"
       }
     };
 
-    function selectNode(id, element) {
-      document.querySelectorAll('.piece-card').forEach(el => el.classList.remove('active'));
-      element.classList.add('active');
+    function isMobileLayout() {
+      return window.innerWidth <= 1024;
+    }
 
-      const data = studyNodes[id];
+    function placeInspectorForViewport(activeCard) {
+      var inspector = document.getElementById('inspectorBox');
+      var chessLayout = document.getElementById('chessLayout');
+      if (!inspector || !chessLayout) return;
+
+      if (isMobileLayout() && activeCard && activeCard.parentNode) {
+        if (activeCard.nextElementSibling !== inspector) {
+          activeCard.insertAdjacentElement('afterend', inspector);
+        }
+      } else {
+        if (inspector.parentNode !== chessLayout) {
+          chessLayout.appendChild(inspector);
+        }
+      }
+    }
+
+    window.selectNode = function(id, element) {
+      var data = studyNodes[id];
       if (!data) return;
+
+      var allCards = document.querySelectorAll('.piece-card');
+      for (var i = 0; i < allCards.length; i++) {
+        allCards[i].classList.remove('active');
+        var hint = allCards[i].querySelector('.piece-hint');
+        if (hint) hint.textContent = '点击展开 ▸';
+      }
+
+      var targetCard = element || document.querySelector('.piece-card[data-node="' + id + '"]');
+      if (targetCard) {
+        targetCard.classList.add('active');
+        var activeHint = targetCard.querySelector('.piece-hint');
+        if (activeHint) activeHint.textContent = '当前展开 ▾';
+      }
 
       document.getElementById('insEra').textContent = data.era;
       document.getElementById('insTitle').textContent = data.title;
-      document.getElementById('insBadges').innerHTML = data.badges.map(b => `<span class="kpi-pill ${b.class}">${b.text}</span>`).join('');
+      var badgesHtml = '';
+      for (var j = 0; j < data.badges.length; j++) {
+        badgesHtml += '<span class="kpi-pill ' + data.badges[j].class + '">' + data.badges[j].text + '</span>';
+      }
+      document.getElementById('insBadges').innerHTML = badgesHtml;
       document.getElementById('insContext').textContent = data.context;
       document.getElementById('insMechanism').textContent = data.mechanism;
       document.getElementById('insHarm').textContent = data.harm;
       document.getElementById('insQuote').innerHTML = data.quote;
-    }
 
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      placeInspectorForViewport(targetCard);
+    };
 
-      btn.classList.add('active');
-      const targetPanel = document.getElementById(tabId);
-      targetPanel.classList.add('active');
+    window.switchTab = function(tabId, btn) {
+      var allBtns = document.querySelectorAll('.tab-btn');
+      for (var i = 0; i < allBtns.length; i++) {
+        allBtns[i].classList.remove('active');
+      }
+      var allPanels = document.querySelectorAll('.tab-panel');
+      for (var j = 0; j < allPanels.length; j++) {
+        allPanels[j].classList.remove('active');
+      }
+
+      var targetBtn = btn || document.querySelector('.tab-btn[data-tab="' + tabId + '"]');
+      if (targetBtn) targetBtn.classList.add('active');
+
+      var targetPanel = document.getElementById(tabId);
+      if (targetPanel) targetPanel.classList.add('active');
 
       if (tabId === 'tab-charts') {
         setTimeout(initCharts, 50);
       }
-    }
+    };
 
-    let chartsInitialized = false;
+    // Dedicated Mobile Touch Delegation (0ms response on iOS Safari / WeChat / Android WebView)
+    (function() {
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var lastTapTime = 0;
+
+      document.addEventListener('touchstart', function(e) {
+        if (e.touches && e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchend', function(e) {
+        if (!e.changedTouches || e.changedTouches.length !== 1) return;
+        var dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+        var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx > 12 || dy > 12) return; // User was scrolling, not tapping
+
+        var target = e.target;
+        var card = target.closest ? target.closest('.piece-card') : null;
+        if (card) {
+          var nodeId = card.getAttribute('data-node');
+          if (nodeId) {
+            lastTapTime = Date.now();
+            window.selectNode(nodeId, card);
+          }
+          return;
+        }
+
+        var tabBtn = target.closest ? target.closest('.tab-btn') : null;
+        if (tabBtn) {
+          var tabId = tabBtn.getAttribute('data-tab');
+          if (tabId) {
+            lastTapTime = Date.now();
+            window.switchTab(tabId, tabBtn);
+          }
+        }
+      }, { passive: true });
+
+      // Initial placement
+      var firstActive = document.querySelector('.piece-card.active');
+      placeInspectorForViewport(firstActive);
+    })();
+
+    var lastMobileState = isMobileLayout();
+    window.addEventListener('resize', function() {
+      var currentMobileState = isMobileLayout();
+      if (currentMobileState !== lastMobileState) {
+        lastMobileState = currentMobileState;
+        var activeCard = document.querySelector('.piece-card.active');
+        placeInspectorForViewport(activeCard);
+      }
+      if (chartInstances.length > 0) {
+        for (var i = 0; i < chartInstances.length; i++) {
+          if (chartInstances[i]) chartInstances[i].resize();
+        }
+      }
+    });
+
+    var chartsInitialized = false;
+    var chartInstances = [];
+    var chartRetryCount = 0;
+
     function initCharts() {
-      if (chartsInitialized) return;
+      if (typeof echarts === 'undefined') {
+        if (chartRetryCount < 20) {
+          chartRetryCount++;
+          setTimeout(initCharts, 250);
+        }
+        return;
+      }
+      if (chartsInitialized) {
+        for (var i = 0; i < chartInstances.length; i++) {
+          if (chartInstances[i]) chartInstances[i].resize();
+        }
+        return;
+      }
       chartsInitialized = true;
+      var isNarrow = window.innerWidth < 600;
 
       // Chart 1: 80% Cure Myth vs Reality
-      const c1 = echarts.init(document.getElementById('chartCureMyth'));
+      var c1 = echarts.init(document.getElementById('chartCureMyth'));
       c1.setOption({
         backgroundColor: 'transparent',
         tooltip: {
           trigger: 'axis',
           axisPointer: { type: 'shadow' },
+          confine: true,
           backgroundColor: '#1e293b',
           borderColor: '#38bdf8',
           textStyle: { color: '#f8fafc', fontSize: 12 }
         },
         legend: {
-          data: ['医生当年吹牛的治愈率 (%)', '病人真实长期好转率 (%)', '致死/致残/中途退赛率 (%)'],
-          textStyle: { color: '#cbd5e1', fontSize: 11.5 },
+          data: ['早期宣称治愈/有效率 (%)', '真实长期缓解/留存率 (%)', '严重致死/致残/脱落率 (%)'],
+          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
           top: 0
         },
-        grid: { left: '3%', right: '4%', bottom: '8%', top: '42px', containLabel: true },
+        grid: { left: '3%', right: '4%', bottom: isNarrow ? '12%' : '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
         xAxis: {
           type: 'category',
-          data: ['19世纪疯人院
-(乡下静养)', '拔牙切大肠
-(Cotton院长)', '打胰岛素昏迷
-(饿晕60次)', '碎冰锥捅脑子
-(1949诺奖)', '二代天价精神病药
-(CATIE大比武)', '主流抗抑郁药
+          data: ['19世纪疗养院
+(道德治疗)', '局灶感染切除
+(Cotton)', '胰岛素昏迷
+(Sakel)', '脑叶白质切除
+(Moniz/Freeman)', '二代抗精神病药
+(CATIE研究)', 'SSRIs抗抑郁药
 (百忧解等)'],
           axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: 11 }
+          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11, interval: 0, rotate: isNarrow ? 20 : 0 }
         },
         yAxis: {
           type: 'value',
           max: 100,
           axisLine: { lineStyle: { color: '#334155' } },
           splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-          axisLabel: { color: '#94a3b8', formatter: '{value}%' }
+          axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
         },
         series: [
           {
-            name: '医生当年吹牛的治愈率 (%)',
+            name: '早期宣称治愈/有效率 (%)',
             type: 'bar',
             data: [80, 80, 80, 75, 70, 65],
-            itemStyle: { color: '#38bdf8', borderRadius: [4, 4, 0, 0] },
-            label: { show: true, position: 'top', color: '#38bdf8', fontSize: 10, formatter: '{c}%' }
+            itemStyle: { color: '#38bdf8', borderRadius: [3, 3, 0, 0] },
+            label: { show: !isNarrow, position: 'top', color: '#38bdf8', fontSize: 10, formatter: '{c}%' }
           },
           {
-            name: '病人真实长期好转率 (%)',
+            name: '真实长期缓解/留存率 (%)',
             type: 'bar',
             data: [11, 15, 12, 10, 25, 32],
-            itemStyle: { color: '#10b981', borderRadius: [4, 4, 0, 0] },
-            label: { show: true, position: 'top', color: '#10b981', fontSize: 10, formatter: '{c}%' }
+            itemStyle: { color: '#10b981', borderRadius: [3, 3, 0, 0] },
+            label: { show: !isNarrow, position: 'top', color: '#10b981', fontSize: 10, formatter: '{c}%' }
           },
           {
-            name: '致死/致残/中途退赛率 (%)',
+            name: '严重致死/致残/脱落率 (%)',
             type: 'bar',
             data: [60, 45, 35, 65, 75, 42],
-            itemStyle: { color: '#f43f5e', borderRadius: [4, 4, 0, 0] },
-            label: { show: true, position: 'top', color: '#f43f5e', fontSize: 10, formatter: '{c}%' }
+            itemStyle: { color: '#f43f5e', borderRadius: [3, 3, 0, 0] },
+            label: { show: !isNarrow, position: 'top', color: '#f43f5e', fontSize: 10, formatter: '{c}%' }
           }
         ]
       });
 
       // Chart 2: DSM Diagnostic Inflation vs Biological Validity
-      const c2 = echarts.init(document.getElementById('chartDsmInflation'));
+      var c2 = echarts.init(document.getElementById('chartDsmInflation'));
       c2.setOption({
         backgroundColor: 'transparent',
         tooltip: {
           trigger: 'axis',
+          confine: true,
           backgroundColor: '#1e293b',
           borderColor: '#818cf8',
           textStyle: { color: '#f8fafc', fontSize: 12 }
         },
         legend: {
-          data: ['手册里编出来的病名数量 (种)', '医生按表打勾的口供一致度', '真正找准大脑病根的程度'],
-          textStyle: { color: '#cbd5e1', fontSize: 11.5 },
+          data: ['DSM 收录诊断类别数 (种)', '临床诊断信度 (一致性)', '底层病理效度 (准确性)'],
+          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
           top: 0
         },
-        grid: { left: '3%', right: '4%', bottom: '8%', top: '42px', containLabel: true },
+        grid: { left: '3%', right: '3%', bottom: '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
         xAxis: {
           type: 'category',
-          data: ['1952年
-第1版(32页)', '1968年
-第2版', '1980年
-第3版(打勾表)', '1987年
-第3版修订', '1994年
-第4版', '2013年
-第5版(被痛批)'],
+          data: ['1952
+DSM-I', '1968
+DSM-II', '1980
+DSM-III', '1987
+DSM-III-R', '1994
+DSM-IV', '2013
+DSM-5'],
           axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: 11 }
+          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
         },
         yAxis: [
           {
             type: 'value',
-            name: '病名数量',
-            nameTextStyle: { color: '#94a3b8' },
+            name: '类别数',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
             splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-            axisLabel: { color: '#94a3b8' }
+            axisLabel: { color: '#94a3b8', fontSize: 11 }
           },
           {
             type: 'value',
-            name: '评分(满分100)',
+            name: '信度/效度',
             min: 0,
             max: 100,
-            nameTextStyle: { color: '#94a3b8' },
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
             splitLine: { show: false },
-            axisLabel: { color: '#94a3b8', formatter: '{value}分' }
+            axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}' }
           }
         ],
         series: [
           {
-            name: '手册里编出来的病名数量 (种)',
+            name: 'DSM 收录诊断类别数 (种)',
             type: 'bar',
             barWidth: '34%',
             data: [106, 185, 265, 297, 354, 374],
             itemStyle: { color: '#818cf8', borderRadius: [4, 4, 0, 0] },
-            label: { show: true, position: 'top', color: '#a5b4fc', fontSize: 11, formatter: '{c}种' }
+            label: { show: true, position: 'top', color: '#a5b4fc', fontSize: 10, formatter: '{c}' }
           },
           {
-            name: '医生按表打勾的口供一致度',
+            name: '临床诊断信度 (一致性)',
             type: 'line',
             yAxisIndex: 1,
             data: [25, 30, 78, 82, 85, 80],
             itemStyle: { color: '#38bdf8' },
             lineStyle: { width: 3 },
-            symbolSize: 8
+            symbolSize: 7
           },
           {
-            name: '真正找准大脑病根的程度',
+            name: '底层病理效度 (准确性)',
             type: 'line',
             yAxisIndex: 1,
             data: [12, 14, 18, 18, 20, 19],
             itemStyle: { color: '#f59e0b' },
             lineStyle: { width: 3, type: 'dashed' },
-            symbolSize: 8
+            symbolSize: 7
           }
         ]
       });
 
       // Chart 3: Paradigm Radar
-      const c3 = echarts.init(document.getElementById('chartParadigmRadar'));
+      var c3 = echarts.init(document.getElementById('chartParadigmRadar'));
       c3.setOption({
         backgroundColor: 'transparent',
         tooltip: {
+          confine: true,
           backgroundColor: '#1e293b',
           borderColor: '#38bdf8',
           textStyle: { color: '#f8fafc', fontSize: 12 }
         },
         legend: {
-          data: ['早期开刀/打昏迷', '吃抗精神病/抗抑郁药', '做CBT认知心理咨询', '改善生活与社会陪伴'],
-          textStyle: { color: '#cbd5e1', fontSize: 11 },
+          data: ['早期躯体干预', '现代精神药物', '认知行为疗法(CBT)', '社会心理支持体系'],
+          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11 },
           bottom: 0
         },
         radar: {
           indicator: [
-            { name: '危急时刻压住症状', max: 100 },
-            { name: '让人恢复正常生活社交', max: 100 },
-            { name: '科学实验证据扎实度', max: 100 },
-            { name: '安全性(不伤身体)', max: 100 },
-            { name: '普通人用得起/方便度', max: 100 },
-            { name: '把病人当人看的温暖度', max: 100 }
+            { name: '急性重症控制', max: 100 },
+            { name: '社会功能恢复', max: 100 },
+            { name: '循证可证伪性', max: 100 },
+            { name: '安全性(低伤害)', max: 100 },
+            { name: '普惠可及性', max: 100 },
+            { name: '人文尊严关怀', max: 100 }
           ],
-          radius: '62%',
-          center: ['50%', '45%'],
+          radius: isNarrow ? '52%' : '62%',
+          center: ['50%', '44%'],
           splitArea: { areaStyle: { color: ['rgba(30, 41, 59, 0.4)', 'rgba(15, 23, 42, 0.6)'] } },
           axisLine: { lineStyle: { color: '#334155' } },
           splitLine: { lineStyle: { color: '#1e293b' } },
-          axisName: { color: '#cbd5e1', fontSize: 11 }
+          axisName: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
         },
         series: [{
           type: 'radar',
           data: [
             {
               value: [65, 10, 15, 10, 40, 10],
-              name: '早期开刀/打昏迷',
+              name: '早期躯体干预',
               itemStyle: { color: '#f43f5e' },
               areaStyle: { color: 'rgba(244, 63, 94, 0.2)' }
             },
             {
               value: [78, 45, 70, 48, 85, 35],
-              name: '吃抗精神病/抗抑郁药',
+              name: '现代精神药物',
               itemStyle: { color: '#38bdf8' },
               areaStyle: { color: 'rgba(56, 189, 248, 0.2)' }
             },
             {
               value: [45, 72, 82, 90, 65, 78],
-              name: '做CBT认知心理咨询',
+              name: '认知行为疗法(CBT)',
               itemStyle: { color: '#10b981' },
               areaStyle: { color: 'rgba(16, 185, 129, 0.2)' }
             },
             {
               value: [50, 88, 75, 95, 55, 96],
-              name: '改善生活与社会陪伴',
+              name: '社会心理支持体系',
               itemStyle: { color: '#f59e0b' },
               areaStyle: { color: 'rgba(245, 158, 11, 0.2)' }
             }
@@ -1522,38 +1821,39 @@
       });
 
       // Chart 4: Harm & Gender Bias Breakdown
-      const c4 = echarts.init(document.getElementById('chartHarmBreakdown'));
+      var c4 = echarts.init(document.getElementById('chartHarmBreakdown'));
       c4.setOption({
         backgroundColor: 'transparent',
         tooltip: {
           trigger: 'axis',
           axisPointer: { type: 'shadow' },
+          confine: true,
           backgroundColor: '#1e293b',
           borderColor: '#f43f5e',
           textStyle: { color: '#f8fafc', fontSize: 12 },
           formatter: '{b}: <b>{c}%</b>'
         },
-        grid: { left: '3%', right: '10%', bottom: '5%', top: '12px', containLabel: true },
+        grid: { left: '2%', right: '12%', bottom: '4%', top: '10px', containLabel: true },
         xAxis: {
           type: 'value',
           max: 100,
           axisLine: { lineStyle: { color: '#334155' } },
           splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-          axisLabel: { color: '#94a3b8', formatter: '{value}%' }
+          axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
         },
         yAxis: {
           type: 'category',
           data: [
-            '300多个基因能解释精神分裂症的比例',
-            '100年前疯人院里其实是晚期梅毒的比例',
-            '抑郁症病人吃百忧解等药完全无效的比例',
-            '被Cotton院长切大肠后1年内惨死的比例',
-            '被碎冰锥捅脑子的病人里女性占的比例',
-            '被Cotton拔牙切器官的病人里女性占比',
-            '吃二代精神病药中途受不了退赛的最高比例'
+            'GWAS基因对精神分裂解释上限',
+            '20世纪初神经梅毒占入院比例',
+            '抑郁患者对SSRIs无应答比例',
+            'Cotton结肠切除1年内死亡率',
+            '美国脑叶切除术女性患者占比',
+            'Cotton器官切除女性患者占比',
+            'CATIE试验抗精神病药最高脱落率'
           ],
           axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: 11.5 }
+          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 }
         },
         series: [{
           type: 'bar',
@@ -1571,18 +1871,14 @@
             show: true,
             position: 'right',
             color: '#fff',
+            fontSize: 11,
             fontWeight: 'bold',
             formatter: '{c}%'
           }
         }]
       });
 
-      window.addEventListener('resize', () => {
-        c1.resize();
-        c2.resize();
-        c3.resize();
-        c4.resize();
-      });
+      chartInstances = [c1, c2, c3, c4];
     }
   </script>
 </body>
