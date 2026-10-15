@@ -1468,10 +1468,12 @@
       return window.innerWidth <= 1024;
     }
 
-    function placeInspectorForViewport(activeCard) {
+    function placeInspectorForViewport(activeCard, preserveScroll) {
       var inspector = document.getElementById('inspectorBox');
       var chessLayout = document.getElementById('chessLayout');
       if (!inspector || !chessLayout) return;
+
+      var beforeTop = (preserveScroll && activeCard) ? activeCard.getBoundingClientRect().top : null;
 
       if (isMobileLayout() && activeCard && activeCard.parentNode) {
         if (activeCard.nextElementSibling !== inspector) {
@@ -1480,6 +1482,14 @@
       } else {
         if (inspector.parentNode !== chessLayout) {
           chessLayout.appendChild(inspector);
+        }
+      }
+
+      if (beforeTop !== null && activeCard) {
+        var afterTop = activeCard.getBoundingClientRect().top;
+        var delta = afterTop - beforeTop;
+        if (Math.abs(delta) > 2) {
+          window.scrollBy(0, delta);
         }
       }
     }
@@ -1514,7 +1524,16 @@
       document.getElementById('insHarm').textContent = data.harm;
       document.getElementById('insQuote').innerHTML = data.quote;
 
-      placeInspectorForViewport(targetCard);
+      placeInspectorForViewport(targetCard, true);
+
+      // Brief visual pulse on inspectorBox so user notices the update immediately
+      var inspector = document.getElementById('inspectorBox');
+      if (inspector && inspector.animate) {
+        inspector.animate([
+          { boxShadow: '0 0 0 2px #38bdf8, 0 12px 30px rgba(56, 189, 248, 0.45)' },
+          { boxShadow: '0 12px 30px rgba(0, 0, 0, 0.45)' }
+        ], { duration: 380, easing: 'ease-out' });
+      }
     };
 
     window.switchTab = function(tabId, btn) {
@@ -1533,54 +1552,26 @@
       var targetPanel = document.getElementById(tabId);
       if (targetPanel) targetPanel.classList.add('active');
 
-      if (tabId === 'tab-charts') {
-        setTimeout(initCharts, 50);
+      if (tabId === 'tab-charts' && typeof window.initCharts === 'function') {
+        setTimeout(window.initCharts, 50);
       }
     };
 
-    // Dedicated Mobile Touch Delegation (0ms response on iOS Safari / WeChat / Android WebView)
+    // Initial placement and keyboard accessibility
     (function() {
-      var touchStartX = 0;
-      var touchStartY = 0;
-      var lastTapTime = 0;
-
-      document.addEventListener('touchstart', function(e) {
-        if (e.touches && e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-        }
-      }, { passive: true });
-
-      document.addEventListener('touchend', function(e) {
-        if (!e.changedTouches || e.changedTouches.length !== 1) return;
-        var dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
-        var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-        if (dx > 12 || dy > 12) return; // User was scrolling, not tapping
-
-        var target = e.target;
-        var card = target.closest ? target.closest('.piece-card') : null;
-        if (card) {
-          var nodeId = card.getAttribute('data-node');
-          if (nodeId) {
-            lastTapTime = Date.now();
-            window.selectNode(nodeId, card);
-          }
-          return;
-        }
-
-        var tabBtn = target.closest ? target.closest('.tab-btn') : null;
-        if (tabBtn) {
-          var tabId = tabBtn.getAttribute('data-tab');
-          if (tabId) {
-            lastTapTime = Date.now();
-            window.switchTab(tabId, tabBtn);
-          }
-        }
-      }, { passive: true });
-
-      // Initial placement
       var firstActive = document.querySelector('.piece-card.active');
-      placeInspectorForViewport(firstActive);
+      placeInspectorForViewport(firstActive, false);
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          var card = e.target && e.target.closest ? e.target.closest('.piece-card') : null;
+          if (card) {
+            e.preventDefault();
+            var nodeId = card.getAttribute('data-node');
+            if (nodeId) window.selectNode(nodeId, card);
+          }
+        }
+      });
     })();
 
     var lastMobileState = isMobileLayout();
@@ -1589,297 +1580,292 @@
       if (currentMobileState !== lastMobileState) {
         lastMobileState = currentMobileState;
         var activeCard = document.querySelector('.piece-card.active');
-        placeInspectorForViewport(activeCard);
+        placeInspectorForViewport(activeCard, false);
       }
-      if (chartInstances.length > 0) {
-        for (var i = 0; i < chartInstances.length; i++) {
-          if (chartInstances[i]) chartInstances[i].resize();
+      if (window.chartInstances && window.chartInstances.length > 0) {
+        for (var i = 0; i < window.chartInstances.length; i++) {
+          if (window.chartInstances[i]) window.chartInstances[i].resize();
         }
       }
     });
+  </script>
 
-    var chartsInitialized = false;
-    var chartInstances = [];
+  <!-- 独立隔离的图表渲染脚本：即便外部 CDN 异常也绝不影响上方卡片与 Tab 交互 -->
+  <script>
+    window.chartsInitialized = false;
+    window.chartInstances = [];
     var chartRetryCount = 0;
 
-    function initCharts() {
+    window.initCharts = function() {
       if (typeof echarts === 'undefined') {
-        if (chartRetryCount < 20) {
+        if (chartRetryCount < 25) {
           chartRetryCount++;
-          setTimeout(initCharts, 250);
+          setTimeout(window.initCharts, 250);
         }
         return;
       }
-      if (chartsInitialized) {
-        for (var i = 0; i < chartInstances.length; i++) {
-          if (chartInstances[i]) chartInstances[i].resize();
+      if (window.chartsInitialized) {
+        for (var i = 0; i < window.chartInstances.length; i++) {
+          if (window.chartInstances[i]) window.chartInstances[i].resize();
         }
         return;
       }
-      chartsInitialized = true;
-      var isNarrow = window.innerWidth < 600;
+      try {
+        window.chartsInitialized = true;
+        var isNarrow = window.innerWidth < 600;
 
-      // Chart 1: 80% Cure Myth vs Reality
-      var c1 = echarts.init(document.getElementById('chartCureMyth'));
-      c1.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'shadow' },
-          confine: true,
-          backgroundColor: '#1e293b',
-          borderColor: '#38bdf8',
-          textStyle: { color: '#f8fafc', fontSize: 12 }
-        },
-        legend: {
-          data: ['早期宣称治愈/有效率 (%)', '真实长期缓解/留存率 (%)', '严重致死/致残/脱落率 (%)'],
-          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
-          top: 0
-        },
-        grid: { left: '3%', right: '4%', bottom: isNarrow ? '12%' : '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
-        xAxis: {
-          type: 'category',
-          data: ['19世纪疗养院
-(道德治疗)', '局灶感染切除
-(Cotton)', '胰岛素昏迷
-(Sakel)', '脑叶白质切除
-(Moniz/Freeman)', '二代抗精神病药
-(CATIE研究)', 'SSRIs抗抑郁药
-(百忧解等)'],
-          axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11, interval: 0, rotate: isNarrow ? 20 : 0 }
-        },
-        yAxis: {
-          type: 'value',
-          max: 100,
-          axisLine: { lineStyle: { color: '#334155' } },
-          splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-          axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
-        },
-        series: [
-          {
-            name: '早期宣称治愈/有效率 (%)',
-            type: 'bar',
-            data: [80, 80, 80, 75, 70, 65],
-            itemStyle: { color: '#38bdf8', borderRadius: [3, 3, 0, 0] },
-            label: { show: !isNarrow, position: 'top', color: '#38bdf8', fontSize: 10, formatter: '{c}%' }
+        // Chart 1: 80% Cure Myth vs Reality
+        var c1 = echarts.init(document.getElementById('chartCureMyth'));
+        c1.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+            confine: true,
+            backgroundColor: '#1e293b',
+            borderColor: '#38bdf8',
+            textStyle: { color: '#f8fafc', fontSize: 12 }
           },
-          {
-            name: '真实长期缓解/留存率 (%)',
-            type: 'bar',
-            data: [11, 15, 12, 10, 25, 32],
-            itemStyle: { color: '#10b981', borderRadius: [3, 3, 0, 0] },
-            label: { show: !isNarrow, position: 'top', color: '#10b981', fontSize: 10, formatter: '{c}%' }
+          legend: {
+            data: ['早期宣称治愈/有效率 (%)', '真实长期缓解/留存率 (%)', '严重致死/致残/脱落率 (%)'],
+            textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
+            top: 0
           },
-          {
-            name: '严重致死/致残/脱落率 (%)',
-            type: 'bar',
-            data: [60, 45, 35, 65, 75, 42],
-            itemStyle: { color: '#f43f5e', borderRadius: [3, 3, 0, 0] },
-            label: { show: !isNarrow, position: 'top', color: '#f43f5e', fontSize: 10, formatter: '{c}%' }
-          }
-        ]
-      });
-
-      // Chart 2: DSM Diagnostic Inflation vs Biological Validity
-      var c2 = echarts.init(document.getElementById('chartDsmInflation'));
-      c2.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          trigger: 'axis',
-          confine: true,
-          backgroundColor: '#1e293b',
-          borderColor: '#818cf8',
-          textStyle: { color: '#f8fafc', fontSize: 12 }
-        },
-        legend: {
-          data: ['DSM 收录诊断类别数 (种)', '临床诊断信度 (一致性)', '底层病理效度 (准确性)'],
-          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
-          top: 0
-        },
-        grid: { left: '3%', right: '3%', bottom: '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
-        xAxis: {
-          type: 'category',
-          data: ['1952
-DSM-I', '1968
-DSM-II', '1980
-DSM-III', '1987
-DSM-III-R', '1994
-DSM-IV', '2013
-DSM-5'],
-          axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
-        },
-        yAxis: [
-          {
+          grid: { left: '3%', right: '4%', bottom: isNarrow ? '12%' : '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['19世纪疗养院\n(道德治疗)', '局灶感染切除\n(Cotton)', '胰岛素昏迷\n(Sakel)', '脑叶白质切除\n(Moniz/Freeman)', '二代抗精神病药\n(CATIE研究)', 'SSRIs抗抑郁药\n(百忧解等)'],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11, interval: 0, rotate: isNarrow ? 20 : 0 }
+          },
+          yAxis: {
             type: 'value',
-            name: '类别数',
-            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
-            splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-            axisLabel: { color: '#94a3b8', fontSize: 11 }
-          },
-          {
-            type: 'value',
-            name: '信度/效度',
-            min: 0,
             max: 100,
-            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
-            splitLine: { show: false },
-            axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}' }
-          }
-        ],
-        series: [
-          {
-            name: 'DSM 收录诊断类别数 (种)',
-            type: 'bar',
-            barWidth: '34%',
-            data: [106, 185, 265, 297, 354, 374],
-            itemStyle: { color: '#818cf8', borderRadius: [4, 4, 0, 0] },
-            label: { show: true, position: 'top', color: '#a5b4fc', fontSize: 10, formatter: '{c}' }
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
+            axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
           },
-          {
-            name: '临床诊断信度 (一致性)',
-            type: 'line',
-            yAxisIndex: 1,
-            data: [25, 30, 78, 82, 85, 80],
-            itemStyle: { color: '#38bdf8' },
-            lineStyle: { width: 3 },
-            symbolSize: 7
-          },
-          {
-            name: '底层病理效度 (准确性)',
-            type: 'line',
-            yAxisIndex: 1,
-            data: [12, 14, 18, 18, 20, 19],
-            itemStyle: { color: '#f59e0b' },
-            lineStyle: { width: 3, type: 'dashed' },
-            symbolSize: 7
-          }
-        ]
-      });
-
-      // Chart 3: Paradigm Radar
-      var c3 = echarts.init(document.getElementById('chartParadigmRadar'));
-      c3.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          confine: true,
-          backgroundColor: '#1e293b',
-          borderColor: '#38bdf8',
-          textStyle: { color: '#f8fafc', fontSize: 12 }
-        },
-        legend: {
-          data: ['早期躯体干预', '现代精神药物', '认知行为疗法(CBT)', '社会心理支持体系'],
-          textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11 },
-          bottom: 0
-        },
-        radar: {
-          indicator: [
-            { name: '急性重症控制', max: 100 },
-            { name: '社会功能恢复', max: 100 },
-            { name: '循证可证伪性', max: 100 },
-            { name: '安全性(低伤害)', max: 100 },
-            { name: '普惠可及性', max: 100 },
-            { name: '人文尊严关怀', max: 100 }
-          ],
-          radius: isNarrow ? '52%' : '62%',
-          center: ['50%', '44%'],
-          splitArea: { areaStyle: { color: ['rgba(30, 41, 59, 0.4)', 'rgba(15, 23, 42, 0.6)'] } },
-          axisLine: { lineStyle: { color: '#334155' } },
-          splitLine: { lineStyle: { color: '#1e293b' } },
-          axisName: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
-        },
-        series: [{
-          type: 'radar',
-          data: [
+          series: [
             {
-              value: [65, 10, 15, 10, 40, 10],
-              name: '早期躯体干预',
-              itemStyle: { color: '#f43f5e' },
-              areaStyle: { color: 'rgba(244, 63, 94, 0.2)' }
+              name: '早期宣称治愈/有效率 (%)',
+              type: 'bar',
+              data: [80, 80, 80, 75, 70, 65],
+              itemStyle: { color: '#38bdf8', borderRadius: [3, 3, 0, 0] },
+              label: { show: !isNarrow, position: 'top', color: '#38bdf8', fontSize: 10, formatter: '{c}%' }
             },
             {
-              value: [78, 45, 70, 48, 85, 35],
-              name: '现代精神药物',
-              itemStyle: { color: '#38bdf8' },
-              areaStyle: { color: 'rgba(56, 189, 248, 0.2)' }
+              name: '真实长期缓解/留存率 (%)',
+              type: 'bar',
+              data: [11, 15, 12, 10, 25, 32],
+              itemStyle: { color: '#10b981', borderRadius: [3, 3, 0, 0] },
+              label: { show: !isNarrow, position: 'top', color: '#10b981', fontSize: 10, formatter: '{c}%' }
             },
             {
-              value: [45, 72, 82, 90, 65, 78],
-              name: '认知行为疗法(CBT)',
-              itemStyle: { color: '#10b981' },
-              areaStyle: { color: 'rgba(16, 185, 129, 0.2)' }
-            },
-            {
-              value: [50, 88, 75, 95, 55, 96],
-              name: '社会心理支持体系',
-              itemStyle: { color: '#f59e0b' },
-              areaStyle: { color: 'rgba(245, 158, 11, 0.2)' }
+              name: '严重致死/致残/脱落率 (%)',
+              type: 'bar',
+              data: [60, 45, 35, 65, 75, 42],
+              itemStyle: { color: '#f43f5e', borderRadius: [3, 3, 0, 0] },
+              label: { show: !isNarrow, position: 'top', color: '#f43f5e', fontSize: 10, formatter: '{c}%' }
             }
           ]
-        }]
-      });
+        });
 
-      // Chart 4: Harm & Gender Bias Breakdown
-      var c4 = echarts.init(document.getElementById('chartHarmBreakdown'));
-      c4.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'shadow' },
-          confine: true,
-          backgroundColor: '#1e293b',
-          borderColor: '#f43f5e',
-          textStyle: { color: '#f8fafc', fontSize: 12 },
-          formatter: '{b}: <b>{c}%</b>'
-        },
-        grid: { left: '2%', right: '12%', bottom: '4%', top: '10px', containLabel: true },
-        xAxis: {
-          type: 'value',
-          max: 100,
-          axisLine: { lineStyle: { color: '#334155' } },
-          splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
-          axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
-        },
-        yAxis: {
-          type: 'category',
-          data: [
-            'GWAS基因对精神分裂解释上限',
-            '20世纪初神经梅毒占入院比例',
-            '抑郁患者对SSRIs无应答比例',
-            'Cotton结肠切除1年内死亡率',
-            '美国脑叶切除术女性患者占比',
-            'Cotton器官切除女性患者占比',
-            'CATIE试验抗精神病药最高脱落率'
+        // Chart 2: DSM Diagnostic Inflation vs Biological Validity
+        var c2 = echarts.init(document.getElementById('chartDsmInflation'));
+        c2.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            confine: true,
+            backgroundColor: '#1e293b',
+            borderColor: '#818cf8',
+            textStyle: { color: '#f8fafc', fontSize: 12 }
+          },
+          legend: {
+            data: ['DSM 收录诊断类别数 (种)', '临床诊断信度 (一致性)', '底层病理效度 (准确性)'],
+            textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 },
+            top: 0
+          },
+          grid: { left: '3%', right: '3%', bottom: '8%', top: isNarrow ? '52px' : '42px', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['1952\nDSM-I', '1968\nDSM-II', '1980\nDSM-III', '1987\nDSM-III-R', '1994\nDSM-IV', '2013\nDSM-5'],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
+          },
+          yAxis: [
+            {
+              type: 'value',
+              name: '类别数',
+              nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+              splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
+              axisLabel: { color: '#94a3b8', fontSize: 11 }
+            },
+            {
+              type: 'value',
+              name: '信度/效度',
+              min: 0,
+              max: 100,
+              nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+              splitLine: { show: false },
+              axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}' }
+            }
           ],
-          axisLine: { lineStyle: { color: '#334155' } },
-          axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 }
-        },
-        series: [{
-          type: 'bar',
-          barWidth: '48%',
-          data: [
-            { value: 10, itemStyle: { color: '#818cf8' } },
-            { value: 25, itemStyle: { color: '#38bdf8' } },
-            { value: 42, itemStyle: { color: '#f59e0b' } },
-            { value: 45, itemStyle: { color: '#f43f5e' } },
-            { value: 65, itemStyle: { color: '#ec4899' } },
-            { value: 70, itemStyle: { color: '#db2777' } },
-            { value: 82, itemStyle: { color: '#ef4444' } }
-          ],
-          label: {
-            show: true,
-            position: 'right',
-            color: '#fff',
-            fontSize: 11,
-            fontWeight: 'bold',
-            formatter: '{c}%'
-          }
-        }]
-      });
+          series: [
+            {
+              name: 'DSM 收录诊断类别数 (种)',
+              type: 'bar',
+              barWidth: '34%',
+              data: [106, 185, 265, 297, 354, 374],
+              itemStyle: { color: '#818cf8', borderRadius: [4, 4, 0, 0] },
+              label: { show: true, position: 'top', color: '#a5b4fc', fontSize: 10, formatter: '{c}' }
+            },
+            {
+              name: '临床诊断信度 (一致性)',
+              type: 'line',
+              yAxisIndex: 1,
+              data: [25, 30, 78, 82, 85, 80],
+              itemStyle: { color: '#38bdf8' },
+              lineStyle: { width: 3 },
+              symbolSize: 7
+            },
+            {
+              name: '底层病理效度 (准确性)',
+              type: 'line',
+              yAxisIndex: 1,
+              data: [12, 14, 18, 18, 20, 19],
+              itemStyle: { color: '#f59e0b' },
+              lineStyle: { width: 3, type: 'dashed' },
+              symbolSize: 7
+            }
+          ]
+        });
 
-      chartInstances = [c1, c2, c3, c4];
-    }
+        // Chart 3: Paradigm Radar
+        var c3 = echarts.init(document.getElementById('chartParadigmRadar'));
+        c3.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            confine: true,
+            backgroundColor: '#1e293b',
+            borderColor: '#38bdf8',
+            textStyle: { color: '#f8fafc', fontSize: 12 }
+          },
+          legend: {
+            data: ['早期躯体干预', '现代精神药物', '认知行为疗法(CBT)', '社会心理支持体系'],
+            textStyle: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11 },
+            bottom: 0
+          },
+          radar: {
+            indicator: [
+              { name: '急性重症控制', max: 100 },
+              { name: '社会功能恢复', max: 100 },
+              { name: '循证可证伪性', max: 100 },
+              { name: '安全性(低伤害)', max: 100 },
+              { name: '普惠可及性', max: 100 },
+              { name: '人文尊严关怀', max: 100 }
+            ],
+            radius: isNarrow ? '52%' : '62%',
+            center: ['50%', '44%'],
+            splitArea: { areaStyle: { color: ['rgba(30, 41, 59, 0.4)', 'rgba(15, 23, 42, 0.6)'] } },
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisName: { color: '#cbd5e1', fontSize: isNarrow ? 10 : 11 }
+          },
+          series: [{
+            type: 'radar',
+            data: [
+              {
+                value: [65, 10, 15, 10, 40, 10],
+                name: '早期躯体干预',
+                itemStyle: { color: '#f43f5e' },
+                areaStyle: { color: 'rgba(244, 63, 94, 0.2)' }
+              },
+              {
+                value: [78, 45, 70, 48, 85, 35],
+                name: '现代精神药物',
+                itemStyle: { color: '#38bdf8' },
+                areaStyle: { color: 'rgba(56, 189, 248, 0.2)' }
+              },
+              {
+                value: [45, 72, 82, 90, 65, 78],
+                name: '认知行为疗法(CBT)',
+                itemStyle: { color: '#10b981' },
+                areaStyle: { color: 'rgba(16, 185, 129, 0.2)' }
+              },
+              {
+                value: [50, 88, 75, 95, 55, 96],
+                name: '社会心理支持体系',
+                itemStyle: { color: '#f59e0b' },
+                areaStyle: { color: 'rgba(245, 158, 11, 0.2)' }
+              }
+            ]
+          }]
+        });
+
+        // Chart 4: Harm & Gender Bias Breakdown
+        var c4 = echarts.init(document.getElementById('chartHarmBreakdown'));
+        c4.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+            confine: true,
+            backgroundColor: '#1e293b',
+            borderColor: '#f43f5e',
+            textStyle: { color: '#f8fafc', fontSize: 12 },
+            formatter: '{b}: <b>{c}%</b>'
+          },
+          grid: { left: '2%', right: '12%', bottom: '4%', top: '10px', containLabel: true },
+          xAxis: {
+            type: 'value',
+            max: 100,
+            axisLine: { lineStyle: { color: '#334155' } },
+            splitLine: { lineStyle: { color: 'rgba(36, 50, 79, 0.45)' } },
+            axisLabel: { color: '#94a3b8', fontSize: 11, formatter: '{value}%' }
+          },
+          yAxis: {
+            type: 'category',
+            data: [
+              'GWAS基因对精神分裂解释上限',
+              '20世纪初神经梅毒占入院比例',
+              '抑郁患者对SSRIs无应答比例',
+              'Cotton结肠切除1年内死亡率',
+              '美国脑叶切除术女性患者占比',
+              'Cotton器官切除女性患者占比',
+              'CATIE试验抗精神病药最高脱落率'
+            ],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#cbd5e1', fontSize: isNarrow ? 10.5 : 11.5 }
+          },
+          series: [{
+            type: 'bar',
+            barWidth: '48%',
+            data: [
+              { value: 10, itemStyle: { color: '#818cf8' } },
+              { value: 25, itemStyle: { color: '#38bdf8' } },
+              { value: 42, itemStyle: { color: '#f59e0b' } },
+              { value: 45, itemStyle: { color: '#f43f5e' } },
+              { value: 65, itemStyle: { color: '#ec4899' } },
+              { value: 70, itemStyle: { color: '#db2777' } },
+              { value: 82, itemStyle: { color: '#ef4444' } }
+            ],
+            label: {
+              show: true,
+              position: 'right',
+              color: '#fff',
+              fontSize: 11,
+              fontWeight: 'bold',
+              formatter: '{c}%'
+            }
+          }]
+        });
+
+        window.chartInstances = [c1, c2, c3, c4];
+      } catch (err) {
+        console.error('Chart init error:', err);
+      }
+    };
   </script>
 </body>
 </html>
