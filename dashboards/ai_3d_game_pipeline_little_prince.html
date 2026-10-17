@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>16天一人成军：从参考图到3D可玩Demo的AI游戏工业化切片全景解构</title>
+  
+  <!-- 微信与社交分享 Meta 规范 -->
+  <meta name="description" content="解构Sac《小王子》3D星际漫游工作流：Opus 5.5/Fable PRD约束、Tripo多视角建模、Blender无头批处理与多机位盲审闭环。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="16天一人成军：从参考图到3D可玩Demo的AI游戏工业化切片全景解构">
+  <meta property="og:description" content="解构Sac《小王子》3D星际漫游工作流：Opus 5.5/Fable PRD约束、Tripo多视角建模、Blender无头批处理与多机位盲审闭环。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/ai_3d_game_pipeline_little_prince.html">
+
+  <!-- Tailwind CSS & ECharts 5 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';"></script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #1e293b;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-blue: #3b82f6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #c084fc;
+      --accent-rose: #f43f5e;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .active-tab {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+    }
+    .card-active {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35) !important;
+      background-color: #16243d !important;
+    }
+    .chart-box {
+      width: 100%;
+      height: 380px;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8 custom-scrollbar">
+
+  <!-- 隐藏微信 300x300 分享图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+  </div>
+
+  <div class="max-w-[1520px] mx-auto space-y-6">
+
+    <!-- Header 头部 Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 mb-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            AI 原生游戏工业化 · 垂直切片全景解构
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+            16天一人成军：从参考图到3D可玩Demo的工业切片全景解构
+          </h1>
+          <p class="text-slate-400 text-sm sm:text-base max-w-4xl leading-relaxed">
+            以独立开发者 Sac（@Saccc_c）打造的 3D 剧情游戏《小王子：星辰之旅》（WebGPU）为工程蓝本。深度穿透“结构化 PRD → 多视角一致性图像 → Tripo 3D 批量生成 → Blender 无头批处理 → Unity 状态机组装与多机位盲审闭环”的五步极简工业管线。
+          </p>
+        </div>
+
+        <!-- 来源与案例元数据卡片 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4 min-w-[280px] shrink-0 text-xs space-y-2 backdrop-blur-sm">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📌 核心案例出处</span>
+            <span class="text-emerald-400 font-medium">实测闭环通过</span>
+          </div>
+          <div class="text-white font-medium">项目：小王子：星辰之旅 (3D Demo)</div>
+          <div class="text-slate-300">主创：<span class="text-cyan-400 font-semibold">Sac (@Saccc_c)</span></div>
+          <div class="text-slate-400">工具链：Opus 5.5 / Tripo / Blender / Unity</div>
+          <div class="flex gap-2 pt-1">
+            <a href="https://x.com/Saccc_c/status/2110694725640474759" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              X 原帖 ↗
+            </a>
+            <a href="https://littleprince.dev/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/40 rounded text-emerald-300 font-medium transition">
+              WebGPU 体验 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- KPI 核心矩阵 -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-cyan-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">研发交付周期</div>
+        <div class="text-3xl font-black text-cyan-400 font-mono mt-1">16 天</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>传统团队 90-180 天</span>
+          <span class="text-emerald-400 font-semibold">-85% 研发人天</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">切片可玩体量</div>
+        <div class="text-3xl font-black text-emerald-400 font-mono mt-1">3~5 分钟</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>8 种多语言本地化</span>
+          <span class="text-cyan-400 font-semibold">WebGPU 端侧直跑</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-amber-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">标准化处理工序</div>
+        <div class="text-3xl font-black text-amber-400 font-mono mt-1">5 阶管线</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>PRD-2D-3D-DCC-Engine</span>
+          <span class="text-amber-300 font-semibold">脚本化率 80%+</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-purple-500/40 transition-all shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">质量保证 (QA) 闭环</div>
+        <div class="text-3xl font-black text-purple-400 font-mono mt-1">3 机位盲审</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>独立 VLM 差异审计</span>
+          <span class="text-purple-300 font-semibold">零全局推倒重来</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导航 Tabs -->
+    <nav class="flex flex-wrap gap-2 p-1.5 bg-slate-900/80 border border-slate-800 rounded-xl text-xs sm:text-sm font-semibold" aria-label="看板导航">
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition active-tab" data-tab="tab-pipeline">
+        🛠️ 1. 全景管线与工序耗时
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-assets">
+        📐 2. 资产切分与 DCC 批处理
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-review">
+        🔍 3. 多机位盲审闭环沙盘
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-future">
+        🧭 4. 12-24个月前瞻指标
+      </button>
+    </nav>
+
+    <!-- Tab 1: 全景管线与阶段耗时 -->
+    <section id="tab-pipeline" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 左侧阶段卡片列表 (7列) -->
+        <div class="lg:col-span-7 space-y-3" id="pipelineCardsContainer">
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 cursor-pointer hover:border-slate-700 transition shadow card-active" data-id="step-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">阶段 01 · 范围与契约定义</span>
+              <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">耗时: 1.5 天 (9%)</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">需求结构化与垂直切片 (Vertical Slice) 契约</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              拒绝“让模型一次生成一个开放世界”的幻觉。使用 Fable 5.1 / Opus 5.5 梳理 PRD，固化“必须出现清单”（长椅、水壶、基地）与多机位验收标准。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 cursor-pointer hover:border-slate-700 transition shadow" data-id="step-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">阶段 02 · 空间透视对齐</span>
+              <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">耗时: 3.0 天 (19%)</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">2D 概念图多视角解构 (Multi-view 2D)</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              由主视图衍生俯视图、斜侧透视图与局部材质图；角色生成四视图（正/侧/背/T-pose）。人工卡点校验比例稳定性与主光冲突。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 cursor-pointer hover:border-slate-700 transition shadow" data-id="step-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">阶段 03 · 网格化与重构</span>
+              <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">耗时: 3.5 天 (22%)</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">Tripo 批量 3D 生成与白模拓扑审查</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              采用 Tripo H3.1 生成复杂异形道具，Smart Mesh P2.0 提取角色网格。坚持“先审白模几何、后贴纹理贴图”，防范隐性结构塌陷。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 cursor-pointer hover:border-slate-700 transition shadow" data-id="step-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">阶段 04 · 标准化清洗与动捕</span>
+              <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">耗时: 4.5 天 (28%)</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">Blender 无头 Python 清理与骨骼/IK 绑定</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              CLI 脚本自动化应用旋转缩放、居中轴心、清理非流形边。Mixamo 动捕接入，对水壶握持等接触姿态引入反向动力学（IK）修正穿模。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 cursor-pointer hover:border-slate-700 transition shadow" data-id="step-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">阶段 05 · 状态机装配与闭环</span>
+              <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">耗时: 3.5 天 (22%)</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">Unity 场景装配、C# 触发器与多机位盲审闭环</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              标准化工程目录，C# 轻量触发交互。三机位多视角截图提交给独立 VLM Reviewer Agent 产生局域差异清单，渐进回归打包。
+            </p>
+          </div>
+        </div>
+
+        <!-- 右侧详细检视台 (5列) -->
+        <div class="lg:col-span-5" id="pipelineInspectorBox">
+          <div class="bg-slate-900/95 border border-slate-800 rounded-xl p-5 shadow-2xl sticky top-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span id="inspPhaseTag" class="text-xs font-bold text-cyan-400 uppercase tracking-wider">阶段 01 深度拆解</span>
+              <span id="inspBadge" class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">标准约束</span>
+            </div>
+            <h3 id="inspTitle" class="text-lg font-bold text-white">需求结构化与垂直切片 (Vertical Slice) 契约</h3>
+            <div class="text-xs text-slate-300 leading-relaxed space-y-2.5" id="inspBody">
+              <p><strong class="text-white">● 核心逻辑：</strong>游戏工业里的“垂直切片”（Vertical Slice）指的是集中全部资源，完整打通一段极小但要素齐全的端到端可玩流程，以此验证技术管线与手感，杜绝在全局铺开后才发现系统性缺陷。</p>
+              <p><strong class="text-white">● 约束范式：</strong>定义 1 个星球地块、1 个角色（待机/走/拾取）、1 个核心道具（水壶浇花交互）与 1 个出口触发器。将这些写死为不可变自然语言契约，贯穿后续全部 Agent 的 Context 提示词。</p>
+              <div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">
+                // 关键验收契约<br>
+                Scope: Planet Base (3-5 min gameplay)<br>
+                Must_Have: [Player, Planet_Ground, House, Teapot, Exit_Gate]<br>
+                Acceptance: 3-Camera View Alignment (Front, Top, Side)
+              </div>
+            </div>
+
+            <!-- ECharts: 16 天工序耗时分布 -->
+            <div class="pt-2 border-t border-slate-800">
+              <div class="text-xs font-semibold text-slate-400 mb-2">📊 16 天耗时占比与工序分布</div>
+              <div id="chartPipelineTime" class="chart-box" style="height: 220px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: 资产切分与技术选型 -->
+    <section id="tab-assets" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 适合单独交给 AI 生成的资产 -->
+        <div class="bg-slate-900/90 border border-emerald-900/40 rounded-xl p-5 shadow-lg space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+            <h2 class="text-base font-bold text-emerald-300">适合单独交付 AI (Tripo) 生成的资产</h2>
+          </div>
+          <p class="text-xs text-slate-300">
+            具备<strong>复杂自然曲面、有机造型、丰富高频细节且具备独立语义</strong>的离散资产。传统手工建模耗时极长，而 AI 模型可直接根据图纸端到端重构。
+          </p>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+            <li><strong class="text-white">小王子主角角色：</strong>四视图输入 Smart Mesh P2.0，提取拓扑合理的白模网格与服装配色。</li>
+            <li><strong class="text-white">标志性互动道具：</strong>水壶、玫瑰花玻璃罩、木质长椅、望远镜、手提箱等异形道具。</li>
+            <li><strong class="text-white">自然景观要素：</strong>扭曲的猴面包树主干、风化岩石群、独立外星植被单体。</li>
+          </ul>
+          <div class="bg-emerald-950/30 border border-emerald-800/40 rounded p-3 text-xs text-emerald-200">
+            💡 <strong>工程经验：</strong>资产必须独立命名归档（如 <code>prop_teapot_v01.glb</code>），附带输入图与生成时间戳，严禁多个道具混合生成。
+          </div>
+        </div>
+
+        <!-- 适合在引擎/Blender中搭建的几何基底 -->
+        <div class="bg-slate-900/90 border border-blue-900/40 rounded-xl p-5 shadow-lg space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-blue-400"></span>
+            <h2 class="text-base font-bold text-blue-300">适合在 Blender/Unity 直接搭设的几何基底</h2>
+          </div>
+          <p class="text-xs text-slate-300">
+            具备<strong>规则几何结构、严格空间物理拓扑、需要精确行走对齐或充当物理碰撞体</strong>的工程基底。交给 AI 生成极易出现歪斜、凹坑与轴向漂移。
+          </p>
+          <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+            <li><strong class="text-white">地面与球形星球基底：</strong>规则多边形网格或球体展平，保证平整可行走，无异常物理颠簸。</li>
+            <li><strong class="text-white">建筑外墙、台阶与立柱：</strong>标准几何拉伸，精准对齐 1 个标准单位，利于网格拼接。</li>
+            <li><strong class="text-white">碰撞体积与触发器 (Colliders & Triggers)：</strong>标准 Box/Capsule/Sphere Collider，保证物理碰撞计算极轻量。</li>
+          </ul>
+          <div class="bg-blue-950/30 border border-blue-800/40 rounded p-3 text-xs text-blue-200">
+            ⚠️ <strong>避坑原则：</strong>“异形找 AI，基准靠引擎”。用最廉价的标准几何体搭骨架，用 AI 生成的精美道具填满血肉。
+          </div>
+        </div>
+      </div>
+
+      <!-- 自动化脚本与 IK 接触点修正解析 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            ⚙️ Blender 无头 Python 批处理与接触动作 IK 动态校正
+          </h2>
+          <span class="text-xs text-amber-400 font-mono">Headless CLI Automation</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+          <div class="space-y-2">
+            <p class="text-slate-300">
+              <strong class="text-cyan-400">1. 无头批处理清洗 (Asset Normalization)：</strong>
+              Tripo 导出的网格往往存在原点漂移（不在底座几何中心）、尺寸未应用缩放（1.0 比例丢失）或隐藏孤立网格。在服务器端无界面执行 Python 批处理脚本，执行旋转缩放应用（Transform Apply）与中心重设，直接产出符合 Unity 标准的干净 glTF/GLB。
+            </p>
+            <div class="bg-slate-950 border border-slate-800 rounded p-3 font-mono text-[11px] text-slate-300 overflow-x-auto">
+              # Blender 无头执行命令<br>
+              blender --background ./blend/cleanup.blend \<br>
+              &nbsp;&nbsp;--python ./scripts/prepare_asset.py<br>
+              # 核心：bpy.ops.object.transform_apply()<br>
+              # 自动修正边界中心并导出 glTF
+            </div>
+          </div>
+          <div class="space-y-2">
+            <p class="text-slate-300">
+              <strong class="text-amber-400">2. 接触动捕的反向运动学 (IK) 修正：</strong>
+              Mixamo 下载的基础动作是开环动画。角色拿起水壶时，手掌与水壶把手极易发生穿模或悬空脱手。
+              通过引入 IK（反向运动学，根据末端手掌把手目标倒推手肘与肩部关节角度），固定接触帧约束，实现手掌与道具牢固吸附、行走时自然跟随。
+            </p>
+            <div class="bg-slate-950 border border-slate-800 rounded p-3 font-mono text-[11px] text-slate-300 overflow-x-auto">
+              // 接触点验收四项军规：<br>
+              1. 抓取起始帧：手掌自然展开对准把手<br>
+              2. 提握中间帧：IK 链锁定在抓握锚点<br>
+              3. 移动巡游态：手部跟随摆动不脱钩<br>
+              4. 释放结算帧：水壶位置与任务事件同步触发
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: 多机位盲审回路交互模拟 -->
+    <section id="tab-review" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              📸 多机位盲审闭环系统 (Multi-Camera Blind Review Loop)
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              破解 AI 游戏制作中最致命的“单视角好看、换个角度就穿帮”陷阱。由独立审查 Agent 进行差异对比，杜绝无脑全局重构。
+            </p>
+          </div>
+          <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800" id="camAngleSelector">
+            <button class="cam-btn px-3 py-1.5 rounded text-xs font-semibold bg-cyan-600 text-white" data-cam="front">机位 A: 正面主视</button>
+            <button class="cam-btn px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white" data-cam="side">机位 B: 侧向透视</button>
+            <button class="cam-btn px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white" data-cam="top">机位 C: 俯视布局</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- 审查视角与数据说明 (7列) -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <span id="camTitle" class="text-sm font-bold text-cyan-400">机位 A：正面主视图审查反馈</span>
+                <span id="camScore" class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">空间吻合度 96%</span>
+              </div>
+              <p id="camDesc" class="text-xs text-slate-300 leading-relaxed">
+                正面机位主要用于检验场景主视觉构图、光影基调与角色剪影。小王子的围巾流线、地表草坪的色彩饱和度与背景云海深度对齐良好。
+              </p>
+              <div class="border-t border-slate-800/80 pt-3 space-y-2">
+                <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">审查 Agent 提取之差异清单 (Diff List)：</div>
+                <div id="camDiffs" class="space-y-1.5 text-xs">
+                  <div class="flex items-start gap-2 text-emerald-400">
+                    <span>✓</span><span>房屋门楣材质反射率与概念图主光源一致。</span>
+                  </div>
+                  <div class="flex items-start gap-2 text-amber-400">
+                    <span>⚠</span><span>水壶把手在特定光照角下产生多余高光噪点，需在材质粗糙度通道修正。</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 bg-cyan-950/20 border border-cyan-800/30 rounded-lg text-xs text-cyan-200">
+              💡 <strong>核心机制警示：</strong>提示词严禁包含“请重新生成整个场景”！审查 Agent 必须只输出局部修改指令（如“仅调整水壶缩放至 0.85，位置沿 Z 轴微调 +0.2m”），避免推翻已稳定的拓扑基座。
+            </div>
+          </div>
+
+          <!-- 审查雷达图 (5列) -->
+          <div class="lg:col-span-5">
+            <div class="text-xs font-semibold text-slate-400 text-center mb-1">🎯 独立审查 Agent 五维鲁棒性评分</div>
+            <div id="chartReviewRadar" class="chart-box" style="height: 300px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: 12-24个月前瞻指标 -->
+    <section id="tab-future" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-cyan-500/40 transition shadow-lg space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-sm">01</div>
+          <h2 class="text-sm font-bold text-white">原生 3D 几何大模型与 4D 动态</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            从目前的“单体 Image-to-3D 网格”跨越至“直接输出具备层次结构、物理碰撞与语义绑定的场景图谱（Scene Graph）”。模型不再只给皮囊，而是直接交付带骨骼与状态机的高维资产。
+          </p>
+          <div class="text-[11px] text-cyan-400 font-mono">成熟度预期: 2027 上半年</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-emerald-500/40 transition shadow-lg space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-sm">02</div>
+          <h2 class="text-sm font-bold text-white">端侧 WebGPU 运行时与着色器成熟</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            无需臃肿客户端安装，游戏即链接。随着 WebGPU 在各主流移动端及现代浏览器彻底普及，着色器预编译开销与显存管理得到彻底解脱，点开即玩的即时 3D 成为主流分发形态。
+          </p>
+          <div class="text-[11px] text-emerald-400 font-mono">成熟度预期: 2026 Q4~2027 Q1</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-amber-500/40 transition shadow-lg space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">03</div>
+          <h2 class="text-sm font-bold text-white">强化学习驱动的全自动试玩 QA</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            从“静态截图比对”升级为“动态智能体试玩（RL Gameplay Agent）”。自动遍历所有按键组合、极端穿模死角与导航网格漏隙，并在夜间自迭代提交缺陷热力图。
+          </p>
+          <div class="text-[11px] text-amber-400 font-mono">成熟度预期: 2027 全年</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-purple-500/40 transition shadow-lg space-y-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-sm">04</div>
+          <h2 class="text-sm font-bold text-white">商用授权合规与可信资产溯源</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            文学经典公共领域改编与 AI 衍生资产的知识产权边界确立。对象存储端接入去中心化确权机制，对训练图源、动捕重定向版权建立全生命周期溯源链条。
+          </p>
+          <div class="text-[11px] text-purple-400 font-mono">成熟度预期: 持续演进规范</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+        <h2 class="text-sm font-bold text-white">🧭 持续关注：独立创作者的技术栈演进关键节点</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300">
+          <div class="border-l-2 border-cyan-400 pl-3">
+            <strong class="text-white block mb-1">短期关注 (0-6个月)：</strong>
+            Tripo 及同类工具对于四足与多分支物体的骨骼自动装配精度；Blender 5.x Python API 批处理流水线标准化。
+          </div>
+          <div class="border-l-2 border-amber-400 pl-3">
+            <strong class="text-white block mb-1">中期关注 (6-12个月)：</strong>
+            Unity 6.x 与 Unreal Engine 5.6 对 LLM Agent 接入的官方无头运行接口（Headless Agent SDK）；复杂物理刚体碰撞的 AI 自校正。
+          </div>
+          <div class="border-l-2 border-purple-400 pl-3">
+            <strong class="text-white block mb-1">长期关注 (12-24个月)：</strong>
+            游戏策划案（GDD）直接映射为游戏可执行场景与逻辑状态机的一体化端到端开发范式爆发。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 border-t border-slate-800 text-center text-xs text-slate-500 space-y-2">
+      <p>16天一人成军：AI 3D 游戏制作管线全景深度复盘 · 遵循严格学术与工程实践事实核查标准</p>
+      <p>参考来源：X @Saccc_c 原创分享 · 3D Demo: littleprince.dev · Tripo 3D / Blender / Unity 官方技术文档</p>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT 1: UI 交互与移动端 Inline Accordion 逻辑 (独立标签，严禁包含图表) -->
+  <script>
+    (function() {
+      // 1. Tab 切换逻辑
+      var tabButtons = document.querySelectorAll('.tab-btn');
+      var tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = btn.getAttribute('data-tab');
+          tabButtons.forEach(function(b) { b.classList.remove('active-tab'); });
+          tabContents.forEach(function(c) { c.classList.add('hidden'); });
+
+          btn.classList.add('active-tab');
+          var targetContent = document.getElementById(targetId);
+          if (targetContent) {
+            targetContent.classList.remove('hidden');
+          }
+
+          // 触发图表重新自适应尺寸
+          if (window.resizeAllCharts) {
+            window.resizeAllCharts();
+          }
+        });
+      });
+
+      // 2. 阶段检视台数据字典
+      var phaseData = {
+        'step-1': {
+          tag: '阶段 01 深度拆解',
+          badge: '标准契约',
+          title: '需求结构化与垂直切片 (Vertical Slice) 契约',
+          body: '<p><strong class="text-white">● 核心逻辑：</strong>游戏工业里的“垂直切片”（Vertical Slice）指的是集中全部资源，完整打通一段极小但要素齐全的端到端可玩流程，以此验证技术管线与手感，杜绝在全局铺开后才发现系统性缺陷。</p><p><strong class="text-white">● 约束范式：</strong>定义 1 个星球地块、1 个角色（待机/走/拾取）、1 个核心道具（水壶浇花交互）与 1 个出口触发器。将这些写死为不可变自然语言契约，贯穿后续全部 Agent 的 Context 提示词。</p><div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// 关键验收契约<br>Scope: Planet Base (3-5 min gameplay)<br>Must_Have: [Player, Planet_Ground, House, Teapot, Exit_Gate]<br>Acceptance: 3-Camera View Alignment (Front, Top, Side)</div>'
+        },
+        'step-2': {
+          tag: '阶段 02 深度拆解',
+          badge: '多视角约束',
+          title: '2D 概念图多视角解构 (Multi-view Consistency)',
+          body: '<p><strong class="text-white">● 核心逻辑：</strong>AI 图像模型通常是“单视角作画”，若只用正面图直接生成 3D，背面与侧面往往充斥几何幻觉与拉伸扭曲。必须先由主图生成俯视、斜侧透视及细节四联图。</p><p><strong class="text-white">● 门禁审查：</strong>在进入 3D 环节前人工严格把关三项指标：物体相对比例、主光源明暗投射方向、道具位置拓扑关系。任何一项冲突均先修改 2D 图，绝不带病入三维。</p><div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// 提示词模式<br>View_Set: [Front_Main, Top_Down_Plan, Isometric_Side, Detail_Macro]<br>Consistency_Check: Lighting_Vector == (1.0, -1.0, 0.5) && Proportions == Fixed</div>'
+        },
+        'step-3': {
+          tag: '阶段 03 深度拆解',
+          badge: '几何网格',
+          title: 'Tripo 批量 3D 生成与白模拓扑审查',
+          body: '<p><strong class="text-white">● 核心逻辑：</strong>利用 Tripo H3.1 生成复杂异形道具（水壶、树木、雕像），Smart Mesh P2.0 生成带人物特征的白模。先输出纯几何体（White Mesh），不带任何贴图和光影欺骗。</p><p><strong class="text-white">● 拓扑校验：</strong>旋转 360 度检查是否有网格凹陷破洞、过度冗余面数或无法闭合的多边形。白模合格后再生成纹理材质通道。</p><div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// 资产分流策略<br>Organic_Props -> Tripo Image-to-3D GLB<br>Base_Ground -> Engine Native Procedural Sphere / Plane<br>Inspection: Wireframe Density & Triangle Count <= 15K</div>'
+        },
+        'step-4': {
+          tag: '阶段 04 深度拆解',
+          badge: '自动化管线',
+          title: 'Blender 无头 Python 清理与骨骼/IK 绑定',
+          body: '<p><strong class="text-white">● 核心逻辑：</strong>利用脚本批量修正网格的世界坐标原点（移至底部支撑点），应用全部变换矩阵（Scale=1.0, Rotation=0），剔除不可见废弃网格，并导出工业级标准 glTF 格式。</p><p><strong class="text-white">● 动捕与 IK：</strong>接入 Mixamo 标准骨骼重定向，针对拿水壶浇水这类高精接触动作，使用反向动力学（Inverse Kinematics）对上肢施加把手锚点约束，消除动画播放时的悬空与穿模。</p><div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// Blender CLI 调用<br>blender -b asset.blend -P clean_and_export.py<br>IK_Constraint: Hand_R -> Target: Teapot_Handle_Anchor</div>'
+        },
+        'step-5': {
+          tag: '阶段 05 深度拆解',
+          badge: '闭环集成',
+          title: 'Unity 场景装配、C# 触发器与多机位盲审闭环',
+          body: '<p><strong class="text-white">● 核心逻辑：</strong>将标准化资产导入 Unity 工程，挂载轻量 C# 触发器脚本（靠近水壶按 E 触发任务完成）。采用无头命令行模式（-batchmode -quit）实现自动化一键构建打包。</p><p><strong class="text-white">● 盲审闭环：</strong>自动截取正面、侧面、俯视机位画面，回传独立 VLM 审计智能体，生成差异报告后精细修正，实现全流程持续迭代收敛。</p><div class="bg-slate-950/80 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// 构建流水线<br>Unity -batchmode -quit -projectPath ./project -executeMethod BuildScript.Build<br>VLM_Audit: Diff_Report -> Local Delta Refinement Only</div>'
+        }
+      };
+
+      // 3. 卡片点击与移动端就地展开 (Inline Accordion)
+      var cards = document.querySelectorAll('.card-item');
+      var inspectorBox = document.getElementById('pipelineInspectorBox');
+      var container = document.getElementById('pipelineCardsContainer');
+
+      cards.forEach(function(card) {
+        card.addEventListener('click', function() {
+          cards.forEach(function(c) { c.classList.remove('card-active'); });
+          card.classList.add('card-active');
+
+          var stepId = card.getAttribute('data-id');
+          var data = phaseData[stepId];
+          if (data) {
+            document.getElementById('inspPhaseTag').innerText = data.tag;
+            document.getElementById('inspBadge').innerText = data.badge;
+            document.getElementById('inspTitle').innerText = data.title;
+            document.getElementById('inspBody').innerHTML = data.body;
+          }
+
+          // 移动端/平板 (<= 1024px) 就地插入卡片下方并补偿视口滚动
+          if (window.innerWidth <= 1024 && inspectorBox) {
+            var oldTop = card.getBoundingClientRect().top;
+            card.insertAdjacentElement('afterend', inspectorBox);
+            var newTop = card.getBoundingClientRect().top;
+            var delta = newTop - oldTop;
+            if (Math.abs(delta) > 2) {
+              window.scrollBy(0, delta);
+            }
+          } else if (window.innerWidth > 1024 && inspectorBox && inspectorBox.parentElement !== container.parentElement) {
+            container.parentElement.appendChild(inspectorBox);
+          }
+        });
+      });
+
+      // 4. 机位切换沙盘模拟
+      var camData = {
+        'front': {
+          title: '机位 A：正面主视图审查反馈',
+          score: '空间吻合度 96%',
+          desc: '正面机位主要用于检验场景主视觉构图、光影基调与角色剪影。小王子的围巾流线、地表草坪的色彩饱和度与背景云海深度对齐良好。',
+          diffs: '<div class="flex items-start gap-2 text-emerald-400"><span>✓</span><span>房屋门楣材质反射率与概念图主光源一致。</span></div><div class="flex items-start gap-2 text-amber-400"><span>⚠</span><span>水壶把手在特定光照角下产生多余高光噪点，需在材质粗糙度通道修正。</span></div>'
+        },
+        'side': {
+          title: '机位 B：侧向透视与纵深审查反馈',
+          score: '纵深层次吻合度 91%',
+          desc: '侧向透视机位主要用于检验建筑前后层次、树木高度比例与角色动作的重心平衡。小王子行走时的身体倾斜与脚掌贴地表现自然，无脚滑感。',
+          diffs: '<div class="flex items-start gap-2 text-emerald-400"><span>✓</span><span>长椅与地面的碰撞体贴合紧密，无悬空漂浮。</span></div><div class="flex items-start gap-2 text-rose-400"><span>✖</span><span>猴面包树枝桠在侧面略微侵入后方房屋屋檐，建议将树干整体后移 0.4 米。</span></div>'
+        },
+        'top': {
+          title: '机位 C：俯视全局布局与动线审查反馈',
+          score: '动线规划吻合度 94%',
+          desc: '俯视机位审查探索路径通畅度、出口引导性与可交互道具的分布密度。玩家从出生点走向水壶再通往出口的行进动线明确，阻挡障碍符合直觉。',
+          diffs: '<div class="flex items-start gap-2 text-emerald-400"><span>✓</span><span>道路指引与观景台朝向完全重合。</span></div><div class="flex items-start gap-2 text-emerald-400"><span>✓</span><span>出口光效粒子在广角俯视下辨识度清晰。</span></div>'
+        }
+      };
+
+      var camBtns = document.querySelectorAll('.cam-btn');
+      camBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          camBtns.forEach(function(b) {
+            b.classList.remove('bg-cyan-600', 'text-white');
+            b.classList.add('text-slate-400');
+          });
+          btn.classList.add('bg-cyan-600', 'text-white');
+          btn.classList.remove('text-slate-400');
+
+          var cam = btn.getAttribute('data-cam');
+          var d = camData[cam];
+          if (d) {
+            document.getElementById('camTitle').innerText = d.title;
+            document.getElementById('camScore').innerText = d.score;
+            document.getElementById('camDesc').innerText = d.desc;
+            document.getElementById('camDiffs').innerHTML = d.diffs;
+          }
+        });
+      });
+
+      // 窗口尺寸变化时恢复 Inspector 位置
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 1024 && inspectorBox && container && container.parentElement) {
+          container.parentElement.appendChild(inspectorBox);
+        }
+      });
+    })();
+  </script>
+
+  <!-- SCRIPT 2: ECharts 图表渲染逻辑 (独立标签，与基础 UI 隔离) -->
+  <script>
+    (function() {
+      var chartPipelineInstance = null;
+      var chartRadarInstance = null;
+
+      function initCharts() {
+        if (typeof echarts === 'undefined') {
+          setTimeout(initCharts, 200);
+          return;
+        }
+
+        // 1. 工序耗时环形图
+        var pipeDom = document.getElementById('chartPipelineTime');
+        if (pipeDom && !chartPipelineInstance) {
+          chartPipelineInstance = echarts.init(pipeDom);
+          var pipeOption = {
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'item',
+              formatter: '{b}: {c} 天 ({d}%)',
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            legend: {
+              orient: 'vertical',
+              right: '2%',
+              top: 'middle',
+              textStyle: { color: '#94a3b8', fontSize: 10 },
+              itemWidth: 10,
+              itemHeight: 10
+            },
+            series: [
+              {
+                name: '工序耗时',
+                type: 'pie',
+                radius: ['45%', '72%'],
+                center: ['35%', '50%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                  borderRadius: 6,
+                  borderColor: '#0f172a',
+                  borderWidth: 2
+                },
+                label: { show: false },
+                emphasis: {
+                  label: {
+                    show: true,
+                    fontSize: 12,
+                    fontWeight: 'bold',
+                    color: '#ffffff'
+                  }
+                },
+                data: [
+                  { value: 1.5, name: 'PRD契约', itemStyle: { color: '#38bdf8' } },
+                  { value: 3.0, name: '多视角2D', itemStyle: { color: '#3b82f6' } },
+                  { value: 3.5, name: 'Tripo3D', itemStyle: { color: '#10b981' } },
+                  { value: 4.5, name: 'DCC清洗/IK', itemStyle: { color: '#f59e0b' } },
+                  { value: 3.5, name: 'Unity装配/盲审', itemStyle: { color: '#c084fc' } }
+                ]
+              }
+            ]
+          };
+          chartPipelineInstance.setOption(pipeOption);
+        }
+
+        // 2. 独立审查 Agent 鲁棒性雷达图
+        var radarDom = document.getElementById('chartReviewRadar');
+        if (radarDom && !chartRadarInstance) {
+          chartRadarInstance = echarts.init(radarDom);
+          var radarOption = {
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'item',
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            radar: {
+              indicator: [
+                { name: '多视角几何一致性', max: 100 },
+                { name: '光照与材质对齐', max: 100 },
+                { name: '骨骼动捕无穿模度', max: 100 },
+                { name: '状态机交互稳定性', max: 100 },
+                { name: '无头打包构建通过率', max: 100 }
+              ],
+              radius: '65%',
+              center: ['50%', '52%'],
+              shape: 'polygon',
+              splitNumber: 4,
+              axisName: {
+                color: '#94a3b8',
+                fontSize: 10
+              },
+              splitLine: {
+                lineStyle: { color: 'rgba(56, 189, 248, 0.15)' }
+              },
+              splitArea: {
+                show: true,
+                areaStyle: {
+                  color: ['rgba(15, 23, 42, 0.5)', 'rgba(30, 41, 59, 0.3)']
+                }
+              },
+              axisLine: {
+                lineStyle: { color: 'rgba(56, 189, 248, 0.2)' }
+              }
+            },
+            series: [
+              {
+                name: '审查评分',
+                type: 'radar',
+                data: [
+                  {
+                    value: [94, 88, 92, 96, 98],
+                    name: '小王子 3D Demo 达到值',
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    itemStyle: { color: '#38bdf8' },
+                    areaStyle: {
+                      color: 'rgba(56, 189, 248, 0.35)'
+                    },
+                    lineStyle: { width: 2, color: '#38bdf8' }
+                  }
+                ]
+              }
+            ]
+          };
+          chartRadarInstance.setOption(radarOption);
+        }
+      }
+
+      window.resizeAllCharts = function() {
+        if (chartPipelineInstance) chartPipelineInstance.resize();
+        if (chartRadarInstance) chartRadarInstance.resize();
+      };
+
+      window.addEventListener('resize', window.resizeAllCharts);
+      window.addEventListener('load', initCharts);
+      document.addEventListener('DOMContentLoaded', initCharts);
+    })();
+  </script>
+</body>
+</html>
