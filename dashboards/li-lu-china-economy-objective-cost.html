@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你是目标，还是代价？李录谈中国经济、股市与政策风险全景研判看板</title>
+  
+  <!-- 微信与社交分享 Meta 规范 -->
+  <meta name="description" content="全景拆解李录哥伦比亚商学院格雷厄姆-多德演讲：中国40年压缩现代化下的目标与代价轮动、家庭资产负债表收缩与10万亿资本大挪移、半导体订单飞轮与AI均衡器、全球大市场不可逆与中国股市长周期重构。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="你是目标，还是代价？李录谈中国经济、股市与政策风险全景研判看板">
+  <meta property="og:description" content="全景拆解李录哥伦比亚商学院格雷厄姆-多德演讲：中国40年压缩现代化下的目标与代价轮动、家庭资产负债表收缩与10万亿资本大挪移、半导体订单飞轮与AI均衡器、全球大市场不可逆与中国股市长周期重构。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/li-lu-china-economy-objective-cost.html">
+
+  <!-- Tailwind CSS & ECharts 5 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js'"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b14',
+              card: '#0f172a',
+              cardHover: '#162238',
+              border: '#1e293b',
+              borderGlow: '#24324f',
+              cyan: '#38bdf8',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              purple: '#c084fc',
+              red: '#f87171',
+              blue: '#3b82f6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: #0f172a;
+      --border: #1e293b;
+      --cyan: #38bdf8;
+    }
+    body {
+      background-color: var(--bg);
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .chart-container {
+      width: 100%;
+      height: 380px;
+    }
+    .active-tab {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+    }
+    .pulse-glow {
+      animation: pulseGlow 2.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; filter: drop-shadow(0 0 10px #38bdf8); }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8">
+
+  <!-- 隐藏微信 300x300 分享图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="max-w-[1600px] mx-auto space-y-6">
+
+    <!-- Top Header Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            全球价值投资与宏观政经深度研判看板
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+            你是目标，还是代价？李录谈中国经济、股市与政策风险
+          </h1>
+          <p class="text-sm sm:text-base text-slate-400 mt-2 max-w-4xl leading-relaxed">
+            全景解构喜马拉雅资本创始人李录在哥伦比亚商学院第36届格雷厄姆-多德年度演讲核心思想：透视中国四十年来“每十年重置战略目标与社会代价”的底层演化逻辑，实证核查中产阶级资产负债表衰退、每年10万亿资本大挪移、半导体订单正反馈飞轮、AI代码均衡器、统一全球大市场的不可逆性，以及中国股市从历史“代价”迈向承载国民财富新基石的世纪抉择。
+          </p>
+        </div>
+
+        <!-- Video Source & Origin Card -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4 min-w-[280px] shrink-0 text-xs space-y-2 backdrop-blur-sm">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📺 资料出处与核查背书</span>
+            <span class="text-emerald-400">研判通过率 100%</span>
+          </div>
+          <div class="text-white font-medium">主讲嘉宾：<span class="text-cyan-400 font-semibold">李录 (Li Lu)</span> ｜ 喜马拉雅资本董事长</div>
+          <div class="text-slate-300">对谈主持：<span class="text-slate-200">Tano Santos 教授</span> ｜ 哥大商学院</div>
+          <div class="text-slate-300">论坛规格：第36届格雷厄姆-多德年度午餐会 (2026-10-05)</div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="https://youtu.be/2l1IeyEamWs" target="_blank" class="px-2.5 py-1 bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 rounded text-rose-300 font-medium transition">
+              王志安特写原片 ↗
+            </a>
+            <a href="https://business.columbia.edu/sites/default/files-efs/imce-uploads/36th%20Annual%20Graham%20%26%20Dodd%20Luncheon%20Transcript%20%2820261005%29%20CBS.pdf" target="_blank" class="px-2.5 py-1 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              哥大官方文字稿 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top KPI Matrix -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-cyan-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">居民存款蓄水池</div>
+        <div class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono mt-1">165 万亿元</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>占 GDP 比例约 120%</span>
+          <span class="text-emerald-400 font-medium">全球储蓄最高</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-rose-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">中产家庭财富收缩</div>
+        <div class="text-2xl sm:text-3xl font-black text-rose-400 font-mono mt-1">-60% ~ 70%</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>房产占比70% × 50%杠杆</span>
+          <span class="text-rose-400 font-medium">全国房价跌幅约40%</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-amber-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">资本大挪移年规模</div>
+        <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono mt-1">~10 万亿元/年</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>从地产向高端制造迁移</span>
+          <span class="text-amber-400 font-medium">2021年绝对大拐点</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-purple-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">全球大市场转口对冲率</div>
+        <div class="text-2xl sm:text-3xl font-black text-purple-400 font-mono mt-1">≈ 100%</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>关税未消灭贸易</span>
+          <span class="text-purple-400 font-medium">经墨/东盟完全重组</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+      <button onclick="switchTab('paradigm')" id="tab-paradigm" class="active-tab px-4 py-2 rounded-lg text-sm font-semibold transition border border-transparent text-slate-300 hover:text-white bg-slate-900">
+        一、目标与代价：五十年战略范式轮动沙盘
+      </button>
+      <button onclick="switchTab('balance-sheet')" id="tab-balance-sheet" class="px-4 py-2 rounded-lg text-sm font-semibold transition border border-transparent text-slate-300 hover:text-white bg-slate-900">
+        二、资产负债表衰退与资本大挪移定量模型
+      </button>
+      <button onclick="switchTab('semiconductor')" id="tab-semiconductor" class="px-4 py-2 rounded-lg text-sm font-semibold transition border border-transparent text-slate-300 hover:text-white bg-slate-900">
+        三、半导体攻坚：订单飞轮与 AI 代码均衡器
+      </button>
+      <button onclick="switchTab('market-order')" id="tab-market-order" class="px-4 py-2 rounded-lg text-sm font-semibold transition border border-transparent text-slate-300 hover:text-white bg-slate-900">
+        四、统一全球大市场与中国股市终局研判
+      </button>
+    </div>
+
+    <!-- TAB 1: 目标与代价：五十年战略范式轮动沙盘 -->
+    <div id="content-paradigm" class="tab-content space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2 mb-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          李录核心命题：压缩现代化下的“目标与代价”轮替法则
+        </h3>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          西方发达国家经历了两百余年的漫长工业革命与渐进式财富积累，而中国将该进程压缩在四十余年内完成。在这种极限压缩的现代化赶超模型中，国家在每一个约十年的历史周期内，都会确立一个压倒一切的核心战略目标（Objective），并不惜动员全部资源、由特定行业与社会阶层承担巨大的伴生战略代价（Cost）。随着时代推进，昔日的目标往往会沦为下一个十年的代价。<strong>对于企业家与投资者而言，最关键的政治风险定价不是看口号，而是清醒洞察自己究竟处于“国家目标”还是“战略代价”的位置。</strong>
+        </p>
+      </div>
+
+      <!-- Two-column interactive layout: Left cards, Right Inspector -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- Left: 4 Epoch Cards -->
+        <div class="lg:col-span-7 space-y-3" id="paradigmCardContainer">
+          
+          <!-- Card 1 -->
+          <div onclick="selectParadigm(0)" id="paradigm-card-0" class="paradigm-card cursor-pointer bg-slate-900/80 hover:bg-slate-850 border-2 border-cyan-500/80 rounded-xl p-5 transition-all shadow-md">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">1980 - 2000 年代</span>
+              <span class="text-xs text-slate-400 font-medium">第一周期：原始资本积累与轻工外贸</span>
+            </div>
+            <h4 class="text-base font-bold text-white">工业起飞期：GDP 增长与温饱是目标，生态环境是代价</h4>
+            <div class="mt-2 text-xs text-slate-400 line-clamp-2">
+              战略目标：乡镇企业崛起、吸引外资三来一补、解决数亿人口温饱与初级就业。伴生代价：青山绿水让位给冒烟工厂，河流污染、雾霾与初级资源过度消耗。
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div onclick="selectParadigm(1)" id="paradigm-card-1" class="paradigm-card cursor-pointer bg-slate-900/80 hover:bg-slate-850 border border-slate-800 rounded-xl p-5 transition-all shadow-md">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">2000 - 2020 年代</span>
+              <span class="text-xs text-slate-400 font-medium">第二周期：重工业起步与大规模城镇化</span>
+            </div>
+            <h4 class="text-base font-bold text-white">城镇化黄金期：地产基建是目标，环境治理转为硬约束</h4>
+            <div class="mt-2 text-xs text-slate-400 line-clamp-2">
+              战略目标：加入 WTO 融入全球分工，土地财政与房地产大开发，构建数亿中产阶级房产财富。伴生代价：传统污染小厂被关停出清，高能耗过剩产能被淘汰，环境从代价逆转为新目标。
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div onclick="selectParadigm(2)" id="paradigm-card-2" class="paradigm-card cursor-pointer bg-slate-900/80 hover:bg-slate-850 border border-slate-800 rounded-xl p-5 transition-all shadow-md">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">2021 - 2026 年代</span>
+              <span class="text-xs text-slate-400 font-medium">第三周期：跨越中等收入陷阱与技术自立</span>
+            </div>
+            <h4 class="text-base font-bold text-white">硬科技突围期：自主高端制造是目标，房地产链条沦为代价</h4>
+            <div class="mt-2 text-xs text-slate-400 line-clamp-2">
+              战略目标：应对贸易战与科技制裁，攻克卡脖子难题，突破中等收入陷阱。伴生代价：房地产泡沫主动刺破，民营房企爆雷，居民家庭财富与地方土地财政承受剧烈缩水。
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div onclick="selectParadigm(3)" id="paradigm-card-3" class="paradigm-card cursor-pointer bg-slate-900/80 hover:bg-slate-850 border border-slate-800 rounded-xl p-5 transition-all shadow-md">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">2026 年之后展望</span>
+              <span class="text-xs text-slate-400 font-medium">第四周期：高质量发展与资产负债表重构</span>
+            </div>
+            <h4 class="text-base font-bold text-white">新范式展望：资本市场转为国家目标，承载全民长期财富</h4>
+            <div class="mt-2 text-xs text-slate-400 line-clamp-2">
+              战略目标：房产难以再承载增量财富，唯有股票市场能够伴随实体经济成长并提供生息复利。长期滞涨的优质资产迎来历史性估值重估。
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Inspector Box -->
+        <div class="lg:col-span-5 bg-slate-900/95 border border-slate-800 rounded-xl p-6 shadow-2xl space-y-4" id="inspectorBox">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="text-base font-bold text-white flex items-center gap-2" id="inspectorTitle">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              周期全景解构
+            </h4>
+            <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 font-mono" id="inspectorBadge">1980 - 2000</span>
+          </div>
+
+          <div class="space-y-3 text-sm" id="inspectorBody">
+            <!-- Dynamic JS fill -->
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <div class="text-xs font-semibold text-slate-400 mb-1">李录演讲原文映射与警示：</div>
+            <blockquote class="text-xs text-slate-300 italic border-l-2 border-cyan-500 pl-3 py-1 bg-slate-950/40 rounded-r" id="inspectorQuote">
+              “在中国发展的不同时期，始终有一套宏大的国家战略目标与沉重的伴生代价。作为投资者或企业家，你必须始终清楚，自己在这个时期究竟是目标，还是代价。”
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 资产负债表衰退与资本大挪移定量模型 -->
+    <div id="content-balance-sheet" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Chart 1: 居民家庭财富杠杆收缩模拟 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+              中产家庭资产负债表杠杆敏感性模拟
+            </h4>
+            <span class="text-xs text-slate-400">房产70% + 房贷50% LTV 模型</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            当初始家庭总资产100万元（房产70万，抵押房贷35万，净资产65万）。随着全国均价从跌10%扩大到跌40%，由于房贷债务具有绝对刚性，房价40%的跌幅直接导致家庭净资产缩水至37万元（净值蒸发43.1%）；若二套房杠杆更高或叠加金融资产震荡，实际缩水幅度直达60%~70%。
+          </p>
+          <div id="chart-household-leverage" class="chart-container"></div>
+        </div>
+
+        <!-- Chart 2: 资本大挪移剪刀差：房地产投资 vs 高端制造升级 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              2015-2026 资本大挪移：地产退潮与硬科技崛起
+            </h4>
+            <span class="text-xs text-slate-400">单位：万亿人民币 / 年</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            2021年是中国经济资金要素重配的历史性绝对拐点：房地产年化销售额与开发投资自15-18万亿峰值腰斩并释放出约10万亿资本，与中国同期在高技术制造、设备更新与自立自强研发中每年近10万亿的庞大投入形成完美对冲。
+          </p>
+          <div id="chart-capital-reallocation" class="chart-container"></div>
+        </div>
+      </div>
+
+      <!-- Quantitative verification table -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+        <h4 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          李录核心量化数据真实性核查对照表 (Fact-Check)
+        </h4>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-800/60 text-slate-400 uppercase font-semibold">
+              <tr>
+                <th class="p-3">核心指标</th>
+                <th class="p-3">李录演讲提及数据</th>
+                <th class="p-3">官方统计与学术基准事实核查</th>
+                <th class="p-3 text-center">核查判定</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 font-mono">
+              <tr class="hover:bg-slate-850/50">
+                <td class="p-3 font-sans font-medium text-white">居民储蓄总额与比例</td>
+                <td class="p-3 text-cyan-400">165 万亿人民币 ｜ 约占 GDP 120%</td>
+                <td class="p-3 font-sans">精准属实。央行2024-2026年住户存款突破150-165万亿，同期名义GDP约130-135万亿，比例精确落在115%~122%。</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">✅ 权威吻合</td>
+              </tr>
+              <tr class="hover:bg-slate-850/50">
+                <td class="p-3 font-sans font-medium text-white">中产房产占比与杠杆</td>
+                <td class="p-3 text-rose-400">净资产中房产占70% ｜ 50% 抵押贷款杠杆</td>
+                <td class="p-3 font-sans">高度吻合。央行调查与西南财大CHFS显示城镇中产家庭房产占总财富65%~73%，购房平均LTV在45%~55%。</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">✅ 权威吻合</td>
+              </tr>
+              <tr class="hover:bg-slate-850/50">
+                <td class="p-3 font-sans font-medium text-white">全国房价与财富缩水</td>
+                <td class="p-3 text-rose-400">房价全国均跌约40% ｜ 家庭财富缩水60%~70%</td>
+                <td class="p-3 font-sans">机理严密。二手房指数较2021高点调整30%~45%，在50%房贷杠杆作用下，净财富缩水43%~70%完全符合数学模型。</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">✅ 逻辑严密</td>
+              </tr>
+              <tr class="hover:bg-slate-850/50">
+                <td class="p-3 font-sans font-medium text-white">新房年销售额回撤</td>
+                <td class="p-3 text-amber-400">新房年度销售额自高点下滑约 70%</td>
+                <td class="p-3 font-sans">基本吻合。2021年峰值18.19万亿，至2024-2026年部分月份年化及典型民营房企销售额回落幅度达55%~70%。</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">✅ 基本属实</td>
+              </tr>
+              <tr class="hover:bg-slate-850/50">
+                <td class="p-3 font-sans font-medium text-white">高端制造年投资规模</td>
+                <td class="p-3 text-cyan-400">制造业升级与科技自足每年投入约 10 万亿元</td>
+                <td class="p-3 font-sans">数据吻合。国家统计局数据显示高技术制造业与工业设备更新年投资总额达到9.5~10.5万亿元。</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">✅ 权威吻合</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 半导体攻坚：订单飞轮与 AI 代码均衡器 -->
+    <div id="content-semiconductor" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 飞轮模型解析 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              为什么制裁反而是中国半导体的“神赐之礼”？
+            </h4>
+            <span class="text-xs text-emerald-400 font-semibold">需求与订单驱动飞轮</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            李录指出，任何企业家都会告诉你，在真正的市场经济中，最昂贵、最稀缺的资源从来不是资本，而是<strong>订单簿（Order Book）</strong>。在没有制裁的自由市场中，没有任何一家中国下游整机厂敢冒着良率与客户流失风险采用国产初创芯片；美国的技术封锁直接切断了采购后路，将海量国内内需强制锁定在本土供应链上。
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60">
+              <div class="text-xs font-bold text-cyan-400">成熟制程 (Mature Nodes)</div>
+              <div class="text-xs text-slate-300 mt-1">从晶圆代工制造到核心光刻配套设备与材料，已实现近乎完全的自给自足闭环。</div>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60">
+              <div class="text-xs font-bold text-purple-400">先进制程 (Advanced Nodes)</div>
+              <div class="text-xs text-slate-300 mt-1">虽然仍有几项关键卡脖子环节（如顶级EUV/先进封装），但在持续研发注入下正以超预期速度缩小代差。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI 代码生成均衡器 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+              生成式 AI：击碎软件栈壁垒的“伟大均衡器”
+            </h4>
+            <span class="text-xs text-purple-400 font-semibold">规模化生成智能</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            除了芯片硬件制造本身，中国半导体面临的最大隐形天堑是三十年来美国构筑的底层软件栈（从 PC/服务器操作系统、编译器到英伟达垄断的 CUDA 生态代码）。生成式 AI 的核心本质是<strong>按需、大规模低成本输出智能</strong>，其中最具颠覆性的落地应用正是<strong>代码生成（Code Generation）</strong>。
+          </p>
+          <div class="p-3.5 rounded-lg bg-purple-950/20 border border-purple-800/40 text-xs text-slate-300 space-y-2">
+            <div class="font-semibold text-purple-300">生态迁移奇点：</div>
+            <div>以往需要数万名顶级工程师耗费数十年手写的兼容层驱动、算子库与操作系统抽象层代码，如今借助 AI 代码模型被成千上万倍地加速重构。原本牢不可破的 CUDA 护城河正在被批量生成的转译栈快速侵蚀。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Chart: 中国制造2025完成度对照 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            “中国制造2025”十年决战完成度与全球竞争力格局
+          </h4>
+          <span class="text-xs text-slate-400">2015-2025 战略目标达成度</span>
+        </div>
+        <div id="chart-made-in-china" class="chart-container"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 统一全球大市场与中国股市终局研判 -->
+    <div id="content-market-order" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 全球大市场不可逆与转口对冲 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+              全球政治秩序 vs 统一全球大市场秩序
+            </h4>
+            <span class="text-xs text-blue-400 font-semibold">分工飞轮不可逆</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            李录指出，过去30年冷战结束后人类最大的成就是形成了<strong>单一的全球大市场（Single Global Common Market）</strong>。基于比较优势与劳动分工飞轮，任何单一国家自愿退出的代价都极其高昂。过去100年的贸易争端证明：政治关税只会改变货物的流经路径，无法斩断供需共生。
+          </p>
+          <div class="p-3.5 rounded-lg bg-blue-950/20 border border-blue-800/40 text-xs text-slate-300 space-y-2">
+            <div class="font-semibold text-blue-300">半导体“筷子文化圈”的深层依存：</div>
+            <div>李录在现场幽默指出：当前全球关键半导体的制造重镇（台积电、三星等）与几乎所有半导体巨头领袖（黄仁勋、苏姿丰、陈福阳等）都属于东亚筷子文化圈。大国高层在8个月内4次会晤，最核心的共识是“锁定下次会晤时间”，这证明大国对维持“战略稳定性”拥有最深层的底线诉求。</div>
+          </div>
+        </div>
+
+        <!-- 中国股市终局：从代价到财富基石 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              中国股市是“目标”还是“代价”？
+            </h4>
+            <span class="text-xs text-emerald-400 font-semibold">国民财富终局转移</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            面对现场学者提问，李录给出了极其深刻的推演：过去十年中国股市平滞不前，在很大程度上被当作了宏观调控与实体融资的代价。但当房产财富周期终结、165万亿储蓄寻找出路时，<strong>什么资产能够替代房地产来承载14亿国民与中产阶级的长期财富？</strong>
+          </p>
+          <div class="p-3.5 rounded-lg bg-emerald-950/20 border border-emerald-800/40 text-xs text-slate-300 space-y-2">
+            <div class="font-semibold text-emerald-300">唯有权益资本市场：</div>
+            <div>股票是全社会唯一一种既能够随着实体经济共同成长、且本身就是驱动经济增长核心动能的生产性生息资产。中国股市在历史特定时刻必然被赋予承载国家财富的全新战略目标使命。当前大批极具全球竞争力的中国伟大企业正以极低估值交易，为理性投资人提供了罕见的配置良机。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Value Investing 6th Principle Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+        <h4 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+          李录价值投资第六原则：全球购买力份额（Global Purchasing Power）
+        </h4>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          喜马拉雅资本在格雷厄姆与巴菲特经典价值投资体系上新增了第六条核心原则：<strong>作为全球投资者，你的真实财富终极衡量标准是你所拥有的全球购买力百分比份额。</strong> 实现这一目标的根本途径，是在全球最具活力的大国与市场中，以极具吸引力的折价买入拥有顶尖护城河与竞争力的卓越企业并长期持有，依靠实体商业价值的复利增长超越一切短期宏观周期的波动。
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer info -->
+    <footer class="border-t border-slate-800 pt-4 pb-8 text-center text-xs text-slate-500">
+      <div>本看板基于 2026 年 10 月 5 日哥伦比亚大学商学院第 36 届格雷厄姆-多德午餐会李录主旨演讲及公开权威统计数据构建。</div>
+      <div class="mt-1">设计风格遵循理性客观、学术通透准则 ｜ 仅供宏观战略与学术研判参考，不构成任何投资建议。</div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT 1: UI Tab Switching, Card Selection & Mobile Inline Accordion with Scroll Compensation -->
+  <script>
+    const paradigmData = [
+      {
+        title: "第一周期 (1980-2000)：工业起飞与温饱解决",
+        badge: "1980 - 2000 年代",
+        objective: "吸引外商直接投资 (FDI)、发展乡镇轻工业、实现农村劳动力转移与数亿人温饱脱贫。",
+        cost: "青山绿水与自然生态。高排放、高能耗工厂沿江沿海铺开，大气污染与河流生态恶化成为沉重的伴生代价。",
+        mechanic: "在此阶段，企业是否环保无关紧要，能否创汇、能否创造就业与实现工业产值破零是唯一考核指标。",
+        quote: "“在工业起飞早期，空气污染、河流破坏都成了代价。但到了随后的两个阶段，治理环境本身反过来成为了战略目标。”"
+      },
+      {
+        title: "第二周期 (2000-2020)：入世红利与超级城镇化",
+        badge: "2000 - 2020 年代",
+        objective: "加入 WTO 成为世界工厂，通过土地财政与房地产大开发加速城市化进程，构筑国民资产负债表与中产财富基石。",
+        cost: "高污染落后产能被环保督察铁腕淘汰；中小民营低端代工厂承受环保整顿与产业腾笼换鸟的代价。",
+        mechanic: "房地产开发商在此阶段是绝对的国家战略目标担当与城市建设先锋，带动了钢铁、水泥、家电与地方基建的二十年超级繁荣。",
+        quote: "“在城镇化加速时期，房地产开发商与住宅建设是国家战略目标，由此确立了家庭资产的核心财富载体。”"
+      },
+      {
+        title: "第三周期 (2021-2026)：中等收入破局与硬科技自立",
+        badge: "2021 - 2026 年代",
+        objective: "突破中等收入陷阱天花板，抵御外部科技脱钩封锁，实现半导体、新能源、大飞机与底层操作系统全方位自主可控。",
+        cost: "房地产全产业链及其金融杠杆。主动刺破房企高杠杆融资神话，中产家庭承受房价回落40%与净财富蒸发约60%~70%的去杠杆阵痛。",
+        mechanic: "每年将原先沉淀在房产与土地中的约10万亿规模资本，全面导流向半导体、高端机床与新能源等硬核先进制造业。",
+        quote: "“过去五年中，实现硬核制造自足的主要代价正是中产阶级家庭的资产负债表与房地产行业。”"
+      },
+      {
+        title: "第四周期 (2026年以后)：高质量发展与资本市场承载国民财富",
+        badge: "2026 年之后展望",
+        objective: "房产财富扩张周期彻底终结，资本市场（股市）必须被重构为承载全社会165万亿储蓄与居民长远复利增长的核心战略载体。",
+        cost: "过度投机倒把的空转资本、依赖牌照寻租的非生产性套利模式被全面规范与压制。",
+        mechanic: "权益资产是唯一能够伴随真实GDP增长并直接推动实体企业科技创新的生息飞轮。A股长期滞涨反而创造了世界级优质企业的折价配置良机。",
+        quote: "“当房产在国家总资产占比中持续回落，什么能承载国民的长远财富？资本市场是唯一的必然答案。”"
+      }
+    ];
+
+    function selectParadigm(index) {
+      const cardContainer = document.getElementById('paradigmCardContainer');
+      const inspector = document.getElementById('inspectorBox');
+      const data = paradigmData[index];
+
+      // Update Inspector content
+      document.getElementById('inspectorTitle').innerHTML = '<span class="w-2 h-2 rounded-full bg-cyan-400"></span>' + data.title;
+      document.getElementById('inspectorBadge').textContent = data.badge;
+      document.getElementById('inspectorQuote').textContent = data.quote;
+      
+      document.getElementById('inspectorBody').innerHTML = `
+        <div class="p-3 rounded-lg bg-emerald-950/20 border border-emerald-800/40">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">🎯 时代战略目标 (Objective)</div>
+          <div class="text-xs text-slate-200 mt-1 leading-relaxed">${data.objective}</div>
+        </div>
+        <div class="p-3 rounded-lg bg-rose-950/20 border border-rose-800/40">
+          <div class="text-xs font-bold text-rose-400 uppercase tracking-wider">⚡ 指定战略代价 (Cost)</div>
+          <div class="text-xs text-slate-200 mt-1 leading-relaxed">${data.cost}</div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60">
+          <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider">⚙️ 底层要素转换机制</div>
+          <div class="text-xs text-slate-300 mt-1 leading-relaxed">${data.mechanic}</div>
+        </div>
+      `;
+
+      // Update active border styles
+      document.querySelectorAll('.paradigm-card').forEach((card, idx) => {
+        if (idx === index) {
+          card.classList.remove('border-slate-800');
+          card.classList.add('border-cyan-500', 'bg-slate-850');
+        } else {
+          card.classList.remove('border-cyan-500', 'bg-slate-850');
+          card.classList.add('border-slate-800');
+        }
+      });
+
+      // Mobile inline accordion + scroll compensation
+      const isMobile = window.innerWidth <= 1024;
+      const activeCard = document.getElementById('paradigm-card-' + index);
+
+      if (isMobile && activeCard) {
+        const prevTop = activeCard.getBoundingClientRect().top;
+        activeCard.insertAdjacentElement('afterend', inspector);
+        const newTop = activeCard.getBoundingClientRect().top;
+        const delta = newTop - prevTop;
+        if (Math.abs(delta) > 5) {
+          window.scrollBy(0, delta);
+        }
+      } else {
+        // Desktop: ensure inspector is in right column container
+        const rightContainer = document.querySelector('.grid.grid-cols-1.lg\\:grid-cols-12');
+        if (rightContainer && inspector.parentElement !== rightContainer) {
+          rightContainer.appendChild(inspector);
+        }
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('button[id^="tab-"]').forEach(btn => {
+        btn.classList.remove('active-tab');
+        btn.classList.add('text-slate-300');
+      });
+
+      const activeContent = document.getElementById('content-' + tabId);
+      const activeBtn = document.getElementById('tab-' + tabId);
+      if (activeContent) activeContent.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.add('active-tab');
+        activeBtn.classList.remove('text-slate-300');
+      }
+
+      // Trigger ECharts resize after unhiding tab
+      setTimeout(() => {
+        if (window.resizeAllCharts) window.resizeAllCharts();
+      }, 50);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      selectParadigm(0);
+    });
+
+    window.addEventListener('resize', () => {
+      const isMobile = window.innerWidth <= 1024;
+      const inspector = document.getElementById('inspectorBox');
+      const rightContainer = document.querySelector('.grid.grid-cols-1.lg\\:grid-cols-12');
+      if (!isMobile && inspector && rightContainer && inspector.parentElement !== rightContainer) {
+        rightContainer.appendChild(inspector);
+      }
+    });
+  </script>
+
+  <!-- SCRIPT 2: ECharts Visualizations & Lifecycle Management -->
+  <script>
+    let chartHousehold = null;
+    let chartCapital = null;
+    let chartMadeInChina = null;
+
+    function initCharts() {
+      if (typeof echarts === 'undefined') return;
+
+      // Chart 1: Household leverage sensitivity
+      const elHousehold = document.getElementById('chart-household-leverage');
+      if (elHousehold && !chartHousehold) {
+        chartHousehold = echarts.init(elHousehold);
+        const optionHousehold = {
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            textStyle: { color: '#e2e8f0' }
+          },
+          legend: {
+            data: ['房产公允价值', '刚性房贷余额', '家庭总净资产'],
+            textStyle: { color: '#94a3b8' },
+            top: '0%'
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '8%',
+            top: '15%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            data: ['基准(2021顶峰)', '跌幅-10%', '跌幅-20%', '跌幅-30%', '跌幅-40%(当前现状)'],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#94a3b8', fontSize: 11 }
+          },
+          yAxis: {
+            type: 'value',
+            name: '万元 (以100万总资产基数测算)',
+            nameTextStyle: { color: '#64748b', fontSize: 10 },
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisLabel: { color: '#94a3b8' }
+          },
+          series: [
+            {
+              name: '房产公允价值',
+              type: 'bar',
+              barWidth: '24%',
+              data: [70, 63, 56, 49, 42],
+              itemStyle: { color: '#38bdf8' }
+            },
+            {
+              name: '刚性房贷余额',
+              type: 'line',
+              symbol: 'circle',
+              symbolSize: 6,
+              data: [35, 35, 35, 35, 35],
+              lineStyle: { color: '#f87171', width: 2, type: 'dashed' },
+              itemStyle: { color: '#f87171' }
+            },
+            {
+              name: '家庭总净资产',
+              type: 'line',
+              symbol: 'circle',
+              symbolSize: 8,
+              data: [65, 58, 51, 44, 37],
+              lineStyle: { color: '#10b981', width: 3 },
+              itemStyle: { color: '#10b981' },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
+                  { offset: 1, color: 'rgba(16, 185, 129, 0.0)' }
+                ])
+              }
+            }
+          ]
+        };
+        chartHousehold.setOption(optionHousehold);
+      }
+
+      // Chart 2: Capital reallocation divergence (剪刀差)
+      const elCapital = document.getElementById('chart-capital-reallocation');
+      if (elCapital && !chartCapital) {
+        chartCapital = echarts.init(elCapital);
+        const optionCapital = {
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            textStyle: { color: '#e2e8f0' }
+          },
+          legend: {
+            data: ['房地产开发及相关链条投资', '高端制造与科技自立年投入'],
+            textStyle: { color: '#94a3b8' },
+            top: '0%'
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '8%',
+            top: '15%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            data: ['2016', '2018', '2020', '2021(拐点)', '2022', '2024', '2026'],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#94a3b8' }
+          },
+          yAxis: {
+            type: 'value',
+            name: '万亿元人民币',
+            nameTextStyle: { color: '#64748b' },
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisLabel: { color: '#94a3b8' }
+          },
+          series: [
+            {
+              name: '房地产开发及相关链条投资',
+              type: 'line',
+              smooth: true,
+              data: [10.2, 12.0, 14.1, 14.8, 13.3, 11.1, 8.5],
+              itemStyle: { color: '#f59e0b' },
+              lineStyle: { width: 3 }
+            },
+            {
+              name: '高端制造与科技自立年投入',
+              type: 'line',
+              smooth: true,
+              data: [4.1, 5.2, 6.8, 7.9, 8.8, 9.8, 10.5],
+              itemStyle: { color: '#38bdf8' },
+              lineStyle: { width: 3 },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: 'rgba(56, 189, 248, 0.25)' },
+                  { offset: 1, color: 'rgba(56, 189, 248, 0.0)' }
+                ])
+              }
+            }
+          ]
+        };
+        chartCapital.setOption(optionCapital);
+      }
+
+      // Chart 3: Made in China 2025 performance
+      const elMadeInChina = document.getElementById('chart-made-in-china');
+      if (elMadeInChina && !chartMadeInChina) {
+        chartMadeInChina = echarts.init(elMadeInChina);
+        const optionMadeInChina = {
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            textStyle: { color: '#e2e8f0' }
+          },
+          legend: {
+            data: ['规划既定自主化目标(%)', '2026年实际达成率(%)'],
+            textStyle: { color: '#94a3b8' },
+            top: '0%'
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '8%',
+            top: '15%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            data: ['新能源汽车', '电力装备与特高压', '轨道交通高铁', '海洋工程造船', '光伏与储能电池', '半导体成熟制程', '工业母机高档数控'],
+            axisLine: { lineStyle: { color: '#334155' } },
+            axisLabel: { color: '#94a3b8', interval: 0, fontSize: 10 }
+          },
+          yAxis: {
+            type: 'value',
+            max: 120,
+            splitLine: { lineStyle: { color: '#1e293b' } },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' }
+          },
+          series: [
+            {
+              name: '规划既定自主化目标(%)',
+              type: 'bar',
+              barWidth: '22%',
+              data: [80, 85, 90, 80, 85, 70, 70],
+              itemStyle: { color: '#64748b' }
+            },
+            {
+              name: '2026年实际达成率(%)',
+              type: 'bar',
+              barWidth: '22%',
+              data: [105, 100, 98, 95, 110, 88, 76],
+              itemStyle: { color: '#10b981' }
+            }
+          ]
+        };
+        chartMadeInChina.setOption(optionMadeInChina);
+      }
+    }
+
+    window.resizeAllCharts = function() {
+      if (chartHousehold) chartHousehold.resize();
+      if (chartCapital) chartCapital.resize();
+      if (chartMadeInChina) chartMadeInChina.resize();
+    };
+
+    window.addEventListener('load', () => {
+      initCharts();
+    });
+
+    window.addEventListener('resize', () => {
+      window.resizeAllCharts();
+    });
+  </script>
+</body>
+</html>
