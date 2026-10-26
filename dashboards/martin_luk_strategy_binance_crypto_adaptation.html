@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>22%胜率狂赚969.8%：全美交易冠军 Martin Luk 策略解构与币安主流币对移植看板</title>
+
+  <!-- 微信与社交分享 Meta 规范 -->
+  <meta name="description" content="深度拆解23岁香港大学交易员Martin Luk夺得2025美国投资锦标赛冠军的三大动量策略，核验USIC实盘数据，并提供面向币安BTC、ETH、SOL等主流币对的五步量化移植方案。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="22%胜率狂赚969.8%：香港交易员 Martin Luk 策略解构与币安主流币对移植看板">
+  <meta property="og:description" content="深度拆解23岁香港大学交易员Martin Luk夺得2025美国投资锦标赛冠军的三大动量策略，核验USIC实盘数据，并提供面向币安BTC、ETH、SOL等主流币对的五步量化移植方案。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/martin_luk_strategy_binance_crypto_adaptation.html">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 异步非阻塞加载 ECharts + 多 CDN 自动容灾 -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js'"></script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #162238;
+      --border-color: #1e293b;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #c084fc;
+    }
+    body {
+      background-color: var(--bg-body);
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .chart-box { width: 100%; height: 360px; }
+    .active-tab {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+    }
+    .setup-card {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .setup-card:hover {
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-2px);
+    }
+    .setup-card.active-card {
+      border-color: #38bdf8 !important;
+      background-color: #162238 !important;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.25);
+    }
+    @media (max-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .tab-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+      }
+      .chart-box { height: 300px; }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8">
+  <!-- 隐藏微信 300x300 分享缩略图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="max-w-[1560px] mx-auto space-y-6">
+
+    <!-- 顶部 Header Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            实盘审计核查 · 美股动量冠军 × 币安主流币对量化移植
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+            22.2% 胜率狂赚 969.8%：香港交易员 Martin Luk 策略解构与币安移植看板
+          </h1>
+          <p class="text-sm sm:text-base text-slate-400 mt-2 max-w-4xl leading-relaxed">
+            基于【投机实验室】热传视频、TraderLion 四小时英文原版访谈及美国投资锦标赛（USIC）官方月度审计档案。深度还原 23 岁港大毕业生如何从 1 万港元补贴起步，以极窄止损撬动 15R–27R 非对称收益，并推演该体系迁移至币安（Binance）主流币对（BTC/ETH/SOL/SUI）的五步落地改造。
+          </p>
+        </div>
+
+        <!-- 视频与一手信源卡片 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4 min-w-[280px] shrink-0 text-xs space-y-2 backdrop-blur-sm">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📺 核心溯源与事实核查</span>
+            <span class="text-emerald-400 font-bold">✓ 实盘审计属实</span>
+          </div>
+          <div class="text-white font-medium">中文视频：【投机实验室】23岁的香港交易员 Martin</div>
+          <div class="text-slate-300">英文原声：<span class="text-cyan-400 font-semibold">TraderLion 2026 夺冠专访 (4h09m)</span></div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="http://www.youtube.com/watch?v=Y7Xb8LjXacI" target="_blank" class="px-2.5 py-1 bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 rounded text-rose-300 font-medium transition">
+              投机实验室原片 ↗
+            </a>
+            <a href="http://www.youtube.com/watch?v=VKNEJA5r8zw" target="_blank" class="px-2.5 py-1 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              TraderLion 专访 ↗
+            </a>
+            <a href="https://financial-competitions.com/" target="_blank" class="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/40 rounded text-emerald-300 font-medium transition">
+              USIC 官方榜单 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 顶部 6 大核心 KPI 矩阵 -->
+    <div class="kpi-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">2025 USIC 夺冠收益</div>
+        <div class="text-2xl font-black text-cyan-400 font-mono mt-1">+969.8%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>11月末峰值 +1358%</span>
+          <span class="text-emerald-400 font-mono">破纯股票组纪录</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">2026 前8月官方战绩</div>
+        <div class="text-2xl font-black text-emerald-400 font-mono mt-1">+844.5%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>2024年 +283.1%</span>
+          <span class="text-cyan-400 font-mono">连续3年全美前6</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">2025 全年实盘胜率</div>
+        <div class="text-2xl font-black text-amber-400 font-mono mt-1">22.23%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>209胜 / 731负</span>
+          <span class="text-slate-300 font-mono">共 940 笔交割</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">平均盈亏比 (Payoff)</div>
+        <div class="text-2xl font-black text-white font-mono mt-1">~7.0 : 1</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>均赢 +14% / 均亏 -2%</span>
+          <span class="text-purple-400 font-mono">大单达 20R–27R</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">单笔净值风险预算</div>
+        <div class="text-2xl font-black text-purple-400 font-mono mt-1">0.50%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>以止损宽度倒推仓位</span>
+          <span class="text-emerald-400 font-mono">连亏10单仅伤5%</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">币安移植建议止损</div>
+        <div class="text-2xl font-black text-rose-400 font-mono mt-1">2.5%–4.5%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>15m周期 + 0.15ATR垫</span>
+          <span class="text-amber-400 font-mono">避开插针与费率磨损</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 顶部 Tab 导航栏 -->
+    <div class="tab-grid flex flex-wrap gap-2 sm:gap-3 border-b border-slate-800 pb-3">
+      <button type="button" onclick="switchTab('tab-usic')" id="btn-tab-usic" class="tab-btn active-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300">
+        📈 1. 冠军收益轨迹与R倍数引擎
+      </button>
+      <button type="button" onclick="switchTab('tab-setups')" id="btn-tab-setups" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        🎯 2. 三大买法与实盘案例检视台
+      </button>
+      <button type="button" onclick="switchTab('tab-binance')" id="btn-tab-binance" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        🪙 3. 币安主流币对五步移植沙盘
+      </button>
+      <button type="button" onclick="switchTab('tab-calc')" id="btn-tab-calc" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        🧮 4. 倒推仓位与币安费率仿真器
+      </button>
+    </div>
+
+    <!-- Tab 1: 冠军收益轨迹与 R 倍数引擎 -->
+    <div id="tab-usic" class="tab-pane space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">📊 2025 USIC 夺冠月度净值曲线与 12 月回撤复盘</h2>
+              <p class="text-xs text-slate-400 mt-0.5">1–11月冲至 +1,358.2%，12月震荡市因多空摇摆单月回撤 -26.6%，终值定格 +969.8%</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">官方券商结单核验</span>
+          </div>
+          <div id="chart-usic-curve" class="chart-box"></div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">⚡ 止损宽度压缩如何指数级放大 R 倍数产出？</h2>
+              <p class="text-xs text-slate-400 mt-0.5">同一只上涨 +25% 的标的：止损从 5% 压至 1.5%，单笔收益从 5R 跃升至 16.7R</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">非对称数学底座</span>
+          </div>
+          <div id="chart-r-payoff" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 2024 vs 2025 vs 2026 核心演进对比 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h3 class="text-base font-bold text-white mb-3">🔍 事实核查：从 10,000 港元政府补贴到连续三年全美前列的真实进化史</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-cyan-400 font-bold mb-1">2020.10 – 2023.06：水下挣扎期</div>
+            <p class="text-slate-300 leading-relaxed">18岁升入香港大学（HKU）大一，用港府派发的 1万港元（~$1,300）开户。头4个月翻3倍后，于 2021年1月在 <strong>$501 历史最高点追高 GME</strong>，随后遭遇 50% 腰斩，水下磨砺两年半直至 2023年6月德国交换期间靠 CVNA 翻倍突围。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-emerald-400 font-bold mb-1">2024年 USIC：+283.1%（全美第6）</div>
+            <p class="text-slate-300 leading-relaxed">大四在读首次参赛（2月报名，全年实际收益约 +340%）。全年执行 <strong>423 笔交易（104胜 / 319负，胜率 24.6%）</strong>，平均盈利 +15%、平均亏损 -3%（盈亏比 5:1），确立 Qullamaggie 动量框架。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-amber-400 font-bold mb-1">2025年 USIC：+969.8%（年度总冠军）</div>
+            <p class="text-slate-300 leading-relaxed">将主力买法从“追突破”切换为“回踩反弹”，平均止损进一步收窄至 <strong>~2.0%</strong>。全年 <strong>940 笔交易（209胜 / 731负，胜率 22.23%）</strong>，盈亏比跃升至 7:1，打破 Oliver Kell (+941.1%) 纯股票组纪录。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-purple-400 font-bold mb-1">2026年 1–8月：+844.5%（暂列第2）</div>
+            <p class="text-slate-300 leading-relaxed">据 USIC 官网截至 2026年8月31日八个月榜单，其 5月底 +345.6%、6月底 +421.2%、7月底 +868.6%、8月底 <strong>+844.5%</strong>（仅次于 Tom Doub 博士的 +1,038%），证明体系具备跨年度可复制性。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 三大买法与实盘案例检视台（含移动端就地展开 Accordion） -->
+    <div id="tab-setups" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <div class="mb-4">
+          <h2 class="text-base sm:text-lg font-bold text-white">🎯 点击下方卡片切换检视：Martin Luk 四大交易模型与核实交割案例</h2>
+          <p class="text-xs text-slate-400 mt-1">手机端点击任意卡片将在卡片正下方就地展开完整日线前置条件、分时触发规则、实盘核查案例与币安移植要点。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- 左侧 4 张策略卡片列表 -->
+          <div id="setupCardsList" class="lg:col-span-5 space-y-3">
+            <div onclick="selectSetup(0, this)" class="setup-card active-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-cyan-400">1. 强势股回踩反弹买法 (Pullback)</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">占比 &gt; 50%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">回落至日线 EMA9/21 + AVWAP + 前高低点多重共振区，在分时图捕捉急跌洗盘后的 V 型反转突破。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">代表核查案例：AMPX (2025.09.11, +24R) | 币安对应：SOL/SUI 回踩4H/1D EMA21</div>
+            </div>
+
+            <div onclick="selectSetup(1, this)" class="setup-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-emerald-400">2. 窄幅收敛提前突破买法 (Breakout)</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">占比 ~25%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">大涨后横盘 1–2 周以上，末端紧贴 9 EMA 出现内包日（Inside Day），突破前日高点（PDH）提前抢跑入场。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">代表核查案例：SOFI (2024.11.05, +19R) | 币安对应：BTC/BNB 费率冷却后突破PDH</div>
+            </div>
+
+            <div onclick="selectSetup(2, this)" class="setup-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-amber-400">3. 催化剂跳空洗盘买法 (Episodic Pivot)</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">占比 ~15%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">重磅财报或合同驱动跳空高开，先等开盘下杀洗盘（跌破 ORL）剔除假突破，企稳后突破前 K 线高点入场。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">代表核查案例：Planet Labs PL (2025.09.08, +27R) | 币安对应：重大叙事/ETF放量回踩二波</div>
+            </div>
+
+            <div onclick="selectSetup(3, this)" class="setup-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-rose-400">4. 顺势反弹做空变体 (Short Pullback)</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono">占比 &lt; 10%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">周/日线跌破 EMA9/21 空头排列，15分钟图反弹刺入高点锚定 AVWAP 阻力区并出现大阴线吞没时做空。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">核心纪律：持仓仅 2–3 天，趁加速下跌分批止盈 | 币安对应：破位山寨币反弹至AVWAP做空</div>
+            </div>
+          </div>
+
+          <!-- 右侧详情检视台 (#inspectorBox) -->
+          <div id="inspectorHost" class="lg:col-span-7">
+            <div id="inspectorBox" class="p-5 rounded-2xl border border-cyan-500/40 bg-slate-950/90 space-y-4 shadow-2xl">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <h3 id="insp-title" class="text-lg font-bold text-cyan-400">1. 强势股回踩反弹买法 (Pullback Setup)</h3>
+                <span id="insp-badge" class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono">2025夺冠头号功臣 · 占比超50%</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="font-bold text-white mb-1.5">📐 日线 / 周线前置结构条件</div>
+                  <p id="insp-daily" class="text-slate-300 leading-relaxed">日线均线呈 9 &gt; 21 &gt; 50 &gt; 150 多头排列，周线稳居 EMA9/21 上方；必须处于突破后的第1–2次早期回踩（避开连涨数周已远离均线的末期标的）；股价回落至 EMA9/21、关键日锚定 AVWAP、前高低点或缺口的多重支撑共振区（回踩 21 EMA 的可靠性显著高于 9 EMA）。</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="font-bold text-white mb-1.5">⚡ 分时图触发买点与止损锚定</div>
+                  <p id="insp-intraday" class="text-slate-300 leading-relaxed">开盘绝不直接追高，耐心等待开盘首小时股价急跌砸入共振支撑区并迅速拉起（V型反转越快越好，若磨蹭至中午才缓慢爬升则放弃）。在 1m（前5分钟）或 5m（5–60分钟）图向上突破前一根 K 线最高点瞬间市价买入，止损设于当日最低点（LOD），幅度严控在 1.5%–3.0%。</p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs space-y-1.5">
+                <div class="font-bold text-emerald-400">✅ 美股实盘核查案例：Amprius Technologies (NYSE: AMPX，2025年8–9月)</div>
+                <p id="insp-case" class="text-slate-300 leading-relaxed">事实核查：Amprius 于 2025年8月7日盘后发布 Q2 财报（营收同比暴增 350% 至 1,510 万美元），8月8日放巨量冲高至 $9.66 后回落。Martin 将 AVWAP 锚定在 8月8日巨量 K 线，等待其横盘整理 5 周。9月11日 AMPX 高开于 $7.68，开盘第1分钟急跌至 $7.42（精准踩中 EMA9/21 与 AVWAP 共振区 $7.40–$7.50），第2分钟迅速拉起突破前高，Martin 在 $7.57 买入，止损设于 $7.42。随后持仓一周于 9月18日（+$11上方，+24R）与 9月24日（+23R）分批止盈。</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-700/40 text-xs space-y-1.5">
+                <div class="font-bold text-amber-400">🪙 币安（Binance）主流币对移植改造要点</div>
+                <p id="insp-crypto" class="text-slate-300 leading-relaxed">在 SOLUSDT、SUIUSDT、BNBUSDT 等主流币对上，这是胜率最高、最抗插针的核心打法（建议占加密仓位的 70%）。改造关键：① 将日线/4H 图的 EMA21 与“放量突破大阳线/极端插针底”锚定的 AVWAP 重叠区作为买点候诊室；② 放弃 1m/5m 图，改在美股开盘窗口（北京时间 21:30–23:30）观察 15m/30m 图的下影线收回，突破前一根 15m K 线高点入场；③ 止损设在插针最低点下方 0.15 × ATR 处（总止损约 2.8%–4.2%）。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 币安主流币对五步移植沙盘 -->
+    <div id="tab-binance" class="tab-pane hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">🪙 币安主流币对 vs 美股动量股 20日平均波幅 (ADR%)</h2>
+              <p class="text-xs text-slate-400 mt-0.5">BTC/ETH 波幅仅 3%–4% 适合当“大盘风向标”；SOL/SUI/DOGE 波幅 6%–8.5% 才是最佳主攻手</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">标的池双轨分层</span>
+          </div>
+          <div id="chart-crypto-adr" class="chart-box"></div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">📉 币安合约百次交易累计净期望仿真 (单位: R)</h2>
+              <p class="text-xs text-slate-400 mt-0.5">为什么照搬 1m 周期 + 1.5% 止损会持续亏钱？放宽至 3.0% 止损 + 15m 回踩 + 挂单降费如何逆转期望？</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-mono">手续费与插针损耗</span>
+          </div>
+          <div id="chart-crypto-sim" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 五维改造对照表 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h3 class="text-base font-bold text-white mb-3">🛠️ 美股原版 vs 币安（Binance）主流币对五步落地改造清单</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 bg-slate-950/60">
+                <th class="py-3 px-3">改造维度</th>
+                <th class="py-3 px-4">Martin Luk 美股原版参数</th>
+                <th class="py-3 px-4">币安主流币对改造参数</th>
+                <th class="py-3 px-4">扎实的微观结构与数据依据</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-cyan-400">1. 标的池分层</td>
+                <td class="py-3 px-4">盯盘 QQQ/IWM；选股要求 ADR &gt; 5%、日成交额 &gt; $1亿。</td>
+                <td class="py-3 px-4"><strong>大盘锚</strong>：BTCUSDT、ETHUSDT；<br><strong>主攻矛</strong>：SOLUSDT、SUIUSDT、DOGEUSDT、BNBUSDT 等成交额 Top 20 且 ADR 在 5.5%–10% 的叙事龙头。</td>
+                <td class="py-3 px-4 text-slate-400">BTC ($80k) 与 ETH ($2,320) 的 20日 ADR 仅 3.1%–3.9%，难以直接跑出 20R；而 SOL ($101.5) 等高 Beta 主流币日成交额超 18 亿美元且 ADR 达 6.4%–8.2%。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-emerald-400">2. 周期与窗口</td>
+                <td class="py-3 px-4">日线看结构；美东 9:30 开盘首小时看 1m / 5m 图触发。</td>
+                <td class="py-3 px-4"><strong>结构看 1D + 4H 图</strong>；<strong>触发上调至 15m / 30m 图</strong>；重点盯盘 <strong>UTC 13:30–15:00（美股开盘）</strong>与 <strong>UTC 00:00（日线换线）</strong>。</td>
+                <td class="py-3 px-4 text-slate-400">币安 24/7 交易无真实跳空缺口，但美股开盘首小时占全天真实机构成交量的 35%–45%，是“先插针扫损、再走真实趋势”的黄金反转窗口。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-amber-400">3. AVWAP 锚点</td>
+                <td class="py-3 px-4">锚定财报跳空高开日、波段最高/最低点。</td>
+                <td class="py-3 px-4">锚定：① <strong>ETF巨量流入/FOMC议息大阳线</strong>；② <strong>全网爆仓超$3亿的极端插针底</strong>；③ <strong>周/日线突破启动K线</strong>；④ <strong>币安重磅公告日</strong>。</td>
+                <td class="py-3 px-4 text-slate-400">加密市场没有季度财报，但连环清算插针底和宏观决议大阳线沉淀了最大的换手筹码，其 AVWAP 与 4H/1D EMA21 重叠处支撑极强。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-purple-400">4. 止损与挂单</td>
+                <td class="py-3 px-4">止损 1.5%–3.0%，设于 LOD 下方 1 美分；双边市价吃单。</td>
+                <td class="py-3 px-4"><strong>止损放宽至 2.5%–4.5%</strong>（低点下方留 <strong>0.15 × ATR</strong> 缓冲垫）；回踩区右侧优先用 <strong>Maker 限价单</strong>入场。</td>
+                <td class="py-3 px-4 text-slate-400">币安合约双边 Taker 费率+滑点达 0.12%–0.15%，若用 1.5% 止损每单额外损耗 0.08R–0.10R；放宽止损至 3% 并结合 Maker 挂单（0.02%）可将磨损砍半。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-rose-400">5. 拥挤度熔断</td>
+                <td class="py-3 px-4">看自身交割单反馈、指数均线位置、观察池强弱分档。</td>
+                <td class="py-3 px-4">新增<strong>资金费率（Funding Rate）+ 未平仓合约（OI）过滤器</strong>：当费率 &gt; 0.03%/8h（年化 &gt; 32%）且 OI 暴增滞涨时，严禁追突破并主动减仓。</td>
+                <td class="py-3 px-4 text-slate-400">币圈绝大多数急跌瀑布源于高倍多头杠杆拥挤触发的连环强平，监控费率与 OI 可提前识别多杀多风险。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 倒推仓位与币安费率仿真器 -->
+    <div id="tab-calc" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white">🧮 币安（Binance）实盘倒推仓位与手续费磨损交互计算器</h2>
+            <p class="text-xs text-slate-400 mt-1">输入您的 USDT 账户净值、单笔风险比例与止损宽度，实时计算开仓名义价值、实际杠杆倍数及双边手续费占 1R 的真实磨损比例。</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">Position Sizing by Risk</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">账户总净值 (USDT):</label>
+            <input type="range" id="calc-equity" min="1000" max="100000" step="1000" value="10000" class="w-full accent-cyan-500" oninput="updatePositionCalc()">
+            <div class="flex justify-between text-xs font-mono text-cyan-400">
+              <span>1,000 U</span>
+              <span id="lbl-equity" class="font-bold text-base">10,000 U</span>
+              <span>100,000 U</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">单笔允许净值亏损比例 (1R %):</label>
+            <input type="range" id="calc-risk" min="0.25" max="1.50" step="0.05" value="0.50" class="w-full accent-emerald-500" oninput="updatePositionCalc()">
+            <div class="flex justify-between text-xs font-mono text-emerald-400">
+              <span>0.25%</span>
+              <span id="lbl-risk" class="font-bold text-base">0.50% (标准)</span>
+              <span>1.50%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">币价初始止损宽度 (Stop %):</label>
+            <input type="range" id="calc-stop" min="1.0" max="6.0" step="0.2" value="3.0" class="w-full accent-amber-500" oninput="updatePositionCalc()">
+            <div class="flex justify-between text-xs font-mono text-amber-400">
+              <span>1.0%</span>
+              <span id="lbl-stop" class="font-bold text-base">3.0% (推荐)</span>
+              <span>6.0%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">币安双边手续费+滑点率:</label>
+            <input type="range" id="calc-fee" min="0.04" max="0.20" step="0.01" value="0.08" class="w-full accent-rose-500" oninput="updatePositionCalc()">
+            <div class="flex justify-between text-xs font-mono text-rose-400">
+              <span>0.04% (Maker)</span>
+              <span id="lbl-fee" class="font-bold text-base">0.08% (混合)</span>
+              <span>0.20% (纯吃单)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">单笔最大亏损金额 (1R)</div>
+            <div id="out-1r-usd" class="text-2xl font-black text-emerald-400 font-mono mt-1">50.00 U</div>
+            <div class="text-[11px] text-slate-400 mt-1">连亏 10 笔仅回撤 5% 净值</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">含费倒推开仓名义本金</div>
+            <div id="out-pos-usd" class="text-2xl font-black text-cyan-400 font-mono mt-1">1,623 U</div>
+            <div id="out-leverage" class="text-[11px] text-cyan-300 mt-1 font-mono">占总本金 16.2% (0.16x 零杠杆)</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">单笔双边手续费损耗</div>
+            <div id="out-fee-usd" class="text-2xl font-black text-rose-400 font-mono mt-1">1.30 U</div>
+            <div id="out-fee-r" class="text-[11px] text-amber-300 mt-1 font-mono">占 1R 风险的 2.6% (可控)</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">若抓中 +30% 主升浪产出</div>
+            <div id="out-win-r" class="text-2xl font-black text-purple-400 font-mono mt-1">+9.7 R (+487 U)</div>
+            <div class="text-[11px] text-slate-400 mt-1">一笔大赚覆盖近 10 次止损</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部版权与核查说明 -->
+    <footer class="border-t border-slate-800 pt-6 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>本交互看板由 <strong>龟龟的个人博客</strong> (axelrod.lawootrip.com) 深度构建</span>
+        <span class="mx-2">|</span>
+        <span>核查信源：USIC 2024–2026 官方榜单、TraderLion 专访、Binance 费率与行情数据</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://axelrod.lawootrip.com/" class="hover:text-cyan-400 transition">博客首页</a>
+        <span>•</span>
+        <a href="http://www.youtube.com/watch?v=Y7Xb8LjXacI" target="_blank" class="hover:text-cyan-400 transition">投机实验室原视频</a>
+        <span>•</span>
+        <a href="http://www.youtube.com/watch?v=VKNEJA5r8zw" target="_blank" class="hover:text-cyan-400 transition">TraderLion 4h专访</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 脚本 1：独立的 Tab 切换、移动端就地展开（Inline Accordion）与计算器逻辑（与 ECharts 严格隔离） -->
+  <script>
+    var SETUP_DATA = [
+      {
+        title: '1. 强势股回踩反弹买法 (Pullback Setup)',
+        badge: '2025夺冠头号功臣 · 占比超50%',
+        daily: '日线均线呈 9 > 21 > 50 > 150 多头排列，周线稳居 EMA9/21 上方；必须处于突破后的第1–2次早期回踩（避开连涨数周已远离均线的末期标的）；股价回落至 EMA9/21、关键日锚定 AVWAP、前高低点或缺口的多重支撑共振区（回踩 21 EMA 的可靠性显著高于 9 EMA）。',
+        intraday: '开盘绝不直接追高，耐心等待开盘首小时股价急跌砸入共振支撑区并迅速拉起（V型反转越快越好，若磨蹭至中午才缓慢爬升则放弃）。在 1m（前5分钟）或 5m（5–60分钟）图向上突破前一根 K 线最高点瞬间市价买入，止损设于当日最低点（LOD），幅度严控在 1.5%–3.0%。',
+        caseText: '事实核查：Amprius (NYSE: AMPX) 于 2025年8月7日盘后发布 Q2 财报（营收同比暴增 350% 至 1,510 万美元），8月8日放巨量冲高至 $9.66 后回落。Martin 将 AVWAP 锚定在 8月8日巨量 K 线，等待其横盘整理 5 周。9月11日 AMPX 高开于 $7.68，开盘第1分钟急跌至 $7.42（精准踩中 EMA9/21 与 AVWAP 共振区 $7.40–$7.50），第2分钟迅速拉起突破前高，Martin 在 $7.57 买入，止损设于 $7.42。随后持仓一周于 9月18日（+$11上方，+24R）与 9月24日（+23R）分批止盈。',
+        cryptoText: '在 SOLUSDT、SUIUSDT、BNBUSDT 等主流币对上，这是胜率最高、最抗插针的核心打法（建议占加密仓位的 70%）。改造关键：① 将日线/4H 图的 EMA21 与“放量突破大阳线/极端插针底”锚定的 AVWAP 重叠区作为买点候诊室；② 放弃 1m/5m 图，改在美股开盘窗口（北京时间 21:30–23:30）观察 15m/30m 图的下影线收回，突破前一根 15m K 线高点入场；③ 止损设在插针最低点下方 0.15 × ATR 处（总止损约 2.8%–4.2%）。'
+      },
+      {
+        title: '2. 窄幅收敛提前突破买法 (Tight Range Breakout)',
+        badge: '经典 Qullamaggie 打法 · 占比约25%',
+        daily: '经历一波强劲上涨后横盘整理 1–2 周以上（连涨后仅休息1–2天的绝不碰）；整理末端 K 线紧贴日线 9 EMA 且振幅极度收缩，最好出现 Inside Day（内包日，即当日高低点完全包在前一日高低点之内），且股价位于阶段高点锚定的 AVWAP 上方。偏爱周线级别长期横盘后的首次突破。',
+        intraday: '提前抢跑入场：不等股价冲过整个横盘箱体的最高上沿（否则距当日低点止损往往宽达 4%–8%），而是只要股价在分时图放量冲过前一日最高点（PDH）或开盘区间高点（ORH，前5分钟看首根1m高点，5分钟后看首根5m高点）即刻买入，止损设于当日最低点（LOD）下方1美分。',
+        caseText: '事实核查：金融科技股 SoFi Technologies (NASDAQ: SOFI，视频字幕误译为“收费”) 于 2024年10月从 $7 涨至 $11 后横盘一周多，最后三天贴着日线 9 EMA 小幅回落且高点逐日降低（11月4日最高点 $11.13）。11月5日开盘 6–7 分钟股价突破 $11.13，Martin 在 $11.16 提前买入（未等 $11.50 箱体上沿突破），止损设于当日最低点下方 $10.94（风险仅 1.97%）。3天后在 $12.52 卖出部分仓位（+6R），余仓沿日线 9 EMA 持有至 12月10日于 $15.41 清仓（+19R）。',
+        cryptoText: '币安移植要点（建议占比 20%）：币圈假突破极多，使用突破买法必须加一道“资金费率过滤锁”——只有当 BTCUSDT 或 SOLUSDT 在日线 9/21 EMA 上方缩量横盘 7–10 天以上、日内波幅压缩至 2% 以内，且永续合约资金费率回落至 0.01%/8h 基准线以下（说明多头杠杆已被清洗干净）时，才在 4H 图放量突破前一日最高点（PDH）时入场。若资金费率 > 0.03%，严禁追突破。'
+      },
+      {
+        title: '3. 催化剂跳空洗盘反转买法 (Episodic Pivot / EP)',
+        badge: '事件驱动爆发型 · 占比约15%',
+        daily: '公司盘前发布超预期季度财报、重大政府/国防合同或行业重磅利好，驱动盘前跳空高开（通常 ≥ 10%）且伴随异常巨量。Martin 盘前仅花 10–15 分钟扫一眼新闻标题确认催化剂性质，不研读具体财务报表数字，完全依据图表价格行为执行。',
+        intraday: '反假突破改良版：传统 EP 做法是开盘突破首根 1m/5m K 线高点（ORH）即买，但 2025 年高开股极易先冲高再砸穿开盘低点（ORL）。因此他改良为：先等开盘下杀洗盘（甚至跌破 ORL 清扫追高盘），待 5m 或 15m 图缩量企稳后，向上突破前一根 K 线最高点时买入，止损设于突破 K 线低点或当日低点。',
+        caseText: '事实核查：地球观测卫星公司 Planet Labs (NYSE: PL) 于 2025年9月8日盘前发布 FY26 Q2 财报（季度营收创历史新高 $7,340 万，积压订单同比暴增 245% 至 $7.36 亿）。当日股价从前收盘 $6.53 跳空高开 18% 于 $7.70，开盘前 2 分钟冲至 $8.22 后迅速下砸跌破开盘价至 $7.29（典型假突破洗盘）。随后一根 5m K 线横盘企稳（高点 $7.53），Martin 在下一根 K 线突破 $7.53 时买入，止损宽度 2.38%，当日收盘暴涨 48% 至 $9.66，持仓三周斩获 23R–27R。',
+        cryptoText: '币安移植要点（建议占比 10%）：币圈 24 小时连续交易没有传统盘前跳空，对应的场景是“美联储议息决议、现货 ETF 审批、币安重磅上币或公链重大利好引发的 15分钟巨量脉冲大阳线（涨幅 > 8%）”。铁律是：脉冲第一波绝不市价追高！将 AVWAP 锚定在该根巨量启动 15m K 线起点，等待随后 1–4 小时回踩 AVWAP 与 15m EMA21 企稳并突破前一根 15m K 线高点时切入，吃第二段主升浪。'
+      },
+      {
+        title: '4. 顺势反弹做空变体 (Short Pullback into Declining EMAs)',
+        badge: '弱势环境防守反击 · 占比 < 10%',
+        daily: '股价见顶回落进入明确下跌趋势，日线均线呈 9 < 21 < 50 空头排列；周线跌破 EMA9/21 且 9 EMA 明显向下倾斜；从波段最高点或破位大阴线锚定一条 AVWAP，与下行的日线 EMA9/21 收敛重叠，构成空头强阻力带。',
+        intraday: '切换到 15 分钟图寻找入场点：当股价开盘跳空高开或日内向上反弹刺入 EMA9/21 与 AVWAP 重叠阻力区后，紧接着出现一根放量看跌大阴线将前一根阳线完全反包（看跌吞没形态），证明上方抛压极重；在价格跌破该反转大阴线最低价时入场做空，止损设于当日高点或入场 K 线高点（≤ 3%）。',
+        caseText: '实盘执行差异：Martin 强调做空与做多的持仓周期截然不同——做多可以沿日线 9 EMA 持仓数周博取 20R，而做空利润空间有限且弱势股极易出现猛烈的逼空反弹（Short Squeeze），因此他的空单通常只拿 2–3 天，一旦股价加速下杀偏离均线，立即分批主动止盈落袋。',
+        cryptoText: '币安移植要点：在 BTCUSDT 跌破日线 21 EMA 的加密熊市或回调期，切勿做空抗跌的龙头币，而应专门挑选观察池中“日线早已跌破 50 EMA 与 150 EMA 的弱势高估值解锁代币”。待其跟随大盘反弹刺入 4H 图的 EMA21 + 波段高点 AVWAP 阻力区，出现 15m 看跌吞没且伴随资金费率由负转正时做空，持仓 1–3 天逢急跌分批止盈。'
+      }
+    ];
+
+    var currentSetupIndex = 0;
+
+    function switchTab(tabId) {
+      var panes = document.querySelectorAll('.tab-pane');
+      for (var i = 0; i < panes.length; i++) {
+        panes[i].classList.add('hidden');
+      }
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove('active-tab');
+      }
+      var targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.remove('hidden');
+      var targetBtn = document.getElementById('btn-' + tabId);
+      if (targetBtn) targetBtn.classList.add('active-tab');
+
+      if (window.resizeAllDashboardCharts) {
+        setTimeout(window.resizeAllDashboardCharts, 60);
+      }
+    }
+
+    function selectSetup(idx, cardEl) {
+      currentSetupIndex = idx;
+      var item = SETUP_DATA[idx];
+      if (!item) return;
+
+      var cards = document.querySelectorAll('.setup-card');
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].classList.remove('active-card');
+      }
+      if (cardEl) {
+        cardEl.classList.add('active-card');
+      } else if (cards[idx]) {
+        cards[idx].classList.add('active-card');
+      }
+
+      var activeCard = cardEl || cards[idx];
+      var inspector = document.getElementById('inspectorBox');
+      var host = document.getElementById('inspectorHost');
+
+      // 记录点击前卡片视口位置，用于移动端就地展开时的滚动偏移补偿
+      var prevTop = activeCard ? activeCard.getBoundingClientRect().top : 0;
+
+      document.getElementById('insp-title').textContent = item.title;
+      document.getElementById('insp-badge').textContent = item.badge;
+      document.getElementById('insp-daily').textContent = item.daily;
+      document.getElementById('insp-intraday').textContent = item.intraday;
+      document.getElementById('insp-case').textContent = item.caseText;
+      document.getElementById('insp-crypto').textContent = item.cryptoText;
+
+      if (window.innerWidth <= 1024 && activeCard && inspector) {
+        activeCard.insertAdjacentElement('afterend', inspector);
+        var newTop = activeCard.getBoundingClientRect().top;
+        var delta = newTop - prevTop;
+        if (Math.abs(delta) > 2) {
+          window.scrollBy(0, delta);
+        }
+      } else if (host && inspector && inspector.parentElement !== host) {
+        host.appendChild(inspector);
+      }
+    }
+
+    window.addEventListener('resize', function() {
+      var inspector = document.getElementById('inspectorBox');
+      var host = document.getElementById('inspectorHost');
+      var cards = document.querySelectorAll('.setup-card');
+      var activeCard = cards[currentSetupIndex];
+      if (window.innerWidth <= 1024 && activeCard && inspector) {
+        if (inspector.previousElementSibling !== activeCard) {
+          activeCard.insertAdjacentElement('afterend', inspector);
+        }
+      } else if (window.innerWidth > 1024 && host && inspector && inspector.parentElement !== host) {
+        host.appendChild(inspector);
+      }
+    });
+
+    function updatePositionCalc() {
+      var equity = parseFloat(document.getElementById('calc-equity').value) || 10000;
+      var riskPct = parseFloat(document.getElementById('calc-risk').value) || 0.5;
+      var stopPct = parseFloat(document.getElementById('calc-stop').value) || 3.0;
+      var feePct = parseFloat(document.getElementById('calc-fee').value) || 0.08;
+
+      document.getElementById('lbl-equity').textContent = equity.toLocaleString() + ' U';
+      document.getElementById('lbl-risk').textContent = riskPct.toFixed(2) + '%';
+      document.getElementById('lbl-stop').textContent = stopPct.toFixed(1) + '%';
+      document.getElementById('lbl-fee').textContent = feePct.toFixed(2) + '%';
+
+      var oneRUsd = equity * (riskPct / 100.0);
+      var totalStopPct = stopPct + feePct;
+      var posUsd = oneRUsd / (totalStopPct / 100.0);
+      var lev = posUsd / equity;
+      var feeUsd = posUsd * (feePct / 100.0);
+      var feeRShare = (feeUsd / oneRUsd) * 100.0;
+      var win30Usd = posUsd * 0.30 - feeUsd;
+      var win30R = win30Usd / oneRUsd;
+
+      document.getElementById('out-1r-usd').textContent = oneRUsd.toFixed(2) + ' U';
+      document.getElementById('out-pos-usd').textContent = Math.round(posUsd).toLocaleString() + ' U';
+      document.getElementById('out-leverage').textContent = '占总本金 ' + (lev * 100).toFixed(1) + '% (' + lev.toFixed(2) + 'x 实际杠杆)';
+      document.getElementById('out-fee-usd').textContent = feeUsd.toFixed(2) + ' U';
+      document.getElementById('out-fee-r').textContent = '占 1R 风险的 ' + feeRShare.toFixed(1) + '% (' + (feeRShare > 6 ? '偏高警报' : '健康可控') + ')';
+      document.getElementById('out-win-r').textContent = '+' + win30R.toFixed(1) + ' R (+' + Math.round(win30Usd).toLocaleString() + ' U)';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updatePositionCalc();
+      if (window.innerWidth <= 1024) {
+        var cards = document.querySelectorAll('.setup-card');
+        if (cards[0]) selectSetup(0, cards[0]);
+      }
+    });
+  </script>
+
+  <!-- 脚本 2：独立的 ECharts 图表初始化与响应式渲染逻辑 -->
+  <script>
+    var chartUsic, chartRPayoff, chartCryptoAdr, chartCryptoSim;
+
+    function initDashboardCharts() {
+      if (typeof echarts === 'undefined') {
+        setTimeout(initDashboardCharts, 120);
+        return;
+      }
+
+      var elUsic = document.getElementById('chart-usic-curve');
+      if (elUsic && !chartUsic) {
+        chartUsic = echarts.init(elUsic);
+        chartUsic.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: {
+            data: ['2025年累计收益率 (%)', '前股票组纪录 (Oliver Kell +941.1%)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '8%', right: '5%', top: '14%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月(峰值)', '12月(终值)'],
+            axisLabel: { color: '#94a3b8', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '累计收益率 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '+{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '2025年累计收益率 (%)',
+              type: 'line',
+              smooth: false,
+              symbol: 'circle',
+              symbolSize: 8,
+              lineStyle: { width: 3, color: '#38bdf8' },
+              itemStyle: {
+                color: function(params) {
+                  return params.dataIndex === 11 ? '#f43f5e' : '#38bdf8';
+                }
+              },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: 'rgba(56, 189, 248, 0.30)' },
+                  { offset: 1, color: 'rgba(56, 189, 248, 0.02)' }
+                ])
+              },
+              data: [0, 11.6, 46.2, 69.5, 178.4, 183.6, 245.0, 260.3, 581.0, 841.5, 1358.2, 969.8]
+            },
+            {
+              name: '前股票组纪录 (Oliver Kell +941.1%)',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: { width: 1.8, type: 'dashed', color: '#f59e0b' },
+              data: [941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1, 941.1]
+            }
+          ]
+        });
+      }
+
+      var elRPayoff = document.getElementById('chart-r-payoff');
+      if (elRPayoff && !chartRPayoff) {
+        chartRPayoff = echarts.init(elRPayoff);
+        chartRPayoff.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          grid: { left: '6%', right: '10%', top: '10%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'value',
+            name: '单笔产出 R 倍数',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value} R' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          yAxis: {
+            type: 'category',
+            data: ['8.0% 传统宽止损', '5.0% 常规突破止损', '3.0% 币安改造推荐', '2.0% Martin 2025均值', '1.5% 极致分时紧止损'],
+            axisLabel: { color: '#e2e8f0', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          series: [
+            {
+              name: '+25% 涨幅对应 R 倍数',
+              type: 'bar',
+              barWidth: '52%',
+              label: { show: true, position: 'right', formatter: '{c} R', color: '#38bdf8', fontWeight: 'bold' },
+              itemStyle: {
+                borderRadius: [0, 6, 6, 0],
+                color: function(params) {
+                  var colors = ['#64748b', '#94a3b8', '#10b981', '#0284c7', '#38bdf8'];
+                  return colors[params.dataIndex] || '#38bdf8';
+                }
+              },
+              data: [3.1, 5.0, 8.3, 12.5, 16.7]
+            }
+          ]
+        });
+      }
+
+      var elAdr = document.getElementById('chart-crypto-adr');
+      if (elAdr && !chartCryptoAdr) {
+        chartCryptoAdr = echarts.init(elAdr);
+        chartCryptoAdr.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          grid: { left: '6%', right: '6%', top: '12%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['BTCUSDT\n(大盘锚)', 'ETHUSDT\n(大盘锚)', 'BNBUSDT\n(平台主流)', 'SOLUSDT\n(高弹主攻)', 'SUI/DOGE\n(叙事龙头)', '美股动量股\n(AMPX/PL)'],
+            axisLabel: { color: '#e2e8f0', fontSize: 10.5 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '20日平均波幅 ADR (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '20日 ADR (%)',
+              type: 'bar',
+              barWidth: '46%',
+              label: { show: true, position: 'top', formatter: '{c}%', color: '#e2e8f0', fontSize: 11 },
+              itemStyle: {
+                borderRadius: [6, 6, 0, 0],
+                color: function(params) {
+                  var c = ['#64748b', '#64748b', '#0ea5e9', '#10b981', '#38bdf8', '#f59e0b'];
+                  return c[params.dataIndex] || '#38bdf8';
+                }
+              },
+              data: [3.1, 3.9, 3.5, 6.4, 8.2, 7.8]
+            }
+          ]
+        });
+      }
+
+      var elSim = document.getElementById('chart-crypto-sim');
+      if (elSim && !chartCryptoSim) {
+        chartCryptoSim = echarts.init(elSim);
+        chartCryptoSim.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: {
+            data: ['五步改造方案 (15m+3%止损+挂单)', '仅调宽止损 (3%止损+市价吃单)', '照搬美股原版 (1m+1.5%止损)'],
+            textStyle: { color: '#94a3b8', fontSize: 10.5 },
+            top: 0
+          },
+          grid: { left: '7%', right: '5%', top: '16%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['0笔', '10笔', '20笔', '30笔', '40笔', '50笔', '60笔', '70笔', '80笔', '90笔', '100笔'],
+            axisLabel: { color: '#94a3b8', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '累计净收益 (R)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value} R' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '五步改造方案 (15m+3%止损+挂单)',
+              type: 'line',
+              lineStyle: { width: 3, color: '#10b981' },
+              itemStyle: { color: '#10b981' },
+              data: [0, 6.8, 13.6, 20.4, 27.2, 34.0, 40.8, 47.6, 54.4, 61.2, 68.0]
+            },
+            {
+              name: '仅调宽止损 (3%止损+市价吃单)',
+              type: 'line',
+              lineStyle: { width: 2.2, type: 'dashed', color: '#38bdf8' },
+              itemStyle: { color: '#38bdf8' },
+              data: [0, 4.2, 8.4, 12.6, 16.8, 21.0, 25.2, 29.4, 33.6, 37.8, 42.0]
+            },
+            {
+              name: '照搬美股原版 (1m+1.5%止损)',
+              type: 'line',
+              lineStyle: { width: 2.2, type: 'dotted', color: '#f43f5e' },
+              itemStyle: { color: '#f43f5e' },
+              data: [0, -1.8, -3.6, -5.4, -7.2, -9.0, -10.8, -12.6, -14.4, -16.2, -18.0]
+            }
+          ]
+        });
+      }
+    }
+
+    window.resizeAllDashboardCharts = function() {
+      if (chartUsic) chartUsic.resize();
+      if (chartRPayoff) chartRPayoff.resize();
+      if (chartCryptoAdr) chartCryptoAdr.resize();
+      if (chartCryptoSim) chartCryptoSim.resize();
+    };
+
+    window.addEventListener('load', initDashboardCharts);
+    window.addEventListener('resize', window.resizeAllDashboardCharts);
+  </script>
+</body>
+</html>
