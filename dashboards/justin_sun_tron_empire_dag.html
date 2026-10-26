@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>孙宇晨与波场商业帝国：企查查股权穿透拓扑与资金流向 DAG 全景看板</title>
+  
+  <!-- 微信与社交分享 Meta 规范 -->
+  <meta name="description" content="深度拆解孙宇晨背后的产业版图：从3.5微克与2.5吨美钞的Claude资产算账，到波场TRON、TRC-20 USDT、HTX、JustLend与纳斯达克TRON Inc.的五层生态架构与有向无环图(DAG)闭环。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="孙宇晨与波场商业帝国：股权穿透拓扑与资金流向 DAG 全景看板">
+  <meta property="og:description" content="深度拆解孙宇晨背后的产业版图：从3.5微克与2.5吨美钞的Claude资产算账，到波场TRON、TRC-20 USDT、HTX、JustLend与纳斯达克TRON Inc.的五层生态架构与有向无环图(DAG)闭环。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/justin_sun_tron_empire_dag.html">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ECharts 5 CDN + 自动容灾 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';"></script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #1e293b;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .entity-card {
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .entity-card:hover {
+      transform: translateY(-2px);
+      border-color: #38bdf8;
+      box-shadow: 0 8px 24px -4px rgba(56, 189, 248, 0.2);
+    }
+    .entity-card.active-card {
+      border-color: #38bdf8 !important;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(12, 74, 110, 0.35) 100%) !important;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+    @media (max-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .tab-nav-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8 custom-scrollbar">
+
+  <!-- 隐藏微信 300x300 分享图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="龟龟">
+  </div>
+
+  <div class="max-w-[1560px] mx-auto space-y-6">
+
+    <!-- Header 头部 Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 mb-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            商业帝国生态穿透 · 企查查拓扑与资金流向 DAG 专题
+          </div>
+          <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+            深度拆解孙宇晨背后的产业版图：一口气看懂波场商业帝国
+          </h1>
+          <p class="text-slate-400 text-xs sm:text-base max-w-4xl leading-relaxed">
+            从《我的女友景甜》中「3.5微克卵子 vs 2.5吨美钞」与 Claude Code 资产 API 算账切入，全息解构波场 TRON、TRC-20 USDT 清算霸权、HTX/Poloniex 离岸准备金池、JustLend 能量租赁与纳斯达克上市公司 TRON Inc. 的五层控制权穿透及有向无环图（DAG）现金流飞轮。
+          </p>
+        </div>
+
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 min-w-[270px] shrink-0 text-xs space-y-2">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📺 视频与研报源出处</span>
+            <span class="text-emerald-400 font-mono">2026 Q3-Q4 全景</span>
+          </div>
+          <div class="text-white font-medium">【周期之外】深度拆解孙宇晨背后的产业版图</div>
+          <div class="text-slate-400">核心议题：五层生态拓扑 · $50M 现金流冲击测算</div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="https://v.douyin.com/vy7cuf0lp-k/" target="_blank" class="px-2.5 py-1 bg-cyan-600/25 hover:bg-cyan-600/40 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              抖音原视频 ↗
+            </a>
+            <a href="https://www.stocktitan.net/sec-filings/TRON/10-k-tron-inc-files-annual-report-4183598b7887.html" target="_blank" class="px-2.5 py-1 bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/40 rounded text-emerald-300 font-medium transition">
+              SEC 10-K 披露 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- KPI 核心矩阵 -->
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-cyan-500/40 transition-all shadow-lg">
+        <div class="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">净资产估值 (Forbes / 彭博)</div>
+        <div class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono mt-1">$8.5B - $13B</div>
+        <div class="text-[11px] sm:text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>约 600亿枚 TRX + 1.7万 BTC</span>
+          <span class="text-emerald-400 font-semibold">胡润U35榜首</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-emerald-500/40 transition-all shadow-lg">
+        <div class="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">TRC-20 USDT 流通规模</div>
+        <div class="text-2xl sm:text-3xl font-black text-emerald-400 font-mono mt-1">&gt;$90.0B</div>
+        <div class="text-[11px] sm:text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>占全球 USDT 份额 &gt;51%</span>
+          <span class="text-cyan-400 font-semibold">日清算 $24B+</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-amber-500/40 transition-all shadow-lg">
+        <div class="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">波场协议年化真实收入</div>
+        <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono mt-1">$2.12B+</div>
+        <div class="text-[11px] sm:text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>日均协议捕获 ~$5.80M</span>
+          <span class="text-amber-300 font-semibold">超越14条公链总和</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-rose-500/40 transition-all shadow-lg">
+        <div class="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">$50M 现金消耗恢复周期</div>
+        <div class="text-2xl sm:text-3xl font-black text-rose-400 font-mono mt-1">8.6 天</div>
+        <div class="text-[11px] sm:text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>占净资产仅 0.38%~0.58%</span>
+          <span class="text-rose-300 font-semibold">Claude 判定零影响</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 顶部切换导航 Tabs -->
+    <div class="tab-nav-grid flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto custom-scrollbar">
+      <button onclick="switchTab('tab-dag')" id="btn-tab-dag" class="tab-btn px-3.5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 whitespace-nowrap">
+        🕸️ 1. 企查查嵌套拓扑与 DAG 流量图
+      </button>
+      <button onclick="switchTab('tab-matrix')" id="btn-tab-matrix" class="tab-btn px-3.5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        🏢 2. 五层帝国架构穿透检视台
+      </button>
+      <button onclick="switchTab('tab-claude')" id="btn-tab-claude" class="tab-btn px-3.5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        🤖 3. Claude 算账：为何 $50M 毫无影响？
+      </button>
+      <button onclick="switchTab('tab-cashflow')" id="btn-tab-cashflow" class="tab-btn px-3.5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-slate-400 border border-slate-800 hover:text-white whitespace-nowrap">
+        🌊 4. 印钞机现金流桑基图 (Sankey)
+      </button>
+    </div>
+
+    <!-- Tab 1: 企查查嵌套股权/控制权拓扑与 DAG 图 -->
+    <div id="tab-dag" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧控制与拓扑图例说明 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+              控制权穿透与有向无环图 (DAG) 视图切换
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              结合企查查（Qichacha）股权控制穿透逻辑与图论有向无环图（DAG），还原从个人实控底座到全球稳定币清算与美股财库的完整拓扑。
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <div class="text-xs font-semibold text-slate-300">选择拓扑可视化模式：</div>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="renderTopologyMode('dag')" id="mode-btn-dag" class="px-3 py-2 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition">
+                🔄 业务与资金流 DAG 图
+              </button>
+              <button onclick="renderTopologyMode('tree')" id="mode-btn-tree" class="px-3 py-2 rounded-lg text-xs font-bold bg-slate-950 text-slate-400 border border-slate-800 hover:text-white transition">
+                🌳 企查查式层级穿透树
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-2.5 text-xs">
+            <div class="font-bold text-slate-200">📌 为什么波场帝国本质是一个有向无环图 (DAG)？</div>
+            <div class="text-slate-400 leading-relaxed">
+              <strong class="text-cyan-400">1. 顶层源点 (Source Node)</strong>：孙宇晨个人及离岸家族办公室（持有 ~600 亿 TRX、1.7万 BTC、22.4万 ETH、7亿 USDT）构成整个有向图的唯一入度为 0 的根节点。
+            </div>
+            <div class="text-slate-400 leading-relaxed">
+              <strong class="text-emerald-400">2. 中间流转层 (Intermediate Layers)</strong>：通过新加坡 TRON Foundation、BVI 控股实体 Bravemorning Limited 以及百慕大 HTX 顾问委员会，将控制力单向注入公链节点、中心化交易所与 DeFi 借贷协议。
+            </div>
+            <div class="text-slate-400 leading-relaxed">
+              <strong class="text-amber-400">3. 价值汇点 (Sink / Treasury Node)</strong>：全球散户在 TRC-20 USDT 转账消耗的能量（Energy）与中心化交易所沉淀的百亿级美元准备金，单向收敛为 TRX 通缩销毁、美债 RWA 票息（4.5%~5%）与美股 TRON Inc. 的每日定投买盘。
+            </div>
+          </div>
+
+          <!-- 节点颜色图例 -->
+          <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+            <div class="flex items-center gap-2 bg-slate-950/60 p-2 rounded border border-slate-800/80">
+              <span class="w-3 h-3 rounded-full bg-rose-500 shrink-0"></span>
+              <span class="text-slate-300">L0 实控人与离岸壳</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-950/60 p-2 rounded border border-slate-800/80">
+              <span class="w-3 h-3 rounded-full bg-cyan-400 shrink-0"></span>
+              <span class="text-slate-300">L1 公链与基建底座</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-950/60 p-2 rounded border border-slate-800/80">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 shrink-0"></span>
+              <span class="text-slate-300">L2 稳定币与RWA印钞</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-950/60 p-2 rounded border border-slate-800/80">
+              <span class="w-3 h-3 rounded-full bg-amber-400 shrink-0"></span>
+              <span class="text-slate-300">L3 交易所与DeFi枢纽</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-950/60 p-2 rounded border border-slate-800/80 col-span-2">
+              <span class="w-3 h-3 rounded-full bg-purple-400 shrink-0"></span>
+              <span class="text-slate-300">L4 纳斯达克财库 (TRON Inc.) 与政商护城河</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧 ECharts 拓扑画布 -->
+        <div class="lg:col-span-2 bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <div>
+              <h3 id="dag-chart-title" class="text-base font-bold text-white">孙宇晨商业帝国有向无环图 (DAG) 控制权与现金流拓扑</h3>
+              <p class="text-xs text-slate-400">支持鼠标滚轮缩放、拖拽平移，悬停节点查看持股比例、TVL 规模及上下游依赖方向</p>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-slate-800 text-cyan-400 text-xs font-mono">19 个核心实体 · 28 条有向边</span>
+          </div>
+          <div id="chart-dag-topology" class="w-full h-[460px] sm:h-[520px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 五层帝国架构穿透检视台 (支持移动端 Inline Accordion) -->
+    <div id="tab-matrix" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 flex flex-wrap items-center justify-between gap-2">
+        <span>💡 <strong>交互说明</strong>：点击下方任意商业实体卡片，即可检视其<strong>企查查式实控路径、核心营收模式、关键财务数据与潜在合规风险</strong>（手机端将在所点卡片正下方就地展开）。</span>
+        <span class="text-cyan-400 font-mono">共 10 大支柱板块</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 左侧卡片矩阵 (占 7 列) -->
+        <div id="cardsGridContainer" class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          
+          <div onclick="selectEntityCard(0, this)" class="entity-card active-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="0">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">L1 结算公路</span>
+              <span class="text-xs font-mono text-emerald-400">年营收 $2.12B+</span>
+            </div>
+            <div class="text-base font-bold text-white">波场公链 (TRON DAO / TRX)</div>
+            <p class="text-xs text-slate-400 line-clamp-2">3.9亿账户、27个超级代表节点，靠能量(Energy)与带宽租赁垄断全球稳定币转账过路费。</p>
+          </div>
+
+          <div onclick="selectEntityCard(1, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="1">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">L2 稳定币霸权</span>
+              <span class="text-xs font-mono text-emerald-400">流通量 &gt;$90B</span>
+            </div>
+            <div class="text-base font-bold text-white">TRC-20 USDT (泰达币结算层)</div>
+            <p class="text-xs text-slate-400 line-clamp-2">承载全球超 51% USDT 流通量，日均结算超 240 亿美元，亚非拉跨境贸易与灰产资金首选通道。</p>
+          </div>
+
+          <div onclick="selectEntityCard(2, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">L3 交易所金库</span>
+              <span class="text-xs font-mono text-amber-400">储备金 &gt;$5.5B</span>
+            </div>
+            <div class="text-base font-bold text-white">HTX (原火币) &amp; Poloniex</div>
+            <p class="text-xs text-slate-400 line-clamp-2">2019年收购 Poloniex、2022年入主火币(HTX)，不仅赚取现货/合约手续费，更提供庞大沉淀资金池。</p>
+          </div>
+
+          <div onclick="selectEntityCard(3, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="3">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">L3 链上央行</span>
+              <span class="text-xs font-mono text-cyan-400">TVL ~$6.4B</span>
+            </div>
+            <div class="text-base font-bold text-white">JustLend DAO &amp; SunSwap</div>
+            <p class="text-xs text-slate-400 line-clamp-2">波场最大借贷与能量租赁市场（质押 TRX 铸造 sTRX 年化达 10%-12%）及官方 DEX 流动性中心。</p>
+          </div>
+
+          <div onclick="selectEntityCard(4, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="4">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">L2 美债息差引擎</span>
+              <span class="text-xs font-mono text-emerald-400">美债票息 4.5%-5%</span>
+            </div>
+            <div class="text-base font-bold text-white">stUSDT / RWA DAO / USDD / TUSD</div>
+            <p class="text-xs text-slate-400 line-clamp-2">通过 JustLend RWA 将链上闲置 USDT 导向短期美国国债，无风险套取每年数亿美元利差并回购销毁。</p>
+          </div>
+
+          <div onclick="selectEntityCard(5, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">L4 纳斯达克财库</span>
+              <span class="text-xs font-mono text-purple-400">投票权 88.5%</span>
+            </div>
+            <div class="text-base font-bold text-white">TRON Inc. (NASDAQ: TRON)</div>
+            <p class="text-xs text-slate-400 line-clamp-2">2025年7月通过 Bravemorning 反向并购登陆美股，持有超 7.02 亿枚 TRX，复刻微策略左脚踩右脚飞轮。</p>
+          </div>
+
+          <div onclick="selectEntityCard(6, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="6">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">L1 跨链与存储</span>
+              <span class="text-xs font-mono text-slate-400">并购价 $1.40B</span>
+            </div>
+            <div class="text-base font-bold text-white">BitTorrent (BTTC) &amp; WINkLink</div>
+            <p class="text-xs text-slate-400 line-clamp-2">2018年斥资1.4亿美元收购P2P鼻祖 BitTorrent，构建 BTTC 跨链桥与 BTFS 存储，搭配 WINkLink 预言机。</p>
+          </div>
+
+          <div onclick="selectEntityCard(7, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="7">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">L4 政商与监管博弈</span>
+              <span class="text-xs font-mono text-rose-400">投资 $75M+</span>
+            </div>
+            <div class="text-base font-bold text-white">WLFI (特朗普家族项目) &amp; SEC 和解</div>
+            <p class="text-xs text-slate-400 line-clamp-2">斥资7500万美元入局 World Liberty Financial 破冰美国政商关系，后因转出5000万枚代币遭拉黑并对簿公堂。</p>
+          </div>
+
+          <div onclick="selectEntityCard(8, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="8">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">L5 流量与艺术杠杆</span>
+              <span class="text-xs font-mono text-amber-400">零边际获客</span>
+            </div>
+            <div class="text-base font-bold text-white">APENFT / 620万香蕉 / 3000万彩礼诉讼</div>
+            <p class="text-xs text-slate-400 line-clamp-2">从巴菲特午餐、蓝色起源太空舱、620万美元吃香蕉到《我的女友景甜》开源仓库，将公共注意力转化为生态流量。</p>
+          </div>
+
+          <div onclick="selectEntityCard(9, this)" class="entity-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2" data-idx="9">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-[11px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">L5 物理AI前沿基金</span>
+              <span class="text-xs font-mono text-cyan-400">规模 $1.0B</span>
+            </div>
+            <div class="text-base font-bold text-white">波场 DAO 10亿美元物理 AI 基金</div>
+            <p class="text-xs text-slate-400 line-clamp-2">2026年扩充至10亿美元，采取“两端同时押注”策略布局人形机器人(Optimus/NVDA)与低空军工无人机。</p>
+          </div>
+
+        </div>
+
+        <!-- 右侧固定检视台 (占 5 列，手机端动态插入卡片下方) -->
+        <div id="inspectorDesktopSlot" class="lg:col-span-5">
+          <div id="inspectorBox" class="bg-slate-900 border-2 border-cyan-500/50 rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4 sticky top-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span id="insp-badge" class="px-2.5 py-1 text-xs font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">L1 结算公路</span>
+              <span id="insp-metric" class="text-sm font-mono font-bold text-emerald-400">年营收 $2.12B+</span>
+            </div>
+            <h3 id="insp-title" class="text-xl font-extrabold text-white">波场公链 (TRON DAO / TRX)</h3>
+            
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <div class="text-xs font-bold text-cyan-400 mb-1">🔍 企查查式实控与治理穿透</div>
+                <div id="insp-control" class="text-slate-300 leading-relaxed">
+                  名义上由新加坡非营利实体 TRON Foundation 发起并于 2021 年移交社区 TRON DAO 治理；实际上网络由 27 个超级代表（Super Representatives）出块，孙宇晨个人及关联方持有约 600 亿枚 TRX（占流通量逾 60%），对包括 Proposal #104（2025年8月下调60%能量费率）在内的核心治理提案拥有绝对主导权。
+                </div>
+              </div>
+
+              <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <div class="text-xs font-bold text-emerald-400 mb-1">💰 印钞机商业逻辑（如何躺赚现金流？）</div>
+                <div id="insp-business" class="text-slate-300 leading-relaxed">
+                  用户在波场转账 TRC-20 USDT 必须消耗「能量（Energy）」与「带宽（Bandwidth）」。若账户未质押足够 TRX，系统直接扣划并销毁 TRX 作为手续费（向新地址转账单笔消耗约 27.25 TRX，老地址约 13.4 TRX）。2024 年协议收入达 21.2 亿美元，2025 年再次突破 20 亿美元，2026 年 Q1 单季链上收入超越其余 14 条主流公链总和。
+                </div>
+              </div>
+
+              <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <div class="text-xs font-bold text-rose-400 mb-1">⚠️ 周期风险与结构性软肋</div>
+                <div id="insp-risk" class="text-slate-300 leading-relaxed">
+                  高度依赖 Tether (USDT) 单一资产的清算垄断地位；为应对暗网与电诈洗钱指控，波场联合 Tether 与 TRM Labs 成立 T3 FCU 反金融犯罪单元，已在 23 个司法辖区冻结超 4.5 亿美元非法资产。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Claude 算账：为何 $50M 对孙宇晨毫无影响？ -->
+    <div id="tab-claude" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧八卦小作文与数学拆解 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+              「3.5微克 vs 2.5吨」与 Claude 的 11 秒算账
+            </h3>
+            <p class="text-xs text-slate-400 mt-1">
+              还原 2026 年 8 月《我的女友景甜》万字长文背后的两笔荒诞物理账与财务账
+            </p>
+          </div>
+
+          <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-2 text-xs">
+            <div class="font-bold text-amber-400">🧪 物理鬼才账：为什么 5000 万美元重达 2.5 吨？</div>
+            <p class="text-slate-300 leading-relaxed">
+              孙宇晨在文中写道：<em>“一颗卵子的重量是 3.5 微克，5000 万美元现金重达 2.5 吨，景甜向我要的是后者，抵押的是前者。”</em>
+            </p>
+            <p class="text-slate-400 leading-relaxed">
+              据美国印钞局（BEP）标准，每张美钞无论面额均重约 <strong>1.0 克</strong>。若按富豪常规使用的 <strong>100 美元大钞</strong>计算，50 万张仅重 <strong>0.5 吨（500 公斤）</strong>；只有全部换成 <strong>250 万张 20 美元零钞</strong>（相当于 125 桶办公室桶装水），才能凑齐 <strong>2.5 吨</strong>——网民据此抓包这段悲情控诉极可能由大语言模型按美国 ATM 常驻的 20 美元面额默认换算生成。
+            </p>
+          </div>
+
+          <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-2 text-xs">
+            <div class="font-bold text-cyan-400">🤖 财务量化账：Claude Code 读取 API 后的冷酷结论</div>
+            <p class="text-slate-300 leading-relaxed">
+              面对拉古纳海滩电话那头 5000 万美元的转账要求，孙宇晨没有找人类财富顾问，而是打开终端让 <strong>Claude Code 通过 API 遍历其全部链上钱包与交易所现金资产</strong>。
+            </p>
+            <div class="p-2.5 bg-slate-900 rounded border border-slate-700 font-mono text-[11px] text-emerald-400">
+              &gt; Claude 财务结论：支取 $50,000,000 现金对您的整体财务安全与流动性【没有任何影响】。<br>
+              &gt; 孙宇晨追问：“她不再爱我了吗？”<br>
+              &gt; Claude 决策指令：“对于爱情，我不关心，也不理解。但是你不能把这 5000 万美元给她。”
+            </div>
+          </div>
+
+          <!-- 交互滑块：测试不同消费金额对孙宇晨现金流的冲击 -->
+          <div class="pt-2 space-y-2">
+            <div class="flex justify-between text-xs font-semibold text-slate-300">
+              <span>模拟极端一次性现金支出：</span>
+              <span id="spend-slider-val" class="text-rose-400 font-mono font-bold">$50M (5000万美元)</span>
+            </div>
+            <input type="range" id="spend-slider" min="10" max="500" value="50" step="10" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500" oninput="updateSpendSim()">
+            <div id="spend-sim-result" class="text-xs text-slate-400 bg-rose-950/20 border border-rose-500/30 p-2.5 rounded-lg">
+              消耗 <strong>$50M</strong> 仅占其 $8.5B 保守净资产的 <strong>0.59%</strong>，依靠波场公链 + RWA 美债 + 交易所组合拳，仅需 <strong>8.6 天</strong>（约 206 小时）即可全额回血。
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧双图表：回血天数对比 + 纸币面额物理重量拆解 -->
+        <div class="lg:col-span-2 grid grid-cols-1 gap-6">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+            <h3 class="text-base font-bold text-white mb-1">孙宇晨四大被动现金流引擎：赚回 5000 万美元分别需要几天？</h3>
+            <p class="text-xs text-slate-400 mb-3">对比波场能量费、个人稳定币与 RWA 票息、JustLend 质押收益及 HTX/Poloniex 交易抽水</p>
+            <div id="chart-claude-days" class="w-full h-[250px]"></div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+            <h3 class="text-base font-bold text-white mb-1">「5000 万美元重 2.5 吨」面额取证：AI 算钞乌龙实测</h3>
+            <p class="text-xs text-slate-400 mb-3">基于美国印钞局（BEP）单张美钞 1.0 克基准，不同面额下 $50,000,000 的物理吨数对比</p>
+            <div id="chart-cash-weight" class="w-full h-[220px]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 印钞机现金流桑基图 (Sankey) -->
+    <div id="tab-cashflow" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white">波场商业帝国年度资金流转与利润沉淀桑基图 (Sankey Diagram, 单位：亿美元/年)</h3>
+            <p class="text-xs text-slate-400">全息展示从全球 3.9 亿用户的转账摩擦与沉淀资金出发，如何一步步转化为 TRX 通缩买盘、美债无风险息差与个人自由现金流</p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono">总生态年化现金流 &gt;$28.5B 级吞吐</span>
+        </div>
+        <div id="chart-sankey" class="w-full h-[460px]"></div>
+      </div>
+    </div>
+
+    <!-- 底部 Footer -->
+    <footer class="border-t border-slate-800 pt-5 text-xs text-slate-500 flex flex-wrap justify-between items-center gap-3">
+      <div>
+        <span>深度研报看板：孙宇晨与波场商业帝国生态架构（企查查股权拓扑 + 资金流向 DAG 建模）</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span>数据核查：SEC 10-K / Token Terminal / Presto Research</span>
+        <a href="https://axelrod.lawootrip.com/" target="_blank" class="text-cyan-400 hover:underline">龟龟的博客 · 投研看板</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 脚本 1：基础交互、Tab 切换、移动端 Inline Accordion 与视口锚定补偿（与 ECharts 严格分离） -->
+  <script>
+    var ENTITY_DETAILS = [
+      {
+        badge: 'L1 结算公路',
+        metric: '年营收 $2.12B+',
+        title: '波场公链 (TRON DAO / TRX)',
+        control: '名义上由新加坡非营利实体 TRON Foundation 发起并于 2021 年移交社区 TRON DAO 治理；实际上网络由 27 个超级代表（Super Representatives）出块，孙宇晨个人及关联方持有约 600 亿枚 TRX（占流通量逾 60%），对包括 Proposal #104（2025年8月下调60%能量费率）在内的核心治理提案拥有绝对主导权。',
+        business: '用户在波场转账 TRC-20 USDT 必须消耗「能量（Energy）」与「带宽（Bandwidth）」。若账户未质押足够 TRX，系统直接扣划并销毁 TRX 作为手续费（向新地址转账单笔消耗约 27.25 TRX，老地址约 13.4 TRX）。2024 年协议收入达 21.2 亿美元，2025 年再次突破 20 亿美元，2026 年 Q1 单季链上收入超越其余 14 条主流公链总和。',
+        risk: '高度依赖 Tether (USDT) 单一资产的清算垄断地位；为应对暗网与电诈洗钱指控，波场联合 Tether 与 TRM Labs 成立 T3 FCU 反金融犯罪单元，已在 23 个司法辖区冻结超 4.5 亿美元非法资产。'
+      },
+      {
+        badge: 'L2 稳定币霸权',
+        metric: '流通量 >$90B',
+        title: 'TRC-20 USDT (泰达币结算层)',
+        control: '由 Tether Limited 发行，但底层智能合约部署在波场网络。孙宇晨自 2019 年起通过高额补贴与交易所零提币费策略，将全球超 51% 的 USDT 锁死在波场生态内，形成极高迁移壁垒的网络效应。',
+        business: '波场自身不赚取 Tether 底层美债储备利息，但充当了「数字美元的高速公路收费站」。全球超 6900 万个独立钱包持有 TRC-20 USDT，日均转账超 900 万笔、日清算额超 240 亿美元，每一笔转账都在为 TRX 持有人贡献真实买盘与通缩销毁。',
+        risk: '若美国合规稳定币法案（GENIUS Act 等）强制要求稳定币发行商限制非合规公链流通，或 Tether 扶持自研公链 Plasma/Stable 分流，将直接冲击波场过路费根基。'
+      },
+      {
+        badge: 'L3 交易所金库',
+        metric: '储备金 >$5.5B',
+        title: 'HTX (原火币) & Poloniex',
+        control: '通过百慕大、塞舌尔等离岸主体运营。2019 年孙宇晨联合财团收购老牌交易所 Poloniex；2022 年 10 月耗资约 10 亿美元通过百域资本（About Capital）收购火币股权，以「全球顾问委员会核心成员」身份实际掌舵并更名为 HTX。',
+        business: '一方面赚取现货、永续合约交易手续费与上币费；更重要的是作为庞大的「离岸美元与加密资产沉淀池」，将数以十亿计的用户存量资金通过链上质押（stUSDT）与流动性做市无缝导流至波场 DeFi 生态。',
+        risk: '离岸中心化交易所面临多国监管牌照围堵，以及黑客攻击风险（如 Poloniex 与 HTX 跨链桥在 2023 年曾遭遇上亿美元级安全事件，后由生态利润全额填平）。'
+      },
+      {
+        badge: 'L3 链上央行',
+        metric: 'TVL ~$6.4B',
+        title: 'JustLend DAO & SunSwap',
+        control: '波场官方钦定的原生借贷协议（代币 JST）与去中心化交易所（代币 SUN），由波场核心开发团队与基金會深度控盘，与 HTX 账户体系深度打通。',
+        business: '独创「质押 TRX 铸造 sTRX + 能量租赁（Energy Rental）」双收益模型：大户将 TRX 存入 JustLend，既拿约 4% 的节点投票奖励，又把派生出的能量高息租给高频转账的 USDT 商户，综合无风险年化高达 10%~12%，锁死数十亿枚 TRX 流通盘。',
+        risk: 'TVL 高度集中于 TRX 与生态自产代币，外部独立机构资金占比较低，存在内循环自融特征。'
+      },
+      {
+        badge: 'L2 美债息差引擎',
+        metric: '美债票息 4.5%-5%',
+        title: 'stUSDT / RWA DAO / USDD / TUSD',
+        control: '通过离岸信托架构与数字资产托管商（如 BiT Global 等关联方）运作，连接链上稳定币资金池与传统华尔街短期国债（T-Bills）经纪商。',
+        business: '既然 Tether 拿走了 USDT 的底层美债利息，孙宇晨便在波场与 HTX 推出 stUSDT（RWA 质押凭证）与去中心化稳定币 USDD：吸引用户将闲置 USDT 质押进来，转身配置 4.5%~5.0% 收益率的短期美债，从中抽成协议管理费并回购销毁 JST/TRX，实现「二道贩子式铸币税」。',
+        risk: '储备资产透明度屡受外界审视，美联储进入降息周期后，高息揽储利差空间将有所收窄。'
+      },
+      {
+        badge: 'L4 纳斯达克财库',
+        metric: '投票权 88.5%',
+        title: 'TRON Inc. (NASDAQ: TRON)',
+        control: '2025 年 6-8 月，孙宇晨关联离岸实体 Bravemorning Limited 通过 1 亿美元 B 轮优先股 PIPE 及 1.1 亿美元认股权证行权（均以 TRX 支付），收购纳斯达克原玩具纪念品上市公司 SRM Entertainment 并更名为 TRON Inc.，掌握 86.6% 普通股与 88.5% 投票权（据 2026 年 3 月 SEC 10-K 年报）。',
+        business: '完美复刻 MicroStrategy（微策略）资本魔术，但标的是自己发行的 TRX：公司将逾 6.77 亿枚 TRX 质押进 JustLend 换取 sTRX 躺赚 10% 年化收益（2026 Q1 净利润达 2160 万美元），同时在 2025 年 12 月定增募资 1800 万 USDT，开启连续 360 天的每日定投（DCA）买盘，实现「公链产币 -> 注入美股 -> 质押生息 -> 募资护盘」的闭环。',
+        risk: 'SEC 10-K 明确提示资产高度集中于 TRX 的价格波动风险、关联交易治理风险以及中美跨境监管不确定性。'
+      },
+      {
+        badge: 'L1 跨链与存储',
+        metric: '并购价 $1.40B',
+        title: 'BitTorrent (BTTC) & WINkLink',
+        control: '2018 年孙宇晨通过 Rainberry Inc. 斥资 1.4 亿美元全资收购互联网 P2P 下载鼻祖 BitTorrent，并发行 BTT 代币；2019 年收购去中心化预言机 WINkLink (WIN)。',
+        business: 'BitTorrent Chain (BTTC) 充当连接波场、以太坊与 BNB Chain 的官方跨链桥，BTFS 提供去中心化文件存储；WINkLink 则为波场链上所有借贷与衍生品协议提供喂价服务，确保肥水不流外人田。',
+        risk: '2023 年美国 SEC 起诉孙宇晨与 Rainberry Inc. 曾将 BTT 与 TRX 列为未注册证券，直至 2026 年 3 月以支付 1000 万美元罚款达成和解。'
+      },
+      {
+        badge: 'L4 政商与监管博弈',
+        metric: '投资 $75M+',
+        title: 'WLFI (特朗普家族项目) & SEC 和解',
+        control: '2021 年获任格林纳达驻 WTO 特命全权大使获取外交豁免护身符；2024 年末至 2025 年初向特朗普家族加密项目 World Liberty Financial (WLFI) 注资至少 7500 万美元并出任顾问，同时重仓 $TRUMP 模因币成为榜一贵宾。',
+        business: '典型的「合规赎买与政治对冲」：注资 WLFI 后不久，SEC 对其长达三年的民事诉讼于 2025 年暂停并于 2026 年 3 月以 1000 万美元轻量级和解收场。然而 2025 年 9 月 WLFI 开放交易仅 3 天，孙宇晨关联钱包转出 5000 万枚 WLFI 即遭项目方拉黑冻结，双方于 2026 年 4 月在加州与佛州联邦法院互诉公堂。',
+        risk: '政商关系属于高波动易耗品，一旦触及交易抛压底线，盟友随时翻脸冻结链上钱包。'
+      },
+      {
+        badge: 'L5 流量与艺术杠杆',
+        metric: '零边际获客',
+        title: 'APENFT / 620万香蕉 / 3000万彩礼诉讼',
+        control: '由孙宇晨个人 IP 矩阵（X 平台、GitHub 开源仓库、全球发布会）及旗下 APENFT 艺术基金会直接运作。',
+        business: '把「注意力经济学」推向极致：456 万美元拍下巴菲特午餐（引出 2018-2019 边控旧闻）、2800 万美元竞拍蓝色起源太空船票、620 万美元拍下并当众吃掉《Comedian》胶带香蕉，再到 2026 年 8 月一边在西安雁塔区法院起诉景甜追讨 3000 万人民币彩礼（「富豪版仅退款」），一边在 GitHub 开源 TeX 排版《我的女友景甜》连夺 20 多个热搜，以近乎为 0 的获客成本完成全网破圈。',
+        risk: '将私人亲密关系与法律诉讼彻底工具化、流量化，虽赚取了泼天讨论度，却也引发主流舆论对其「把人类情感彻底量化交易」的强烈道德反噬。'
+      },
+      {
+        badge: 'L5 物理AI前沿基金',
+        metric: '规模 $1.0B',
+        title: '波场 DAO 10亿美元物理 AI 基金',
+        control: '由孙宇晨家族办公室与波场 DAO 生态基金联合拨付，2026 年将原 1 亿美元 AI 基金正式扩充至 10 亿美元规模。',
+        business: '奉行「在确定性赛道两端同时下注、不赌单一公司执行力」的对冲哲学：在人形机器人赛道同时重仓「身体」特斯拉（Optimus）与「大脑」英伟达（Jetson Thor + Isaac GR00T）；在低空与防务无人机赛道同时布局 AeroVironment 与 Kratos，将加密世界的溢出一级现金流置换为硅谷硬科技股权。',
+        risk: '跨界硬科技投资周期长，但庞大的二级市场高流动性筹码为其提供了极高容错率。'
+      }
+    ];
+
+    function switchTab(tabId) {
+      var tabs = document.querySelectorAll('.tab-content');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.add('hidden');
+      }
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
+        btns[j].classList.add('bg-slate-900', 'text-slate-400', 'border-slate-800');
+      }
+
+      var target = document.getElementById(tabId);
+      if (target) target.classList.remove('hidden');
+
+      var activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/40');
+        activeBtn.classList.remove('bg-slate-900', 'text-slate-400', 'border-slate-800');
+      }
+
+      if (window.resizeAllCharts) {
+        setTimeout(window.resizeAllCharts, 60);
+      }
+    }
+
+    function selectEntityCard(idx, cardEl) {
+      var item = ENTITY_DETAILS[idx];
+      if (!item) return;
+
+      var allCards = document.querySelectorAll('.entity-card');
+      for (var i = 0; i < allCards.length; i++) {
+        allCards[i].classList.remove('active-card');
+      }
+      if (cardEl) {
+        cardEl.classList.add('active-card');
+      }
+
+      var inspector = document.getElementById('inspectorBox');
+      var desktopSlot = document.getElementById('inspectorDesktopSlot');
+
+      // 记录移动端点击前的视口位置，防止上方手风琴收起导致页面跳动
+      var beforeTop = cardEl ? cardEl.getBoundingClientRect().top : 0;
+
+      document.getElementById('insp-badge').innerText = item.badge;
+      document.getElementById('insp-metric').innerText = item.metric;
+      document.getElementById('insp-title').innerText = item.title;
+      document.getElementById('insp-control').innerText = item.control;
+      document.getElementById('insp-business').innerText = item.business;
+      document.getElementById('insp-risk').innerText = item.risk;
+
+      if (window.innerWidth <= 1024 && cardEl && inspector) {
+        cardEl.insertAdjacentElement('afterend', inspector);
+        var afterTop = cardEl.getBoundingClientRect().top;
+        var delta = afterTop - beforeTop;
+        if (Math.abs(delta) > 2) {
+          window.scrollBy(0, delta);
+        }
+      } else if (desktopSlot && inspector && inspector.parentElement !== desktopSlot) {
+        desktopSlot.appendChild(inspector);
+      }
+    }
+
+    window.addEventListener('resize', function() {
+      var inspector = document.getElementById('inspectorBox');
+      var desktopSlot = document.getElementById('inspectorDesktopSlot');
+      if (window.innerWidth > 1024 && desktopSlot && inspector && inspector.parentElement !== desktopSlot) {
+        desktopSlot.appendChild(inspector);
+      }
+    });
+
+    function updateSpendSim() {
+      var slider = document.getElementById('spend-slider');
+      if (!slider) return;
+      var val = parseInt(slider.value, 10);
+      document.getElementById('spend-slider-val').innerText = '$' + val + 'M (' + (val / 10).toFixed(1) + '亿美元)';
+      var pct = ((val / 8500) * 100).toFixed(2);
+      var days = (val / 5.81).toFixed(1);
+      var hours = Math.round((val / 5.81) * 24);
+      document.getElementById('spend-sim-result').innerHTML =
+        '消耗 <strong>$' + val + 'M</strong> 仅占其 $8.5B 保守净资产的 <strong>' + pct + '%</strong>，依靠波场公链($5.81M/日) + RWA美债 + 交易所组合拳，仅需 <strong>' + days + ' 天</strong>（约 ' + hours + ' 小时）即可全额回血。';
+    }
+  </script>
+
+  <!-- 脚本 2：ECharts 图表渲染逻辑（独立 Script 标签，容灾保护） -->
+  <script>
+    var chartDag = null;
+    var chartClaudeDays = null;
+    var chartCashWeight = null;
+    var chartSankey = null;
+    var currentTopoMode = 'dag';
+
+    var DAG_CATEGORIES = [
+      { name: 'L0 实控人与离岸壳', itemStyle: { color: '#f43f5e' } },
+      { name: 'L1 公链与基建底座', itemStyle: { color: '#38bdf8' } },
+      { name: 'L2 稳定币与RWA印钞', itemStyle: { color: '#10b981' } },
+      { name: 'L3 交易所与DeFi枢纽', itemStyle: { color: '#f59e0b' } },
+      { name: 'L4 美股财库与政商护城河', itemStyle: { color: '#a855f7' } }
+    ];
+
+    var DAG_NODES = [
+      { id: 'sun', name: '孙宇晨 (Justin Sun)\n[实控人 · 身家$8.5B-$13B]', category: 0, symbolSize: 58, x: 420, y: 30, value: '持有约600亿TRX、1.7万BTC、22.4万ETH、7亿USDT' },
+      { id: 'famo', name: '离岸家族办公室\n(BVI / 开曼 / 新加坡)', category: 0, symbolSize: 42, x: 200, y: 120, value: '100% 家族实控，统筹一级市场与10亿美元物理AI基金' },
+      { id: 'brave', name: 'Bravemorning Ltd.\n(BVI 资本运作主体)', category: 0, symbolSize: 42, x: 640, y: 120, value: '孙宇晨关联离岸控股主体，用于并购美股上市公司' },
+      { id: 'about', name: '百域资本 (About Capital)\n& HTX 全球顾问委员会', category: 0, symbolSize: 42, x: 420, y: 120, value: '2022年10月并购火币的核心资本通道' },
+
+      { id: 'tron', name: '波场公链 (TRON DAO)\n[3.9亿账户 · 年收$2.12B]', category: 1, symbolSize: 54, x: 250, y: 240, value: '27超级代表节点，控制超60% TRX质押投票权' },
+      { id: 'bttc', name: 'BitTorrent (BTTC/BTFS)\n[Rainberry $1.4亿全资并购]', category: 1, symbolSize: 38, x: 70, y: 240, value: '100%实控，提供跨链桥与去中心化存储' },
+      { id: 'wink', name: 'WINkLink (WIN)\n& APENFT 基金会', category: 1, symbolSize: 34, x: 70, y: 350, value: '官方预言机与NFT生态底层' },
+
+      { id: 'usdt', name: 'TRC-20 USDT 结算层\n[流通>$90B · 全球占比51%+]', category: 2, symbolSize: 56, x: 260, y: 370, value: '日均结算$24B+，波场能量消耗与TRX销毁的头号引擎' },
+      { id: 'rwa', name: 'stUSDT & RWA DAO\n[短期美债 4.5%-5% 票息]', category: 2, symbolSize: 44, x: 450, y: 370, value: '将链上与交易所沉淀USDT配置美债，赚取无风险利差' },
+      { id: 'usdd', name: 'USDD & TUSD\n[原生超额抵押稳定币]', category: 2, symbolSize: 36, x: 450, y: 480, value: '波场储备支持稳定币，提供高息补贴与做市筹码' },
+
+      { id: 'htx', name: 'HTX (原火币交易所)\n[储备金>$5.5B · 实控掌舵]', category: 3, symbolSize: 50, x: 520, y: 240, value: '核心离岸资金沉淀池与流量入口' },
+      { id: 'polo', name: 'Poloniex 交易所\n[2019财团收购]', category: 3, symbolSize: 36, x: 690, y: 240, value: '老牌加密资产交易平台，协同做市' },
+      { id: 'justlend', name: 'JustLend DAO (JST)\n[TVL ~$6.4B · 链上央行]', category: 3, symbolSize: 48, x: 260, y: 490, value: 'sTRX质押与能量租赁枢纽，年化收益10%-12%' },
+      { id: 'sunswap', name: 'SunSwap & SunPump\n[官方DEX与Meme发射台]', category: 3, symbolSize: 38, x: 90, y: 490, value: '链上交易路由与手续费回购销毁池' },
+
+      { id: 'troninc', name: 'TRON Inc. (NASDAQ: TRON)\n[持股86.6% · 投票权88.5%]', category: 4, symbolSize: 50, x: 720, y: 370, value: '持仓7.02亿枚TRX，每日DCA定投增持，复刻微策略模式' },
+      { id: 'wlfi', name: 'World Liberty (WLFI)\n& $TRUMP 政商博弈 [$75M+]', category: 4, symbolSize: 40, x: 720, y: 490, value: '破冰SEC诉讼(1000万美元和解)，后因转币遭冻结互诉' },
+      { id: 'aifund', name: '10亿美元物理AI基金\n[Optimus / NVDA / 无人机]', category: 4, symbolSize: 38, x: 200, y: 590, value: '两端押注人形机器人身体与大脑，对冲单一加密周期' },
+      { id: 'burn', name: 'TRX 通缩销毁与个人净值池\n[被动现金流 ~$5.8M/日]', category: 4, symbolSize: 52, x: 520, y: 590, value: '所有业务分支最终汇流的价值终点站 (DAG Sink)' }
+    ];
+
+    var DAG_LINKS = [
+      { source: 'sun', target: 'famo', value: '100% 实控' },
+      { source: 'sun', target: 'about', value: '核心出资与实控' },
+      { source: 'sun', target: 'brave', value: '实控离岸SPV' },
+      { source: 'sun', target: 'tron', value: '创始人 / 持币>60%' },
+
+      { source: 'famo', target: 'bttc', value: '$1.4亿 100%收购' },
+      { source: 'famo', target: 'wink', value: '生态基金控股' },
+      { source: 'famo', target: 'aifund', value: 'LP 出资 $1B' },
+      { source: 'famo', target: 'wlfi', value: '战略注资 $75M+' },
+
+      { source: 'about', target: 'htx', value: '~$1B 收购控股' },
+      { source: 'about', target: 'polo', value: '财团并购整合' },
+
+      { source: 'brave', target: 'troninc', value: '$2.1亿 PIPE · 88.5%投票权' },
+
+      { source: 'tron', target: 'usdt', value: '底层合约承载 (>51%份额)' },
+      { source: 'tron', target: 'justlend', value: '原生借贷与sTRX质押' },
+      { source: 'tron', target: 'sunswap', value: '原生DEX与Meme生态' },
+      { source: 'bttc', target: 'tron', value: '跨链资产注入' },
+      { source: 'wink', target: 'justlend', value: '预言机喂价' },
+
+      { source: 'htx', target: 'rwa', value: '沉淀USDT导流质押' },
+      { source: 'htx', target: 'usdt', value: '零提币费推动TRC20普及' },
+      { source: 'polo', target: 'rwa', value: '存量准备金协同' },
+
+      { source: 'usdt', target: 'justlend', value: '高频转账租用Energy能量' },
+      { source: 'usdt', target: 'burn', value: '每日数百万笔Gas燃烧TRX' },
+      { source: 'rwa', target: 'justlend', value: '美债票息分成回购JST/TRX' },
+      { source: 'rwa', target: 'burn', value: '4.5%-5% 美债利差沉淀' },
+      { source: 'usdd', target: 'justlend', value: '生息稳定币借贷池' },
+
+      { source: 'troninc', target: 'justlend', value: '质押6.77亿TRX换sTRX生息' },
+      { source: 'troninc', target: 'burn', value: '360天每日DCA定投买入TRX' },
+      { source: 'justlend', target: 'burn', value: '10%-12% 能量租赁收益汇流' },
+      { source: 'sunswap', target: 'burn', value: '交易费回购销毁' }
+    ];
+
+    var TREE_DATA = {
+      name: '孙宇晨 (Justin Sun)\n实控人 · $8.5B-$13B',
+      children: [
+        {
+          name: 'L1 公链与基建底座\n(TRON Foundation / Rainberry)',
+          children: [
+            { name: '波场公链 TRON DAO\n(持币>60% · 年收$2.12B)' },
+            { name: 'BitTorrent / BTTC 跨链桥\n(100%收购 · 对价$1.4亿)' },
+            { name: 'WINkLink 预言机 & APENFT' }
+          ]
+        },
+        {
+          name: 'L2 稳定币与 RWA 印钞机\n(清算费 + 美债息差)',
+          children: [
+            { name: 'TRC-20 USDT 结算层\n(流通>$90B · 日清算$24B+)' },
+            { name: 'stUSDT / RWA DAO\n(投资短期美债 4.5%-5%)' },
+            { name: 'USDD & TUSD 稳定币矩阵' }
+          ]
+        },
+        {
+          name: 'L3 交易所与 DeFi 枢纽\n(百域资本 / 离岸主体)',
+          children: [
+            { name: 'HTX (原火币 · 储备>$5.5B)' },
+            { name: 'Poloniex 交易所 (财团控股)' },
+            { name: 'JustLend DAO (TVL $6.4B · 能量租赁)' },
+            { name: 'SunSwap & SunPump (DEX/Meme)' }
+          ]
+        },
+        {
+          name: 'L4 传统资本与政商护城河\n(Bravemorning / 家族办公室)',
+          children: [
+            { name: 'TRON Inc. (NASDAQ: TRON)\n(持股86.6% · 投票权88.5%)' },
+            { name: 'WLFI 特朗普家族项目 ($75M+)\n& SEC $10M 和解破冰' },
+            { name: '波场 10亿美元物理 AI 基金\n(特斯拉Optimus + 英伟达Thor)' }
+          ]
+        }
+      ]
+    };
+
+    function renderTopologyMode(mode) {
+      currentTopoMode = mode;
+      var btnDag = document.getElementById('mode-btn-dag');
+      var btnTree = document.getElementById('mode-btn-tree');
+      var titleEl = document.getElementById('dag-chart-title');
+
+      if (mode === 'dag') {
+        btnDag.className = 'px-3 py-2 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition';
+        btnTree.className = 'px-3 py-2 rounded-lg text-xs font-bold bg-slate-950 text-slate-400 border border-slate-800 hover:text-white transition';
+        titleEl.innerText = '孙宇晨商业帝国有向无环图 (DAG) 控制权与现金流拓扑';
+      } else {
+        btnTree.className = 'px-3 py-2 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 transition';
+        btnDag.className = 'px-3 py-2 rounded-lg text-xs font-bold bg-slate-950 text-slate-400 border border-slate-800 hover:text-white transition';
+        titleEl.innerText = '企查查式四层嵌套股权与实控权穿透树 (Hierarchical Ownership Tree)';
+      }
+
+      if (!window.echarts) return;
+      var dom = document.getElementById('chart-dag-topology');
+      if (!dom) return;
+      if (!chartDag) {
+        chartDag = echarts.init(dom);
+      }
+      chartDag.clear();
+
+      if (mode === 'dag') {
+        chartDag.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: '#0f172a',
+            borderColor: '#38bdf8',
+            textStyle: { color: '#f8fafc', fontSize: 12 },
+            formatter: function(params) {
+              if (params.dataType === 'edge') {
+                return '<div style="font-weight:bold;color:#38bdf8;">控制/资金流向</div>' +
+                       '<div>' + params.data.source + ' ➔ ' + params.data.target + '</div>' +
+                       '<div style="color:#10b981;margin-top:4px;">关系：' + params.data.value + '</div>';
+              }
+              return '<div style="font-weight:bold;color:#38bdf8;margin-bottom:4px;">' + params.data.name.replace('\n', ' ') + '</div>' +
+                     '<div style="color:#cbd5e1;max-width:260px;white-space:normal;">' + (params.data.value || '') + '</div>';
+            }
+          },
+          legend: {
+            data: DAG_CATEGORIES.map(function(c) { return c.name; }),
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            bottom: 0
+          },
+          series: [{
+            type: 'graph',
+            layout: 'none',
+            roam: true,
+            zoom: 0.92,
+            categories: DAG_CATEGORIES,
+            edgeSymbol: ['circle', 'arrow'],
+            edgeSymbolSize: [4, 9],
+            edgeLabel: {
+              show: true,
+              fontSize: 9,
+              color: '#94a3b8',
+              formatter: function(p) { return p.data.value; }
+            },
+            label: {
+              show: true,
+              position: 'bottom',
+              color: '#f8fafc',
+              fontSize: 10,
+              fontWeight: 600,
+              backgroundColor: 'rgba(15, 23, 42, 0.85)',
+              padding: [3, 6],
+              borderRadius: 4
+            },
+            lineStyle: {
+              color: '#475569',
+              curveness: 0.14,
+              width: 1.8,
+              opacity: 0.85
+            },
+            emphasis: {
+              focus: 'adjacency',
+              lineStyle: { width: 3.5, color: '#38bdf8' }
+            },
+            data: DAG_NODES,
+            links: DAG_LINKS
+          }]
+        });
+      } else {
+        chartDag.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: '#0f172a',
+            borderColor: '#38bdf8',
+            textStyle: { color: '#f8fafc', fontSize: 12 }
+          },
+          series: [{
+            type: 'tree',
+            data: [TREE_DATA],
+            top: '6%',
+            left: '16%',
+            bottom: '6%',
+            right: '24%',
+            symbolSize: 12,
+            orient: 'LR',
+            edgeShape: 'polyline',
+            edgeForkPosition: '55%',
+            initialTreeDepth: 3,
+            itemStyle: {
+              color: '#38bdf8',
+              borderColor: '#0284c7',
+              borderWidth: 2
+            },
+            lineStyle: {
+              color: '#334155',
+              width: 2
+            },
+            label: {
+              position: 'left',
+              verticalAlign: 'middle',
+              align: 'right',
+              fontSize: 11,
+              color: '#f8fafc',
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              borderWidth: 1,
+              borderRadius: 6,
+              padding: [6, 10]
+            },
+            leaves: {
+              label: {
+                position: 'right',
+                verticalAlign: 'middle',
+                align: 'left',
+                backgroundColor: '#0b1528',
+                borderColor: '#1e3a8a'
+              }
+            },
+            emphasis: {
+              focus: 'descendant'
+            },
+            expandAndCollapse: true,
+            animationDuration: 400
+          }]
+        });
+      }
+    }
+
+    function initClaudeCharts() {
+      if (!window.echarts) return;
+      var domDays = document.getElementById('chart-claude-days');
+      if (domDays) {
+        chartClaudeDays = echarts.init(domDays);
+        chartClaudeDays.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            textStyle: { color: '#f8fafc' }
+          },
+          grid: { left: '3%', right: '8%', bottom: '6%', top: '8%', containLabel: true },
+          xAxis: {
+            type: 'value',
+            name: '赚回 $50M 所需天数',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value} 天' },
+            splitLine: { lineStyle: { color: '#1e293b' } }
+          },
+          yAxis: {
+            type: 'category',
+            data: [
+              '全帝国合并自由现金流 (~$7.6M/日)',
+              '波场公链协议日均收入 (~$5.81M/日)',
+              'TRX + sTRX 质押与能量租赁 (~$1.9M/日)',
+              'HTX/Poloniex + stUSDT 美债息差 (~$1.2M/日)'
+            ],
+            axisLabel: { color: '#e2e8f0', fontSize: 11 }
+          },
+          series: [{
+            name: '回血天数',
+            type: 'bar',
+            data: [
+              { value: 6.6, itemStyle: { color: '#10b981' } },
+              { value: 8.6, itemStyle: { color: '#38bdf8' } },
+              { value: 26.3, itemStyle: { color: '#f59e0b' } },
+              { value: 41.7, itemStyle: { color: '#a855f7' } }
+            ],
+            barMaxWidth: 26,
+            label: {
+              show: true,
+              position: 'right',
+              color: '#f8fafc',
+              fontSize: 11,
+              formatter: '{c} 天'
+            }
+          }]
+        });
+      }
+
+      var domWeight = document.getElementById('chart-cash-weight');
+      if (domWeight) {
+        chartCashWeight = echarts.init(domWeight);
+        chartCashWeight.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            textStyle: { color: '#f8fafc' },
+            formatter: function(p) {
+              var item = p[0];
+              return item.name + '<br/>5000万美元总重量：<strong>' + item.value + ' 吨</strong>';
+            }
+          },
+          grid: { left: '3%', right: '6%', bottom: '10%', top: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['$100 面额 (50万张·常规)', '$50 面额 (100万张)', '$20 面额 (250万张·小作文版本)', '$10 面额 (500万张)'],
+            axisLabel: { color: '#94a3b8', fontSize: 11 }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: { color: '#94a3b8', formatter: '{value} 吨' },
+            splitLine: { lineStyle: { color: '#1e293b' } }
+          },
+          series: [{
+            type: 'bar',
+            data: [
+              { value: 0.5, itemStyle: { color: '#38bdf8' } },
+              { value: 1.0, itemStyle: { color: '#64748b' } },
+              { value: 2.5, itemStyle: { color: '#f43f5e' } },
+              { value: 5.0, itemStyle: { color: '#475569' } }
+            ],
+            barMaxWidth: 38,
+            label: {
+              show: true,
+              position: 'top',
+              color: '#f8fafc',
+              fontSize: 11,
+              formatter: '{c} 吨'
+            }
+          }]
+        });
+      }
+    }
+
+    function initSankeyChart() {
+      if (!window.echarts) return;
+      var dom = document.getElementById('chart-sankey');
+      if (!dom) return;
+      chartSankey = echarts.init(dom);
+      chartSankey.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: '#0f172a',
+          borderColor: '#38bdf8',
+          textStyle: { color: '#f8fafc', fontSize: 12 },
+          valueFormatter: function(v) { return '$' + v + ' 亿美元/年'; }
+        },
+        series: [{
+          type: 'sankey',
+          emphasis: { focus: 'adjacency' },
+          nodeAlign: 'justify',
+          lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.45 },
+          label: { color: '#f8fafc', fontSize: 11, fontWeight: 600 },
+          data: [
+            { name: '全球3.9亿用户 USDT转账', itemStyle: { color: '#38bdf8' } },
+            { name: 'HTX/Poloniex 沉淀准备金', itemStyle: { color: '#f59e0b' } },
+            { name: 'TRX 质押与美股 PIPE 融资', itemStyle: { color: '#a855f7' } },
+
+            { name: '波场协议 Energy/Bandwidth 收入', itemStyle: { color: '#0284c7' } },
+            { name: 'JustLend 能量租赁与借贷池', itemStyle: { color: '#10b981' } },
+            { name: 'stUSDT / 短期美债 RWA 票息', itemStyle: { color: '#34d399' } },
+            { name: '交易所现货/合约手续费', itemStyle: { color: '#fbbf24' } },
+
+            { name: 'TRX 链上通缩销毁 (抬升币价)', itemStyle: { color: '#f43f5e' } },
+            { name: '孙宇晨关联节点与自由现金流', itemStyle: { color: '#ec4899' } },
+            { name: 'TRON Inc. 美股财库 & 10亿AI基金', itemStyle: { color: '#8b5cf6' } }
+          ],
+          links: [
+            { source: '全球3.9亿用户 USDT转账', target: '波场协议 Energy/Bandwidth 收入', value: 16.5 },
+            { source: '全球3.9亿用户 USDT转账', target: 'JustLend 能量租赁与借贷池', value: 4.7 },
+            { source: 'HTX/Poloniex 沉淀准备金', target: 'stUSDT / 短期美债 RWA 票息', value: 2.8 },
+            { source: 'HTX/Poloniex 沉淀准备金', target: '交易所现货/合约手续费', value: 3.5 },
+            { source: 'TRX 质押与美股 PIPE 融资', target: 'JustLend 能量租赁与借贷池', value: 2.2 },
+
+            { source: '波场协议 Energy/Bandwidth 收入', target: 'TRX 链上通缩销毁 (抬升币价)', value: 11.5 },
+            { source: '波场协议 Energy/Bandwidth 收入', target: '孙宇晨关联节点与自由现金流', value: 5.0 },
+            { source: 'JustLend 能量租赁与借贷池', target: '孙宇晨关联节点与自由现金流', value: 4.4 },
+            { source: 'JustLend 能量租赁与借贷池', target: 'TRON Inc. 美股财库 & 10亿AI基金', value: 2.5 },
+            { source: 'stUSDT / 短期美债 RWA 票息', target: '孙宇晨关联节点与自由现金流', value: 1.8 },
+            { source: 'stUSDT / 短期美债 RWA 票息', target: 'TRX 链上通缩销毁 (抬升币价)', value: 1.0 },
+            { source: '交易所现货/合约手续费', target: '孙宇晨关联节点与自由现金流', value: 2.2 },
+            { source: '交易所现货/合约手续费', target: 'TRON Inc. 美股财库 & 10亿AI基金', value: 1.3 }
+          ]
+        }]
+      });
+    }
+
+    window.resizeAllCharts = function() {
+      if (chartDag) chartDag.resize();
+      if (chartClaudeDays) chartClaudeDays.resize();
+      if (chartCashWeight) chartCashWeight.resize();
+      if (chartSankey) chartSankey.resize();
+    };
+
+    window.addEventListener('load', function() {
+      renderTopologyMode('dag');
+      initClaudeCharts();
+      initSankeyChart();
+      window.addEventListener('resize', window.resizeAllCharts);
+    });
+  </script>
+</body>
+</html>
