@@ -1,0 +1,387 @@
+{
+  "date": "2026-10-23",
+  "generated_at": "2026-10-26T18:49:29",
+  "funds": {
+    "ARKK": {
+      "name": "颠覆式创新",
+      "aum": 5530765598,
+      "aum_prev": 6246437895,
+      "daum_pct": -11.46,
+      "ret_pct": 0.42,
+      "pnl": 26010887,
+      "flow": -741683184,
+      "prev_date": "2026-10-16",
+      "quarter_date": "2026-07-24",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 10.41,
+          "d_week": 0.67,
+          "d_quarter": 0.93
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 6.61,
+          "d_week": 0.19,
+          "d_quarter": 1.93
+        },
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 5.32,
+          "d_week": 0.32,
+          "d_quarter": 0.59
+        },
+        {
+          "ticker": "CRCL",
+          "label": "CRCL",
+          "weight": 5.23,
+          "d_week": 0.32,
+          "d_quarter": 1.45
+        },
+        {
+          "ticker": "",
+          "label": "OpenAI",
+          "weight": 4.51,
+          "d_week": 0.14,
+          "d_quarter": 1.43
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 4.3,
+          "d_week": 0.09,
+          "d_quarter": -0.39
+        },
+        {
+          "ticker": "COIN",
+          "label": "COIN",
+          "weight": 4.25,
+          "d_week": -0.14,
+          "d_quarter": -0.23
+        },
+        {
+          "ticker": "SHOP",
+          "label": "SHOP",
+          "weight": 3.31,
+          "d_week": -0.15,
+          "d_quarter": -1.1
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 3.14,
+          "d_week": 0.21,
+          "d_quarter": -0.19
+        },
+        {
+          "ticker": "NVDA",
+          "label": "英伟达",
+          "weight": 3.05,
+          "d_week": 0.02,
+          "d_quarter": 1.22
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "META",
+            "label": "META",
+            "pct": 0.29,
+            "shares": 28069
+          },
+          {
+            "ticker": "CRWV",
+            "label": "CRWV",
+            "pct": 0.084,
+            "shares": 102280
+          },
+          {
+            "ticker": "XE",
+            "label": "XE",
+            "pct": 0.05,
+            "shares": 292022
+          },
+          {
+            "ticker": "PACB",
+            "label": "PACB",
+            "pct": 0.029,
+            "shares": 895998
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "GOOG",
+            "label": "谷歌",
+            "pct": -0.348,
+            "shares": -65812
+          },
+          {
+            "ticker": "TER",
+            "label": "泰瑞达",
+            "pct": -0.284,
+            "shares": -57444
+          },
+          {
+            "ticker": "SHOP",
+            "label": "SHOP",
+            "pct": -0.191,
+            "shares": -70894
+          },
+          {
+            "ticker": "PLTR",
+            "label": "PLTR",
+            "pct": -0.19,
+            "shares": -62274
+          },
+          {
+            "ticker": "NET",
+            "label": "NET",
+            "pct": -0.05,
+            "shares": -9215
+          }
+        ]
+      }
+    },
+    "ARKG": {
+      "name": "基因革命",
+      "aum": 2220644663,
+      "aum_prev": 2141107098,
+      "daum_pct": 3.71,
+      "ret_pct": 3.13,
+      "pnl": 66938252,
+      "flow": 12599313,
+      "prev_date": "2026-10-16",
+      "quarter_date": "2026-07-24",
+      "top": [
+        {
+          "ticker": "TXG",
+          "label": "TXG",
+          "weight": 8.75,
+          "d_week": 0.12,
+          "d_quarter": -0.64
+        },
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 8.3,
+          "d_week": 0.27,
+          "d_quarter": 1.78
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 8.06,
+          "d_week": 0.33,
+          "d_quarter": 0.28
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 5.43,
+          "d_week": -0.04,
+          "d_quarter": -0.8
+        },
+        {
+          "ticker": "GH",
+          "label": "GH",
+          "weight": 5.09,
+          "d_week": 0.27,
+          "d_quarter": 0.68
+        },
+        {
+          "ticker": "ILMN",
+          "label": "ILMN",
+          "weight": 4.98,
+          "d_week": 0.08,
+          "d_quarter": 0.4
+        },
+        {
+          "ticker": "NTRA",
+          "label": "NTRA",
+          "weight": 4.98,
+          "d_week": 0.08,
+          "d_quarter": 0.85
+        },
+        {
+          "ticker": "ABSI",
+          "label": "ABSI",
+          "weight": 4.85,
+          "d_week": 0.44,
+          "d_quarter": -0.25
+        },
+        {
+          "ticker": "LLY",
+          "label": "LLY",
+          "weight": 4.15,
+          "d_week": 0.01,
+          "d_quarter": -0.83
+        },
+        {
+          "ticker": "CDNA",
+          "label": "CDNA",
+          "weight": 3.87,
+          "d_week": 0.25,
+          "d_quarter": 0.14
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "SCTX",
+            "label": "SCTX",
+            "pct": 0.307,
+            "shares": 352119
+          },
+          {
+            "ticker": "FRNM",
+            "label": "FRNM",
+            "pct": 0.132,
+            "shares": 209710
+          },
+          {
+            "ticker": "IAM",
+            "label": "IAM",
+            "pct": 0.121,
+            "shares": 187057
+          },
+          {
+            "ticker": "PACB",
+            "label": "PACB",
+            "pct": 0.029,
+            "shares": 297873
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "PSNL",
+            "label": "PSNL",
+            "pct": -0.542,
+            "shares": -852348
+          }
+        ]
+      }
+    },
+    "ARKQ": {
+      "name": "自动化与机器人",
+      "aum": 1759111045,
+      "aum_prev": 1768666499,
+      "daum_pct": -0.54,
+      "ret_pct": -0.2,
+      "pnl": -3624317,
+      "flow": -5931138,
+      "prev_date": "2026-10-16",
+      "quarter_date": "2026-07-24",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 11.97,
+          "d_week": 0.59,
+          "d_quarter": 2.34
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 8.94,
+          "d_week": 0.11,
+          "d_quarter": 3.04
+        },
+        {
+          "ticker": "NVDA",
+          "label": "英伟达",
+          "weight": 5.91,
+          "d_week": -0.07,
+          "d_quarter": 2.68
+        },
+        {
+          "ticker": "PLTR",
+          "label": "PLTR",
+          "weight": 5.35,
+          "d_week": 0.3,
+          "d_quarter": 1.55
+        },
+        {
+          "ticker": "KTOS",
+          "label": "KTOS",
+          "weight": 4.95,
+          "d_week": -0.21,
+          "d_quarter": -0.85
+        },
+        {
+          "ticker": "GOOG",
+          "label": "谷歌",
+          "weight": 4.7,
+          "d_week": -0.28,
+          "d_quarter": 0.06
+        },
+        {
+          "ticker": "AMD",
+          "label": "AMD",
+          "weight": 3.91,
+          "d_week": -0.08,
+          "d_quarter": -2.89
+        },
+        {
+          "ticker": "TER",
+          "label": "泰瑞达",
+          "weight": 3.85,
+          "d_week": -0.58,
+          "d_quarter": -2.52
+        },
+        {
+          "ticker": "TSM",
+          "label": "台积电",
+          "weight": 3.84,
+          "d_week": 0.06,
+          "d_quarter": 0.36
+        },
+        {
+          "ticker": "AMZN",
+          "label": "亚马逊",
+          "weight": 3.69,
+          "d_week": -0.02,
+          "d_quarter": 0.42
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "OKLO",
+            "label": "OKLO",
+            "pct": 0.299,
+            "shares": 193228
+          },
+          {
+            "ticker": "XE",
+            "label": "XE",
+            "pct": 0.157,
+            "shares": 260638
+          },
+          {
+            "ticker": "ISRG",
+            "label": "直觉外科",
+            "pct": 0.15,
+            "shares": 6411
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "TER",
+            "label": "泰瑞达",
+            "pct": -0.403,
+            "shares": -21186
+          },
+          {
+            "ticker": "ESLT",
+            "label": "ESLT",
+            "pct": -0.2,
+            "shares": -4806
+          }
+        ]
+      }
+    }
+  }
+}
