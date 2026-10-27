@@ -84,7 +84,7 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 footer_links:
   - { title: "RSS 订阅",            href: "/feed.xml",                         icon: "fa-rss" }
   - { title: "PVM 普吉别墅管理",     href: "https://villamanage-phuket.com/",   svg: "/img/sns/pvm.svg" }
-  - { title: "ASTRA 资产顾问",       href: "https://astraassetadvisor.com/",    svg: "/img/sns/astra.svg" }
+  - { title: "ASTRA 资产顾问",       href: "https://www.astraassetadvisor.com/en", svg: "/img/sns/astra.svg" }
   - { title: "币安跟单",             href: "https://www.binance.com/en/copy-trading/lead-details/4275736959266062849", svg: "/img/sns/binance.svg" }
   - { title: "GitHub",              href: "https://github.com/SIGAOYI",        icon: "fa-github" }
 
