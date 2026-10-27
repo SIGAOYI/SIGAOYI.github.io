@@ -80,21 +80,17 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 
 
 
+# Footer 图标（统一圆形 Font Awesome 样式）
+footer_links:
+  - { title: "RSS 订阅",            href: "/feed.xml",                         icon: "fa-rss" }
+  - { title: "PVM 普吉别墅管理",     href: "https://villamanage-phuket.com/",   icon: "fa-home" }
+  - { title: "ASTRA 资产顾问",       href: "https://astraassetadvisor.com/",    icon: "fa-line-chart" }
+  - { title: "币安跟单",             href: "https://www.binance.com/en/copy-trading/lead-details/4275736959266062849", icon: "fa-btc" }
+  - { title: "GitHub",              href: "https://github.com/SIGAOYI",        icon: "fa-github" }
+
 # Friends
 friends: [
     {
-        title: "龟龟的淘宝",
-        href: "http://lawoo.taobao.com"
-    },{
-        title: "龟龟的知乎",
-        href: "https://www.zhihu.com/people/lawoo"
-    },{
-        title: "乐物手作",
-        href: "http://lawoo.cn"
-    },{
-        title: "canjia",
-        href: "http://xucanjia.com"
-    },{
         title: "Jerry Qu",
         href: "https://imququ.com/"
     },{
