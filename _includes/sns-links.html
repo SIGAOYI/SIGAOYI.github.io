@@ -1,0 +1,13 @@
+{% comment %} 社交/外链图标：footer 与侧边栏共用，数据在 _config.yml 的 footer_links。
+  icon = Font Awesome 图标；svg = 白色单色标志（放在同样的深色圆底里，尺寸与 FA 图标一致）。 {% endcomment %}
+{% for l in site.footer_links %}
+{% assign ext = l.href | slice: 0, 4 %}
+<li>
+    <a href="{% if ext == 'http' %}{{ l.href }}{% else %}{{ l.href | prepend: site.baseurl }}{% endif %}" title="{{ l.title }}" aria-label="{{ l.title }}"{% if ext == 'http' %} target="_blank" rel="noopener"{% endif %}>
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            {% if l.svg %}<i class="fa fa-stack-1x fa-inverse"><img class="sns-logo" src="{{ l.svg | prepend: site.baseurl }}" alt=""></i>{% else %}<i class="fa {{ l.icon }} fa-stack-1x fa-inverse"></i>{% endif %}
+        </span>
+    </a>
+</li>
+{% endfor %}

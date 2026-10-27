@@ -1,20 +1,11 @@
 <!-- Footer -->
+<style>.sns-logo{width:1em!important;height:1em!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;vertical-align:-.125em!important;display:inline-block!important;float:none!important}</style>
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                    {% for l in site.footer_links %}
-                    {% assign ext = l.href | slice: 0, 4 %}
-                    <li>
-                        <a href="{% if ext == 'http' %}{{ l.href }}{% else %}{{ l.href | prepend: site.baseurl }}{% endif %}" title="{{ l.title }}" aria-label="{{ l.title }}"{% if ext == 'http' %} target="_blank" rel="noopener"{% endif %}>
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa {{ l.icon }} fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                    {% endfor %}
+                    {% include sns-links.html %}
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}
