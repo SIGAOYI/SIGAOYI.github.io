@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>币安 63.6 亿美元惊魂夜：EIP-7702 代码委派机制、50 笔预签名盲狙与十链签名基建失守全景复盘</title>
+
+  <!-- 微信与社交分享 Meta 规范（图片绝对路径，300x300，无英文双引号描述） -->
+  <meta name="description" content="深度复盘2026年10月30日币安热钱包63.6亿美元被盗案：分钟级还原40分钟十链闪电清扫与3小时50分钟EIP-7702权限驻留时间线，图解0xef0100代码指针、50笔连续Nonce预签名盲狙原理与27亿美元紧急冻结博弈。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="币安 63.6 亿美元惊魂夜：EIP-7702 权限委派与十链签名基建失守全景看板">
+  <meta property="og:description" content="深度复盘2026年10月30日币安热钱包63.6亿美元被盗案：分钟级还原40分钟十链闪电清扫与3小时50分钟EIP-7702权限驻留时间线，图解0xef0100代码指针、50笔连续Nonce预签名盲狙原理与27亿美元紧急冻结博弈。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/binance_eip7702_hack_analysis.html">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 异步非阻塞加载 ECharts + 多 CDN 自动容灾 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="window.__loadFallbackEcharts && window.__loadFallbackEcharts()"></script>
+  <script>
+    window.__loadFallbackEcharts = function() {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #162238;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(56, 189, 248, 0.2);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0b1120; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .active-tab {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+    }
+    .card-item {
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-item:hover {
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-2px);
+    }
+    .card-active {
+      border-color: #38bdf8 !important;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(12, 74, 110, 0.32) 100%) !important;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.3) !important;
+    }
+    .chart-box {
+      width: 100%;
+      height: 360px;
+    }
+    @media (max-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .tab-nav-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+      }
+      .chart-box {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8 custom-scrollbar">
+
+  <!-- 隐藏微信 300x300 分享缩略图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="max-w-[1540px] mx-auto space-y-6">
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-rose-500/15 text-rose-400 border border-rose-500/30 mb-3">
+            <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
+            加密史最大安全事件复盘 · EIP-7702 代码委派 × 十链签名基建失守
+          </div>
+          <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+            币安 63.6 亿美元惊魂夜：EIP-7702 权限委派与十链闪电清扫全景解构
+          </h1>
+          <p class="text-slate-400 text-xs sm:text-base max-w-4xl leading-relaxed">
+            基于创作者<strong class="text-cyan-400">【云雷】</strong>专题分享线索，交叉核验 TRM Labs、Bitquery、慢雾（SlowMist）余弦与律动 BlockBeats 链上审计数据。深度回答一个核心技术问题：为什么说 <strong class="text-amber-400">EIP-7702 协议本身并非漏洞主因</strong>，而攻击者又是如何利用 <code class="text-cyan-300">0xef0100</code> 代码指针与 50 笔连续 Nonce 预签名，绕过传统提币风控并在 3 分 24 秒内单笔搬空 <code class="text-emerald-300">Binance 14</code> 热钱包？
+          </p>
+        </div>
+
+        <!-- 信源与线索溯源卡片 -->
+        <div class="bg-slate-950/85 border border-slate-800 rounded-xl p-4 min-w-[290px] shrink-0 text-xs space-y-2 backdrop-blur-sm">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📌 线索与链上审计信源</span>
+            <span class="text-rose-400 font-mono">2026-10-30 实时核验</span>
+          </div>
+          <div class="text-white font-medium">专题线索：创作者 <span class="text-cyan-400 font-bold">云雷</span></div>
+          <div class="text-slate-300">链上取证：TRM Labs / Bitquery / SlowMist</div>
+          <div class="text-slate-400">主攻击载体：Binance 14 (<code class="text-amber-300">0x28C6…1d60</code>)</div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="https://v.douyin.com/a5uu-qxlg0s/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              云雷原视频 ↗
+            </a>
+            <a href="https://www.trmlabs.com/resources/blog/north-korea-steals-usd-6-36-billion-from-binance-in-the-largest-hack-in-history" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 rounded text-rose-300 font-medium transition">
+              TRM Labs 报告 ↗
+            </a>
+            <a href="https://bitquery.io/investigations/binance-hack" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/40 rounded text-emerald-300 font-medium transition">
+              Bitquery 追踪 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 核心 KPI 矩阵 (移动端 2x2 紧凑网格) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 kpi-grid">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-rose-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">十链累计异常流出总额</div>
+        <div class="text-2xl sm:text-3xl font-black text-rose-400 font-mono mt-1">$63.6 亿</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>2025 Bybit 案 ($15亿) 的 4.2 倍</span>
+          <span class="text-rose-300 font-semibold">波及 10 条公链</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-cyan-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Binance 14 首笔原子清扫</div>
+        <div class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono mt-1">3分24秒</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>167,464 ETH + 16.15亿 USDT</span>
+          <span class="text-cyan-300 font-semibold">Gas 仅 $0.95</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-amber-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">EIP-7702 恶意指针驻留</div>
+        <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono mt-1">3小时45分</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>50 笔预签名 1 笔命中</span>
+          <span class="text-amber-300 font-semibold">连续触发 7 轮清扫</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 sm:p-5 hover:border-emerald-500/40 transition shadow-lg">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">多方联合紧急冻结与抢救</div>
+        <div class="text-2xl sm:text-3xl font-black text-emerald-400 font-mono mt-1">~$27.0 亿</div>
+        <div class="text-xs text-slate-400 mt-2 flex items-center justify-between">
+          <span>Tether/Circle/Ripple/Arb</span>
+          <span class="text-emerald-300 font-semibold">拦截率约 42.5%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 顶部 Tab 导航栏 (窄屏自动 2 列折行网格) -->
+    <nav class="flex flex-wrap gap-2 p-1.5 bg-slate-900/80 border border-slate-800 rounded-xl text-xs sm:text-sm font-semibold tab-nav-grid" aria-label="看板导航">
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition active-tab" data-tab="tab-timeline">
+        ⏱️ 1. 惊魂夜分钟级时间线
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-eip7702">
+        🧬 2. EIP-7702 原理与风控盲区图解
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-chains">
+        📊 3. 十链受损、冻结与链上换仓博弈
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-lg border border-transparent text-slate-300 hover:text-white transition" data-tab="tab-defense">
+        🛡️ 4. 历史大案对比与机构防御清单
+      </button>
+    </nav>
+
+    <!-- TAB 1: 分钟级时间线与关键节点交互推演 -->
+    <section id="tab-timeline" class="tab-content space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 左侧 6 大时间阶段卡片列表 (7列) -->
+        <div class="lg:col-span-7 space-y-3" id="timelineCardsContainer">
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow card-active" data-id="t-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">阶段 01 · 渗透前奏与暗网筹备 (T-36h ~ T-4h)</span>
+              <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono">10月27日 – 10月30日 00:30 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">伪装面试渗透签名内网 + Tornado 提币与三轮测试钱包彩排</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              攻击者通过 Contagious Interview 钓鱼渗透工程环境；10月28日从 Tornado Cash 提取 3 笔 ~0.1 ETH 充当 Gas，29日深夜 23:59 部署无源码清扫合约 <code class="text-cyan-300">0x63e8…6fAe</code> 并完成 3 轮外部钱包彩排，随后静默 3 小时 51 分钟。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow" data-id="t-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">阶段 02 · 多链同步点火与 BTC 剥离链 (T+0m ~ T+16m)</span>
+              <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">10月30日 04:04 – 04:20 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">XRP/Solana 率先异动，18,270 枚 BTC 与 6.28 亿美元波场资产同步出逃</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              04:04 BJT（20:04 UTC）5 个币安 XRP 钱包率先转出 2.3346 亿枚 XRP（~$2.96亿）；04:10 Solana 转出 97.05 万枚 SOL；04:20 比特币热钱包转出 18,270 BTC（~$14.8亿）并当场启动 Peel Chain 拆分为 1,000 BTC 整数包。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow" data-id="t-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">阶段 03 · 50 笔预签名盲狙与 3分24秒 清扫 (T+16m ~ T+20m)</span>
+              <span class="text-xs bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded font-mono">10月30日 04:20:59 – 04:24:47 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">EIP-7702 指针注入 Binance 14，单笔交易瞬秒 25 亿美元资产</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              04:20:59 提交含 50 份连续 Nonce（18,914,775–18,914,824）的 EIP-7702 交易，1 份命中将 <code class="text-rose-300">Binance 14</code> 改造为清扫器外壳；3 分 24 秒后（04:24:23）单笔扫空 167,464 ETH、16.15 亿 USDT 及 62 种代币，手续费不到 1 美元。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow" data-id="t-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">阶段 04 · 链上生死竞速：溢价换仓 vs 发行方冻结 (T+37m ~ T+117m)</span>
+              <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono">10月30日 04:41 – 06:01 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">黑客顶着 15% 滑点狂买 30.8 万枚 ETH；Tether/Circle/Ripple 冻结 26.7 亿</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              为躲避稳定币黑名单，攻击者在 UniswapX、1inch Fusion 与 Aave 疯狂抛售 7.29 亿 USDT 换取抗审查的 ETH 与 TRX（损失 $1.19 亿滑点）；Circle（05:04 冻结 8.23 亿 USDC）、Tether（冻结 17.59 亿 USDT）与 Ripple（06:01 冻结 4,050 万 RLUSD）紧急拉闸。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow" data-id="t-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">阶段 05 · 诡异的 3 小时 45 分钟权限真空期 (T+151m ~ T+232m)</span>
+              <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">10月30日 06:55 – 07:56 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">06:55 币安用原私钥抢救零碎代币却未撤销委托，黑客完成第 7 次清扫</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              令人费解的应急盲区：虽然币安暂停了提币并在 06:55 BJT 用同一把钥匙将剩余零碎代币转回安全钱包，但未立即覆盖 <code class="text-amber-300">0xef0100</code> 委托指针，导致新充入 <code class="text-amber-300">Binance 14</code> 的资金在 04:41 至 07:56 间又被黑客连续清扫 6 次。
+            </p>
+          </div>
+
+          <div class="card-item bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow" data-id="t-6">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">阶段 06 · 委托撤销、Arbitrum 强行夺回与 SAFU 兜底 (T+242m ~)</span>
+              <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">10月30日 08:06 – 14:43 BJT</span>
+            </div>
+            <h2 class="text-base font-bold text-white mt-1">08:06 正式撤销 EIP-7702 授权；Arbitrum 安全委员会强行划回 $3,000 万</h2>
+            <p class="text-xs text-slate-400 mt-1">
+              08:06–08:10 BJT 币安终于完成 EIP-7702 撤销签名；08:08 Arbitrum 安全委员会动用紧急权限将黑客地址内 8,426 ETH 与 7,460 万枚 ARB 强制划入锁定地址。币安宣布 SAFU 基金与自有资金全额兜底，重构签名服务。
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 右侧固定检视台 + 小时级资金异动曲线 (5列，手机端自动移入点击卡片正下方) -->
+        <div class="lg:col-span-5" id="timelineInspectorBox">
+          <div class="bg-slate-900/95 border border-slate-800 rounded-xl p-5 shadow-2xl sticky top-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span id="tlPhaseTag" class="text-xs font-bold text-cyan-400 uppercase tracking-wider">阶段 01 链上取证详情</span>
+              <span id="tlBadge" class="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono">10月27日 – 10月30日 00:30 BJT</span>
+            </div>
+            <h3 id="tlTitle" class="text-lg font-bold text-white">伪装面试渗透签名内网 + Tornado 提币与三轮测试钱包彩排</h3>
+            <div class="text-xs text-slate-300 leading-relaxed space-y-2.5" id="tlBody">
+              <p><strong class="text-white">● 社会工程学入口（Contagious Interview）：</strong>事发前三天（10月27日），币安安全团队曾披露过去一周拦截了多起朝鲜黑客组织的伪装招聘攻击——攻击者假扮猎头或项目方，诱导工程师在代码测试中运行含木马的开发工具，从而横向渗透至热钱包提币签名服务容器。</p>
+              <p><strong class="text-white">● 链上彩排轨迹（慢雾余弦指出“操作粗糙但准备充分”）：</strong>攻击者操作地址 <code class="text-cyan-300">0x7C86…5CA0</code> 自 10月28日起从 Tornado Cash 提取 3 笔约 0.1 ETH 的燃气费；29日 10:29 部署首版废弃合约 <code class="text-slate-400">0x19be…f2bf</code>，22:20–22:24 对两个自备外部钱包发起两轮 EIP-7702 清扫演练；23:59 部署最终版无源码清扫器 <code class="text-rose-300">0x63e8…6fAe</code>，并于 30日 00:21–00:30 完成第 3 次彩排。</p>
+              <div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">
+                // 链上准备指纹 (UTC+8 北京时间)<br>
+                Gas_Source: Tornado Cash -&gt; 0x7C86…5CA0 (0.0983 ETH x 3)<br>
+                Final_Sweeper: 0x63e8…6fAe (Unverified, fn: sweep())<br>
+                Rehearsals: 3 external EOA wallets tested before 00:30 BJT
+              </div>
+            </div>
+
+            <!-- ECharts: 惊魂夜 4 小时各阶段资金流出与冻结节奏 -->
+            <div class="pt-3 border-t border-slate-800">
+              <div class="text-xs font-semibold text-slate-400 mb-2">📈 10月30日凌晨（北京时间）累计流出 vs 累计冻结曲线（亿美元）</div>
+              <div id="chartTimelineWave" class="chart-box" style="height: 230px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: EIP-7702 技术原理解析与可视化图解 -->
+    <section id="tab-eip7702" class="tab-content hidden space-y-6">
+      <!-- 核心定性三栏卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-900/90 border border-cyan-800/50 rounded-xl p-5 space-y-2 shadow-lg">
+          <div class="text-xs font-bold text-cyan-400 uppercase">核心定性 01 · 什么是 EIP-7702？</div>
+          <h3 class="text-base font-bold text-white">普通钱包（EOA）的“外挂智能合约”机制</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            以太坊 2025 年 <strong>Pectra 升级</strong>引入的账户抽象标准（交易类型 <code class="text-cyan-300">0x04</code>）。它允许普通私钥账户（EOA）在不改变自身地址与余额的前提下，向自己的 <code class="text-cyan-300">code</code> 字段写入一段 <strong>23 字节的委托指针（<code class="text-amber-300">0xef0100 || 合约地址</code>）</strong>。此后任何人调用该钱包，EVM 都会加载目标合约代码并在该钱包自己的资产上下文中执行（等同于 <code class="text-cyan-300">DELEGATECALL</code>）。
+          </p>
+        </div>
+
+        <div class="bg-slate-900/90 border border-amber-800/50 rounded-xl p-5 space-y-2 shadow-lg">
+          <div class="text-xs font-bold text-amber-400 uppercase">核心定性 02 · 为什么说不是协议漏洞？</div>
+          <h3 class="text-base font-bold text-white">十条异构公链同时失守，病根在“签名前”</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            比特币（UTXO）、Solana/XRP（Ed25519 签名）根本不存在 EIP-7702，却在同一 20 分钟窗口内签发了价值逾 25 亿美元的合法转账。慢雾余弦与 TRM Labs 一致指出：<strong>EIP-7702 本身没有任何代码 Bug</strong>；攻击者是攻破了币安内部的<strong>跨链自动签名调度系统</strong>，而 EIP-7702 只是攻击者在以太坊上用来“把上百笔转账合并为 1 笔批量清扫”的加速器。
+          </p>
+        </div>
+
+        <div class="bg-slate-900/90 border border-rose-800/50 rounded-xl p-5 space-y-2 shadow-lg">
+          <div class="text-xs font-bold text-rose-400 uppercase">核心定性 03 · 为什么风控没拦住？</div>
+          <h3 class="text-base font-bold text-white">传统审批流只看“转多少钱”，不看“我是谁”</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            交易所热钱包每日自动签发数千笔提币，HSM/MPC 审批策略主要检查两个字段：<strong>收款地址是否在白名单</strong>、<strong>单笔转账金额（Value）是否超限</strong>。然而 EIP-7702 授权交易的<strong>转账金额为 0</strong>，也不触发 ERC-20 <code class="text-rose-300">transfer</code>，它改写的是“这个钱包地址挂载什么代码”，从而完美穿透了传统金额风控规则。
+          </p>
+        </div>
+      </div>
+
+      <!-- 交互式技术架构图解（SVG 科普配图 + 原理拆解） -->
+      <div class="bg-slate-900/95 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              🔬 图解科普：攻击者如何用「50 笔预签名 + 23 字节指针」把币安热钱包变成提款机？
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              对比传统盗币（需逐个币种签发 60+ 笔转账，极易触发高频风控熔断）与本次 EIP-7702 代码委派攻击的三步原子链路
+            </p>
+          </div>
+          <span class="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 self-start sm:self-auto">
+            EIP-7702 (Tx Type 0x04) 架构图解
+          </span>
+        </div>
+
+        <!-- 响应式矢量架构图 (SVG) -->
+        <div class="w-full overflow-x-auto bg-slate-950/90 border border-slate-800/90 rounded-xl p-3 sm:p-5">
+          <svg viewBox="0 0 1120 420" class="w-full min-w-[760px] h-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradPanel1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"/>
+              </linearGradient>
+              <linearGradient id="gradPointer" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.25"/>
+              </linearGradient>
+              <marker id="arrowCyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+              </marker>
+              <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+              </marker>
+              <marker id="arrowRose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e"/>
+              </marker>
+            </defs>
+
+            <!-- 步骤 1: 链下签名渗透与 50 笔 Nonce 盲狙 -->
+            <rect x="16" y="16" width="335" height="388" rx="14" fill="url(#gradPanel1)" stroke="#334155" stroke-width="1.5"/>
+            <rect x="32" y="32" width="303" height="32" rx="6" fill="#0ea5e9" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1"/>
+            <text x="183" y="53" fill="#38bdf8" font-size="13" font-weight="bold" text-anchor="middle">STEP 1 · 链下签名劫持与 50 连号盲狙</text>
+
+            <rect x="36" y="80" width="295" height="78" rx="8" fill="#090d16" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4 2"/>
+            <text x="50" y="102" fill="#f59e0b" font-size="12" font-weight="bold">⚠️ 币安热钱包自动签名服务 (被渗透)</text>
+            <text x="50" y="122" fill="#cbd5e1" font-size="11">• 传统风控仅校验：转账金额 Value &amp; 收款白名单</text>
+            <text x="50" y="142" fill="#94a3b8" font-size="11">• 7702 授权金额 = 0，被当作普通元数据放行签名</text>
+
+            <path d="M 183 158 L 183 188" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+            <rect x="36" y="192" width="295" height="122" rx="8" fill="#090d16" stroke="#38bdf8" stroke-width="1.2"/>
+            <text x="50" y="215" fill="#38bdf8" font-size="12" font-weight="bold">🎯 痛点：Binance 14 每秒都在提币，Nonce 飞速跳动</text>
+            <text x="50" y="236" fill="#cbd5e1" font-size="11">授权元组：keccak256(0x05 || chain_id || address || nonce)</text>
+            <rect x="48" y="248" width="271" height="52" rx="6" fill="#0f172a" stroke="#1e293b"/>
+            <text x="60" y="268" fill="#94a3b8" font-size="11" font-family="monospace">Auth #01: nonce = 18,914,775  [❌ 过期失效]</text>
+            <text x="60" y="286" fill="#10b981" font-size="11" font-weight="bold" font-family="monospace">Auth #k : nonce = 18,914,792  [✅ 精准命中!]</text>
+
+            <text x="183" y="342" fill="#e2e8f0" font-size="11.5" font-weight="bold" text-anchor="middle">单笔交易打包 50 份连续 Nonce 授权 (04:20:59 BJT)</text>
+            <text x="183" y="362" fill="#94a3b8" font-size="11" text-anchor="middle">49 份自动作废，仅需 1 份吻合当前区块 Nonce 即可生效</text>
+
+            <!-- 跨栏连接线 1 -> 2 -->
+            <path d="M 351 250 L 386 250" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+            <!-- 步骤 2: EIP-7702 指针覆写 (鸠占鹊巢) -->
+            <rect x="392" y="16" width="335" height="388" rx="14" fill="url(#gradPanel1)" stroke="#334155" stroke-width="1.5"/>
+            <rect x="408" y="32" width="303" height="32" rx="6" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+            <text x="559" y="53" fill="#f59e0b" font-size="13" font-weight="bold" text-anchor="middle">STEP 2 · 23字节指针注入 (鸠占鹊巢)</text>
+
+            <rect x="412" y="80" width="295" height="156" rx="10" fill="#090d16" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="428" y="104" fill="#ffffff" font-size="13" font-weight="bold">🏦 EOA 热钱包：Binance 14 (0x28C6…1d60)</text>
+            <text x="428" y="125" fill="#94a3b8" font-size="11">• 账户地址与私钥：保持不变（表面仍是币安官方钱包）</text>
+            <text x="428" y="144" fill="#94a3b8" font-size="11">• 账户持仓余额：167,464 ETH + 16.15亿 USDT + 62 代币</text>
+
+            <rect x="426" y="158" width="267" height="64" rx="6" fill="url(#gradPointer)" stroke="#f43f5e" stroke-width="1.5"/>
+            <text x="438" y="178" fill="#fda4af" font-size="11" font-weight="bold">Account Code 字段被覆写为 23 字节委托指示器：</text>
+            <text x="438" y="202" fill="#ffffff" font-size="12" font-weight="bold" font-family="monospace">0xef0100 + 0x63e8…6fAe (黑客清扫合约)</text>
+
+            <path d="M 559 236 L 559 274" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrowRose)"/>
+            <text x="570" y="260" fill="#f43f5e" font-size="11" font-weight="bold">EVM 自动加载外部代码 (DELEGATECALL 语义)</text>
+
+            <rect x="412" y="278" width="295" height="106" rx="10" fill="#090d16" stroke="#f43f5e" stroke-width="1.5"/>
+            <text x="428" y="302" fill="#f43f5e" font-size="12.5" font-weight="bold">👾 攻击者恶意清扫器合约 (0x63e8…6fAe)</text>
+            <text x="428" y="324" fill="#cbd5e1" font-size="11" font-family="monospace">function sweep(address pool, address[] tokens)</text>
+            <text x="428" y="344" fill="#94a3b8" font-size="11">• 仅接受攻击者主控地址调用 (Access Control)</text>
+            <text x="428" y="364" fill="#94a3b8" font-size="11">• 执行时 address(this) == Binance 14，拥有全权支配力</text>
+
+            <!-- 跨栏连接线 2 -> 3 -->
+            <path d="M 727 250 L 762 250" stroke="#f43f5e" stroke-width="2.5" marker-end="url(#arrowRose)"/>
+
+            <!-- 步骤 3: 3分24秒后单笔原子清扫与持续抽血 -->
+            <rect x="768" y="16" width="336" height="388" rx="14" fill="url(#gradPanel1)" stroke="#334155" stroke-width="1.5"/>
+            <rect x="784" y="32" width="304" height="32" rx="6" fill="#f43f5e" fill-opacity="0.15" stroke="#f43f5e" stroke-width="1"/>
+            <text x="936" y="53" fill="#f43f5e" font-size="13" font-weight="bold" text-anchor="middle">STEP 3 · 单笔原子扫空与 7 轮持续抽血</text>
+
+            <rect x="788" y="80" width="296" height="68" rx="8" fill="#090d16" stroke="#38bdf8" stroke-width="1.2"/>
+            <text x="804" y="103" fill="#38bdf8" font-size="12" font-weight="bold">⚡ 外部触发：04:24:23 BJT (仅隔 3分24秒)</text>
+            <text x="804" y="124" fill="#cbd5e1" font-size="11">黑客地址向 Binance 14 发送调用指令，Gas 仅 0.0004 ETH</text>
+
+            <path d="M 936 148 L 936 178" stroke="#f43f5e" stroke-width="2" marker-end="url(#arrowRose)"/>
+
+            <rect x="788" y="182" width="296" height="114" rx="8" fill="#1f1224" stroke="#f43f5e" stroke-width="1.5"/>
+            <text x="804" y="205" fill="#fda4af" font-size="12.5" font-weight="bold">💥 单笔交易 (0x53bd38b8...) 瞬间搬空：</text>
+            <text x="804" y="228" fill="#ffffff" font-size="12" font-weight="bold">• 167,464 枚 ETH  (~$4.2亿)</text>
+            <text x="804" y="248" fill="#ffffff" font-size="12" font-weight="bold">• 16.15 亿枚 USDT + 62 种 ERC-20 代币</text>
+            <text x="804" y="268" fill="#38bdf8" font-size="11">• 顺带利用其 Executor 权限抽走另一智能账户 8.23亿 USDC</text>
+            <text x="804" y="286" fill="#94a3b8" font-size="10.5">链上表象：如同 Binance 14 自己发起了 63 笔内部批量转账</text>
+
+            <rect x="788" y="308" width="296" height="76" rx="8" fill="#090d16" stroke="#f59e0b" stroke-width="1.2"/>
+            <text x="804" y="330" fill="#f59e0b" font-size="11.5" font-weight="bold">⏳ 持久化驻留陷阱 (04:21 – 08:06 BJT，历时 3h45m)</text>
+            <text x="804" y="350" fill="#cbd5e1" font-size="11">• 指针未撤销前，新充值进来的资金于 04:41–07:56 再被扫 6 次</text>
+            <text x="804" y="368" fill="#10b981" font-size="11">• 解除方法：原私钥再签一次指向 0x0000...0000 的授权即可</text>
+          </svg>
+        </div>
+
+        <!-- 为什么需要 50 笔预签名？数学与工程逻辑对比框 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+          <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 space-y-2">
+            <div class="font-bold text-cyan-400 text-sm">💡 深度追问 1：为什么黑客要在单笔交易里塞入整整 50 份授权？</div>
+            <p class="text-slate-300 leading-relaxed">
+              在以太坊中，为了防止“重放攻击（Replay Attack）”，每一份 EIP-7702 授权签名都必须绑定目标钱包当前的交易计数器 <code class="text-cyan-300">nonce</code>。只有当交易上链执行那一刻，授权里的 <code class="text-cyan-300">nonce</code> 与钱包实时 <code class="text-cyan-300">nonce</code> <strong>严格相等</strong>，委托才会生效。
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              但 <code class="text-amber-300">Binance 14</code> 是币安最繁忙的以太坊热钱包，平均每分钟都在向外处理大量正常用户提币，<code class="text-cyan-300">nonce</code> 处于高速递增状态。这说明<strong>攻击者并没有直接拿到裸私钥在本地毫秒级签名</strong>，而是通过被渗透的内部签名接口异步导出了签名——为了克服导出签名到广播上链之间的时间差，攻击者一次性让系统预签了 <code class="text-emerald-300">18,914,775</code> 到 <code class="text-emerald-300">18,914,824</code> 共 50 个连续号码，像散弹枪一样打包进同一笔交易，确保必有一发命中实时 <code class="text-cyan-300">nonce</code>！
+            </p>
+          </div>
+
+          <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 space-y-2">
+            <div class="font-bold text-amber-400 text-sm">💡 深度追问 2：为什么早上 06:55 币安在用同一把钥匙救钱，却没撤销委托？</div>
+            <p class="text-slate-300 leading-relaxed">
+              链上数据显示，北京时间 06:55（事发后两个半小时），币安运维人员仍在使用 <code class="text-amber-300">Binance 14</code> 的私钥将未被黑客列入清扫名单的零碎长尾代币转回安全地址，但直到 <strong>08:06（00:06 UTC）</strong>才正式撤销 EIP-7702 委托。
+            </p>
+            <p class="text-slate-300 leading-relaxed">
+              原因在于传统交易所应急剧本（Playbook）是围绕“停止充提服务 + 转移残余资产”编写的。在 Pectra 升级之前，普通 EOA 地址的 <code class="text-cyan-300">code</code> 字段永远为空；许多老旧的机构端钱包管理后台甚至没有可视化显示“当前 EOA 是否挂载了 <code class="text-rose-300">0xef0100</code> 指针”，也没有预设一键发送 <code class="text-emerald-300">address(0)</code> 撤销签名的紧急按钮，导致黑客代码在热钱包上足足裸奔了 3 小时 45 分钟。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 十链受损分布、冻结拦截与链上换仓博弈 -->
+    <section id="tab-chains" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 图表 1: 十条公链被盗金额与冻结对比 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm sm:text-base font-bold text-white">📊 十条公链被盗规模与发行方/委员会冻结分布（亿美元）</h2>
+            <span class="text-xs text-cyan-400 font-mono">TRM Labs &amp; Bitquery 口径</span>
+          </div>
+          <p class="text-xs text-slate-400">
+            以太坊单链流出 $37.9 亿（占比 59.6%），比特币流出 $14.7 亿（占比 23.1%），波场流出 $6.28 亿（占比 9.9%）。稳定币与 L2 委员会合计拦截约 $27.0 亿。
+          </p>
+          <div id="chartChainBreakdown" class="chart-box"></div>
+        </div>
+
+        <!-- 图表 2: 24.88 亿被盗 USDT 结局拆解与 ETH 持仓暴增 -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm sm:text-base font-bold text-white">🔄 24.88 亿枚被盗 USDT 去向与黑客 ETH 持仓膨胀（枚）</h2>
+            <span class="text-xs text-amber-400 font-mono">滑点损耗 $1.19 亿</span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Tether 锁定了 71%（17.59 亿 USDT）；黑客抢在冻结落地前将 7.29 亿 USDT 溢价 10%–15% 换为 ETH 与 TRX，使其 ETH 持仓从盗取的 20.06 万枚暴增 2.5 倍至 50.86 万枚。
+          </p>
+          <div id="chartUsdtAndEth" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 十链详细取证数据表 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4 overflow-x-auto">
+        <h3 class="text-sm sm:text-base font-bold text-white">📋 十条受袭公链攻击手法、涉案资产与拦截状态全览表</h3>
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 bg-slate-950/60">
+              <th class="p-3 font-semibold">受损公链</th>
+              <th class="p-3 font-semibold">流出估值 (USD)</th>
+              <th class="p-3 font-semibold">核心被盗资产明细</th>
+              <th class="p-3 font-semibold">链上签名与攻击方式</th>
+              <th class="p-3 font-semibold">冻结/抢救进展与资金現状</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-300">
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-cyan-400">1. Ethereum (以太坊)</td>
+              <td class="p-3 font-mono font-bold text-rose-400">$37.90 亿</td>
+              <td class="p-3">200,630 ETH、18.75亿 USDT、8.23亿 USDC、8,850万 RLUSD 等 185 种代币</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">EIP-7702 委托 (7次清扫)</span> + 第2热钱包 9 笔直接转账 + 智能账户 Executor 提款</td>
+              <td class="p-3 text-emerald-400">Circle 冻结 8.25亿 USDC；Tether 冻结逾 14.5亿 USDT；Ripple 冻结 4,050万 RLUSD；黑客换仓后持有 508,621 ETH</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-amber-400">2. Bitcoin (比特币)</td>
+              <td class="p-3 font-mono font-bold text-rose-400">$14.70 亿</td>
+              <td class="p-3">18,270 枚 BTC</td>
+              <td class="p-3">普通私钥签名转账（支付约 2 倍常规矿工费），当场启动 Peel Chain 拆分</td>
+              <td class="p-3 text-rose-300">不可冻结；分散静置在 19 个新地址中（多数每个地址整存 1,000 BTC）</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-emerald-400">3. TRON (波场)</td>
+              <td class="p-3 font-mono font-bold text-rose-400">$6.28 亿</td>
+              <td class="p-3">6.127 亿枚 TRC-20 USDT + 4,640 万枚 TRX</td>
+              <td class="p-3">普通私钥签名转账（04:22 BJT 紧随比特币之后发出）</td>
+              <td class="p-3 text-amber-300">约 3亿 USDT 存入 JustLend 并被部分冻结，约 2.34亿 USDT 在 SunSwap 换为 TRX（黑客现持约 6.715亿 TRX）</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-purple-400">4. XRP Ledger (瑞波)</td>
+              <td class="p-3 font-mono font-bold text-rose-400">$2.96 亿</td>
+              <td class="p-3">2.3346 亿枚 XRP</td>
+              <td class="p-3">5 个币安热钱包于 04:05–04:09 BJT 率先签发普通转账，仅留最低准备金</td>
+              <td class="p-3 text-slate-300">静置在单接收地址 <code class="text-cyan-300">rK21t6…gfzMx</code> 未发生转移</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-blue-400">5. Solana</td>
+              <td class="p-3 font-mono font-bold text-rose-400">$0.96 亿</td>
+              <td class="p-3">970,500 枚 SOL</td>
+              <td class="p-3">04:10 BJT 普通 Ed25519 签名转账</td>
+              <td class="p-3 text-slate-300">静置在 <code class="text-cyan-300">AffzFD…yGigBEaU</code> 未移动</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-cyan-300">6. Arbitrum / OP / Base</td>
+              <td class="p-3 font-mono font-bold text-amber-400">$0.39 亿</td>
+              <td class="p-3">Arbitrum ($3,200万: 8,426 ETH + 7,460万 ARB)、Optimism ($480万)、Base ($270万)</td>
+              <td class="p-3">第一波窗口（04:10–04:25 BJT）普通签名转账</td>
+              <td class="p-3 text-emerald-400">Arbitrum 安全委员会于 08:08 BJT 紧急干预，强制夺回 8,426 ETH 与 7,460 万 ARB（~$3,000万）</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-bold text-slate-300">7. Avalanche &amp; Polygon</td>
+              <td class="p-3 font-mono font-bold text-amber-400">$0.38 亿</td>
+              <td class="p-3">Avalanche (~$2,800万)、Polygon (~$1,000万)</td>
+              <td class="p-3">07:05 BJT（23:05 UTC）第二波延时签名转出</td>
+              <td class="p-3 text-emerald-400">Polygon 上 620 万 USDT0 及跨链至以太坊的 156 万 USDC 被冻结</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: 历史加密大案对比与机构级 EIP-7702 防御指南 -->
+    <section id="tab-defense" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 左侧历史大案对比图 (5列) -->
+        <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+          <h2 class="text-sm sm:text-base font-bold text-white">🏆 加密史前五大黑客盗窃案规模对比（亿美元）</h2>
+          <p class="text-xs text-slate-400">
+            即便扣除已冻结的 27 亿美元，攻击者目前手中握有的约 32 亿美元无冻结风险资产（ETH/BTC/XRP/SOL），依然是 2025 年 Bybit 被盗案全额的 2 倍以上。
+          </p>
+          <div id="chartHistoryComparison" class="chart-box" style="height: 320px;"></div>
+        </div>
+
+        <!-- 右侧针对机构与个人用户的防御清单 (7列) -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="bg-slate-900/90 border border-cyan-800/50 rounded-xl p-5 shadow-lg space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold text-cyan-400">🏦 交易所与机构金库（MPC / HSM）四大强制升级铁律</h3>
+              <span class="text-xs bg-cyan-500/20 text-cyan-300 px-2.5 py-0.5 rounded font-mono">Architecture Remediation</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-1">
+                <div class="font-bold text-white">1. 签名策略层默认拦截 Type-0x04</div>
+                <p class="text-slate-400">在 HSM/MPC 策略引擎中，严禁热钱包签署任何 EIP-7702（<code class="text-cyan-300">0x04</code>）交易或 <code class="text-cyan-300">0x05</code> 魔数开头的授权摘要；任何连续 Nonce 批量签名请求直接触发全局熔断。</p>
+              </div>
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-1">
+                <div class="font-bold text-white">2. 实时监控 EOA 的 Code 字段非空告警</div>
+                <p class="text-slate-400">对所有金库与热钱包地址运行区块级 <code class="text-cyan-300">eth_getCode</code> 巡检。一旦普通热钱包返回 <code class="text-rose-300">0xef0100...</code> 非空字节码，毫秒级冻结充提并广播预签名的 <code class="text-emerald-300">address(0)</code> 撤销交易。</p>
+              </div>
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-1">
+                <div class="font-bold text-white">3. 按公链与资金层级物理隔离签名网关</div>
+                <p class="text-slate-400">本次十条链在 20 分钟内被一锅端，暴露了“单一提币调度容器统管全链签名请求”的架构缺陷。必须将 BTC、EVM、Solana 的签名审批流与鉴权密钥彻底解耦。</p>
+              </div>
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5 space-y-1">
+                <div class="font-bold text-white">4. 做市商与 DEX Solver 实时黑名单阻断</div>
+                <p class="text-slate-400">黑客在被盗数分钟内通过 UniswapX 与 1inch Fusion 向做市商倾销了逾 3.25 亿 USDT。Resolver 节点应接入 TRM Beacon 实时流，自动拒填毫秒级大额黑客脏款订单。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-emerald-800/50 rounded-xl p-5 shadow-lg space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold text-emerald-400">🛡️ 普通链上用户如何防范 EIP-7702 钓鱼？</h3>
+              <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded font-mono">User Self-Custody Guide</span>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+              <li><strong class="text-white">不必恐慌卸载钱包，但严禁盲签未知消息：</strong>正如 ZeroDev 创始人 Derek Chiang 所言，EIP-7702 协议本身安全，攻击前提是“诱骗你签下授权”或“盗取你的私钥”。</li>
+              <li><strong class="text-white">认准钱包弹窗中的「账户升级 / Delegation」高危警告：</strong>主流钱包（MetaMask、Rabby、OKX Wallet）对 EIP-7702 授权均设有专门的强阻断提示；任何空投网站要求你将钱包“委派/升级（Delegate/Upgrade）”给未知合约，100% 是清扫器钓鱼（主网已有超 63% 的 7702 授权指向恶意扫币合约）。</li>
+              <li><strong class="text-white">警惕 <code class="text-rose-300">chain_id = 0</code> 的全链通杀授权：</strong>若不慎签署了 <code class="text-rose-300">chain_id = 0</code> 的 EIP-7702 授权，攻击者可在所有兼容 EVM 链（ETH/BNB/Base/Arb）重放劫持你的同一地址。发现异常请立即使用 Revoke 工具或钱包内置的「取消账户委派（Revoke Delegation）」功能覆盖为 <code class="text-emerald-300">0x0000...0000</code>。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 border-t border-slate-800 text-center text-xs text-slate-500 space-y-1.5">
+      <p>币安 63.6 亿美元被盗与 EIP-7702 权限委派机制全景复盘看板 · 面向跨领域读者的严谨技术科普</p>
+      <p>特别致谢：创作者【云雷】专题解析线索 · 链上取证数据源：TRM Labs / Bitquery / SlowMist 余弦 / The Defiant / 律动 BlockBeats</p>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT 1: 基础 UI 交互与移动端 Inline Accordion 逻辑 (独立标签，与 ECharts 严格隔离) -->
+  <script>
+    (function() {
+      // 1. Tab 切换逻辑
+      var tabButtons = document.querySelectorAll('.tab-btn');
+      var tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = btn.getAttribute('data-tab');
+          tabButtons.forEach(function(b) { b.classList.remove('active-tab'); });
+          tabContents.forEach(function(c) { c.classList.add('hidden'); });
+
+          btn.classList.add('active-tab');
+          var targetContent = document.getElementById(targetId);
+          if (targetContent) {
+            targetContent.classList.remove('hidden');
+          }
+
+          if (window.resizeAllCharts) {
+            setTimeout(window.resizeAllCharts, 60);
+          }
+        });
+      });
+
+      // 2. 时间线阶段详情数据字典
+      var timelineData = {
+        't-1': {
+          tag: '阶段 01 链上取证详情',
+          badge: '10月27日 – 10月30日 00:30 BJT',
+          title: '伪装面试渗透签名内网 + Tornado 提币与三轮测试钱包彩排',
+          body: '<p><strong class="text-white">● 社会工程学入口（Contagious Interview）：</strong>事发前三天（10月27日），币安安全团队曾披露过去一周拦截了多起朝鲜黑客组织的伪装招聘攻击——攻击者假扮猎头或项目方，诱导工程师在代码测试中运行含木马的开发工具，从而横向渗透至热钱包提币签名服务容器。</p><p><strong class="text-white">● 链上彩排轨迹（慢雾余弦指出“操作粗糙但准备充分”）：</strong>攻击者操作地址 <code class="text-cyan-300">0x7C86…5CA0</code> 自 10月28日起从 Tornado Cash 提取 3 笔约 0.1 ETH 的燃气费；29日 10:29 部署首版废弃合约 <code class="text-slate-400">0x19be…f2bf</code>，22:20–22:24 对两个自备外部钱包发起两轮 EIP-7702 清扫演练；23:59 部署最终版无源码清扫器 <code class="text-rose-300">0x63e8…6fAe</code>，并于 30日 00:21–00:30 完成第 3 次彩排。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-cyan-300">// 链上准备指纹 (UTC+8 北京时间)<br>Gas_Source: Tornado Cash -&gt; 0x7C86…5CA0 (0.0983 ETH x 3)<br>Final_Sweeper: 0x63e8…6fAe (Unverified, fn: sweep())<br>Rehearsals: 3 external EOA wallets tested before 00:30 BJT</div>'
+        },
+        't-2': {
+          tag: '阶段 02 链上取证详情',
+          badge: '10月30日 04:04 – 04:20 BJT',
+          title: 'XRP/Solana 率先异动，18,270 枚 BTC 与 6.28 亿美元波场资产同步出逃',
+          body: '<p><strong class="text-white">● 第一枪在瑞波链（XRP Ledger）打响：</strong>北京时间 04:04–04:09（20:04–20:09 UTC），5 个币安 XRP 热钱包向单一攻击者地址 <code class="text-cyan-300">rK21t6…gfzMx</code> 集中转出 2.3346 亿枚 XRP（价值约 2.96 亿美元），每个钱包仅留下最低激活准备金，且手续费设置显著高于币安当晚正常提币。</p><p><strong class="text-white">● 比特币剥离链（Peel Chain）与波场联动：</strong>04:10 BJT Solana 热钱包转出 970,500 SOL（~$9,600万）；04:20 BJT 币安比特币热钱包单笔转出 18,270 枚 BTC（~$14.8亿），并在同一区块内迅速拆分为 19 个各持约 1,000 BTC 的地址；2 分钟内波场热钱包转出 6.127 亿 USDT 与 4,640 万 TRX（~$6.28亿）。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-amber-300">// 多链并发签名特征<br>04:04 BJT: XRP Ledger -&gt; 233.46M XRP ($296M)<br>04:10 BJT: Solana -&gt; 970,500 SOL ($96M) + L2 drains<br>04:20 BJT: Bitcoin -&gt; 18,270 BTC ($1.48B) + TRON ($628M)</div>'
+        },
+        't-3': {
+          tag: '阶段 03 链上取证详情',
+          badge: '10月30日 04:20:59 – 04:24:47 BJT',
+          title: 'EIP-7702 指针注入 Binance 14，单笔交易瞬秒 25 亿美元资产',
+          body: '<p><strong class="text-white">● 04:20:59 BJT 指针改写：</strong>攻击者向以太坊提交一笔包含 50 份连续 Nonce（18,914,775 至 18,914,824）的 EIP-7702 交易。其中 1 份精准命中 <code class="text-rose-300">Binance 14</code>（<code class="text-cyan-300">0x28C6…1d60</code>）的当前交易计数，将其代码字段改写为 <code class="text-rose-300">0xef0100 + 0x63e8…6fAe</code>。</p><p><strong class="text-white">● 04:24:23 BJT 史诗级单笔清扫：</strong>仅隔 3 分 24 秒，攻击者调用 <code class="text-rose-300">Binance 14</code> 上的 <code class="text-cyan-300">sweep()</code> 函数（交易哈希 <code class="text-cyan-300">0x53bd38b8...</code>），在一笔交易内转走 167,464 枚 ETH、16.15 亿枚 USDT 及 62 种其他代币（约 25 亿–28 亿美元），仅消耗 0.0004 ETH（不到 1 美元）燃气费；24 秒后第 2 个以太坊热钱包又直接签出 9 笔转账（$1.74亿），且黑客借用 <code class="text-rose-300">Binance 14</code> 的 Executor 权限从另一币安智能账户抽走 8.23 亿 USDC。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-rose-300">// 核心攻击交易指纹<br>04:20:59 BJT: 50 EIP-7702 Auth Batch (Nonces 18914775..18914824)<br>04:24:23 BJT: Tx 0x53bd38b8... sweeps 167,464 ETH + 1.615B USDT + 62 tokens<br>Gas_Cost: 0.0004 ETH (&lt; $1.00 USD)</div>'
+        },
+        't-4': {
+          tag: '阶段 04 链上取证详情',
+          badge: '10月30日 04:41 – 06:01 BJT',
+          title: '黑客顶着 15% 滑点狂买 30.8 万枚 ETH；Tether/Circle/Ripple 冻结 26.7 亿',
+          body: '<p><strong class="text-white">● 不惜代价的链上换仓狂潮：</strong>深知中心化稳定币随时会被拉黑，攻击者利用 UniswapX、1inch Fusion（由做市商 Resolver 填单）及 SunSwap 疯狂抛售 7.29 亿枚 USDT，并向 Aave 抵押 6,000 万 USDT 借出 19,760 枚 ETH。由于订单过于庞大，黑客以约 $2,650/ETH 的高价买入（当时市价约 $2,300–$2,350，溢价高达 10%–15%），单在滑点上就损失了约 1.19 亿美元，但成功将手中 ETH 持仓推高至 508,621 枚。</p><p><strong class="text-white">● 稳定币发行方联合围堵：</strong>04:57 BJT World Liberty 率先冻结 WLFI（后于 06:10 冻结 2,780 万 USD1）；05:04 BJT Circle 协同执法部门精准冻结主接收钱包内的 8.23 亿 USDC；Tether 分 11 批冻结了以太坊与波场上共计 17.59 亿枚 USDT（占被盗 USDT 总量的 71%）；06:01 BJT Ripple 冻结剩余 4,050 万枚 RLUSD。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-purple-300">// 冻结与换仓对决账单<br>USDT_Frozen: 1,759M USDT (71% locked by Tether)<br>USDT_Swapped: 729M USDT -&gt; +308,000 ETH &amp; TRX (15% slippage cost)<br>USDC_Frozen: 825M USDC locked by Circle at 05:04 BJT</div>'
+        },
+        't-5': {
+          tag: '阶段 05 链上取证详情',
+          badge: '10月30日 06:55 – 07:56 BJT',
+          title: '06:55 币安用原私钥抢救零碎代币却未撤销委托，黑客完成第 7 次清扫',
+          body: '<p><strong class="text-white">● 被忽视的持久化后门：</strong>与传统一次性转账不同，EIP-7702 写入的 23 字节代码指针会一直驻留在账户状态中，直到钱包主人签发一笔指向零地址（<code class="text-emerald-300">0x0000...0000</code>）的新授权将其覆盖。只要指针还在，任何后续充入该热钱包的资金都处于黑客 <code class="text-rose-300">sweep()</code> 函数的射程之内。</p><p><strong class="text-white">● 6 次追加抽血与第二波攻击：</strong>由于外部充值与归集仍在惯性流入 <code class="text-amber-300">Binance 14</code>，黑客分别于 04:41、04:59、05:04、05:44、06:39 和 07:56 BJT 又发起了 6 次清扫调用。甚至在 06:55 BJT，币安自己还在用 <code class="text-amber-300">Binance 14</code> 的私钥抢救残余小币种，却没有顺手撤销 7702 委托；07:05 BJT，Avalanche（~$2,800万）与 Polygon（~$1,000万）上的币安热钱包再次遭遇第二波签名盗转。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-amber-300">// 7 轮清扫时间戳 (UTC / BJT)<br>Sweep #1: 20:24 UTC (04:24 BJT) - Main $2.5B+ Drain<br>Sweeps #2-#7: 20:41, 20:59, 21:04, 21:44, 22:39, 23:56 UTC<br>06:55 BJT: Binance rescues dust tokens using same key without revoking 7702</div>'
+        },
+        't-6': {
+          tag: '阶段 06 链上取证详情',
+          badge: '10月30日 08:06 – 14:43 BJT',
+          title: '08:06 正式撤销 EIP-7702 授权；Arbitrum 安全委员会强行划回 $3,000 万',
+          body: '<p><strong class="text-white">● 终结 3 小时 45 分钟的代码劫持：</strong>北京时间 08:06–08:10（00:06–00:10 UTC），币安终于向链上提交了针对 <code class="text-emerald-300">Binance 14</code> 的 EIP-7702 撤销授权交易，清除了恶意清扫器指针。</p><p><strong class="text-white">● L2 紧急治理干预与最终资金盘点：</strong>08:08 BJT，Arbitrum 安全委员会（Security Council）行使紧急宪法权限，在链上强制执行两笔划转，将黑客 Arbitrum 地址中的 8,426 枚 ETH 与 7,460 万枚 ARB（约合 3,000 万美元）移入安全锁定地址。截至 14:43 BJT（06:43 UTC），黑客在 9 个以太坊新钱包、19 个比特币地址及 XRP/Solana/TRON 地址中共控制约 32 亿美元未冻结资产，尚未流入混币器或中心化交易所。</p><div class="bg-slate-950/90 border border-slate-800 rounded p-3 font-mono text-[11px] text-emerald-300">// 终局状态盘点 (截至 10月30日 14:43 BJT)<br>08:06 BJT: Binance 14 EIP-7702 delegation finally revoked<br>08:08 BJT: Arbitrum Security Council rescues 8,426 ETH + 74.6M ARB<br>Attacker_Unfrozen_Holdings: ~$3.2B (508,621 ETH + 18,270 BTC + XRP/SOL/TRX)</div>'
+        }
+      };
+
+      // 3. 卡片点击与移动端就地展开 (Inline Accordion) + 视口滚动偏移补偿
+      var cards = document.querySelectorAll('#timelineCardsContainer .card-item');
+      var inspectorBox = document.getElementById('timelineInspectorBox');
+      var container = document.getElementById('timelineCardsContainer');
+
+      cards.forEach(function(card) {
+        card.addEventListener('click', function() {
+          cards.forEach(function(c) { c.classList.remove('card-active'); });
+          card.classList.add('card-active');
+
+          var stepId = card.getAttribute('data-id');
+          var data = timelineData[stepId];
+          if (data) {
+            document.getElementById('tlPhaseTag').innerText = data.tag;
+            document.getElementById('tlBadge').innerText = data.badge;
+            document.getElementById('tlTitle').innerText = data.title;
+            document.getElementById('tlBody').innerHTML = data.body;
+          }
+
+          if (window.innerWidth <= 1024 && inspectorBox) {
+            var oldTop = card.getBoundingClientRect().top;
+            card.insertAdjacentElement('afterend', inspectorBox);
+            var newTop = card.getBoundingClientRect().top;
+            var delta = newTop - oldTop;
+            if (Math.abs(delta) > 2) {
+              window.scrollBy(0, delta);
+            }
+          } else if (window.innerWidth > 1024 && inspectorBox && inspectorBox.parentElement !== container.parentElement) {
+            container.parentElement.appendChild(inspectorBox);
+          }
+
+          if (window.resizeAllCharts) {
+            setTimeout(window.resizeAllCharts, 50);
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 1024 && inspectorBox && container && container.parentElement && inspectorBox.parentElement !== container.parentElement) {
+          container.parentElement.appendChild(inspectorBox);
+        }
+      });
+    })();
+  </script>
+
+  <!-- SCRIPT 2: ECharts 图表渲染逻辑 (独立标签，与基础 UI 交互严格隔离) -->
+  <script>
+    (function() {
+      var chartWave = null;
+      var chartChains = null;
+      var chartUsdt = null;
+      var chartHistory = null;
+
+      function initAllCharts() {
+        if (typeof echarts === 'undefined') {
+          setTimeout(initAllCharts, 200);
+          return;
+        }
+
+        // 1. 时间线累计流出 vs 累计冻结折线图
+        var waveDom = document.getElementById('chartTimelineWave');
+        if (waveDom && !chartWave) {
+          chartWave = echarts.init(waveDom);
+          chartWave.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'axis',
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            legend: {
+              data: ['累计被盗流出 ($B)', '累计冻结/夺回 ($B)'],
+              top: 0,
+              textStyle: { color: '#94a3b8', fontSize: 11 }
+            },
+            grid: { left: '8%', right: '5%', top: '18%', bottom: '15%' },
+            xAxis: {
+              type: 'category',
+              data: ['04:04', '04:10', '04:20', '04:24', '05:04', '06:01', '07:05', '08:08'],
+              axisLabel: { color: '#94a3b8', fontSize: 10 },
+              axisLine: { lineStyle: { color: '#334155' } }
+            },
+            yAxis: {
+              type: 'value',
+              name: '亿美元',
+              nameTextStyle: { color: '#64748b', fontSize: 10 },
+              axisLabel: { color: '#94a3b8', fontSize: 10 },
+              splitLine: { lineStyle: { color: 'rgba(51, 65, 85, 0.4)' } }
+            },
+            series: [
+              {
+                name: '累计被盗流出 ($B)',
+                type: 'line',
+                smooth: true,
+                data: [2.96, 4.31, 25.39, 61.50, 62.40, 62.90, 63.50, 63.60],
+                itemStyle: { color: '#f43f5e' },
+                areaStyle: { color: 'rgba(244, 63, 94, 0.18)' },
+                lineStyle: { width: 2.5, color: '#f43f5e' }
+              },
+              {
+                name: '累计冻结/夺回 ($B)',
+                type: 'line',
+                smooth: true,
+                data: [0, 0, 0, 0, 15.80, 26.40, 26.70, 27.00],
+                itemStyle: { color: '#10b981' },
+                areaStyle: { color: 'rgba(16, 185, 129, 0.18)' },
+                lineStyle: { width: 2.5, color: '#10b981' }
+              }
+            ]
+          });
+        }
+
+        // 2. 十条公链被盗金额与冻结状态堆叠柱状图
+        var chainsDom = document.getElementById('chartChainBreakdown');
+        if (chainsDom && !chartChains) {
+          chartChains = echarts.init(chainsDom);
+          chartChains.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            legend: {
+              data: ['未冻结/黑客控制 ($M)', '已冻结/安全夺回 ($M)'],
+              top: 0,
+              textStyle: { color: '#94a3b8', fontSize: 11 }
+            },
+            grid: { left: '16%', right: '6%', top: '14%', bottom: '10%' },
+            xAxis: {
+              type: 'value',
+              axisLabel: { color: '#94a3b8', fontSize: 10 },
+              splitLine: { lineStyle: { color: 'rgba(51, 65, 85, 0.4)' } }
+            },
+            yAxis: {
+              type: 'category',
+              data: ['Polygon/OP/Base', 'Avalanche', 'Arbitrum', 'Solana', 'XRP Ledger', 'TRON', 'Bitcoin', 'Ethereum'],
+              axisLabel: { color: '#e2e8f0', fontSize: 11 }
+            },
+            series: [
+              {
+                name: '未冻结/黑客控制 ($M)',
+                type: 'bar',
+                stack: 'total',
+                data: [11.3, 26.4, 2.0, 96.0, 296.0, 328.0, 1470.0, 1430.0],
+                itemStyle: { color: '#f43f5e', borderRadius: [0, 0, 0, 0] }
+              },
+              {
+                name: '已冻结/安全夺回 ($M)',
+                type: 'bar',
+                stack: 'total',
+                data: [6.2, 1.6, 30.0, 0.0, 0.0, 300.0, 0.0, 2360.0],
+                itemStyle: { color: '#10b981', borderRadius: [0, 4, 4, 0] }
+              }
+            ]
+          });
+        }
+
+        // 3. 被盗 24.88 亿 USDT 结局饼图
+        var usdtDom = document.getElementById('chartUsdtAndEth');
+        if (usdtDom && !chartUsdt) {
+          chartUsdt = echarts.init(usdtDom);
+          chartUsdt.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'item',
+              formatter: '{b}: {c} 百万枚 ({d}%)',
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            legend: {
+              bottom: '2%',
+              textStyle: { color: '#94a3b8', fontSize: 11 }
+            },
+            series: [
+              {
+                name: '24.88亿被盗USDT去向',
+                type: 'pie',
+                radius: ['42%', '70%'],
+                center: ['50%', '45%'],
+                itemStyle: {
+                  borderRadius: 6,
+                  borderColor: '#0f172a',
+                  borderWidth: 2
+                },
+                label: {
+                  color: '#e2e8f0',
+                  fontSize: 11,
+                  formatter: '{b}\n{d}%'
+                },
+                data: [
+                  { value: 1759, name: '被 Tether 冻结锁定 (17.59亿)', itemStyle: { color: '#10b981' } },
+                  { value: 495, name: '抢先换仓为 ETH 及 Aave 借贷 (4.95亿)', itemStyle: { color: '#38bdf8' } },
+                  { value: 234, name: '在波场 SunSwap 换为 TRX (2.34亿)', itemStyle: { color: '#f59e0b' } }
+                ]
+              }
+            ]
+          });
+        }
+
+        // 4. 历史前五大加密黑客案对比柱状图
+        var histDom = document.getElementById('chartHistoryComparison');
+        if (histDom && !chartHistory) {
+          chartHistory = echarts.init(histDom);
+          chartHistory.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' },
+              backgroundColor: '#0f172a',
+              borderColor: '#334155',
+              textStyle: { color: '#f8fafc', fontSize: 11 }
+            },
+            legend: {
+              data: ['未追回/黑客持有 ($B)', '已冻结/追回 ($B)'],
+              top: 0,
+              textStyle: { color: '#94a3b8', fontSize: 11 }
+            },
+            grid: { left: '12%', right: '6%', top: '15%', bottom: '18%' },
+            xAxis: {
+              type: 'category',
+              data: ['币安 (2026.10)', 'Bybit (2025.02)', 'Ronin (2022.03)', 'PolyNet (2021.08)', 'FTX 被盗 (2022.11)'],
+              axisLabel: { color: '#e2e8f0', fontSize: 10, interval: 0, rotate: 12 }
+            },
+            yAxis: {
+              type: 'value',
+              name: '十亿美元 ($B)',
+              nameTextStyle: { color: '#64748b', fontSize: 10 },
+              axisLabel: { color: '#94a3b8', fontSize: 10 },
+              splitLine: { lineStyle: { color: 'rgba(51, 65, 85, 0.4)' } }
+            },
+            series: [
+              {
+                name: '未追回/黑客持有 ($B)',
+                type: 'bar',
+                stack: 'case',
+                data: [3.66, 1.46, 0.60, 0.00, 0.48],
+                itemStyle: { color: '#f43f5e' }
+              },
+              {
+                name: '已冻结/追回 ($B)',
+                type: 'bar',
+                stack: 'case',
+                data: [2.70, 0.04, 0.03, 0.61, 0.00],
+                itemStyle: { color: '#10b981', borderRadius: [4, 4, 0, 0] }
+              }
+            ]
+          });
+        }
+      }
+
+      window.resizeAllCharts = function() {
+        if (chartWave) chartWave.resize();
+        if (chartChains) chartChains.resize();
+        if (chartUsdt) chartUsdt.resize();
+        if (chartHistory) chartHistory.resize();
+      };
+
+      window.addEventListener('resize', window.resizeAllCharts);
+      window.addEventListener('load', initAllCharts);
+      document.addEventListener('DOMContentLoaded', initAllCharts);
+    })();
+  </script>
+</body>
+</html>
