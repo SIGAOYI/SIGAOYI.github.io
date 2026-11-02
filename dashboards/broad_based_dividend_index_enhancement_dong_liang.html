@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>上证跌破3600点之后：宽基、红利与指数增强通俗解构（含美股与加密市场拓展）</title>
+
+  <!-- 微信与社交分享 Meta 规范（无英文双引号描述、绝对路径缩略图） -->
+  <meta name="description" content="用通俗平实的语言拆解雪球厚雪长波对话创金合信基金董梁博士：看懂宽基含科量、7月1日风格急转、量化选股三步法、U型非线性收益，并拓展至美股与加密货币杠铃配置策略。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="上证跌破3600点之后：宽基、红利与指数增强通俗解构（含美股与加密市场拓展）">
+  <meta property="og:description" content="用通俗平实的语言拆解雪球厚雪长波对话创金合信基金董梁博士：看懂宽基含科量、7月1日风格急转、量化选股三步法、U型非线性收益，并拓展至美股与加密货币杠铃配置策略。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/broad_based_dividend_index_enhancement_dong_liang.html">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 异步非阻塞加载 ECharts + 多 CDN 自动容灾 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="window.__loadFallbackEcharts && window.__loadFallbackEcharts()"></script>
+  <script>
+    window.__loadFallbackEcharts = function() {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #162238;
+      --border-color: #1e293b;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #c084fc;
+    }
+    body {
+      background-color: var(--bg-body);
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+      line-height: 1.65;
+      -webkit-tap-highlight-color: rgba(56, 189, 248, 0.2);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .chart-box { width: 100%; height: 370px; }
+    .active-tab {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+    }
+    .engine-card {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .engine-card:hover {
+      border-color: rgba(56, 189, 248, 0.65);
+      transform: translateY(-2px);
+    }
+    .engine-card.active-card {
+      border-color: #38bdf8 !important;
+      background-color: #162238 !important;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.28);
+    }
+    .preset-btn.active-preset {
+      border-color: #38bdf8 !important;
+      background-color: rgba(56, 189, 248, 0.18) !important;
+      color: #ffffff !important;
+    }
+    @media (max-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .tab-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+      }
+      .chart-box { height: 300px; }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 sm:p-6 lg:p-8">
+  <!-- 隐藏微信 300x300 分享缩略图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="max-w-[1560px] mx-auto space-y-6">
+
+    <!-- 顶部 Header Banner -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-3">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            雪球《厚雪长波》深度拆解 · A股 × 美股 × 加密市场跨界配置沙盘
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+            上证跌破3600点之后：重新思考宽基、红利与指数增强
+          </h1>
+          <p class="text-sm sm:text-base text-slate-400 mt-2 max-w-4xl leading-relaxed">
+            用通俗平实的语言拆解创金合信基金首席量化投资官<strong class="text-slate-200">董梁博士</strong>（美国密歇根大学博士、前巴克莱环球投资 BGI 基金经理）100分钟访谈：为什么买宽基必须先看“含科量”？为什么7月1日10点风格骤然掉头？量化机器为何在拐点会慢1–2周？以及这套“红利压舱 + 宽基增强 + 科技弹性”的逻辑如何直接迁移到<strong class="text-cyan-300">美股（SPY/RSP/SCHD/JEPQ）</strong>与<strong class="text-emerald-300">加密市场（BUIDL/stETH/AAVE/BTC）</strong>。
+          </p>
+        </div>
+
+        <!-- 视频与三季报一手信源卡片 -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4 min-w-[290px] shrink-0 text-xs space-y-2 backdrop-blur-sm">
+          <div class="text-slate-400 font-semibold flex items-center justify-between">
+            <span>📺 核心溯源与三季报核查</span>
+            <span class="text-emerald-400 font-bold">✓ 2026 Q3 季报交叉核实</span>
+          </div>
+          <div class="text-white font-medium">节目：雪球《厚雪长波》（2026.10.22录制 / 11.02发布）</div>
+          <div class="text-slate-300">嘉宾：<span class="text-cyan-400 font-semibold">董梁（22年量化从业 / 在管23只基金）</span></div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <a href="https://www.youtube.com/watch?v=Af1sAkPQhEo" target="_blank" class="px-2.5 py-1 bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 rounded text-rose-300 font-medium transition">
+              YouTube 原片 ↗
+            </a>
+            <a href="https://www.xiaoyuzhoufm.com/episode/6ae58558c96c8942ec151033" target="_blank" class="px-2.5 py-1 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 rounded text-cyan-300 font-medium transition">
+              小宇宙单集 ↗
+            </a>
+            <a href="http://dataclouds.cninfo.com.cn/sjother2/fund/2026/20261026/2299baeb7bcd77a3deacc278f85f080f.pdf" target="_blank" class="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/40 rounded text-emerald-300 font-medium transition">
+              2026三季报原文 ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 顶部 6 大核心 KPI 矩阵 -->
+    <div class="kpi-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">5–6月红利罕见回撤</div>
+        <div class="text-2xl font-black text-rose-400 font-mono mt-1">-13.44%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>近10年极罕见跌幅</span>
+          <span class="text-emerald-400 font-mono">Q3反弹+11.37%</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">风格切换精确时点</div>
+        <div class="text-2xl font-black text-amber-400 font-mono mt-1">07-01 10:00</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>半年报排名锁定后</span>
+          <span class="text-amber-300 font-mono">科技冲高急转</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">公募指增合同底仓</div>
+        <div class="text-2xl font-black text-cyan-400 font-mono mt-1">&ge; 80.0%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>成分股内刚性约束</span>
+          <span class="text-slate-300 font-mono">风格偏离 &plusmn;0.1&sigma;</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">量化模型转向滞后</div>
+        <div class="text-2xl font-black text-purple-400 font-mono mt-1">1–2 周</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>趋势跟踪天然惯性</span>
+          <span class="text-purple-300 font-mono">靠日度数据扭转</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">2026主流指增超额</div>
+        <div class="text-2xl font-black text-emerald-400 font-mono mt-1">+3% ~ +5%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>300增强Q3超额+6.98%</span>
+          <span class="text-emerald-300 font-mono">500增强Q3+5.89%</span>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl shadow-lg hover:border-cyan-500/50 transition">
+        <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider">跨市场收息安全垫</div>
+        <div class="text-2xl font-black text-white font-mono mt-1">3.5%~8.0%</div>
+        <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+          <span>A股红利5% / 美股SCHD+JEPI</span>
+          <span class="text-cyan-400 font-mono">链上BUIDL+stETH</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 顶部 Tab 导航栏 -->
+    <div class="tab-grid flex flex-wrap gap-2 sm:gap-3 border-b border-slate-800 pb-3">
+      <button type="button" onclick="switchTab('tab-market')" id="btn-tab-market" class="tab-btn active-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300">
+        📊 1. 宽基含科量与7·1急转
+      </button>
+      <button type="button" onclick="switchTab('tab-engine')" id="btn-tab-engine" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        ⚙️ 2. 量化三步法与U型捕手
+      </button>
+      <button type="button" onclick="switchTab('tab-dividend')" id="btn-tab-dividend" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        ⚓ 3. 红利压舱与Q3实盘核查
+      </button>
+      <button type="button" onclick="switchTab('tab-global')" id="btn-tab-global" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        🌍 4. 美股与加密市场跨界拓展
+      </button>
+      <button type="button" onclick="switchTab('tab-sim')" id="btn-tab-sim" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition border border-slate-700 bg-slate-900 text-slate-300 hover:text-white">
+        🧮 5. 三大市场杠铃配置计算器
+      </button>
+    </div>
+
+    <!-- Tab 1: 宽基含科量与7·1急转 -->
+    <div id="tab-market" class="tab-pane space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">📈 2026年四大指数与红利轮动路径复盘 (年初=100)</h2>
+              <p class="text-xs text-slate-400 mt-0.5">4–6月科技抽血红利，7月1日10:00半年报锁定后风格骤变，10月破3600点后国家队入场托底</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">日历与抽血效应</span>
+          </div>
+          <div id="chart-style-rotation" class="chart-box"></div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">🧬 宽基指数“含科量”与涨跌过山车幅度对比</h2>
+              <p class="text-xs text-slate-400 mt-0.5">一句话人话：中证500里塞满了科技股，涨时最猛、跌时最痛；沪深300与红利低波在科技退潮期最抗跌</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">底层成分股真相</span>
+          </div>
+          <div id="chart-broad-tech" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 2026 四大关键市场节点复盘 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h3 class="text-base font-bold text-white mb-3">🔍 用大白话复盘 2026 年 A 股“过山车”：四个关键真相</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-cyan-400 font-bold mb-1">1. 为什么5–6月红利跌了13.4%？</div>
+            <p class="text-slate-300 leading-relaxed">市场总资金就这么多。4–6月 AI 算力股狂飙，全场资金都去追科技，只能卖掉手里的银行、煤炭、沪深300来腾挪资金。红利指数两个月跌超 <strong class="text-rose-400">-13.44%</strong>，把两年股息全跌没了，但这也砸出了十年难遇的黄金买点。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-amber-400 font-bold mb-1">2. 为什么拐点恰好在7月1日10点？</div>
+            <p class="text-slate-300 leading-relaxed">6月30日是公募基金半年报业绩排名的“交卷截止日”。重仓科技的冠军基金为了保住名次，6月底绝不砸盘；而死守传统股的基金经理扛不住骂声，在6月下旬割肉追高了科技。等6月30日排名一锁定，7月1日早上10点获利盘集体兑现。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-emerald-400 font-bold mb-1">3. 为什么买宽基不能闭眼乱买？</div>
+            <p class="text-slate-300 leading-relaxed">很多人以为中证500是平庸的中盘股，其实它近几年的<strong class="text-emerald-300">“含科量”比沪深300和1000都高</strong>。结果就是上半年跟着科技大涨，7月后也跌得最惨。反而是盘子极小、不需要多少资金就能拉动的微盘股，在7月后偷偷涨了回来。</p>
+          </div>
+          <div class="p-4 bg-slate-800/60 rounded-xl border border-slate-700">
+            <div class="text-purple-400 font-bold mb-1">4. 跌破3600点后为什么别再割肉？</div>
+            <p class="text-slate-300 leading-relaxed">复盘去年4月7日美国关税冲击、以及12月1日国家队入场买 ETF 的历史：国家队出手不一定当天就是最低点（市场底），但它明确划出了<strong class="text-purple-300">“政策底”</strong>，随后无一例外都走出了一波像样的反弹，现在割肉正好卖在地板上。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 量化三步法与U型捕手（含移动端就地展开 Accordion） -->
+    <div id="tab-engine" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <div class="mb-4">
+          <h2 class="text-base sm:text-lg font-bold text-white">⚙️ 点击下方卡片拆解：公募量化选股的“三步流水线”与机器盲区</h2>
+          <p class="text-xs text-slate-400 mt-1">手机端点击任意卡片将在正下方就地展开通俗解释、生活类比、董梁原话与实操避坑指南。</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- 左侧 4 张架构卡片列表 -->
+          <div id="engineCardsList" class="lg:col-span-5 space-y-3">
+            <div onclick="selectEngine(0, this)" class="engine-card active-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-cyan-400">1. 第一步：多因子打分（给5000只股票体检排名）</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">收益预测</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">把财报三张表、分析师预测、近期涨跌和换手率做成上百个打分项，给全市场股票排出一张“未来谁最能涨”的总分榜。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">核心痛点：财报指标大家研究了20年，用的人太多，威力已经被摊薄</div>
+            </div>
+
+            <div onclick="selectEngine(1, this)" class="engine-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-emerald-400">2. 第二步：风险模型与优化器（营养师强制配餐）</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">纪律紧箍咒</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">不能因为科技股打分高就满仓科技！优化器强制要求：80%仓位必须在指数成分股内，行业和大小盘比例必须紧贴基准。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">核心真相：哪怕把300指增的科技比例调到上限，含科量依然不如中证500</div>
+            </div>
+
+            <div onclick="selectEngine(2, this)" class="engine-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-amber-400">3. 第三步：机器学习抓“U型双端收益”</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">AI算法破局</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">股市里“业绩极好（高景气）”和“业绩烂透但股价跌透（困境反转）”两头最赚钱，中间平庸的最差。唯有机器学习能分段抓住两头。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">防坑机制：碰到A股“玄学炒作”，模型看到异常高换手高波动会自动避开</div>
+            </div>
+
+            <div onclick="selectEngine(3, this)" class="engine-card p-4 rounded-xl border border-slate-700 bg-slate-800/70">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-rose-400">4. 第四步：为什么市场急转弯时量化会慢1–2周？</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono">机器的盲区</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1.5">多因子模型骨子里是“顺势而为（谁近期涨得好给谁高分）”。一旦行情突然掉头，它要靠每天的新数据花 1–2 周才能把方向转过来。</p>
+              <div class="text-[11px] text-emerald-400 mt-2 font-mono">人机配合：基金经理不手炒个股，但会提前调低优化器里的热门风格上限</div>
+            </div>
+          </div>
+
+          <!-- 右侧详情检视台 (#inspectorBox) -->
+          <div id="inspectorHost" class="lg:col-span-7">
+            <div id="inspectorBox" class="p-5 rounded-2xl border border-cyan-500/40 bg-slate-950/90 space-y-4 shadow-2xl">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <h3 id="insp-title" class="text-lg font-bold text-cyan-400">1. 第一步：多因子打分（给5000只股票体检排名）</h3>
+                <span id="insp-badge" class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 font-mono">第一棒 · 全市场预期收益排序器</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="font-bold text-white mb-1.5">🔬 用人话讲它是怎么干活的</div>
+                  <p id="insp-mech" class="text-slate-300 leading-relaxed">从利润表、资产负债表、现金流量表（每张表几百项数据）以及每天的成交量价里，挑出历史上能预测股价涨跌的指标（比如每股收益比同行高多少、过去3年利润增速、近期资金流入等），加权算出一个总分，给全市场5000多只股票从高到低排队。</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                  <div class="font-bold text-white mb-1.5">💡 一个秒懂的生活类比</div>
+                  <p id="insp-analogy" class="text-slate-300 leading-relaxed">就像大学招生的“综合考评表”：不靠招生官拍脑袋看个人喜好，而是把高考文化课、奥赛获奖、体育测试、平时成绩全部折算成标准分加总，排出一张完全客观的全国考生总分榜。</p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-700/40 text-xs space-y-1.5">
+                <div class="font-bold text-emerald-400">🎙️ 董梁原片大实话（时间戳 13:05 – 20:45）</div>
+                <p id="insp-evidence" class="text-slate-300 leading-relaxed">A股公募量化从 2008–2009 年开始做，已经快 20 年了。财报数据就那么多，当几万亿公私募量化资金都在用同样的财报指标选股时，原本好用的指标就被迅速买贵、预测能力被摊薄了。所以现在必须靠机器学习在老指标上自动组合加减乘除，挖掘别人没注意到的新规律。</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-700/40 text-xs space-y-1.5">
+                <div class="font-bold text-amber-400">🧭 对普通投资者的启发</div>
+                <p id="insp-takeaway" class="text-slate-300 leading-relaxed">选指数增强基金时，别只看某一个季度的排名爆发，要看基金经理的策略库是不是同时结合了“基本面 + 量价 + 机器学习”。单靠老派财报选股的量化基金，现在越来越难做出超额收益了。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 传统线性建模 vs 机器学习 U 型非线性建模 ECharts 图表 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white">🧠 一张图看懂机器学习怎么赚钱：为什么“两头翘的 U 型股票”最肥？</h2>
+            <p class="text-xs text-slate-400 mt-0.5">传统模型以为“利润增速越高、股票越涨（一条直线）”，结果发现不准；机器学习分段一看，原来“增速极高”和“跌透了困境反转”两头都大赚，就中间的不赚！</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono">董梁 22:44 核心案例</span>
+        </div>
+        <div id="chart-ml-ushape" class="chart-box"></div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 红利压舱与Q3实盘核查 -->
+    <div id="tab-dividend" class="tab-pane hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">🏆 2026年三季度（7–9月）董梁代表基金实盘成绩单</h2>
+              <p class="text-xs text-slate-400 mt-0.5">数据来自 2026 年 10 月底披露的官方三季报：在科技股退潮的三季度，红利低波大涨 +11.37%，量化指增全面跑赢大盘</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">2026 Q3 季报实锤</span>
+          </div>
+          <div id="chart-q3-funds" class="chart-box"></div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">⚓ 红利资产的玩法精髓：5%股息保底，但别指望它像科技股翻倍</h2>
+              <p class="text-xs text-slate-400 mt-0.5">红利是每年稳赚 8%–12% 的复利通道：跌超 10% 时闭眼左侧抄底（绿点），短线暴涨摸到通道上沿则别去追高（红线）</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">压舱石与天花板</span>
+          </div>
+          <div id="chart-dividend-band" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 董梁核心产品矩阵与重仓调仓历史核查表 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h3 class="text-base font-bold text-white mb-3">📋 官方数据核查：董梁在管代表基金 2026 Q3 战绩与持仓特点</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 bg-slate-950/60">
+                <th class="py-3 px-3">基金名称与代码</th>
+                <th class="py-3 px-4">策略定位</th>
+                <th class="py-3 px-4">2026 Q3 净值表现</th>
+                <th class="py-3 px-4">2026 Q3 跑赢基准 (Alpha)</th>
+                <th class="py-3 px-4">大白话点评与三季报核心细节</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-emerald-400">创金合信中证红利低波动 (005562 / 022900)</td>
+                <td class="py-3 px-4">高股息低波压舱石</td>
+                <td class="py-3 px-4 font-mono text-emerald-400 font-bold">+11.37% (Y份额)</td>
+                <td class="py-3 px-4 font-mono text-cyan-300">成立以来累计 +121.41%</td>
+                <td class="py-3 px-4 text-slate-400">6月底红利跌超10%后完美印证董梁“左侧买点”判断，Q3 资金从高位科技撤回银行与红利，单季反弹逾 11%。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-cyan-400">创金合信均益量化选股混合 (020224)</td>
+                <td class="py-3 px-4">红利+深度学习多策略</td>
+                <td class="py-3 px-4 font-mono text-slate-200">-1.09% (基准 -10.16%)</td>
+                <td class="py-3 px-4 font-mono text-emerald-400 font-bold">+9.07% (A) / +8.95% (C)</td>
+                <td class="py-3 px-4 text-slate-400">大盘基准跌超10%时它只跌了1%，极度分散（前十大重仓股加起来仅占 5.99%，第一大重仓吉比特仅占 0.94%）。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-amber-400">创金合信沪深300指数增强 (002310)</td>
+                <td class="py-3 px-4">大盘蓝筹指增</td>
+                <td class="py-3 px-4 font-mono text-slate-200">显著抗跌修复</td>
+                <td class="py-3 px-4 font-mono text-emerald-400 font-bold">+6.98% (A) / +6.96% (C)</td>
+                <td class="py-3 px-4 text-slate-400">80%底仓锁定沪深300成分股，靠多因子打分+短周期量价交易，一个季度比纯买沪深300 ETF 多赚近 7 个百分点。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-purple-400">创金合信中证500指数增强 (002311)</td>
+                <td class="py-3 px-4">中盘成长指增</td>
+                <td class="py-3 px-4 font-mono text-slate-200">消化高含科量回调</td>
+                <td class="py-3 px-4 font-mono text-emerald-400 font-bold">+5.89% (A) / +5.86% (C)</td>
+                <td class="py-3 px-4 text-slate-400">虽然中证500指数本身因为科技股多在Q3跌了不少，但增强模型依然比指数少跌近 6 个百分点。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-rose-400">创金合信中证1000指数增强 (003646)</td>
+                <td class="py-3 px-4">小盘指增+量化排雷</td>
+                <td class="py-3 px-4 font-mono text-slate-200">稳健跑赢基准</td>
+                <td class="py-3 px-4 font-mono text-emerald-400 font-bold">+0.98% (A)</td>
+                <td class="py-3 px-4 text-slate-400">小盘股容易爆雷，模型专门加上了基本面恶化与负面事件自动剔除机制，稳扎稳打。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 美股与加密市场跨界拓展 (NEW) -->
+    <div id="tab-global" class="tab-pane hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">🌍 跨市场“含科量”真相：你买的宽基到底有多集中？</h2>
+              <p class="text-xs text-slate-400 mt-0.5">标普500 (SPY) 表面是500家公司，实则超33%押注科技巨头；等权标普 (RSP) 才是真正的均衡宽基</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">警惕假分散</span>
+          </div>
+          <div id="chart-global-tech" class="chart-box"></div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-base sm:text-lg font-bold text-white">💰 A股 × 美股 × 加密市场“红利压舱石”年化生息率与波动对比</h2>
+              <p class="text-xs text-slate-400 mt-0.5">美股用 SCHD+JEPQ 构建收息底仓；币圈用贝莱德美债 BUIDL + 以太坊质押 stETH + 回购型代币 AAVE 充当压舱石</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">全天候现金流底座</span>
+          </div>
+          <div id="chart-global-yield" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- 三大市场策略迁移对照矩阵 -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+        <h3 class="text-base font-bold text-white mb-3">🧭 深度拓展：把董梁的 5 个量化配置法则搬到【美股】与【加密货币】怎么用？</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 bg-slate-950/60">
+                <th class="py-3 px-3">核心投资法则</th>
+                <th class="py-3 px-4">🇨🇳 A股市场（董梁原版）</th>
+                <th class="py-3 px-4">🇺🇸 美股市场（跨界应用方案）</th>
+                <th class="py-3 px-4">🪙 加密货币 Crypto（跨界应用方案）</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-cyan-400">1. 识别宽基“含科量”</td>
+                <td class="py-3 px-4">中证500含科量最高（波动像科技股）；沪深300偏金融蓝筹。</td>
+                <td class="py-3 px-4">市值加权的 <strong>SPY/VOO 前七大科技巨头占超30%</strong>，实质已变成“半个纳指”。想降含科量做防守，应改配<strong>标普500等权重 ETF (RSP，每只股固定0.2%)</strong>。</td>
+                <td class="py-3 px-4">按市值买前20大代币是“伪分散”——除 <strong>BTC/ETH</strong> 外，其余山寨币在跌市里相关性超0.85（全是高风险科技敞口）。真宽基只有 BTC+ETH。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-amber-400">2. 机构考核“日历效应”</td>
+                <td class="py-3 px-4">6月30日半年报排名锁定后，7月1日10:00集中调仓切换。</td>
+                <td class="py-3 px-4">① <strong>3/6/9/12月末最后3天</strong>：养老金强制60/40股债再平衡（涨多的科技股被机械抛售）；② <strong>10月底与12月中下旬</strong>：机构抛售亏损股抵税（Tax-Loss Harvesting），次年1月初买回。</td>
+                <td class="py-3 px-4">① <strong>每月/季末最后一个周五 16:00 (UTC+8)</strong>：Deribit 期权大交割，交割前币价被吸向最大痛点，交割后开启真趋势；② <strong>每日00:00/08:00/16:00</strong> 资金费率结算。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-purple-400">3. U型双端非线性选股</td>
+                <td class="py-3 px-4">抓“业绩暴增（右端）”与“业绩深亏但跌透的困境反转（左端）”，避开中间平庸股。</td>
+                <td class="py-3 px-4">右端买<strong>AI算力/软件自由现金流爆发龙头</strong>；左端买<strong>商业护城河未破、但因短期恐慌被砸到15倍PE以下的巨头</strong>（如2022年底的Meta），不买低增速平庸白马。</td>
+                <td class="py-3 px-4">右端买<strong>有真实链上收入回购的龙头</strong>（如启动 Aavenomics 3.0 自动回购的 <strong>AAVE</strong>）；左端买<strong>连环爆仓插针后、资金费率深负的主流公链 (SOL/ETH)</strong>。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-emerald-400">4. 红利压舱石与天花板</td>
+                <td class="py-3 px-4">中证红利低波（5%股息率），两个月跌超10%时闭眼左侧买；但别指望它翻倍。</td>
+                <td class="py-3 px-4">① <strong>SCHD</strong>（3.1%股息+高ROE稳健增长）；② <strong>JEPI / JEPQ</strong>（备兑期权策略，年化派息 8%–12.8%，横盘震荡市神器，但因卖了看涨期权，大牛市涨幅有天花板）。</td>
+                <td class="py-3 px-4">① 美元无风险红利：<strong>贝莱德美债代币 BUIDL</strong>（~4% APY）；② 币本位质押红利：<strong>Lido stETH</strong>（2.3%–4.1% APY）与 <strong>BNB</strong>；stETH/BNB 急跌15%+即是黄金左侧买点。</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3 font-bold text-rose-400">5. 政策底与杠铃+增强</td>
+                <td class="py-3 px-4">国家队买ETF=政策底；45%红利低波 + 40%宽基指增 + 15%科技。</td>
+                <td class="py-3 px-4"><strong>美联储放缓缩表/降息转向 = 政策底</strong>；40% SCHD/JEPI + 40% 标普质量/等权增强 (SPHQ/RSP) + 20% QQQ。</td>
+                <td class="py-3 px-4"><strong>稳定币恢复净铸造 + BTC ETF转净流入 = 政策底</strong>；45% BUIDL/stETH生息 + 40% BTC/ETH负费率定投增强 + 15% SOL/AAVE零杠杆现货。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 5: 三大市场杠铃配置计算器 -->
+    <div id="tab-sim" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">🧮 跨市场“红利压舱 + 宽基增强 + 科技进攻”杠铃组合计算器</h2>
+            <p class="text-xs text-slate-400 mt-1">支持一键切换【A股】【美股】【加密市场】预设参数，实时测算横盘收息安全垫、温和反弹收益与二次探底抗跌保护。</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" id="preset-cn" onclick="applyMarketPreset('CN')" class="preset-btn active-preset px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 text-slate-300 transition">
+              🇨🇳 A股 3600点配方
+            </button>
+            <button type="button" id="preset-us" onclick="applyMarketPreset('US')" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 text-slate-300 transition">
+              🇺🇸 美股防恐高配方
+            </button>
+            <button type="button" id="preset-crypto" onclick="applyMarketPreset('CRYPTO')" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 text-slate-300 transition">
+              🪙 加密全天候配方
+            </button>
+          </div>
+        </div>
+
+        <div id="preset-desc-banner" class="p-3.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-cyan-200">
+          <strong>当前预设（🇨🇳 A股 3600点杠铃配方）</strong>：45% 红利低波（005562，约5%股息率） + 40% 沪深300/中证500量化指增（赚取市场Beta + 约4.5%年化超额Alpha） + 15% 科技算力进攻仓。
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">红利/生息压舱石仓位 (%):</label>
+            <input type="range" id="sim-div" min="20" max="70" step="5" value="45" class="w-full accent-emerald-500" oninput="updateBarbellSim()">
+            <div class="flex justify-between text-xs font-mono text-emerald-400">
+              <span>20%</span>
+              <span id="lbl-sim-div" class="font-bold text-base">45% (红利底仓)</span>
+              <span>70%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">核心宽基增强仓位 (%):</label>
+            <input type="range" id="sim-enh" min="15" max="60" step="5" value="40" class="w-full accent-cyan-500" oninput="updateBarbellSim()">
+            <div class="flex justify-between text-xs font-mono text-cyan-400">
+              <span>15%</span>
+              <span id="lbl-sim-enh" class="font-bold text-base">40% (宽基指增)</span>
+              <span>60%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">宽基增强年化超额 Alpha (%):</label>
+            <input type="range" id="sim-alpha" min="0.0" max="8.0" step="0.5" value="4.5" class="w-full accent-amber-500" oninput="updateBarbellSim()">
+            <div class="flex justify-between text-xs font-mono text-amber-400">
+              <span>0% (纯ETF)</span>
+              <span id="lbl-sim-alpha" class="font-bold text-base">+4.5% / 年</span>
+              <span>+8.0%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-300">组合总投资本金 (万元/万U):</label>
+            <input type="range" id="sim-cap" min="10" max="500" step="10" value="100" class="w-full accent-purple-500" oninput="updateBarbellSim()">
+            <div class="flex justify-between text-xs font-mono text-purple-400">
+              <span>10万</span>
+              <span id="lbl-sim-cap" class="font-bold text-base">100 万</span>
+              <span>500万</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">自动配平：高弹性科技/叙事仓</div>
+            <div id="out-tech-weight" class="text-2xl font-black text-rose-400 font-mono mt-1">15.0%</div>
+            <div id="out-tech-note" class="text-[11px] text-slate-400 mt-1">✓ 符合“放一些但勿重仓”原则</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">组合年化收息+指增Alpha安全垫</div>
+            <div id="out-buffer-pct" class="text-2xl font-black text-emerald-400 font-mono mt-1">+4.05%</div>
+            <div id="out-buffer-rmb" class="text-[11px] text-emerald-300 mt-1 font-mono">横盘市每年提供 +4.05 万现金/超额垫</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">情景A：温和反弹 (+8% Beta)</div>
+            <div id="out-bull-ret" class="text-2xl font-black text-cyan-400 font-mono mt-1">+9.35%</div>
+            <div id="out-bull-rmb" class="text-[11px] text-cyan-300 mt-1 font-mono">预计净增 +9.35 万 (攻守兼备)</div>
+          </div>
+
+          <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400 font-semibold">情景B：二次探底冲击 (-10% 大盘)</div>
+            <div id="out-bear-ret" class="text-2xl font-black text-amber-400 font-mono mt-1">-6.50%</div>
+            <div id="out-bear-rmb" class="text-[11px] text-slate-400 mt-1">较满仓科技(-22%)少亏 15.50 万</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部版权与核查说明 -->
+    <footer class="border-t border-slate-800 pt-6 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>本交互看板由 <strong>龟龟的个人博客</strong> (axelrod.lawootrip.com) 深度构建</span>
+        <span class="mx-2">|</span>
+        <span>信源：雪球《厚雪长波》播客、创金合信 2026 三季报、Invesco/Schwab/JPMorgan/RWA.xyz 公开数据</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://axelrod.lawootrip.com/" class="hover:text-cyan-400 transition">博客首页</a>
+        <span>•</span>
+        <a href="https://www.youtube.com/watch?v=Af1sAkPQhEo" target="_blank" class="hover:text-cyan-400 transition">YouTube 原视频</a>
+        <span>•</span>
+        <a href="https://www.xiaoyuzhoufm.com/episode/6ae58558c96c8942ec151033" target="_blank" class="hover:text-cyan-400 transition">小宇宙播客单集</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 脚本 1：独立的 Tab 切换、移动端就地展开（Inline Accordion）与杠铃计算器逻辑（与 ECharts 严格隔离） -->
+  <script>
+    var ENGINE_DATA = [
+      {
+        title: '1. 第一步：多因子打分（给5000只股票体检排名）',
+        badge: '第一棒 · 全市场预期收益排序器',
+        mech: '从利润表、资产负债表、现金流量表（每张表几百项数据）以及每天的成交量价里，挑出历史上能预测股价涨跌的指标（比如每股收益比同行高多少、过去3年利润增速、近期资金流入等），加权算出一个总分，给全市场5000多只股票从高到低排队。',
+        analogy: '就像大学招生的“综合考评表”：不靠招生官拍脑袋看个人喜好，而是把高考文化课、奥赛获奖、体育测试、平时成绩全部折算成标准分加总，排出一张完全客观的全国考生总分榜。',
+        evidence: 'A股公募量化从 2008–2009 年开始做，已经快 20 年了。财报数据就那么多，当几万亿公私募量化资金都在用同样的财报指标选股时，原本好用的指标就被迅速买贵、预测能力被摊薄了。所以现在必须靠机器学习在老指标上自动组合加减乘除，挖掘别人没注意到的新规律。',
+        takeaway: '选指数增强基金时，别只看某一个季度的排名爆发，要看基金经理的策略库是不是同时结合了“基本面 + 量价 + 机器学习”。单靠老派财报选股的量化基金，现在越来越难做出超额收益了。'
+      },
+      {
+        title: '2. 第二步：风险模型与优化器（营养师强制配餐）',
+        badge: '第二棒 · 跟踪误差与风格暴露的纪律守门员',
+        mech: '光有股票打分还不能直接下单——假如打分前50名全是科技股，满仓买入就变成了赌单一赛道。风险模型会先给每只股票贴上“大盘/小盘、成长/价值、波动高低”的标签，再交给优化器，在保证组合跟基准指数长得很像的前提下挑出高分股。',
+        analogy: '就像营养师配餐：多因子打分是“菜品美味排行榜”，而优化器则是“热量、蛋白质、蔬菜比例硬规定”——哪怕红烧肉（科技股）打分再高，也绝不允许一顿饭全吃红烧肉，必须跟基准食谱的营养结构对齐。',
+        evidence: '公募指增有两条铁律：① 基金合同规定 80% 以上的股票仓位必须买在指数成分股以内，最多只能拿 20% 去外面买；② 大小盘和风格偏离通常限制在正负 0.1 个标准差（±0.1σ）以内。所以哪怕把沪深300增强里的科技股配到顶格，它的含科量还是比不过中证500。',
+        takeaway: '千万别指望沪深300指增在科技疯牛里跑赢创业板。公募指增的使命是“先帮你稳稳拿住指数本身的涨跌（Beta），再每年稳定多赚 3%–5% 的选股超额（Alpha）”。'
+      },
+      {
+        title: '3. 第三步：机器学习抓“U型双端收益”',
+        badge: '第三棒 · 突破传统直线思维的算法升级',
+        mech: '以前传统模型默认“利润增速越高、股价越涨（一条直线）”。但近年来A股真实情况是：利润增速极高（高景气）和利润增速极负但股价已经跌透（困境反转）的两头股票未来都大涨，反而中间平庸增长的股票最不赚钱。随机森林与神经网络能分段切开，同时抓住两头。',
+        analogy: '传统线性模型就像拿一把直尺去量碗底，发现左边高、右边也高，平均斜率等于0，就误以为“碗是平的、指标没用”；而机器学习像柔性的探针，一眼就能摸出碗底“两头翘、中间凹”的 U 型曲线。',
+        evidence: '那么A股经常出现的“生肖概念、名字谐音”等玄学炒作，量化模型会跟着去追高吗？董梁明确回答：不会。因为玄学股暴涨时伴随着极端的换手率暴增和波动率失控，这在风险模型里属于强扣分项，机器会自动绕着走。',
+        takeaway: '同样道理放在美股和币圈也成立：要么买右侧有真实业绩/协议收入爆发的绝对龙头，要么买左侧遭遇极端恐慌清算但基本面未死的错杀龙头，千万别买中间不死不活的平庸标的。'
+      },
+      {
+        title: '4. 第四步：为什么市场急转弯时量化会慢1–2周？',
+        badge: '第四棒 · 机器的天然盲区与人机分工',
+        mech: '绝大多数多因子模型（尤其是量价和动量指标）天生是“顺势而为”的——最近涨得好的股票打分自然高。当市场在7月1日或10月8日突然掉头大跌时，模型不会当天跟着掉头，它必须靠随后每天的新下跌数据把因子权重一点点扭转过来，通常需要 1–2 周。',
+        analogy: '量化模型就像一艘开启自动巡航的万吨巨轮：在顺风顺水的长航道里，它比任何人类船长都稳；但遇到急转弯时，庞大的历史数据惯性决定了它需要 1–2 周的转弯半径。此时基金经理不能去抢方向盘手炒个股，但可以提前收紧风帆。',
+        evidence: '董梁解释：虽然模型里也有“跌多了买”的反转因子，但权重占比不够大，顶不住趋势因子的惯性。当基金经理判断某个板块（如6月底的科技）严重过热时，会主动把优化器里的风格敞口上限收窄（比如把成长暴露从 ±0.1σ 调成只允许 ≤0），温和帮组合提前减速。',
+        takeaway: '“持续稳定的趋势是量化最好的朋友，高频来回打脸的震荡市则是量化最难受的时候。”当市场风格刚切换的头两周看到指增超额小幅回吐，千万别在机器刚完成换仓时恐慌赎回。'
+      }
+    ];
+
+    var MARKET_PRESETS = {
+      CN: {
+        div: 45,
+        enh: 40,
+        alpha: 4.5,
+        cap: 100,
+        divYield: 5.0,
+        desc: '<strong>当前预设（🇨🇳 A股 3600点杠铃配方）</strong>：45% 中证红利低波（005562，约5%股息率） + 40% 沪深300/中证500量化指增（赚取市场Beta + 约4.5%年化超额Alpha） + 15% 科技算力进攻仓。'
+      },
+      US: {
+        div: 40,
+        enh: 40,
+        alpha: 3.5,
+        cap: 100,
+        divYield: 6.2,
+        desc: '<strong>当前预设（🇺🇸 美股防恐高杠铃配方）</strong>：40% 红利与备兑期权收息（SCHD 3.1%股息 + JEPI/JEPQ 8%~12%派息，综合约6.2%现金流） + 40% 标普等权/质量因子增强（RSP/SPHQ） + 20% 纳指科技进攻（QQQ）。'
+      },
+      CRYPTO: {
+        div: 45,
+        enh: 40,
+        alpha: 6.0,
+        cap: 100,
+        divYield: 4.0,
+        desc: '<strong>当前预设（🪙 加密市场全天候配方）</strong>：45% 链上生息压舱石（贝莱德美债 BUIDL ~4% APY + Lido stETH 质押收息） + 40% BTC/ETH 核心宽基（结合负费率/恐慌插针分批定投增强） + 15% 高Beta叙事与回购龙头（SOL/AAVE 零杠杆现货）。'
+      }
+    };
+
+    var currentEngineIndex = 0;
+    var currentDivYield = 5.0;
+
+    function switchTab(tabId) {
+      var panes = document.querySelectorAll('.tab-pane');
+      for (var i = 0; i < panes.length; i++) {
+        panes[i].classList.add('hidden');
+      }
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove('active-tab');
+      }
+      var targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.remove('hidden');
+      var targetBtn = document.getElementById('btn-' + tabId);
+      if (targetBtn) targetBtn.classList.add('active-tab');
+
+      if (window.resizeAllDashboardCharts) {
+        setTimeout(window.resizeAllDashboardCharts, 60);
+      }
+    }
+
+    function selectEngine(idx, cardEl) {
+      currentEngineIndex = idx;
+      var item = ENGINE_DATA[idx];
+      if (!item) return;
+
+      var cards = document.querySelectorAll('.engine-card');
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].classList.remove('active-card');
+      }
+      if (cardEl) {
+        cardEl.classList.add('active-card');
+      } else if (cards[idx]) {
+        cards[idx].classList.add('active-card');
+      }
+
+      var activeCard = cardEl || cards[idx];
+      var inspector = document.getElementById('inspectorBox');
+      var host = document.getElementById('inspectorHost');
+
+      var prevTop = activeCard ? activeCard.getBoundingClientRect().top : 0;
+
+      document.getElementById('insp-title').textContent = item.title;
+      document.getElementById('insp-badge').textContent = item.badge;
+      document.getElementById('insp-mech').textContent = item.mech;
+      document.getElementById('insp-analogy').textContent = item.analogy;
+      document.getElementById('insp-evidence').textContent = item.evidence;
+      document.getElementById('insp-takeaway').textContent = item.takeaway;
+
+      if (window.innerWidth <= 1024 && activeCard && inspector) {
+        activeCard.insertAdjacentElement('afterend', inspector);
+        var newTop = activeCard.getBoundingClientRect().top;
+        var delta = newTop - prevTop;
+        if (Math.abs(delta) > 2) {
+          window.scrollBy(0, delta);
+        }
+      } else if (host && inspector && inspector.parentElement !== host) {
+        host.appendChild(inspector);
+      }
+    }
+
+    window.addEventListener('resize', function() {
+      var inspector = document.getElementById('inspectorBox');
+      var host = document.getElementById('inspectorHost');
+      var cards = document.querySelectorAll('.engine-card');
+      var activeCard = cards[currentEngineIndex];
+      if (window.innerWidth <= 1024 && activeCard && inspector) {
+        if (inspector.previousElementSibling !== activeCard) {
+          activeCard.insertAdjacentElement('afterend', inspector);
+        }
+      } else if (window.innerWidth > 1024 && host && inspector && inspector.parentElement !== host) {
+        host.appendChild(inspector);
+      }
+    });
+
+    function applyMarketPreset(code) {
+      var p = MARKET_PRESETS[code];
+      if (!p) return;
+      currentDivYield = p.divYield;
+      document.getElementById('sim-div').value = p.div;
+      document.getElementById('sim-enh').value = p.enh;
+      document.getElementById('sim-alpha').value = p.alpha;
+      document.getElementById('sim-cap').value = p.cap;
+      document.getElementById('preset-desc-banner').innerHTML = p.desc;
+
+      var allBtns = document.querySelectorAll('.preset-btn');
+      for (var i = 0; i < allBtns.length; i++) {
+        allBtns[i].classList.remove('active-preset');
+      }
+      var btnMap = { CN: 'preset-cn', US: 'preset-us', CRYPTO: 'preset-crypto' };
+      var activeBtn = document.getElementById(btnMap[code]);
+      if (activeBtn) activeBtn.classList.add('active-preset');
+
+      updateBarbellSim();
+    }
+
+    function updateBarbellSim() {
+      var divW = parseFloat(document.getElementById('sim-div').value) || 45;
+      var enhW = parseFloat(document.getElementById('sim-enh').value) || 40;
+      var alpha = parseFloat(document.getElementById('sim-alpha').value) || 4.5;
+      var cap = parseFloat(document.getElementById('sim-cap').value) || 100;
+
+      if (divW + enhW > 95) {
+        enhW = 95 - divW;
+        document.getElementById('sim-enh').value = enhW;
+      }
+      var techW = Math.max(0, 100 - divW - enhW);
+
+      document.getElementById('lbl-sim-div').textContent = divW.toFixed(0) + '% (收息底仓)';
+      document.getElementById('lbl-sim-enh').textContent = enhW.toFixed(0) + '% (宽基增强)';
+      document.getElementById('lbl-sim-alpha').textContent = '+' + alpha.toFixed(1) + '% / 年';
+      document.getElementById('lbl-sim-cap').textContent = cap.toFixed(0) + ' 万';
+
+      document.getElementById('out-tech-weight').textContent = techW.toFixed(1) + '%';
+      document.getElementById('out-tech-note').textContent = techW > 25 ? '⚠️ 进攻仓位偏高，注意回撤波动' : '✓ 符合“放一些但勿重仓”原则';
+
+      var bufferPct = (divW / 100.0) * currentDivYield + (enhW / 100.0) * alpha;
+      var bufferRmb = cap * (bufferPct / 100.0);
+
+      var bullPct = (divW / 100.0) * 6.0 + (enhW / 100.0) * (8.0 + alpha * 0.5) + (techW / 100.0) * 15.0;
+      var bullRmb = cap * (bullPct / 100.0);
+
+      var bearPct = (divW / 100.0) * (-2.0) + (enhW / 100.0) * (-8.0 + alpha * 0.5) + (techW / 100.0) * (-22.0);
+      var fullTechLossRmb = cap * (-22.0 / 100.0);
+      var savedRmb = Math.abs(fullTechLossRmb - cap * (bearPct / 100.0));
+
+      document.getElementById('out-buffer-pct').textContent = '+' + bufferPct.toFixed(2) + '%';
+      document.getElementById('out-buffer-rmb').textContent = '横盘市每年提供 +' + bufferRmb.toFixed(2) + ' 万现金/超额垫';
+
+      document.getElementById('out-bull-ret').textContent = '+' + bullPct.toFixed(2) + '%';
+      document.getElementById('out-bull-rmb').textContent = '预计净增 +' + bullRmb.toFixed(2) + ' 万 (攻守兼备)';
+
+      document.getElementById('out-bear-ret').textContent = bearPct.toFixed(2) + '%';
+      document.getElementById('out-bear-rmb').textContent = '较满仓科技(-22%)少亏 ' + savedRmb.toFixed(2) + ' 万';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updateBarbellSim();
+      if (window.innerWidth <= 1024) {
+        var cards = document.querySelectorAll('.engine-card');
+        if (cards[0]) selectEngine(0, cards[0]);
+      }
+    });
+  </script>
+
+  <!-- 脚本 2：独立的 ECharts 图表初始化与响应式渲染逻辑 -->
+  <script>
+    var chartRotation, chartBroadTech, chartMlUshape, chartQ3Funds, chartDivBand, chartGlobalTech, chartGlobalYield;
+
+    function initDashboardCharts() {
+      if (typeof echarts === 'undefined') {
+        setTimeout(initDashboardCharts, 120);
+        return;
+      }
+
+      var elRotation = document.getElementById('chart-style-rotation');
+      if (elRotation && !chartRotation) {
+        chartRotation = echarts.init(elRotation);
+        chartRotation.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: {
+            data: ['AI算力/科技股指数', '中证500 (高含科量)', '中证红利全收益 (压舱石)', '沪深300指数增强 (含Alpha)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '15%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['2026.01', '2026.03', '2026.04(启动)', '2026.05', '2026.06月底(极值)', '07.01(切换)', '2026.08', '2026.09(Q3末)', '10.22(破3700)', '11月初(3600托底)'],
+            axisLabel: { color: '#94a3b8', fontSize: 10.5 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            min: 82,
+            max: 142,
+            name: '归一化净值 (年初=100)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: 'AI算力/科技股指数',
+              type: 'line',
+              smooth: true,
+              lineStyle: { width: 3, color: '#f43f5e' },
+              itemStyle: { color: '#f43f5e' },
+              data: [100, 102, 112, 126, 138, 135, 114, 105, 96, 95]
+            },
+            {
+              name: '中证500 (高含科量)',
+              type: 'line',
+              smooth: true,
+              lineStyle: { width: 2.5, color: '#f59e0b' },
+              itemStyle: { color: '#f59e0b' },
+              data: [100, 101, 107, 115, 121, 119, 106, 99, 95, 96]
+            },
+            {
+              name: '中证红利全收益 (压舱石)',
+              type: 'line',
+              smooth: true,
+              lineStyle: { width: 3, color: '#10b981' },
+              itemStyle: { color: '#10b981' },
+              data: [100, 104, 103, 97, 89.6, 91, 98, 101.5, 100.2, 101.8]
+            },
+            {
+              name: '沪深300指数增强 (含Alpha)',
+              type: 'line',
+              smooth: true,
+              lineStyle: { width: 2.8, type: 'dashed', color: '#38bdf8' },
+              itemStyle: { color: '#38bdf8' },
+              data: [100, 101.5, 103, 101, 98.5, 99, 102, 104.2, 102.5, 103.8]
+            }
+          ]
+        });
+      }
+
+      var elBroadTech = document.getElementById('chart-broad-tech');
+      if (elBroadTech && !chartBroadTech) {
+        chartBroadTech = echarts.init(elBroadTech);
+        chartBroadTech.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          legend: {
+            data: ['TMT/硬科技权重占比 (%)', '4-6月科技行情弹性 (%)', '7月后回调最大回撤 (%)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '15%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['中证红利低波\n(高股息压舱)', '沪深300\n(金融蓝筹核心)', '中证500\n(高含科量中盘)', '中证1000\n(中小成长制造)', '万得微盘股指数\n(游资流动性驱动)'],
+            axisLabel: { color: '#e2e8f0', fontSize: 10.5 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '百分比 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: 'TMT/硬科技权重占比 (%)',
+              type: 'bar',
+              data: [4.2, 16.5, 31.8, 26.4, 14.0],
+              itemStyle: { color: '#38bdf8', borderRadius: [4, 4, 0, 0] }
+            },
+            {
+              name: '4-6月科技行情弹性 (%)',
+              type: 'bar',
+              data: [-11.8, -2.4, 18.6, 8.2, -6.5],
+              itemStyle: { color: '#10b981', borderRadius: [4, 4, 0, 0] }
+            },
+            {
+              name: '7月后回调最大回撤 (%)',
+              type: 'bar',
+              data: [-3.2, -7.8, -19.5, -14.8, -8.4],
+              itemStyle: { color: '#f43f5e', borderRadius: [0, 0, 4, 4] }
+            }
+          ]
+        });
+      }
+
+      var elMlUshape = document.getElementById('chart-ml-ushape');
+      if (elMlUshape && !chartMlUshape) {
+        chartMlUshape = echarts.init(elMlUshape);
+        chartMlUshape.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: {
+            data: ['机器学习分段拟合 (抓住困境反转+高景气两头吃肉)', '传统线性回归模型 (误判相关性≈0)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '15%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            name: '过去3年每股收益(EPS)复合增长率分位',
+            nameLocation: 'middle',
+            nameGap: 26,
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            data: ['D1 (-40%以下\n跌透困境反转)', 'D2 (-25%\n业绩探底)', 'D3 (-10%\n下滑放缓)', 'D4 (0%\n停滞区)', 'D5 (+5%\n平庸增长)', 'D6 (+10%\n温和增长)', 'D7 (+18%\n稳健增长)', 'D8 (+28%\n景气扩张)', 'D9 (+45%\n高景气)', 'D10 (+70%以上\n极高成长龙头)'],
+            axisLabel: { color: '#e2e8f0', fontSize: 10 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '未来下一期预期超额收益率 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '机器学习分段拟合 (抓住困境反转+高景气两头吃肉)',
+              type: 'line',
+              smooth: true,
+              symbol: 'circle',
+              symbolSize: 8,
+              lineStyle: { width: 3.5, color: '#38bdf8' },
+              itemStyle: { color: '#38bdf8' },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: 'rgba(56, 189, 248, 0.28)' },
+                  { offset: 1, color: 'rgba(56, 189, 248, 0.01)' }
+                ])
+              },
+              data: [6.8, 4.2, 0.5, -2.1, -3.4, -2.8, -0.6, 2.4, 5.6, 8.2]
+            },
+            {
+              name: '传统线性回归模型 (误判相关性≈0)',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: { width: 2, type: 'dashed', color: '#f59e0b' },
+              data: [1.2, 1.35, 1.5, 1.65, 1.8, 1.95, 2.1, 2.25, 2.4, 2.55]
+            }
+          ]
+        });
+      }
+
+      var elQ3Funds = document.getElementById('chart-q3-funds');
+      if (elQ3Funds && !chartQ3Funds) {
+        chartQ3Funds = echarts.init(elQ3Funds);
+        chartQ3Funds.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          legend: {
+            data: ['2026 Q3 基金超额收益率 / 净值表现 (%)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '10%', top: '12%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'value',
+            name: '百分比 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '+{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          yAxis: {
+            type: 'category',
+            data: [
+              '中证1000增强A\n(Q3超额Alpha)',
+              '2026全市场宽基指增\n(全年平均超额)',
+              '中证500增强A\n(Q3超额Alpha)',
+              '沪深300增强A\n(Q3超额Alpha)',
+              '均益量化选股混合A\n(Q3跑赢基准)',
+              '中证红利低波指数Y\n(Q3单季净值涨幅)'
+            ],
+            axisLabel: { color: '#e2e8f0', fontSize: 11 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          series: [
+            {
+              name: '2026 Q3 基金超额收益率 / 净值表现 (%)',
+              type: 'bar',
+              barWidth: '52%',
+              label: { show: true, position: 'right', formatter: '+{c}%', color: '#10b981', fontWeight: 'bold' },
+              itemStyle: {
+                borderRadius: [0, 6, 6, 0],
+                color: function(params) {
+                  var colors = ['#64748b', '#0ea5e9', '#818cf8', '#38bdf8', '#f59e0b', '#10b981'];
+                  return colors[params.dataIndex] || '#38bdf8';
+                }
+              },
+              data: [0.98, 5.00, 5.89, 6.98, 9.07, 11.37]
+            }
+          ]
+        });
+      }
+
+      var elDivBand = document.getElementById('chart-dividend-band');
+      if (elDivBand && !chartDivBand) {
+        chartDivBand = echarts.init(elDivBand);
+        chartDivBand.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: {
+            data: ['红利指数真实轨迹 (围绕年化8%-10%中枢波动)', '5%股息率长期复利通道上沿 (右侧勿追高)', '十年罕见回撤超10%通道下沿 (黄金左侧买点)'],
+            textStyle: { color: '#94a3b8', fontSize: 10.5 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '16%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['Y1 Q1', 'Y1 Q3', 'Y2 Q1', 'Y2 Q3', 'Y3 Q1', '2026.05(高点)', '2026.06底(-13.4%买点)', '2026.09(+11.4%修复)', '2026.11(3600点配置)'],
+            axisLabel: { color: '#94a3b8', fontSize: 10.5 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            min: 95,
+            max: 155,
+            name: '全收益复利指数',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '红利指数真实轨迹 (围绕年化8%-10%中枢波动)',
+              type: 'line',
+              smooth: true,
+              symbol: 'circle',
+              symbolSize: 8,
+              lineStyle: { width: 3, color: '#38bdf8' },
+              itemStyle: {
+                color: function(params) {
+                  return params.dataIndex === 6 ? '#10b981' : '#38bdf8';
+                }
+              },
+              data: [100, 106, 111, 119, 126, 136, 117.7, 131.1, 134.5]
+            },
+            {
+              name: '5%股息率长期复利通道上沿 (右侧勿追高)',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: { width: 1.8, type: 'dashed', color: '#f43f5e' },
+              data: [106, 111, 116, 122, 128, 135, 138, 142, 146]
+            },
+            {
+              name: '十年罕见回撤超10%通道下沿 (黄金左侧买点)',
+              type: 'line',
+              symbol: 'none',
+              lineStyle: { width: 1.8, type: 'dashed', color: '#10b981' },
+              data: [96, 100, 105, 110, 115, 118, 120, 124, 128]
+            }
+          ]
+        });
+      }
+
+      var elGlobalTech = document.getElementById('chart-global-tech');
+      if (elGlobalTech && !chartGlobalTech) {
+        chartGlobalTech = echarts.init(elGlobalTech);
+        chartGlobalTech.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          legend: {
+            data: ['科技/高Beta资产权重占比 (%)', '前十大成分集中度 (%)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '15%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['A股 沪深300\n(金融蓝筹为主)', 'A股 中证500\n(高含科量中盘)', '美股 标普500 SPY\n(Mag-7高度集中)', '美股 等权标普 RSP\n(每家0.2%真均衡)', '美股 纳斯达克 QQQ\n(纯科技进攻)', '加密 Top20指数\n(高相关性风险)'],
+            axisLabel: { color: '#e2e8f0', fontSize: 10 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '比重 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '科技/高Beta资产权重占比 (%)',
+              type: 'bar',
+              data: [16.5, 31.8, 41.2, 15.6, 61.5, 85.0],
+              itemStyle: { color: '#38bdf8', borderRadius: [4, 4, 0, 0] }
+            },
+            {
+              name: '前十大成分集中度 (%)',
+              type: 'bar',
+              data: [22.4, 6.8, 35.8, 2.1, 51.2, 88.5],
+              itemStyle: { color: '#f59e0b', borderRadius: [4, 4, 0, 0] }
+            }
+          ]
+        });
+      }
+
+      var elGlobalYield = document.getElementById('chart-global-yield');
+      if (elGlobalYield && !chartGlobalYield) {
+        chartGlobalYield = echarts.init(elGlobalYield);
+        chartGlobalYield.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          legend: {
+            data: ['年化股息/生息率 (%)', '历史常见最大回撤幅度 (%)'],
+            textStyle: { color: '#94a3b8', fontSize: 11 },
+            top: 0
+          },
+          grid: { left: '6%', right: '5%', top: '15%', bottom: '12%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['A股 中证红利低波\n(005562)', '美股 红利百强\n(Schwab SCHD)', '美股 备兑期权红利\n(JPMorgan JEPI/JEPQ)', '链上 贝莱德美债\n(BlackRock BUIDL)', '链上 以太坊质押\n(Lido stETH)', '链上 协议收入回购\n(Aave 3.0)'],
+            axisLabel: { color: '#e2e8f0', fontSize: 10 },
+            axisLine: { lineStyle: { color: '#334155' } }
+          },
+          yAxis: {
+            type: 'value',
+            name: '百分比 (%)',
+            nameTextStyle: { color: '#94a3b8', fontSize: 11 },
+            axisLabel: { color: '#94a3b8', formatter: '{value}%' },
+            splitLine: { lineStyle: { color: '#1e293b', type: 'dashed' } }
+          },
+          series: [
+            {
+              name: '年化股息/生息率 (%)',
+              type: 'bar',
+              data: [5.1, 3.1, 10.4, 4.1, 3.2, 4.5],
+              itemStyle: { color: '#10b981', borderRadius: [4, 4, 0, 0] }
+            },
+            {
+              name: '历史常见最大回撤幅度 (%)',
+              type: 'bar',
+              data: [13.4, 14.5, 11.8, 0.2, 28.0, 35.0],
+              itemStyle: { color: '#818cf8', borderRadius: [4, 4, 0, 0] }
+            }
+          ]
+        });
+      }
+    }
+
+    window.resizeAllDashboardCharts = function() {
+      if (chartRotation) chartRotation.resize();
+      if (chartBroadTech) chartBroadTech.resize();
+      if (chartMlUshape) chartMlUshape.resize();
+      if (chartQ3Funds) chartQ3Funds.resize();
+      if (chartDivBand) chartDivBand.resize();
+      if (chartGlobalTech) chartGlobalTech.resize();
+      if (chartGlobalYield) chartGlobalYield.resize();
+    };
+
+    window.addEventListener('load', initDashboardCharts);
+    window.addEventListener('resize', window.resizeAllDashboardCharts);
+  </script>
+</body>
+</html>
