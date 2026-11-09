@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>万亿AI大基建的资本与电力迷局：次贷危机对比、融资囚徒困境与六条破局路径 | 硅谷101 E215 深度解析</title>
+  <!-- 微信/社交分享适配：缩略图、标题、描述（图片绝对路径，300x300，无英文双引号描述） -->
+  <meta name="description" content="深度解析硅谷101第215期对话投资人郑迪：全景拆解46GW电力缺口六条破局路径、1GW五百亿美元成本账本、2008年房地产次贷危机与半导体GPU证券化的本质异同，以及科技巨头AI融资的囚徒困境。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="万亿AI大基建的资本与电力迷局：房地产次贷对比与AI融资囚徒困境">
+  <meta property="og:description" content="深度解析硅谷101第215期对话投资人郑迪：全景拆解46GW电力缺口六条破局路径、1GW五百亿美元成本账本、2008年房地产次贷危机与半导体GPU证券化的本质异同，以及科技巨头AI融资的囚徒困境。">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/ai_megainfra_capital_power_subprime_dilemma.html">
+
+  <!-- 异步非阻塞加载 ECharts（含多 CDN 自动容灾切换，彻底杜绝移动端网络阻塞导致交互脚本失效） -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="window.__loadFallbackEcharts && window.__loadFallbackEcharts()"></script>
+  <script>
+    window.__loadFallbackEcharts = function() {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --bg-elevated: #1a233a;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-blue: #3b82f6;
+      --accent-purple: #818cf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: rgba(56, 189, 248, 0.2);
+    }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.68;
+      padding: 20px 14px;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+    a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.85; text-decoration: underline; }
+    .container { max-width: 1420px; margin: 0 auto; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #162035 0%, #0d1424 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 26px 30px;
+      margin-bottom: 20px;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(129, 140, 248, 0.08) 50%, transparent 80%);
+      pointer-events: none;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .header-badge .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+    }
+    h1 {
+      font-size: 25px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #cbd5e1;
+      max-width: 1180px;
+      line-height: 1.68;
+      margin-bottom: 16px;
+    }
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      padding-top: 14px;
+      border-top: 1px solid rgba(36, 50, 79, 0.6);
+    }
+    .meta-item b { color: #e2e8f0; }
+
+    /* Three Core Analytical Frameworks Strip */
+    .analogy-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .analogy-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-top: 3px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+    .analogy-card.purple { border-top-color: var(--accent-purple); border-color: rgba(129, 140, 248, 0.3); }
+    .analogy-card.amber { border-top-color: var(--accent-amber); border-color: rgba(245, 158, 11, 0.3); }
+    .analogy-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .analogy-text {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 15px;
+      box-shadow: var(--shadow-card);
+    }
+    .kpi-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .kpi-val {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .kpi-val.rose { color: var(--accent-rose); }
+    .kpi-val.amber { color: var(--accent-amber); }
+    .kpi-val.emerald { color: var(--accent-emerald); }
+    .kpi-val.purple { color: var(--accent-purple); }
+    .kpi-desc {
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: rgba(19, 27, 46, 0.75);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+    .tab-btn {
+      flex: 1 1 auto;
+      min-width: 170px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      touch-action: manipulation;
+    }
+    .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.04); }
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(59, 130, 246, 0.2));
+      color: #fff;
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.15);
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Interactive Split Layout */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .node-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 15px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      user-select: none;
+    }
+    .node-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-2px);
+    }
+    .node-card.active {
+      background: linear-gradient(135deg, #192540 0%, #131b2e 100%);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 1px var(--accent-cyan), 0 8px 20px rgba(56, 189, 248, 0.2);
+    }
+    .node-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .tag-cyan { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); }
+    .tag-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .tag-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+    .tag-purple { background: rgba(129, 140, 248, 0.15); color: var(--accent-purple); }
+    .tag-emerald { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+
+    .node-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+      line-height: 1.35;
+    }
+    .node-summary {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .node-hint {
+      font-size: 11px;
+      color: var(--accent-cyan);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    /* Inspector Panel */
+    .inspector-box {
+      background: linear-gradient(145deg, #162038 0%, #101729 100%);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 14px;
+      padding: 22px 24px;
+      position: sticky;
+      top: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+    .inspector-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .inspector-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+    .inspector-section {
+      margin-bottom: 14px;
+    }
+    .inspector-section h4 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+    .inspector-section p, .inspector-section ul {
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.65;
+    }
+    .inspector-section ul {
+      padding-left: 18px;
+    }
+    .inspector-section li {
+      margin-bottom: 5px;
+    }
+    .inspector-quote {
+      background: rgba(15, 23, 42, 0.75);
+      border-left: 3px solid var(--accent-amber);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 12.5px;
+      color: #fde68a;
+      margin-top: 10px;
+    }
+
+    /* Charts & Comparison Tables */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+    .panel-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .chart-container {
+      width: 100%;
+      height: 340px;
+    }
+
+    /* Data Table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+    th {
+      background: #19243b;
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: rgba(255, 255, 255, 0.015); }
+    tr:hover td { background: rgba(56, 189, 248, 0.05); }
+
+    /* Glossary & Timestamps */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .glossary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .glossary-term {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .glossary-def {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .split-layout { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .inspector-box {
+        position: static;
+        margin-top: 8px;
+        margin-bottom: 12px;
+        animation: fadeIn 0.22s ease;
+      }
+      .analogy-strip { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+      .glossary-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .tab-btn { min-width: 0; padding: 10px 8px; font-size: 12.5px; }
+      .glossary-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 20px; }
+      header { padding: 18px 16px; }
+      .chart-container { height: 290px; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- 微信分享 300x300 隐藏缩略图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="header-badge">
+        <span class="dot"></span>
+        <span>硅谷101 × Web3 101 深度串台 · E215 资本与电力全景拆解</span>
+      </div>
+      <h1>万亿 AI 大基建的资本与电力迷局：房地产次贷对比、融资囚徒困境与六条破局路径</h1>
+      <p class="subtitle">
+        基于 <a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ" target="_blank">硅谷101 播客第 215 期</a>（主播：泓君｜嘉宾：前沿科技投资人 <a href="https://sv101.fireside.fm/guests/zhengdi" target="_blank">郑迪</a>）及摩根士丹利、摩根大通数据中心基建研报。当全美面临 46–47 吉瓦（约 8 个纽约市）的用电缺口、1 吉瓦数据中心耗资高达 500 亿美元时，科技巨头与加密矿企如何复刻房地产滚动开发与资产证券化？用 GPU 抵押发债究竟是「AI 金矿」还是「2008 年次贷重演」？为什么大厂 CEO 明知存在泡沫风险，却依然深陷「不得不跟」的融资囚徒困境？
+      </p>
+      <div class="meta-bar">
+        <div class="meta-item">🎙️ <b>原片出处：</b><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ" target="_blank">YouTube (ECu8d7kWbeQ)</a> / <a href="https://sv101.fireside.fm/225" target="_blank">Fireside E215</a></div>
+        <div class="meta-item">👤 <b>对谈嘉宾：</b>郑迪（前沿科技投资人）</div>
+        <div class="meta-item">⚡ <b>核心议题：</b>电力六路径 × 房地产次贷 vs 半导体对比 × AI 融资囚徒困境</div>
+        <div class="meta-item">📊 <b>交互提示：</b>点击下方模块卡片可切换检视详情（手机端点击卡片直接就地展开）</div>
+      </div>
+    </header>
+
+    <!-- 三大核心认知透镜 -->
+    <div class="analogy-strip">
+      <div class="analogy-card">
+        <div class="analogy-title">⚡ 透镜一：电力交期错配与「囤电者胜」</div>
+        <div class="analogy-text">
+          核电与小型反应堆（SMR）2030 年前无法交付，天然气卡在燃气轮机 2–4 年排期。未来 18–24 个月唯一能快速释放 <b>6–15 GW</b> 现成电力的只有手握变电站与并网许可的<b>比特币矿场</b>；而单纯「卖电收租（REITs 模式）」在估值与现金流安全性上远胜「举债买卡（Neocloud 模式）」。
+        </div>
+      </div>
+      <div class="analogy-card purple">
+        <div class="analogy-title">🏦 透镜二：2008 房地产次贷 vs 半导体 GPU 证券化</div>
+        <div class="analogy-text">
+          AI 基建正全面复刻地产「滚动开发 + 租约抵押 + ABS/CDO 证券化」。但房产与土地可保值数十年，而<b>半导体 GPU 寿命仅 3–5 年且面临残酷的摩尔定律迭代</b>；一旦下游 AI 应用变现受阻，当年高斯联结函数忽略的「违约相关性跃迁」将在铁索连环的 AI 产业链重演。
+        </div>
+      </div>
+      <div class="analogy-card amber">
+        <div class="analogy-title">♟️ 透镜三：行为金融学的「AI 融资囚徒困境」</div>
+        <div class="analogy-text">
+          对大厂 CEO 而言，<b>「投资不足」与「过度投资」的惩罚极度不对称</b>：若全行业过度投资形成泡沫，法不责众，仅损失部分利润率；若独自保守而对手修通 AGI，公司将面临存亡危机、CEO 必然出局。因此「借债抢船票、让全球债券市场终极买单」成了唯一的理性纳什均衡。
+        </div>
+      </div>
+    </div>
+
+    <!-- 核心量化 KPI 矩阵 -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">全美 AIDC 电力缺口</div>
+        <div class="kpi-val rose">46–47 GW</div>
+        <div class="kpi-desc">约合 46 座核电站或 8 个纽约市年均用电量，对应约 $2.3 万亿资本投入</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">1 GW 数据中心总造价</div>
+        <div class="kpi-val amber">$500 亿</div>
+        <div class="kpi-desc">其中 GPU 与网络设备占 70%–80%（$350–400亿），T3 机房基建占 $11–19亿</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">比特币矿企潜在转产</div>
+        <div class="kpi-val emerald">6–15 GW</div>
+        <div class="kpi-desc">摩根士丹利测算未来 18–24 个月可释放 15GW（审慎口径 6–10GW），工期仅 9–12 个月</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">资产折旧 vs 债务久期</div>
+        <div class="kpi-val purple">5年 vs 24年</div>
+        <div class="kpi-desc">GPU 芯片真实经济寿命仅 3–5 年，而数据中心项目债与租约长达 12–24 年</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">高评级债市未来5年输血</div>
+        <div class="kpi-val">$1.5 万亿</div>
+        <div class="kpi-desc">大厂每年 ~$7000亿现金流已捉襟见肘，2026 年起年均需发债约 $3000 亿</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">矿企 BTC 抵押融资率</div>
+        <div class="kpi-val emerald">64% LTV</div>
+        <div class="kpi-desc">MARA（持 5万枚 BTC）等可通过质押借出 $30 亿，无需卖股即可覆盖 1GW 机房改造</div>
+      </div>
+    </div>
+
+    <!-- 顶部切换导航 -->
+    <div class="nav-tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-tab="tab-core">1. 八大核心模块深剖（点击卡片联动）</button>
+      <button type="button" class="tab-btn" data-tab="tab-subprime">2. 次贷 vs 半导体对比 & 囚徒困境图表</button>
+      <button type="button" class="tab-btn" data-tab="tab-chapters">3. 播客 22 章节时间戳全景导读</button>
+      <button type="button" class="tab-btn" data-tab="tab-glossary">4. 前瞻指标 & 专业概念人话词典</button>
+    </div>
+
+    <!-- TAB 1: 八大核心模块深剖 -->
+    <div id="tab-core" class="tab-pane active">
+      <div class="split-layout">
+        <div class="cards-grid" id="cardsGrid">
+          <div class="node-card active" data-node="0">
+            <span class="node-tag tag-cyan">模块 01 · 常规路径 1–3</span>
+            <div class="node-title">矿场转产、核电远水与燃气轮机卡脖子</div>
+            <div class="node-summary">为什么摩根士丹利认为比特币矿场（15GW）是 2028 年前唯一能救急的电力绿洲？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="1">
+            <span class="node-tag tag-emerald">模块 02 · 路径 4–6 与电网瓶颈</span>
+            <div class="node-title">燃料电池、训练跨国搬迁与柴油备电博弈</div>
+            <div class="node-summary">美国电网实际利用率仅 50%，为何环保法案与中期选举卡住了柴油备电与天然气扩产？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="2">
+            <span class="node-tag tag-amber">模块 03 · 1GW 500亿美元账本</span>
+            <div class="node-title">算力卡 vs 机房基建成本与估值倒挂之谜</div>
+            <div class="node-summary">T3 级液冷机房每瓦建造成本 $11–$13，为何未签单矿企的市场估值还低于重置成本？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="3">
+            <span class="node-tag tag-purple">模块 04 · 矿企转型双路线</span>
+            <div class="node-title">「卖电收租」vs「举债买卡（IREN 困局）」</div>
+            <div class="node-summary">Core Scientific 与 TeraWulf 稳赚长约租金，IREN 签下微软 97 亿美元大单为何反而陷入增发泥潭？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="4">
+            <span class="node-tag tag-cyan">模块 05 · 芯片生态博弈</span>
+            <div class="node-title">英伟达「总包霸权」与 AMD「割肉 10% 入场」</div>
+            <div class="node-summary">英伟达扶持 Neo-Cloud 却绝不打折；AMD 为何倒贴 10% 股权认股权证换取 OpenAI 6GW 订单？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="5">
+            <span class="node-tag tag-rose">模块 06 · 核心专题一</span>
+            <div class="node-title">房地产次贷危机 vs 半导体 GPU 证券化</div>
+            <div class="node-summary">从高斯联结函数（Gaussian Copula）违约相关性失灵，看 5 年折旧的 GPU 为何比 2008 年次贷更脆弱。</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="6">
+            <span class="node-tag tag-amber">模块 07 · 核心专题二</span>
+            <div class="node-title">AI 融资「囚徒困境」与全球债市终极买单</div>
+            <div class="node-summary">投资不足 = 出局，过度投资 = 集体担责。大厂如何绑定国家战略，让 100 万亿债券市场兜底？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+
+          <div class="node-card" data-node="7">
+            <span class="node-tag tag-emerald">模块 08 · 终局分野与地缘灰区</span>
+            <div class="node-title">囤电力 vs 囤算力、比特小鹿与 BTC 抵押联动</div>
+            <div class="node-summary">为何转型 AI 成功的都不是挖矿优等生？币价波动如何通过 64% LTV 质押改写基建格局？</div>
+            <div class="node-hint"><span>點擊查看深度推演</span><span>→</span></div>
+          </div>
+        </div>
+
+        <!-- 右侧/移动端内联检视台 -->
+        <div class="inspector-box" id="inspectorBox">
+          <div class="inspector-header">
+            <span class="node-tag tag-cyan" id="inspTag">模块 01 · 常规路径 1–3</span>
+            <div class="inspector-title" id="inspTitle">矿场转产、核电远水与燃气轮机卡脖子</div>
+          </div>
+          <div class="inspector-section">
+            <h4>核心矛盾与底层逻辑（人话拆解）</h4>
+            <div id="inspLogic"></div>
+          </div>
+          <div class="inspector-section">
+            <h4>关键数据与代表案例</h4>
+            <div id="inspData"></div>
+          </div>
+          <div class="inspector-quote" id="inspQuote"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 次贷 vs 半导体对比 & 囚徒困境图表 -->
+    <div id="tab-subprime" class="tab-pane">
+      <div class="charts-grid">
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>📊 图 1：2008 房地产次贷 vs 半导体 GPU 证券化风险六维雷达</span>
+            <span class="node-tag tag-rose">次贷 vs 半导体</span>
+          </div>
+          <div class="panel-sub">分值越高（0-100）代表该维度的结构性脆弱度越高：半导体算力在折旧速度、客户集中度与相关性传染上显著高于传统房产</div>
+          <div id="chartRadar" class="chart-container"></div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>⚡ 图 2：美国 46GW 电力缺口六大破局路径（潜力 vs 交付周期）</span>
+            <span class="node-tag tag-cyan">电力破局路径</span>
+          </div>
+          <div class="panel-sub">横轴为预计规模化交付年限，纵轴为 2028 年前可释放电力（GW），气泡代表短期确定性</div>
+          <div id="chartPower" class="chart-container"></div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>💰 图 3：1GW AI 数据中心 $500 亿成本结构与全行业资金来源</span>
+            <span class="node-tag tag-amber">资本账本</span>
+          </div>
+          <div class="panel-sub">左环：1GW 總投资 $500 亿拆解；右环：摩根士丹利 2028 年前 $2.9 万亿全球数据中心资金来源</div>
+          <div id="chartCapex" class="chart-container"></div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>🏗️ 图 4：加密矿企转型估值梯度（企业价值/瓦特 EV/Watt 美元）</span>
+            <span class="node-tag tag-purple">囤电力 vs 囤算力</span>
+          </div>
+          <div class="panel-sub">已签长约的「囤电收租型」矿企估值达 $15/W，而未签单或「纯囤算力型」矿企仅 $2–$7/W，低于 $11–$13/W 重置成本</div>
+          <div id="chartMiners" class="chart-container"></div>
+        </div>
+      </div>
+
+      <!-- 房地产次贷危机 vs 半导体/GPU 证券化深度对比表 -->
+      <div class="panel-card" style="margin-bottom: 20px;">
+        <div class="panel-title">
+          <span>🔍 核心专题一：2008 年房地产次贷危机 vs AI 半导体/GPU 证券化全景对比矩阵</span>
+          <span class="node-tag tag-rose">核心必读</span>
+        </div>
+        <div class="panel-sub">为什么嘉宾郑迪认为金融工程工具（ABS/CDO/REITs）本身中性，但以半导体芯片为底层资产的证券化隐含着独特的「快速折旧与铁索连环」风险？</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>对比维度</th>
+                <th>2008 年美国房地产次贷危机（MBS / CDO）</th>
+                <th>AI 大基建与半导体算力证券化（GPU ABS / 滚动开发）</th>
+                <th>人话拆解与风险启示</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>底层物理抵押物</b></td>
+                <td>居民住宅房产与土地（物理寿命 30–50 年以上，具备长期居住属性与土地稀缺性）</td>
+                <td><b>半导体 GPU 芯片（H100/GB200）</b> + 液冷机房与变电站（芯片占总成本 70%–80%）</td>
+                <td>房子塌不了、地皮不会过期；但显卡受摩尔定律与黄氏定律支配，<b>3–5 年就会因新一代芯片能耗比跃升而沦为电子废铁</b>。</td>
+              </tr>
+              <tr>
+                <td><b>核心定价假设（阿喀琉斯之踵）</b></td>
+                <td>假定<b>「全美房价永远不会全国性下跌」</b>，且各州违约率彼此独立</td>
+                <td>假定<b>「GPU 在 3–5 年内能维持高租金与高残值」</b>，且下游 AI Token 收入呈指数级变现</td>
+                <td>一旦新卡推出或算力供过于求导致旧卡租金腰斩，或者云厂商把 3 年折旧拉长到 6 年做高账面利润，抵押品真实净值将瞬间击穿安全垫。</td>
+              </tr>
+              <tr>
+                <td><b>期限错配（Duration Mismatch）</b></td>
+                <td>30 年期房贷被打包为长短期证券，依靠房价上涨不断「借新还旧（Refinance）」</td>
+                <td>发债期限长达 <b>15–24 年</b>（如 Meta Hyperion 2049 年到期），但核心资产 GPU 寿命仅 <b>3–5 年</b></td>
+                <td>用 20 多年的长债去配 5 年就报废的半导体设备，意味着在债务存续期内必须经历 4–5 轮全额硬件重置，现金流一旦断档即违约。</td>
+              </tr>
+              <tr>
+                <td><b>金融包装与滚动开发链条</b></td>
+                <td>按揭公司放贷 → 投行打包 MBS → 分级切割为 CDO（优先级 AAA 至股权级）→ 卖给全球机构</td>
+                <td>Crusoe/矿企拿地通电 → 签大厂租约 → <b>Blue Owl 包装 REITs/ABS</b> → 回笼资金滚动建下一期</td>
+                <td>完全复刻中国与美国地产商的「高周转滚动开发」：建好一栋、出租一栋、证券化变现一栋，杠杆层层叠加。</td>
+              </tr>
+              <tr>
+                <td><b>诺贝尔理论盲区与「铁索连环」</b></td>
+                <td>高斯联结函数（Gaussian Copula）错误假定<b>「违约相关性 $\rho$ 恒定且极低」</b>；实则危机时全美房贷相关性飙向 1.0</td>
+                <td>英伟达、OpenAI、甲骨文、CoreWeave <b>互为股东、客户与担保人</b>，违约相关性从第一天起就接近 100%</td>
+                <td>次贷危机是几百万分散房主在房价崩盘时意外同步违约；而 AI 产业链是<b>「几家巨头绑在一根绳上」</b>，OpenAI 若无法兑现万亿合同，整条链条将同步共振。</td>
+              </tr>
+              <tr>
+                <td><b>终极买单者与系统性缓冲</b></td>
+                <td>高杠杆商业银行与投行（雷曼、贝尔斯登）直接持仓，引爆银行业系统性崩盘</td>
+                <td>巴塞尔协议 III 限制银行杠杆，改由<b>私募信贷（Blue Owl/黑石）与全球债券市场（养老金/保险/主权基金）</b>接盘</td>
+                <td>短期不会重演银行挤兑破产潮（因银行未直接背高杠杆），但一旦泡沫破裂，最终亏损将通过投资级/高收益债传导至<b>全球普通人的养老金账户</b>。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AI 融资囚徒困境博弈矩阵 -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>♟️ 核心专题二：科技巨头 CEO 的「AI 融资囚徒困境」博弈支付矩阵</span>
+          <span class="node-tag tag-amber">行为金融学博弈</span>
+        </div>
+        <div class="panel-sub">为什么微软、谷歌、Meta、亚马逊耗尽每年 7000 亿美元经营现金流、砍掉股票回购、甚至大举进行表外借债，也绝不敢按下暂停键？</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>本企业决策 \ 竞争对手决策</th>
+                <th>对手选择「激进举债扩建 AIDC（All-in 抢船票）」</th>
+                <th>对手选择「保守观望（守住自由现金流与回购）」</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>本企业选择<br>「激进举债扩建 AIDC」</b></td>
+                <td>
+                  <b style="color:#38bdf8;">【现实纳什均衡：全行业军备竞赛】</b><br>
+                  • <b>若 AI 应用大爆发：</b>共同分食万亿新市场，皆大欢喜。<br>
+                  • <b>若 AI 证伪/泡沫破裂：</b>全行业一起计提折旧、股价同步回调。由于<b>「法不责众（大家都犯了一样的错）」</b>，董事会不会解雇 CEO，企业仅损失几年利润率。
+                </td>
+                <td>
+                  <b style="color:#10b981;">【本企业赢家通吃】</b><br>
+                  • 本企业独占算力壁垒与下一代模型入口，将保守对手彻底颠覆出局。<br>
+                  • 对手沦为移动互联网时代的诺基亚或柯达。
+                </td>
+              </tr>
+              <tr>
+                <td><b>本企业选择<br>「保守观望不跟投」</b></td>
+                <td>
+                  <b style="color:#f43f5e;">【CEO 个人与企业的灭顶之灾（最恐惧结局）】</b><br>
+                  • 一旦对手率先跑通 AGI 或企业级入口，本企业主业护城河被彻底摧毁。<br>
+                  • <b>CEO 将背负「错失时代船票」的历史罪名被董事会立即解雇</b>——这是任何职业经理人绝对无法承受的下行风险。
+                </td>
+                <td>
+                  <b style="color:#94a3b8;">【脆弱的帕累托温和态（极不稳定）】</b><br>
+                  • 各家维持高自由现金流与高额股票回购，但只要有一家偷偷抢跑买卡，其余巨头就会面临灭顶风险，因此该状态在现实中不可能维持。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 播客 22 章节时间戳全景导读 -->
+    <div id="tab-chapters" class="tab-pane">
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>⏱️ 《硅谷101》E215 全片 22 个核心章节时间戳导读（点击时间直达 YouTube 对应节点）</span>
+          <span class="node-tag tag-cyan">1 小时 20 分全索引</span>
+        </div>
+        <div class="panel-sub">结合官方 Show Notes 与完整逐字稿整理，分为「能源危机下的电力绿洲」「复刻地产融资游戏」「浪潮中的转型博弈」三大篇章</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>篇章</th>
+                <th>时间戳</th>
+                <th>章节主题</th>
+                <th>核心观点与关键数字提炼</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="7"><b>第一篇<br>能源危机下的<br>电力绿洲</b></td>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=210s" target="_blank">03:30 ↗</a></td>
+                <td>比特币矿工转产释放 15GW</td>
+                <td>摩根士丹利测算全美 AIDC 缺电 46–47GW（约 8 个纽约市），矿场转产工期仅 9–12 个月，未来 18–24 个月可释放 15GW（审慎估算 6–10GW）。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=334s" target="_blank">05:34 ↗</a></td>
+                <td>另外三条常规路径（核电/燃气/储能）</td>
+                <td>核电与 SMR（如 Oklo）2030 年前无法交付；天然气受制于 GE Vernova 等燃气轮机大厂拒绝盲目扩产（排期 2–4 年，Fermi 甚至买二手飞机引擎改发电机）；Bloom Energy 燃料电池仅能贡献约 2GW。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=631s" target="_blank">10:31 ↗</a></td>
+                <td>两条有难度的「非常规路径」</td>
+                <td>路径五：训练外迁至东南亚（柔佛）或南美（巴西），需数据中心外交配合；路径六：David Sacks 提议开放柴油发电机做峰值备电（利用美国电网 50% 闲置率），但受制于国会环保立法阻力。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=765s" target="_blank">12:45 ↗</a></td>
+                <td>「挖矿电」能变成「AIDC 电」吗？</td>
+                <td>挖矿可响应电网峰值主动断电领补贴，而 AIDC 要求 99.99%（24×7）不间断供电且需冗余备份，并非所有矿场电力都能 1:1 转化为 AI 可用电。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=900s" target="_blank">15:00 ↗</a></td>
+                <td>未来两年能否攻克 B 端成为关键</td>
+                <td>OpenAI 走 B2B2C 路线，工业界对大模型幻觉容忍度低；OpenAI 推出 GDPval 评测（覆盖 9 大行业 40+ 子行业），顶尖模型在约 47% 真实案例中追平人类专家。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1029s" target="_blank">17:09 ↗</a></td>
+                <td>1GW 数据中心 500 亿美元成本拆解</td>
+                <td>GPU 与网络硬件占 70%–80%（$350–400亿）；T3 级液冷数据中心厂房与配电建设成本约 $11–13亿/GW（高标可达 $17–19亿/GW），xAI Colossus 2 甚至自建水厂且 PUE 需控制在 1.1–1.2。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1189s" target="_blank">19:49 ↗</a></td>
+                <td>估值低于建造成本，矿工缺乏动力</td>
+                <td>市场对未签大厂长单的矿企仅给 $2–$7/W 估值，远低于 $11–$13/W 的建造成本，导致矿工在拿到明确租约前不敢贸然举债开工。</td>
+              </tr>
+              <tr>
+                <td rowspan="8"><b>第二篇<br>复刻地产<br>融资游戏</b></td>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1400s" target="_blank">23:20 ↗</a></td>
+                <td>矿工转 AI 的两种商业模式</td>
+                <td>模式一「卖电/租场地」（Core Scientific、Applied Digital、TeraWulf、Cipher）：签 12–15 年长约，Google 提供信用担保，旱涝保收；模式二「买 GPU 卖算力」（IREN）：重资产高风险。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1524s" target="_blank">25:24 ↗</a></td>
+                <td>IREN：举债买卡困于重资产陷阱</td>
+                <td>IREN 与微软签 5 年 97–98 亿美元合同，却需自掏 58 亿美元买英伟达 GB300；扣除微软 20% 预付款（$19.5亿）、自有现金与可转债后仍缺口 $20 亿，被迫通过 ATM 按市价增发股票，且面临 5 年后显卡折旧归零风险。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1800s" target="_blank">30:00 ↗</a></td>
+                <td>英伟达「总包」霸权与 AMD「付费入场」</td>
+                <td>英伟达像地产总包商扶持 CoreWeave 等分包商但芯片绝不打折；AMD 为抢占生态，向 OpenAI 出让约 10% 股权认股权证以换取 6GW 芯片采购订单。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=1915s" target="_blank">31:55 ↗</a></td>
+                <td>未来收益证券化 + 滚动开发</td>
+                <td>Crusoe 在德州阿比林建设星际之门一期（1.2–1.3GW，8 栋楼，40 万张 GB200，总投 $150亿），联手 Blue Owl 建好一栋、出租一栋、包装成 REITs/ABS 卖掉一栋，复刻地产高周转。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=2180s" target="_blank">36:20 ↗</a></td>
+                <td>GPU 证券化：「AI 金矿」还是「科技次贷」？</td>
+                <td>证券化工具本身中性，取决于底层现金流；但将 3–5 年寿命的 GPU 及其租约打包成 ABS/CDO，若下游 AI 变现不及预期，将重演次贷级别的资产减值。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=2249s" target="_blank">37:29 ↗</a></td>
+                <td>诺贝尔经济理论失误复盘</td>
+                <td>复盘 Black-Scholes 忽略肥尾效应，以及 2008 年高斯联结函数（Gaussian Copula）错误假定「违约率与违约相关性无关」；危机时相关性骤升导致 AAA 级 CDO 击穿。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=2443s" target="_blank">40:43 ↗</a></td>
+                <td>AI 产业链「铁索连环」的金融风险</td>
+                <td>英伟达、OpenAI、甲骨文、CoreWeave 与私募债机构互为客户、股东与担保方，高度耦合使违约相关性天然极高，一荣俱荣、一损俱损。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=2593s" target="_blank">43:13 ↗</a></td>
+                <td>大厂策略与全球债券市场终极买单</td>
+                <td>大厂靠 AA/AAA 级信用在投资级市场低息发债，OpenAI 捆绑美中国运打造「大而不能倒」；全球 260 万亿金融资产中占 37%（约 100 万亿美元）的债券市场未来 5 年将输血 $1.5 万亿，成为终极买单者。</td>
+              </tr>
+              <tr>
+                <td rowspan="7"><b>第三篇<br>浪潮中的<br>转型博弈</b></td>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=2937s" target="_blank">48:57 ↗</a></td>
+                <td>行为金融学的囚徒困境：搏一张 AI 船票</td>
+                <td>对扎克伯格等 CEO 而言，投资不足导致掉队会直接丢工作、公司消亡；过度投资即便亏损也有同行陪葬。理性博弈迫使所有巨头不惜代价举债参战。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=3183s" target="_blank">53:03 ↗</a></td>
+                <td>OpenAI 的黄金上市时机：2026 年上半年</td>
+                <td>万亿基建承诺无法单靠一级市场维持，OpenAI 需趁美联储降息扩表与中期选举前的流动性窗口（2026H1）以 200 亿 ARR 冲击万亿市值 IPO。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=3420s" target="_blank">57:00 ↗</a></td>
+                <td>矿场转 AI 的交付与算力闲置风险</td>
+                <td>变压器、开关柜与液冷施工延期风险，以及 5 年租约到期后旧一代 GPU 面临的续租悬崖。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=3770s" target="_blank">62:50 ↗</a></td>
+                <td>比特小鹿（Bitdeer）：地缘政治灰色地带</td>
+                <td>吴忌寒创立、总部新加坡，二股东 Tether（持股 25.5%）背后绑定商务部长 Lutnick 的 Cantor Fitzgerald；其北美 AIDC 拿单进展是测试地缘安全边界的试金石。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=4185s" target="_blank">69:45 ↗</a></td>
+                <td>转型成功的都不是挖矿「优等生」</td>
+                <td>上轮周期的挖矿优等生（MARA、CleanSpark、Riot）把钱全买了矿机，缺乏闲置电力；反倒是提前圈地囤电的「偏科生」率先吃到了 AI 红利。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=4256s" target="_blank">70:56 ↗</a></td>
+                <td>两种矿工：囤算力 vs 囤电力</td>
+                <td>囤算力（MARA 等）估值仅 $2–$3/W，关停矿机转 AI 机会成本高；囤电力（IREN 握 2.1GW 仅挖矿用 810MW、Core Scientific、Cipher）可边挖矿保现金流、边用闲置电滚动开发 AIDC。</td>
+              </tr>
+              <tr>
+                <td><a href="https://www.youtube.com/watch?v=ECu8d7kWbeQ&t=4635s" target="_blank">77:15 ↗</a></td>
+                <td>比特币价格与 AIDC 转型的非线性联动</td>
+                <td>BTC 下跌会倒逼矿工加速转 AI，但会削弱其质押借贷能力；反之若 BTC 维持 10 万美元高位，MARA（5万枚 BTC）按 64% LTV 即可抵押借出 $30 亿，CleanSpark（1.3万枚）可借 $8 亿，Riot 可借 $12–13 亿，无需发股即可包揽 1GW 机房建设。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 前瞻指标 & 专业概念人话词典 -->
+    <div id="tab-glossary" class="tab-pane">
+      <div class="panel-card" style="margin-bottom: 20px;">
+        <div class="panel-title">
+          <span>🔭 未来 12–24 个月验证 AI 基建泡沫与破局的六大前瞻风向标</span>
+          <span class="node-tag tag-emerald">持续跟踪</span>
+        </div>
+        <div class="panel-sub">如何判断这场万亿豪赌是在走向「生产力黄金时代」还是「科技次贷危机」？盯紧以下六个硬核指标：</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>观察维度</th>
+                <th>具体追踪指标</th>
+                <th>健康扩张信号（AI 金矿）</th>
+                <th>泡沫预警信号（科技次贷）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>1. B端真实采用率</b></td>
+                <td>OpenAI GDPval 基准得分与企业 Token 续费率</td>
+                <td>模型在工业级真实案例超越人类专家比例突破 60%–70%，B端客户利润率实质提升</td>
+                <td>企业因大模型幻觉停止续费，Token 消耗集中于缺乏商业闭环的补贴型应用</td>
+              </tr>
+              <tr>
+                <td><b>2. 旧卡租金与残值</b></td>
+                <td>H100 / B200 在满 3 年后的每卡时租赁价格</td>
+                <td>旧卡成功转入高频推理负载，3 年后残值维持在新品的 50% 以上</td>
+                <td>新一代芯片（Rubin）上市后旧卡租金雪崩，引发 GPU 抵押贷款（ABS）触发追加保证金</td>
+              </tr>
+              <tr>
+                <td><b>3. 债市认购与利差</b></td>
+                <td>巨头数据中心发债超额认购倍数与 CDS 利差</td>
+                <td>投资级债券认购倍数稳定在 3x 以上，信用利差保持平稳</td>
+                <td>认购倍数跌破 1.5x（如亚马逊降至 1.6x），Oracle 等高杠杆玩家 CDS 突破 200 bps 甚至被降为垃圾级</td>
+              </tr>
+              <tr>
+                <td><b>4. 矿企转型估值收敛</b></td>
+                <td>囤电矿企与囤算力矿企的 EV/Watt（美元/瓦）倍数</td>
+                <td>MARA、CleanSpark、Riot 顺利签下 Hyperscaler 托管长约，估值向 $10–$15/W 修复</td>
+                <td>电网改造成本超支或变压器断供，导致矿企无法按期在 2027 年前交付机房</td>
+              </tr>
+              <tr>
+                <td><b>5. 政治与能源立法</b></td>
+                <td>美国国会环保减排法案松绑与燃气轮机排期</td>
+                <td>允许柴油备电峰值调峰、核电审批提速，GE Vernova 等扩大燃气轮机产能</td>
+                <td>两院分立导致能源放松法案搁浅，燃气轮机排期延长至 4 年以上</td>
+              </tr>
+              <tr>
+                <td><b>6. 地缘安全边界</b></td>
+                <td>比特小鹿（Bitdeer）在美国本土 AIDC 的大厂签约进展</td>
+                <td>依托新加坡主体与美方股东背书顺利拿到北美云巨头托管订单</td>
+                <td>受五眼联盟安全审查限制无法获取高端芯片或大厂租约，被迫退守纯挖矿或非美市场</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 专业概念人话词典 -->
+      <div class="glossary-grid">
+        <div class="glossary-card">
+          <div class="glossary-term">1. 高斯联结函数 (Gaussian Copula)</div>
+          <div class="glossary-def">2008 年次贷危机前华尔街广泛使用的风险定价公式。它犯下的致命错误是假定「违约率」与「违约相关性」彼此独立——好比认为一栋大楼里一家住户失火不会增加邻居失火的概率。当宏观危机爆发时，所有底层资产相关性瞬间飙向 100%，导致号称安全的 AAA 级债券雪崩。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">2. 资产支持证券 (ABS) 与 CDO</div>
+          <div class="glossary-def">把未来能产生现金流的资产（过去是房贷，现在是数据中心租约和 GPU 租金）打包进一个资金池，再像切蛋糕一样切成「优先级（拿固定低息、先受偿）」和「劣后级（博高收益、先亏钱）」卖给不同风险偏好的投资人。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">3. 房地产投资信托 (REITs)</div>
+          <div class="glossary-def">把建好并已签下 15 年长租约的数据中心机房打包成类似「收租公基金」的金融产品。开发商（如 Crusoe）借此一次性回笼百亿建造资金去盖下一期，而养老金等长线资金则每年安稳收取科技巨头的电费与场地租金。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">4. 按市价增发 (ATM Offering)</div>
+          <div class="glossary-def">At-the-Market Offering，即上市公司不用搞大规模路演定增，而是像散户炒股一样，在二级市场直接按当天市价一点点挂单卖自家新印出来的股票筹钱。IREN 因买 GPU 缺钱大量使用 ATM，直接造成股价承压。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">5. 特殊目的实体 (SPV) 与残值担保</div>
+          <div class="glossary-def">科技巨头（如 Meta）为避免几百亿债务写进自家资产负债表导致评级下调，联手私募基金（持股 80%）成立独立壳公司借钱盖楼，自己只持股 20% 并承租；但私下签一份「残值担保」——若退租时楼价跌破贷款额，差额仍由巨头兜底。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">6. 贷款价值比 (LTV, Loan-to-Value)</div>
+          <div class="glossary-def">拿资产去抵押借钱时的折扣率。例如 MARA 账上价值 50 亿美元的比特币，按 64% 的 LTV 质押，就能借出約 30 亿美元现金，相当于给波动剧烈的加密资产留出 36% 的下跌安全缓冲垫。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">7. 电能利用效率 (PUE)</div>
+          <div class="glossary-def">数据中心总耗电量除以 IT 设备（显卡服务器）实际耗电量的比值。PUE = 1.15 意味着显卡每用 1 度电，散热水泵和配电系统要额外消耗 0.15 度电。越接近 1.0 代表液冷能效越高。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">8. 小型模块化核反应堆 (SMR)</div>
+          <div class="glossary-def">把传统动辄占地几平方公里、建设周期 10 年以上的大型核电站，缩小成可以在工厂流水线预制、拉到数据中心旁边像搭积木一样组装的微型核能电池（代表公司 Oklo），但预计 2030 年后才能商用。</div>
+        </div>
+        <div class="glossary-card">
+          <div class="glossary-term">9. 算力新云 (Neocloud)</div>
+          <div class="glossary-def">不同于亚马逊 AWS、微软 Azure 等传统全功能公有云，专指 CoreWeave、Nebius、IREN 这类专门大规模囤积英伟达 GPU、并加杠杆整机出租给大模型公司或巨头的垂直算力租赁商。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 脚本一：独立交互控制脚本（Tab 切换 + 卡片点击 + 移动端就地展开与滚动补偿，零外部依赖） -->
+  <script>
+    (function() {
+      var nodeData = [
+        {
+          tag: '模块 01 · 常规路径 1–3',
+          tagClass: 'tag-cyan',
+          title: '矿场转产、核电远水与燃气轮机卡脖子',
+          logic: '<p>全美 AI 数据中心在未来几年面临高达 <b>46–47 吉瓦（GW）</b> 的电力缺口（纽约市年均用电量约 6GW，相当于缺了 8 个纽约市的电）。摩根士丹利梳理了四条常规供电路径，但前三条中只有一条能在 2028 年前救急：</p><ul><li><b>路径 1：比特币矿工转产（唯一短期绿洲）</b>——矿场已搞定最耗时的变电站、土地与电网并网许可（传统审批需 4–7 年），改造成 AI 机房工期仅需 <b>9–12 个月</b>，未来 18–24 个月理想状态下可释放 <b>15 GW</b>（保守估计也有 6–10 GW）。</li><li><b>路径 2：核电与小型模块化反应堆（SMR）</b>——传统核电站建设周期逾 10 年；备受追捧的 SMR（如 Oklo）无论乐观派还是悲观派，共识都是 <b>2030 年以前不可能大规模商用交付</b>，远水难救近火。</li><li><b>路径 3：天然气发电（卡在燃气轮机）</b>——美国页岩气极其丰富且廉价，但发电必须用到燃气轮机。全球燃气轮机产能高度集中在 GE Vernova（GE 拆分企业）、三菱重工与西门子手中；由于历史上扩产曾遭遇周期过剩惨剧，叠加顾虑 2028 年后民主党若重掌政权收紧环保政策，厂商坚决不盲目扩产，目前下订单需排队 <b>2–4 年</b>。</li></ul>',
+          data: '<ul><li><b>极端抢设备案例 1：</b>初创公司 Fermi 为了搞到燃气轮机，甚至去收购退役的二手波音飞机引擎，只为拆出里面的航空涡轮机改造成发电机。</li><li><b>极端抢设备案例 2：</b>马斯克旗下的 xAI 在建设孟菲斯超级算力集群时，同样到处搜罗拆解了 7 台旧燃气轮机运到现场自己发电。</li></ul>',
+          quote: '💡 核心结论：核电等不及（2030年后），天然气买不到轮机（排队2-4年），未来两年真正能拿出十几个吉瓦现成电力的，只有手握电网批文的加密货币矿工。'
+        },
+        {
+          tag: '模块 02 · 路径 4–6 与电网瓶颈',
+          tagClass: 'tag-emerald',
+          title: '燃料电池、训练跨国搬迁与柴油备电博弈',
+          logic: '<p>除了矿场、核电与天然气，市场还在探索第四条常规路径与两条极具争议的非常规路径：</p><ul><li><b>路径 4：燃料电池与光伏储能</b>——固体氧化物燃料电池龙头 Bloom Energy 虽被热炒，但受制于产能上限，短期仅能贡献约 <b>2 GW</b>；而「光伏+储能（如特斯拉 Megapack）」因 AI 数据中心要求 24×7 全天候满负荷运转，目前仅能作为辅助调峰电源，无法独自挑起主供电大梁。</li><li><b>路径 5（非常规 1）：训练任务跨国搬迁（数据中心外交）</b>——推理（Inference）因要求低延迟必须贴近本土用户，但模型预训练（Training）对毫秒级延迟不敏感，理论上可迁往马来西亚柔佛州、东南亚或水电丰富的南美（如巴西），但这需要漫长的跨国合规与「数据中心外交」。</li><li><b>路径 6（非常规 2）：放开柴油发电机做峰值备电</b>——硅谷投资人 David Sacks 咨询能源专家后指出，美国电网平均实际利用率仅约 <b>50%</b>（大量容量是为了应对一年仅出现几十小时的极端用电峰值而闲置）。若允许数据中心在电网峰值时启动柴油发电机自给自足，电网即可立刻释放海量存量电力。</li></ul>',
+          data: '<ul><li><b>政治与立法死结：</b>柴油发电污染大，受美国现行环保减排法规严格限制。若中期选举后民主党控制参众任一院，或共和党在两院席位优势微弱，修改环保法放开大规模柴油发电的提案几乎不可能在国会过关。</li><li><b>矿场电 vs AIDC 电的质变：</b>过去矿场靠「在用电高峰自愿拉闸断电」向电网领取返现补贴；但 AI 机房要求 99.99% 连续在线，因此矿场存量电转 AI 电必须打折扣并补齐冗余设备。</li></ul>',
+          quote: '💡 核心结论：美国并非绝对发电量不够，而是电网峰值冗余机制与环保法案锁死了 50% 的利用率；在立法破局无望下，存量变电站的价值被进一步推高。'
+        },
+        {
+          tag: '模块 03 · 1GW 500亿美元账本',
+          tagClass: 'tag-amber',
+          title: '算力卡 vs 机房基建成本与估值倒挂之谜',
+          logic: '<p>为什么市场一边高喊缺电，一边却对许多宣称要转型的矿企给出极低估值？算清 <b>1 吉瓦（1 GW）AI 数据中心 500 亿美元</b> 的成本账本就能明白：</p><ul><li><b>算力硬件占大头（70%–80%，约 $350–$400 亿）</b>：1 GW 电力可驱动数十万张英伟达顶级 GPU（如 GB200/GB300），芯片与高速互联网络设备拿走了近八成预算。</li><li><b>T3 级机房与电力基建（约 $11–$19 亿/GW）</b>：将通电场地建成满足 AI 标准、带直达芯片液冷（Direct-to-Chip Liquid Cooling）与 PUE 1.1–1.2 的 Tier-3 级数据中心，每瓦建造成本约 <b>$1.1–$1.3</b>（即每吉瓦 $11–$13 亿美元，高规格可达 $17–$19 亿），甚至需像 xAI Colossus 2 一样在站点自建水厂保障冷却水。</li></ul>',
+          data: '<ul><li><b>估值倒挂之谜：</b>既然建好 1GW 机房的硬成本就要 11–13 亿美元，为何许多矿企每吉瓦电力的市场估值还不到 5–7 亿美元？</li><li><b>三大原因：</b>① 矿场电力无法 100% 转化为 24×7 的 AIDC 电力；② 矿工自身账上没有十几亿美元现金去盖 T3 机房；③ 在没有拿到科技巨头长期租约（及信用担保）前，银行和华尔街根本不会借钱给矿工开工。</li></ul>',
+          quote: '💡 核心结论：手里光有电批文还不等于印钞机——只有签下大厂长单、打通低成本建造融资闭环的电力，才能从「成本折价」跃升为「REITs 溢价」。'
+        },
+        {
+          tag: '模块 04 · 矿企转型双路线',
+          tagClass: 'tag-purple',
+          title: '「卖电收租」vs「举债买卡（IREN 困局）」',
+          logic: '<p>矿工转型 AI 正在分化为截然不同的两条商业路线，资本市场的态度也冰火两重天：</p><ul><li><b>路线 A：「卖电/租场地（带电外壳 Colocation）」——稳健收租婆模式</b>：代表为 Core Scientific、Applied Digital、TeraWulf、Cipher Mining。矿工只负责提供通电厂房与液冷机柜（每吉瓦仅投十余亿美元），由客户自己买 GPU 放进来。租期长达 <b>12–15 年</b>，甚至有 Google 等巨头提供付款担保，按 20 年折旧，现金流极度稳健。</li><li><b>路线 B：「自购 GPU 卖算力（Neocloud）」——重资产高危冒险家模式</b>：代表为 Iris Energy（IREN）。既要盖机房，又要自己借巨债买英伟达显卡租给大厂，合同期通常仅 <b>5 年</b>。</li></ul>',
+          data: '<ul><li><b>深度拆解 IREN 与微软的 97–98 亿美元大单困局：</b>IREN 签下微软 5 年约 97–98 亿美元算力合同，看似风光，但其中高达 <b>58 亿美元</b> 需要 IREN 自己掏钱去买英伟达 GB300 芯片！</li><li><b>20 亿美元融资缺口与 ATM 抽血：</b>微软仅预付 20%（约 $19.5 亿），剩下約 $38 亿需 IREN 自筹。IREN 动用 $6 亿现金并发行 $10 亿可转债后，仍有约 <b>$20 亿美元缺口</b>，只能通过 ATM（按市价增发股票）在二级市场不停卖股筹钱，直接压垮股价预期。更致命的是 GPU 按 5 年折旧，5 年后若微软不续约，无杠杆内部收益率（IRR）将跌至个位数。</li></ul>',
+          quote: '💡 核心结论：矿工去跟大厂拼资金买 GPU 是拿自己的短板碰硬石头；守住稀缺电力当「包租公」，才是风险收益比最优的淘金卖水人。'
+        },
+        {
+          tag: '模块 05 · 芯片生态博弈',
+          tagClass: 'tag-cyan',
+          title: '英伟达「总包霸权」与 AMD「割肉 10% 入场」',
+          logic: '<p>在万亿 AI 基建牌桌上，上游芯片商的生态地位决定了谁能制定游戏规则：</p><ul><li><b>英伟达的「总包商（General Contractor）」霸权</b>：黄仁勋把英伟达打造成了 AI 基建的总包方——不仅垄断 GPU 与 NVLink 网络，还通过战略投资和优先供货，一手扶持起 CoreWeave、Nebius 等「亲儿子（Neo-Cloud）」去跟传统云巨头抢市场。但由于 CUDA 生态壁垒极深、转租流动性极好，<b>英伟达卖卡给亲儿子也绝不打折</b>，牢牢把控全产业链最高毛利。</li><li><b>AMD 的「付费入场（割肉换订单）」</b>：面对英伟达铁桶般的生态，AMD 即使硬件纸面参数追平，租赁商也不敢轻易大规模采购（担心客户退租后砸在手里租不出去）。为了破局，苏姿丰在与 OpenAI 签署 6 吉瓦（6GW）芯片采购协议时，罕见地向 OpenAI 授予了最多约 <b>10% 的 AMD 股权认股权证</b>（随部署进度与市值里程碑解锁）。</li></ul>',
+          data: '<ul><li><b>颠覆传统的商业奇观：</b>正常商业逻辑是「买家付钱给卖家」或「卖家给买家打折」；而 AMD 相当于<b>倒贴自家 10% 的公司所有权</b>，请 OpenAI 来用自己的卡，以此向全市场证明 AMD 芯片能够跑通超大规模训练与推理集群。</li><li><b>股东稀释隐忧：</b>若 OpenAI 未来履约受阻，或 xAI、Anthropic 等效仿要求「买卡送股权」，AMD 现有股东将面临持续的股权稀释（Dilution）。</li></ul>',
+          quote: '💡 核心结论：英伟达收的是「生态垄断税」，而 AMD 交的是「生态入场券」——老二要想在算力基建里上桌，连公司股权都得拿出来当筹码。'
+        },
+        {
+          tag: '模块 06 · 核心专题一',
+          tagClass: 'tag-rose',
+          title: '房地产次贷危机 vs 半导体 GPU 证券化',
+          logic: '<p>面对数万亿美元的资金黑洞，华尔街正在把 AI 基建全面「房地产金融化」，但这套玩法埋藏着比 2008 年次贷更棘手的物理隐患：</p><ul><li><b>复刻地产「滚动开发 + 证券化」</b>：以 Peter Thiel 领投的 Crusoe 在德州阿比林建设的星际之门一期（1.2–1.3GW，8 栋楼，40万张 GB200，总投 $150亿）为例，采取<b>「盖好一栋、出租一栋、联手资管巨头 Blue Owl 打包成 REITs/ABS 卖掉一栋」</b>的模式回笼资金滚动开发下一期。</li><li><b>为什么 GPU 证券化可能沦为「科技次贷」？</b>2008 年次贷危机是把零首付次级房贷打包成 MBS/CDO，假定房价永不下跌；如今华尔街把 GPU 及其未来租金打包成 ABS，假定 GPU 在 3–5 年内能维持高租金与高残值。<b>但房子和土地能用 50 年，半导体芯片 3–5 年就会彻底过时贬值！</b></li><li><b>诺贝尔经济学理论（高斯联结函数）的惨痛教训</b>：当年评级机构用 Gaussian Copula 模型给次贷 CDO 评出 AAA 级，核心错误是假定<b>「违约率上升时，各资产间的违约相关性 $\\rho$ 依然很低」</b>。而现实是危机一来，相关性瞬间飙至 1.0。</li></ul>',
+          data: '<ul><li><b>AI 产业链的「铁索连环」：</b>在今日的 AI 闭环中（英伟达投 OpenAI → OpenAI 租甲骨文/CoreWeave → 甲骨文/CoreWeave 借私募债买英伟达卡），上下游本就是同一批主体。一旦终端 B2B/B2C 应用无法产生足够现金流覆盖算力租金，违约相关性无需发酵就是 100%，将直接触发连环减值。</li></ul>',
+          quote: '💡 核心结论：金融工程（ABS/CDO/REITs）不会消灭风险，只会转移和放大风险。用 20 年的长期债务去锚定 5 年寿命的半导体芯片，底层唯一的安全垫只有 AI 应用的真实造血速度。'
+        },
+        {
+          tag: '模块 07 · 核心专题二',
+          tagClass: 'tag-amber',
+          title: 'AI 融资「囚徒困境」与全球债市终极买单',
+          logic: '<p>既然存在明显的折旧错配与泡沫隐忧，为什么微软、谷歌、Meta、亚马逊等科技巨头还要耗尽全部自由现金流、甚至大举发债砸向 AI 基建？</p><ul><li><b>行为金融学的「囚徒困境」</b>：站在大厂 CEO（如扎克伯格、皮查伊）的视角，<b>「投资不足（Under-investment）」与「过度投资（Over-investment）」的后果是极度非对称的</b>。如果全行业过度投资最后证明是泡沫，无非大家一起亏掉几年利润、股价同步回撤，董事会不会开除 CEO（法不责众）；但如果自己保守不投，而竞争对手真借此跑通了 AGI 并垄断下一代入口，公司将彻底消亡，CEO 必然身败名裂。</li><li><b>大厂的三大转嫁策略</b>：① 利用自身 AA/AAA 高信用评级（或通过 SPV 表外结构）在投资级债券市场低息募资；② OpenAI 通过签下万亿算力合同把所有巨头、银行、养老金绑上战车，打造<b>「大而不能倒（Too Big to Fail）」</b>格局；③ 将 AI 基建与美中国运竞争、制造业回流等国家战略深度捆绑。</li></ul>',
+          data: '<ul><li><b>谁是终极买单者？——全球 100 万亿美元债券市场：</b>全球金融资产总量约 260 万亿美元，其中债券市场占 37%（约 <b>100 万亿美元</b>，企业债约 20 万亿美元）。</li><li><b>摩根大通测算：</b>五大云巨头每年约 7000 亿美元经营现金流已见顶，高评级债券市场在 2026 年可为其输血 <b>3000 亿美元</b>，未来 5 年可提供 <b>1.5 万亿美元</b>；背后的保险资金、养老金与主权财富基金成为了这场 AI 豪赌的最终买单人。同时，OpenAI 必须在 <b>2026 年上半年</b>（美联储降息周期与中期选举前）把握黄金窗口完成 IPO。</li></ul>',
+          quote: '💡 核心结论：大厂 CEO 们没有预测未来的水晶球，但激励机制决定了「宁可一起烧钱踩雷，绝不独自省钱出局」——而这张万亿船票的账单，最终由全球债券市场的养老金与固收投资人买单。'
+        },
+        {
+          tag: '模块 08 · 终局分野与地缘灰区',
+          tagClass: 'tag-emerald',
+          title: '囤电力 vs 囤算力、比特小鹿与 BTC 抵押联动',
+          logic: '<p>在节目尾声，郑迪与泓君复盘了加密矿企转型的深层规律、地缘政治红线以及比特币价格与 AI 基建的奇妙联动：</p><ul><li><b>为什么转型 AI 成功的都不是挖矿「优等生」？</b>上一轮周期的挖矿优等生（如 MARA、CleanSpark、Riot）把所有资金和电力都用来买矿机拼算力（<b>囤算力型</b>），几乎没有富余电力；现在若要转 AI，必须关停正在赚钱的矿机，机会成本极高且动作迟缓，市场给它们的瓦特估值仅 <b>$2–$3/W</b>。反倒是当年挖矿不算顶尖、但提前圈下数吉瓦低价电力的「囤电力型」玩家（如 Core Scientific、Applied Digital 估值达 <b>$15/W</b>，IREN 握 2.1GW 仅挖矿用 810MW），能一边靠存量挖矿保现金流，一边拿闲置电力快速改建 AIDC。</li><li><b>比特小鹿（Bitdeer）的地缘灰色地带</b>：吴忌寒创立、注册于新加坡，手握充沛电力储备，且二股东 Tether（持股 25.5%）与美国商务部长 Howard Lutnick 掌舵的 Cantor Fitzgerald 深度绑定。作为华人背景的新加坡企业，它能否在北美顺利签下云巨头或 CoreWeave 订单，是观察美国 AI 基础设施地缘安全审查边界的最佳风向标。</li></ul>',
+          data: '<ul><li><b>比特币价格与 AIDC 转型的非线性联动（64% LTV 质押魔法）：</b>若比特币大跌，虽会倒逼矿工转 AI，但会重创其资产负债表；反之若比特币维持在 10 万美元上方，囤币大户根本不需要求爷爷告奶奶去发股融资——<b>MARA</b> 手握约 5 万枚 BTC（价值 $50 亿），按 <b>64% LTV</b> 质押即可借出 <b>$30 亿美元</b>；<b>CleanSpark</b>（1.3 万枚，值 $13 亿）可借 <b>$8 亿</b>；<b>Riot</b>（值 $20 亿）可借 <b>$12–13 亿</b>。光靠把账上比特币质押出去，借来的钱就足够全款建起 1–2 吉瓦的 T3 级 AI 机房！</li></ul>',
+          quote: '💡 核心结论：以前是「币圈归币圈，AI 归 AI」；如今通过「变电站电力」与「比特币质押融资（64% LTV）」两条纽带，加密矿企成了决定未来两年美国 AI 算力交付速度的隐形胜负手。'
+        }
+      ];
+
+      // Tab 切换逻辑
+      var tabBtns = document.querySelectorAll('.tab-btn');
+      var tabPanes = document.querySelectorAll('.tab-pane');
+      for (var i = 0; i < tabBtns.length; i++) {
+        tabBtns[i].addEventListener('click', function() {
+          var targetId = this.getAttribute('data-tab');
+          for (var j = 0; j < tabBtns.length; j++) {
+            tabBtns[j].classList.remove('active');
+          }
+          for (var k = 0; k < tabPanes.length; k++) {
+            tabPanes[k].classList.remove('active');
+          }
+          this.classList.add('active');
+          var targetPane = document.getElementById(targetId);
+          if (targetPane) targetPane.classList.add('active');
+          if (targetId === 'tab-subprime' && window.__resizeDashboardCharts) {
+            setTimeout(window.__resizeDashboardCharts, 60);
+          }
+        });
+      }
+
+      // 卡片点击与移动端就地展开（Inline Accordion + 滚动锚定补偿）
+      var cards = document.querySelectorAll('.node-card');
+      var inspector = document.getElementById('inspectorBox');
+      var cardsGrid = document.getElementById('cardsGrid');
+      var splitLayout = document.querySelector('.split-layout');
+
+      function updateInspector(idx, clickedCard) {
+        var item = nodeData[idx];
+        if (!item) return;
+        var tagEl = document.getElementById('inspTag');
+        tagEl.className = 'node-tag ' + item.tagClass;
+        tagEl.textContent = item.tag;
+        document.getElementById('inspTitle').textContent = item.title;
+        document.getElementById('inspLogic').innerHTML = item.logic;
+        document.getElementById('inspData').innerHTML = item.data;
+        document.getElementById('inspQuote').innerHTML = item.quote;
+
+        if (clickedCard && window.innerWidth <= 1024) {
+          var beforeTop = clickedCard.getBoundingClientRect().top;
+          clickedCard.insertAdjacentElement('afterend', inspector);
+          var afterTop = clickedCard.getBoundingClientRect().top;
+          var delta = afterTop - beforeTop;
+          if (Math.abs(delta) > 1) {
+            window.scrollBy(0, delta);
+          }
+        } else if (window.innerWidth > 1024 && inspector.parentElement !== splitLayout) {
+          splitLayout.appendChild(inspector);
+        }
+      }
+
+      for (var c = 0; c < cards.length; c++) {
+        cards[c].addEventListener('click', function() {
+          var idx = parseInt(this.getAttribute('data-node'), 10);
+          for (var m = 0; m < cards.length; m++) {
+            cards[m].classList.remove('active');
+          }
+          this.classList.add('active');
+          updateInspector(idx, this);
+        });
+      }
+
+      window.addEventListener('resize', function() {
+        var activeCard = document.querySelector('.node-card.active');
+        if (window.innerWidth <= 1024) {
+          if (activeCard && inspector.previousElementSibling !== activeCard) {
+            activeCard.insertAdjacentElement('afterend', inspector);
+          }
+        } else {
+          if (inspector.parentElement !== splitLayout) {
+            splitLayout.appendChild(inspector);
+          }
+        }
+      });
+
+      // 初始化默认状态
+      updateInspector(0, cards[0]);
+    })();
+  </script>
+
+  <!-- 脚本二：独立 ECharts 图表渲染脚本（带轮询等待与自适应缩放） -->
+  <script>
+    (function() {
+      var chartInstances = [];
+
+      function initCharts() {
+        if (typeof echarts === 'undefined') {
+          setTimeout(initCharts, 120);
+          return;
+        }
+
+        // 图 1：次贷危机 vs 半导体 GPU 证券化六维风险雷达
+        var domRadar = document.getElementById('chartRadar');
+        if (domRadar) {
+          var cRadar = echarts.init(domRadar);
+          cRadar.setOption({
+            backgroundColor: 'transparent',
+            tooltip: { trigger: 'item' },
+            legend: {
+              bottom: 0,
+              textStyle: { color: '#cbd5e1', fontSize: 12 },
+              data: ['2008 房地产次贷 (MBS/CDO)', '半导体 GPU 证券化 (AIDC ABS)']
+            },
+            radar: {
+              radius: '62%',
+              center: ['50%', '46%'],
+              indicator: [
+                { name: '抵押物技术贬值速度\n(5年报废 vs 50年房产)', max: 100 },
+                { name: '违约相关性耦合度\n(铁索连环 vs 分散房主)', max: 100 },
+                { name: '资产与债务久期错配\n(5年卡配20年债)', max: 100 },
+                { name: '下游现金流待验证性\n(Token变现 vs 租金)', max: 100 },
+                { name: '银行体系杠杆传染性\n(商业银行表内敞口)', max: 100 },
+                { name: '金融分切包装复杂度\n(SPV/REITs/ABS/CDO)', max: 100 }
+              ],
+              axisName: { color: '#94a3b8', fontSize: 11 },
+              splitArea: { areaStyle: { color: ['rgba(30,41,59,0.4)', 'rgba(15,23,42,0.4)'] } },
+              splitLine: { lineStyle: { color: '#24324f' } },
+              axisLine: { lineStyle: { color: '#24324f' } }
+            },
+            series: [{
+              type: 'radar',
+              data: [
+                {
+                  value: [25, 45, 55, 60, 95, 92],
+                  name: '2008 房地产次贷 (MBS/CDO)',
+                  areaStyle: { color: 'rgba(245, 158, 11, 0.25)' },
+                  lineStyle: { color: '#f59e0b', width: 2 },
+                  itemStyle: { color: '#f59e0b' }
+                },
+                {
+                  value: [96, 92, 90, 85, 35, 80],
+                  name: '半导体 GPU 证券化 (AIDC ABS)',
+                  areaStyle: { color: 'rgba(244, 63, 94, 0.28)' },
+                  lineStyle: { color: '#f43f5e', width: 2 },
+                  itemStyle: { color: '#f43f5e' }
+                }
+              ]
+            }]
+          });
+          chartInstances.push(cRadar);
+        }
+
+        // 图 2：六大电力破局路径对比
+        var domPower = document.getElementById('chartPower');
+        if (domPower) {
+          var cPower = echarts.init(domPower);
+          cPower.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: { type: 'shadow' }
+            },
+            legend: {
+              bottom: 0,
+              textStyle: { color: '#cbd5e1', fontSize: 12 },
+              data: ['2028年前可释放电量 (GW)', '最快规模交付周期 (年)']
+            },
+            grid: { top: 28, left: 50, right: 50, bottom: 55 },
+            xAxis: {
+              type: 'category',
+              data: ['比特币矿工转产', '燃气轮机发电', '燃料电池/储能', '算力训练外迁', '柴油峰值备电', '小型核电 SMR'],
+              axisLabel: { color: '#cbd5e1', fontSize: 11, interval: 0, rotate: 15 },
+              axisLine: { lineStyle: { color: '#24324f' } }
+            },
+            yAxis: [
+              {
+                type: 'value',
+                name: '可释放容量 (GW)',
+                nameTextStyle: { color: '#94a3b8' },
+                axisLabel: { color: '#94a3b8' },
+                splitLine: { lineStyle: { color: '#1e293b' } }
+              },
+              {
+                type: 'value',
+                name: '交付等待 (年)',
+                nameTextStyle: { color: '#94a3b8' },
+                axisLabel: { color: '#94a3b8' },
+                splitLine: { show: false }
+              }
+            ],
+            series: [
+              {
+                name: '2028年前可释放电量 (GW)',
+                type: 'bar',
+                barWidth: '38%',
+                data: [15, 17.5, 5, 4, 8, 0.5],
+                itemStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    { offset: 0, color: '#38bdf8' },
+                    { offset: 1, color: '#0284c7' }
+                  ]),
+                  borderRadius: [6, 6, 0, 0]
+                }
+              },
+              {
+                name: '最快规模交付周期 (年)',
+                type: 'line',
+                yAxisIndex: 1,
+                data: [1.5, 3.5, 2.0, 2.5, 3.0, 7.5],
+                symbolSize: 8,
+                itemStyle: { color: '#f59e0b' },
+                lineStyle: { width: 3, color: '#f59e0b' }
+              }
+            ]
+          });
+          chartInstances.push(cPower);
+        }
+
+        // 图 3：1GW $500亿成本结构与 $2.9万亿资金来源
+        var domCapex = document.getElementById('chartCapex');
+        if (domCapex) {
+          var cCapex = echarts.init(domCapex);
+          cCapex.setOption({
+            backgroundColor: 'transparent',
+            tooltip: { trigger: 'item', formatter: '{a}<br/>{b}: <b>{c}</b> ({d}%)' },
+            legend: {
+              bottom: 0,
+              textStyle: { color: '#cbd5e1', fontSize: 11 }
+            },
+            series: [
+              {
+                name: '1GW数据中心($500亿)',
+                type: 'pie',
+                radius: ['32%', '58%'],
+                center: ['27%', '44%'],
+                label: { color: '#e2e8f0', fontSize: 11, formatter: '{b}\n${c}亿' },
+                data: [
+                  { value: 375, name: 'GPU与网络硬件', itemStyle: { color: '#38bdf8' } },
+                  { value: 15, name: 'T3机房与液冷基建', itemStyle: { color: '#10b981' } },
+                  { value: 110, name: '配套电力/变电/冗余', itemStyle: { color: '#818cf8' } }
+                ]
+              },
+              {
+                name: '2028全球AIDC资金($2.9万亿)',
+                type: 'pie',
+                radius: ['32%', '58%'],
+                center: ['75%', '44%'],
+                label: { color: '#e2e8f0', fontSize: 11, formatter: '{b}\n${c}万亿' },
+                data: [
+                  { value: 1.4, name: '大厂经营现金流', itemStyle: { color: '#3b82f6' } },
+                  { value: 0.8, name: '私募信贷/SPV/ABS', itemStyle: { color: '#f59e0b' } },
+                  { value: 0.7, name: '全球投资级/企业债', itemStyle: { color: '#f43f5e' } }
+                ]
+              }
+            ]
+          });
+          chartInstances.push(cCapex);
+        }
+
+        // 图 4：加密矿企转型估值对比（EV/W 美元/瓦）
+        var domMiners = document.getElementById('chartMiners');
+        if (domMiners) {
+          var cMiners = echarts.init(domMiners);
+          cMiners.setOption({
+            backgroundColor: 'transparent',
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { top: 28, left: 55, right: 30, bottom: 50 },
+            xAxis: {
+              type: 'category',
+              data: ['Applied Digital\n(已签长单)', 'Core Scientific\n(已签长单)', 'T3机房重置成本\n(基准线)', 'IREN\n(买卡重资产)', 'Cipher Mining\n(囤电转型中)', 'MARA / Riot\n(传统囤算力)'],
+              axisLabel: { color: '#cbd5e1', fontSize: 11, interval: 0 },
+              axisLine: { lineStyle: { color: '#24324f' } }
+            },
+            yAxis: {
+              type: 'value',
+              name: '估值倍数 ($ / Watt)',
+              nameTextStyle: { color: '#94a3b8' },
+              axisLabel: { color: '#94a3b8', formatter: '${value}' },
+              splitLine: { lineStyle: { color: '#1e293b' } }
+            },
+            series: [{
+              name: '每瓦特企业价值 ($/W)',
+              type: 'bar',
+              barWidth: '42%',
+              data: [
+                { value: 15.0, itemStyle: { color: '#10b981', borderRadius: [6, 6, 0, 0] } },
+                { value: 14.5, itemStyle: { color: '#10b981', borderRadius: [6, 6, 0, 0] } },
+                { value: 12.0, itemStyle: { color: '#f59e0b', borderRadius: [6, 6, 0, 0] } },
+                { value: 7.0, itemStyle: { color: '#818cf8', borderRadius: [6, 6, 0, 0] } },
+                { value: 6.5, itemStyle: { color: '#38bdf8', borderRadius: [6, 6, 0, 0] } },
+                { value: 2.5, itemStyle: { color: '#f43f5e', borderRadius: [6, 6, 0, 0] } }
+              ],
+              label: {
+                show: true,
+                position: 'top',
+                color: '#f8fafc',
+                formatter: '${c}/W'
+              }
+            }]
+          });
+          chartInstances.push(cMiners);
+        }
+      }
+
+      window.__resizeDashboardCharts = function() {
+        for (var i = 0; i < chartInstances.length; i++) {
+          if (chartInstances[i]) chartInstances[i].resize();
+        }
+      };
+
+      window.addEventListener('resize', function() {
+        window.__resizeDashboardCharts();
+      });
+
+      if (document.readyState === 'complete') {
+        initCharts();
+      } else {
+        window.addEventListener('load', initCharts);
+      }
+    })();
+  </script>
+</body>
+</html>
