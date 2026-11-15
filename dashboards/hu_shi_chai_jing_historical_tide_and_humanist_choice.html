@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>大历史洪流下的一叶浮萍：1948-1958 中国学人的人文选择与时代宿命 | 深度历史交互看板</title>
+  <!-- 微信与社交分享 Meta 规范（图片绝对路径，300x300，无英文双引号描述） -->
+  <meta name="description" content="基于柴静58分钟纪录片与胡适公开录音：全景还原1948至1958年间胡适、胡思杜、陈垣、沈从文、朱光潜、罗尔纲等学人在历史巨浪中的人文选择与命运轨迹。">
+  <link rel="shortcut icon" href="https://axelrod.lawootrip.com/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="大历史洪流下的一叶浮萍：1948-1958 中国学人的人文选择与时代宿命">
+  <meta property="og:description" content="基于柴静58分钟纪录片与胡适公开录音：全景还原1948至1958年间胡适、胡思杜、陈垣、沈从文、朱光潜、罗尔纲等学人在历史巨浪中的人文选择与命运轨迹。">
+  <meta property="og:image" href="https://axelrod.lawootrip.com/img/wechat_share.jpg" content="https://axelrod.lawootrip.com/img/wechat_share.jpg">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/hu_shi_chai_jing_historical_tide_and_humanist_choice.html">
+
+  <!-- 异步非阻塞加载 ECharts + 多 CDN 自动容灾 -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" onerror="window.__loadFallbackEcharts && window.__loadFallbackEcharts()"></script>
+  <script>
+    window.__loadFallbackEcharts = function() {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --bg-elevated: #1a233a;
+      --border-color: #24324f;
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-cyan: #38bdf8;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a78bfa;
+      --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: rgba(56, 189, 248, 0.2);
+    }
+
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.68;
+      padding: 18px 14px;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.85; text-decoration: underline; }
+    .container { max-width: 1380px; margin: 0 auto; }
+
+    header {
+      background: linear-gradient(135deg, #162035 0%, #0d1424 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 18px;
+      position: relative;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #cbd5e1;
+      max-width: 1120px;
+      margin-bottom: 14px;
+    }
+
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      padding-top: 12px;
+      border-top: 1px solid rgba(36, 50, 79, 0.6);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .kpi-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    .kpi-val { font-size: 26px; font-weight: 800; color: var(--accent-cyan); line-height: 1.2; }
+    .kpi-sub { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .dual-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .card-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .person-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .person-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .person-card.active {
+      border-color: var(--accent-cyan);
+      background: #172540;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.28);
+    }
+
+    .person-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .inspector-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 16px;
+    }
+
+    .quote-block {
+      border-left: 3px solid var(--accent-amber);
+      background: rgba(245, 158, 11, 0.08);
+      padding: 12px 14px;
+      border-radius: 0 8px 8px 0;
+      margin: 12px 0;
+      font-size: 13.5px;
+      color: #fde68a;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .chart-box {
+      width: 100%;
+      height: 360px;
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    @media (max-width: 1024px) {
+      .dual-layout { grid-template-columns: 1fr; }
+      .card-matrix { grid-template-columns: 1fr; }
+      .chart-grid { grid-template-columns: 1fr; }
+      .inspector-box { position: static; margin-top: 8px; margin-bottom: 8px; }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .tab-nav { display: grid; grid-template-columns: repeat(2, 1fr); }
+      h1 { font-size: 20px; }
+      .chart-box { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 微信 300x300 隐藏缩略图 -->
+  <div style="position:absolute;left:-9999px;top:0;width:300px;height:300px;overflow:hidden;" aria-hidden="true">
+    <img src="https://axelrod.lawootrip.com/img/wechat_share.jpg" width="300" height="300" alt="share">
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="header-badge">历史人文深度档案 · 1948—1958 知识分子命运图谱</div>
+      <h1>大历史洪流下的一叶浮萍：从胡适父子到北平学人的人文选择</h1>
+      <p class="subtitle">
+        基于柴静历史纪录片《毛泽东为什么没留住胡适？｜胡适录音公开》与一手史料考据。当时代巨浪拍岸，无论是手握 30 余个名誉博士学位的文坛盟主，还是笃信治学无罪的名家大儒，其个体命运往往如浮萍般身不由己；唯有残留于书信与旧籍中的人性微光，穿越了漫长的风霜。
+      </p>
+      <div class="meta-bar">
+        <span>🎬 <b>核心视频</b>：<a href="https://www.youtube.com/watch?v=4zRUAiJtv-Q" target="_blank">柴静《毛泽东为什么没留住胡适？》(58:37) ↗</a></span>
+        <span>📄 <b>配套文稿</b>：<a href="https://chaijing.substack.com/p/dcb" target="_blank">《胡适：除了思想之外，什么是我？》 ↗</a></span>
+        <span>🏛️ <b>历史跨度</b>：1948年12月北平围城 — 1962年胡适逝世</span>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">1948 中研院首届院士留陆比例</div>
+        <div class="kpi-val">74.1%</div>
+        <div class="kpi-sub">81 位院士中 60 位选择留下（仅 9 人赴台、12 人赴美）</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">胡适带离 vs 留存北平藏书</div>
+        <div class="kpi-val" style="color:var(--accent-amber);">10册 / 98箱</div>
+        <div class="kpi-sub">随身仅携 10 册《水经注》，幼子胡思杜替父打包 98 箱</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">1954—1955 全国批胡运动规模</div>
+        <div class="kpi-val" style="color:var(--accent-rose);">10大领域</div>
+        <div class="kpi-sub">中科院与作协联合清算，结集 8 辑数百万字批判文集</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">胡思杜生命定格年岁</div>
+        <div class="kpi-val" style="color:var(--accent-purple);">36 岁</div>
+        <div class="kpi-sub">1950年批父“人民公敌”，1957年被定“继承胡适衣钵”自尽</div>
+      </div>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="tab-people">👥 学人命运矩阵（点击卡片检视）</button>
+      <button class="tab-btn" data-tab="tab-charts">📊 历史数据与轨迹可视化</button>
+      <button class="tab-btn" data-tab="tab-timeline">⏳ 1948—1958 双线编年史</button>
+      <button class="tab-btn" data-tab="tab-video">🎥 原片推荐与核心原声</button>
+    </div>
+
+    <!-- Tab 1: 学人命运矩阵 -->
+    <div id="tab-people" class="tab-panel active">
+      <div class="dual-layout">
+        <div class="card-matrix" id="cardMatrix">
+          <div class="person-card active" data-person="hushi">
+            <span class="person-tag" style="background:rgba(56,189,248,0.15);color:#38bdf8;">去美赴台 · 实验主义学者</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">胡适（1891—1962）</h3>
+            <p style="font-size:13px;color:var(--text-muted);">1948年12月15日含泪离开北平。面对老友与幼子的公开批判，他理解“没有不说话的自由”，却写下“除了思想之外，什么是我？”</p>
+          </div>
+
+          <div class="person-card" data-person="husidu">
+            <span class="person-tag" style="background:rgba(244,63,94,0.15);color:#f43f5e;">留守北平 · 时代夹缝中的幼子</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">胡思杜（1921—1957）</h3>
+            <p style="font-size:13px;color:var(--text-muted);">自认无害留守北平，1950年发表批父檄文，前五天却秘寄家信嘱父保重；1957年因提“教授治校”被指“继承胡适衣钵”，36岁自缢。</p>
+          </div>
+
+          <div class="person-card" data-person="chenyuan">
+            <span class="person-tag" style="background:rgba(245,158,11,0.15);color:#f59e0b;">留守北平 · 史学名家与校长</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">陈垣（1880—1971）</h3>
+            <p style="font-size:13px;color:var(--text-muted);">围城之夜与胡适书信考证《水经注》，坚拒南下。1949年发表致胡适公开信宣告“由谢山转入韶山”，1957年叹息“士可杀不可辱”。</p>
+          </div>
+
+          <div class="person-card" data-person="shencongwen">
+            <span class="person-tag" style="background:rgba(167,139,250,0.15);color:#a78bfa;">留守北平 · 折笔转行的文学家</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">沈从文（1902—1988）</h3>
+            <p style="font-size:13px;color:var(--text-muted);">胡适破格聘任的北大教授。1949年遭大字报批判后精神崩溃自杀未遂，写下改了七次未能发表的炊事班小黑猫小说，彻底告别文学创作。</p>
+          </div>
+
+          <div class="person-card" data-person="luoergang">
+            <span class="person-tag" style="background:rgba(16,185,129,0.15);color:#10b981;">留守大陆 · 师门决裂的弟子</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">罗尔纲（1901—1997）</h3>
+            <p style="font-size:13px;color:var(--text-muted);">曾住胡家五年教导思杜，感念胡适令其从“行尸走肉”复活；1955年作《两个人生》反批前半生为行尸走肉，胡适却在台重印《师门五年记》。</p>
+          </div>
+
+          <div class="person-card" data-person="zhujin">
+            <span class="person-tag" style="background:rgba(56,189,248,0.15);color:#38bdf8;">留守北平 · 哲学与美学泰斗</span>
+            <h3 style="font-size:17px;margin-bottom:6px;">朱光潜 / 金岳霖 / 冯友兰 / 伍兆发</h3>
+            <p style="font-size:13px;color:var(--text-muted);">朱光潜首刊检讨一夜白头；金岳霖与冯友兰抱头痛哭；生物学家伍兆发在1957年反右运动中以实验解剖刀结束生命。</p>
+          </div>
+        </div>
+
+        <div class="inspector-box" id="inspectorBox">
+          <div id="inspectorContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 历史数据与轨迹可视化 -->
+    <div id="tab-charts" class="tab-panel">
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3 style="font-size:16px;margin-bottom:6px;">1948年中央研究院首届 81 位院士去向分布</h3>
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">绝大多数名人大儒因故土、学派与历史乐观预期选择留在大陆（信源：<a href="https://zh.wikipedia.org/zh-cn/%E6%90%B6%E6%95%91%E5%AD%B8%E4%BA%BA" target="_blank">抢救学人档案 ↗</a>）</p>
+          <div id="chartAcademicians" class="chart-box"></div>
+        </div>
+        <div class="chart-card">
+          <h3 style="font-size:16px;margin-bottom:6px;">1948—1958 关键人物公共话语空间与命运张力轨迹</h3>
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">从1948围城抉择、1950思想改造、1956知识分子早春到1957反右风暴</p>
+          <div id="chartTrajectory" class="chart-box"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 双线编年史 -->
+    <div id="tab-timeline" class="tab-panel">
+      <div class="timeline-list">
+        <div class="timeline-item">
+          <div style="font-weight:700;color:var(--accent-cyan);">1948年12月13—17日 ｜ 北平围城与父子诀别</div>
+          <p style="font-size:13.5px;color:#cbd5e1;margin-top:4px;">西郊炮响，胡适给陈垣写信考证《水经注》被电话打断六次。14日深夜清点三柜《水经注》，15日黎明偕妻飞赴南京，幼子胡思杜执意留平。17日北大50周年校庆（亦是父子共同生日），胡适自称“不名誉的逃兵”痛哭失声。</p>
+        </div>
+        <div class="timeline-item">
+          <div style="font-weight:700;color:var(--accent-amber);">1949年5月—11月 ｜ 公开信、检讨先河与中老胡同的波斯猫</div>
+          <p style="font-size:13.5px;color:#cbd5e1;margin-top:4px;">5月11日《人民日报》刊发陈垣《给胡适之一封公开信》，胡适考证后感叹老友“已没有不说话的自由”。沈从文遭大字报批判后自杀未遂；胡思杜进入华北革大改造；11月朱光潜发表首篇知识分子自我检讨。</p>
+        </div>
+        <div class="timeline-item">
+          <div style="font-weight:700;color:var(--accent-rose);">1950年9月 ｜ 胡思杜“最后家信”与《大公报》批父檄文</div>
+          <p style="font-size:13.5px;color:#cbd5e1;margin-top:4px;">胡思杜在刊发批判父亲为“帝国主义走狗及人民公敌”文章前五天，秘寄家信嘱父“少见客，保重身体”。胡适读罢批判文，私下致信友人首次夸赞儿子文章“比冯友兰等人的自白高明多了”。</p>
+        </div>
+        <div class="timeline-item">
+          <div style="font-weight:700;color:var(--accent-purple);">1954年10月—1956年5月 ｜ 十大领域清算与“除了思想之外，什么是我？”</div>
+          <p style="font-size:13.5px;color:#cbd5e1;margin-top:4px;">全国开启十大领域批胡运动，罗尔纲发表《两个人生》。1956年“百花齐放”提出后，陈垣致信劝胡适回国，称“批判的是你的思想，不是你个人”，胡适在信旁批注：“除了思想之外，什么是我？”</p>
+        </div>
+        <div class="timeline-item">
+          <div style="font-weight:700;color:var(--accent-emerald);">1957年5月—1958年4月 ｜ 浮萍终局与《师门五年记》的人性证据</div>
+          <p style="font-size:13.5px;color:#cbd5e1;margin-top:4px;">胡思杜在整风中建言“教授治校”、直言党“只有威而无信”，被打为右派并定性为“继承胡适衣钵”，1957年9月自缢身亡（年仅36岁）。1958年胡适在台重印罗尔纲旧著《师门五年记》，并在中研院就职典礼当面驳斥蒋介石。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 原片推荐与核心原声 -->
+    <div id="tab-video" class="tab-panel">
+      <div class="chart-card">
+        <h3 style="font-size:18px;margin-bottom:10px;">🎥 强烈推荐观看：柴静《毛泽东为什么没留住胡适？｜胡适录音公开》</h3>
+        <p style="font-size:14px;color:#cbd5e1;margin-bottom:14px;">
+          本片历时多年搜集胡适中英文原始演讲录音、1948年北平彩色/黑白历史影像及胡家亲友书信档案，将宏大历史叙事还原为一封封具体的家书、一只失明的波斯猫与两代学人的真实体温。
+        </p>
+        <div class="quote-block">
+          <b>胡适原始录音原声摘录：</b><br>
+          • “我们希望两个目标：一个是人的文学，要有人味，要有点人气，要有点人格；第二我们希望要一个自由的文学，这些东西不能够由政府来辅导，更不能够由政府来指导。”<br>
+          • “我相信一个自由独立的人，对于一切思想、一切主义、一切信仰，必须先要经过一道怀疑，然后可以相信；必须仔细考证，然后可以相信。”<br>
+          • “我相信他们清算历史是不会成功的，是要打失败的。古人有两句诗说得很好：野火烧不尽，春风吹又生。”
+        </div>
+        <p style="margin-top:16px;">
+          <a href="https://youtu.be/4zRUAiJtv-Q?si=-F4oYKjf4R2dmJHq" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#0284c7,#1d4ed8);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;">▶ 前往 YouTube 观看完整 58 分钟纪录片 ↗</a>
+          <a href="https://chaijing.substack.com/p/dcb" target="_blank" style="display:inline-block;background:#1e293b;border:1px solid #38bdf8;color:#38bdf8;padding:10px 20px;border-radius:8px;font-weight:700;margin-left:10px;">📄 阅读柴静 Substack 完整文字手稿 ↗</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 脚本 1：基础交互与移动端就地展开（与图表脚本严格分离） -->
+  <script>
+    (function() {
+      var personData = {
+        hushi: {
+          title: '胡适（1891—1962）｜“除了思想之外，什么是我？”',
+          sourceUrl: 'https://zh.wikipedia.org/zh-cn/%E8%83%A1%E9%81%A9',
+          sourceName: '维基百科：胡适档案',
+          choice: '1948年12月15日乘机南下，随身仅带10册《水经注》，自称“不名誉的逃兵”。',
+          quote: '“我的朋友、学生都必须出来驳斥和谴责我。他们十分清楚，我一定能够理解：他们没有保持沉默的自由。”',
+          detail: '面对大陆长达数年的百万字清算、老友陈垣的公开信、学生罗尔纲的决裂以及幼子胡思杜的登报痛斥，胡适在理智上选择了最大程度的体谅。1956年陈垣写信称批判只针对其思想而非个人时，胡适在页边写下千古一问：“除了思想之外，什么是我？”1958年他在台湾重印罗尔纲《师门五年记》，以此作为“情感的证据、学问的证据、人性的证据”，并在中研院就职典礼上当面反驳蒋介石，终身守住独立怀疑的底线。'
+        },
+        husidu: {
+          title: '胡思杜（1921—1957）｜从划清界限到唯一一次“继承衣钵”',
+          sourceUrl: 'https://paper.people.com.cn/rmwz/html/2012-06/01/content_1074995.htm?div=-1',
+          sourceName: '人民网文史参考：胡思杜档案',
+          choice: '1948年自愿留守北平替父打包98箱藏书，认为“我又没做什么有害共产党的事”。',
+          quote: '“我已经没有别的亲人了，只有你……希望这点钱和手表能供孩子们读书上大学。”（1957年9月致堂兄胡思孟遗书）',
+          detail: '胡思杜一生渴望摆脱父亲盛名的重压，却在1949年后陷入更深的身份原罪。1950年9月发表批父檄文前五天，他偷偷寄出家信嘱父亲保重身体；上交母亲留下的结婚财物、在伙房切肉、主动要求改造，却依然因“战犯之子”身份无人敢嫁、入党无门。1957年他在整风中建言“教授治校”、直言党“只有威而无信”，被《光明日报》定性为《继承胡适衣钵的胡思杜》，最终在36岁悬梁自尽。'
+        },
+        chenyuan: {
+          title: '陈垣（1880—1971）｜从《水经注》考据到“士可杀不可辱”',
+          sourceUrl: 'https://epaper.gmw.cn/wzb/html/2013-11/21/nw.D110000wzb_20131121_9-06.htm',
+          sourceName: '光明日报：陈垣致胡适的公开信',
+          choice: '1948年12月拒绝胡适同机南下之邀，步行十余里迎接解放军进城。',
+          quote: '“士可杀不可辱，老教授一次次检讨被斗争，有时候人家原是热爱国家的，但都指着脸骂人家是反革命。”（1957年5月座谈会发言）',
+          detail: '1948年围城夜，胡适还在给陈垣写信切磋全祖望校《水经注》。1949年5月，由学生起草、范文澜修订的《给胡适之一封公开信》发表，陈垣称之为“由谢山（全祖望）转入韶山（毛泽东）”。然而到了1957年5月，目睹老教授们反复受辱的陈垣忍不住痛陈“士可杀不可辱”；仅两个月后反右开始，他又不得不坐在主席台上参与批判用解剖刀自杀的本院教授伍兆发。'
+        },
+        shencongwen: {
+          title: '沈从文（1902—1988）｜锣鼓的海、旗的海，与孤单做梦的小船',
+          sourceUrl: 'https://zh.wikipedia.org/zh-cn/%E6%B2%88%E4%BB%8E%E6%96%87',
+          sourceName: '维基百科：沈从文词条',
+          choice: '1948年留守北平中老胡同，与胡思杜比邻而居。',
+          quote: '“锣鼓的海，旗的海，船在做梦（总而言之，不行）。”（1957年5月1日沈从文手绘小画批注）',
+          detail: '小学学历的沈从文由胡适破格聘为大学教授。胡适离平后不久，沈从文失去北大教职，因郭沫若批判与大字报冲击于1949年精神崩溃自杀未遂。他把胡家流浪波斯猫生下的小黑猫抱去革大伙房，并写进小说，改了七次仍无法发表。1957年整风游行日，他在20万人海旁画下一只孤单的小船，从此彻底隐入古代服饰与文物考古。'
+        },
+        luoergang: {
+          title: '罗尔纲（1901—1997）｜《两个人生》与《师门五年记》的对峙',
+          sourceUrl: 'https://zh.wikisource.org/zh-hant/%E3%80%8A%E5%B8%AB%E9%96%80%E4%BA%94%E5%B9%B4%E8%A8%98%E3%80%8B%E5%BA%8F',
+          sourceName: '维基文库：《师门五年记》序',
+          choice: '留守大陆治太平天国史，1955年发表《两个人生》清算师门恩情。',
+          quote: '“父子还可以划清敌我界限，我做学生的更可以和老师划清敌我界限了。”（罗尔纲《两个人生》）',
+          detail: '1931年罗尔纲曾致信胡适，感念先生栽培使自己从“行尸走肉”中复活；1955年批胡高潮中，他却撰文痛斥胡适让自己前半生沦为“灰冷幻灭的行尸走肉”。胡适在纽约对唐德刚连连摇头说“不可能”，并在1958年罗尔纲入党同年，于台湾自费重印罗尔纲早年感念师恩的旧作《师门五年记》，以此证明被政治扭曲之前的人性真实。'
+        },
+        zhujin: {
+          title: '朱光潜 / 金岳霖 / 冯友兰 / 伍兆发 ｜ 名人大儒的集体困境',
+          sourceUrl: 'https://zh.wikipedia.org/zh-tw/%E9%87%91%E5%B2%B3%E9%9C%96',
+          sourceName: '维基百科：金岳霖与学人档案',
+          choice: '1948年皆因学派、家国与教职选择留在北平高校。',
+          quote: '“你就交代了吧！”——金岳霖探望屡次检讨无法过关的冯友兰时，进门一言既出，两人抱头痛哭。',
+          detail: '1949年11月朱光潜在《人民日报》发表首份知识分子检讨，1951年思想改造运动中从系里检讨到全校大会，一夜满头白发；金岳霖清算自己“逻辑也有阶级性”；而在1948年北大录像中微笑出镜的生物学家伍兆发教授，在1957年7月被划为右派后，用做实验的生物解剖刀结束了自己的生命。'
+        }
+      };
+
+      function renderInspector(key) {
+        var d = personData[key] || personData.hushi;
+        var box = document.getElementById('inspectorContent');
+        if (!box) return;
+        box.innerHTML =
+          '<div style="font-size:12px;color:var(--accent-cyan);font-weight:700;margin-bottom:6px;">📌 深度档案检视台</div>' +
+          '<h3 style="font-size:19px;color:#fff;margin-bottom:10px;">' + d.title + '</h3>' +
+          '<div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;"><b>1948—1949 核心选择：</b>' + d.choice + '</div>' +
+          '<div class="quote-block">' + d.quote + '</div>' +
+          '<p style="font-size:14px;color:#e2e8f0;line-height:1.75;margin-bottom:14px;">' + d.detail + '</p>' +
+          '<div style="font-size:12.5px;border-top:1px solid var(--border-color);padding-top:10px;">🔗 权威史料溯源：<a href="' + d.sourceUrl + '" target="_blank">' + d.sourceName + ' ↗</a></div>';
+      }
+
+      renderInspector('hushi');
+
+      var cards = document.querySelectorAll('.person-card');
+      var inspector = document.getElementById('inspectorBox');
+      var dualLayout = document.querySelector('.dual-layout');
+
+      function placeInspectorForViewport(activeCard) {
+        if (!inspector || !activeCard || !dualLayout) return;
+        if (window.innerWidth <= 1024) {
+          activeCard.insertAdjacentElement('afterend', inspector);
+        } else if (inspector.parentElement !== dualLayout) {
+          dualLayout.appendChild(inspector);
+        }
+      }
+
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', function() {
+          var clicked = this;
+          var prevTop = clicked.getBoundingClientRect().top;
+          for (var j = 0; j < cards.length; j++) {
+            cards[j].classList.remove('active');
+          }
+          clicked.classList.add('active');
+          var key = clicked.getAttribute('data-person');
+          renderInspector(key);
+          placeInspectorForViewport(clicked);
+          if (window.innerWidth <= 1024) {
+            var newTop = clicked.getBoundingClientRect().top;
+            var delta = newTop - prevTop;
+            if (Math.abs(delta) > 2) {
+              window.scrollBy(0, delta);
+            }
+          }
+        });
+      }
+
+      window.addEventListener('resize', function() {
+        var active = document.querySelector('.person-card.active');
+        if (active) placeInspectorForViewport(active);
+      });
+
+      var activeInit = document.querySelector('.person-card.active');
+      if (activeInit) placeInspectorForViewport(activeInit);
+
+      var tabBtns = document.querySelectorAll('.tab-btn');
+      var tabPanels = document.querySelectorAll('.tab-panel');
+      for (var k = 0; k < tabBtns.length; k++) {
+        tabBtns[k].addEventListener('click', function() {
+          var target = this.getAttribute('data-tab');
+          for (var m = 0; m < tabBtns.length; m++) {
+            tabBtns[m].classList.remove('active');
+          }
+          for (var n = 0; n < tabPanels.length; n++) {
+            tabPanels[n].classList.remove('active');
+          }
+          this.classList.add('active');
+          var panel = document.getElementById(target);
+          if (panel) panel.classList.add('active');
+          if (target === 'tab-charts' && window.__initHistoryCharts) {
+            setTimeout(window.__initHistoryCharts, 60);
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- 脚本 2：ECharts 图表渲染脚本（独立容错） -->
+  <script>
+    (function() {
+      var chartsInitialized = false;
+      window.__initHistoryCharts = function() {
+        if (!window.echarts) return;
+        var el1 = document.getElementById('chartAcademicians');
+        var el2 = document.getElementById('chartTrajectory');
+        if (!el1 || !el2) return;
+
+        var c1 = echarts.getInstanceByDom(el1) || echarts.init(el1);
+        c1.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'item', formatter: '{b}: {c}人 ({d}%)' },
+          legend: { bottom: 0, textStyle: { color: '#cbd5e1' } },
+          series: [{
+            name: '1948中研院院士去向',
+            type: 'pie',
+            radius: ['42%', '70%'],
+            center: ['50%', '45%'],
+            itemStyle: { borderRadius: 6, borderColor: '#0b0f19', borderWidth: 2 },
+            label: { color: '#f8fafc', formatter: '{b}\n{c}人 ({d}%)' },
+            data: [
+              { value: 60, name: '留在大陆 (60人)', itemStyle: { color: '#38bdf8' } },
+              { value: 12, name: '前往美国等海外 (12人)', itemStyle: { color: '#f59e0b' } },
+              { value: 9, name: '迁往台湾 (9人)', itemStyle: { color: '#10b981' } }
+            ]
+          }]
+        });
+
+        var c2 = echarts.getInstanceByDom(el2) || echarts.init(el2);
+        c2.setOption({
+          backgroundColor: 'transparent',
+          tooltip: { trigger: 'axis' },
+          legend: { bottom: 0, textStyle: { color: '#cbd5e1' } },
+          grid: { top: 30, left: 45, right: 20, bottom: 50 },
+          xAxis: {
+            type: 'category',
+            data: ['1948围城', '1949易代', '1950革大/批父', '1951思想改造', '1954批胡高潮', '1956早春鸣放', '1957反右风暴', '1958重印旧书'],
+            axisLabel: { color: '#94a3b8', fontSize: 11 }
+          },
+          yAxis: {
+            type: 'value',
+            name: '个体自主空间指数',
+            min: 0,
+            max: 100,
+            axisLabel: { color: '#94a3b8' },
+            splitLine: { lineStyle: { color: '#1e293b' } }
+          },
+          series: [
+            {
+              name: '胡适（海外/台北独立发声）',
+              type: 'line',
+              smooth: true,
+              data: [75, 45, 55, 60, 65, 70, 72, 78],
+              itemStyle: { color: '#38bdf8' },
+              lineStyle: { width: 3 }
+            },
+            {
+              name: '留守大儒群像（陈垣/朱光潜/沈从文）',
+              type: 'line',
+              smooth: true,
+              data: [70, 40, 30, 15, 12, 48, 10, 12],
+              itemStyle: { color: '#f59e0b' },
+              lineStyle: { width: 3 }
+            },
+            {
+              name: '胡思杜（夹缝求生至陨落）',
+              type: 'line',
+              smooth: true,
+              data: [65, 50, 25, 30, 20, 55, 0, null],
+              itemStyle: { color: '#f43f5e' },
+              lineStyle: { width: 3, type: 'dashed' }
+            }
+          ]
+        });
+
+        if (!chartsInitialized) {
+          chartsInitialized = true;
+          window.addEventListener('resize', function() {
+            c1.resize();
+            c2.resize();
+          });
+        }
+      };
+    })();
+  </script>
+</body>
+</html>
