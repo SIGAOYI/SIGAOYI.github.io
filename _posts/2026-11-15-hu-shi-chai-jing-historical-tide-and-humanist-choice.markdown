@@ -12,18 +12,11 @@ tags:
   - 胡适
   - 知识分子
   - 柴静
-  - 看板
 ---
 
 > **核心导读与史料信源**：
 > * **原视频出处**：独立调查记者 **柴静** 发布的 58 分钟历史纪录片《[柴静：毛泽东为什么没留住胡适？｜胡适录音公开](https://www.youtube.com/watch?v=4zRUAiJtv-Q)》及配套手稿《[胡适：除了思想之外，什么是我？](https://chaijing.substack.com/p/dcb)》。
 > * **核心命题**：在 1948 至 1958 年那场翻天覆地的历史巨浪中，手握三十余个名誉博士学位的文坛盟主、享誉学林的史学与美学名家，其个体命运的自主权，有时竟不比一片随波逐流的浮萍强上多少。
-
-<p align="center" style="margin-top: 15px;">
-  <a href="/dashboards/hu_shi_chai_jing_historical_tide_and_humanist_choice.html" target="_blank" class="btn btn-default">在新窗口全屏浏览看板 ↗</a>
-</p>
-
-<iframe src="/dashboards/hu_shi_chai_jing_historical_tide_and_humanist_choice.html" width="100%" height="960px" frameborder="0" style="border-radius: 8px; border: 1px solid #24324f; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);"></iframe>
 
 ### 一、 围城之夜：三柜《水经注》与走不出的北平
 
