@@ -1,0 +1,411 @@
+{
+  "date": "2026-11-13",
+  "generated_at": "2026-11-16T22:25:59",
+  "funds": {
+    "ARKK": {
+      "name": "颠覆式创新",
+      "aum": 10581889128,
+      "aum_prev": 5868262694,
+      "daum_pct": 80.32,
+      "ret_pct": -0.62,
+      "pnl": -36550271,
+      "flow": 4750176706,
+      "prev_date": "2026-11-06",
+      "quarter_date": "2026-08-14",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 12.2,
+          "d_week": 1.41,
+          "d_quarter": 2.8
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 8.2,
+          "d_week": 0.58,
+          "d_quarter": 2.16
+        },
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 6.02,
+          "d_week": -0.29,
+          "d_quarter": 0.92
+        },
+        {
+          "ticker": "CRCL",
+          "label": "CRCL",
+          "weight": 4.33,
+          "d_week": -0.22,
+          "d_quarter": -0.18
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 4.11,
+          "d_week": -0.59,
+          "d_quarter": -0.53
+        },
+        {
+          "ticker": "COIN",
+          "label": "COIN",
+          "weight": 3.83,
+          "d_week": -0.07,
+          "d_quarter": -0.11
+        },
+        {
+          "ticker": "NVDA",
+          "label": "英伟达",
+          "weight": 3.47,
+          "d_week": -0.2,
+          "d_quarter": 1.2
+        },
+        {
+          "ticker": "SHOP",
+          "label": "SHOP",
+          "weight": 3.4,
+          "d_week": 0.09,
+          "d_quarter": -1.09
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 2.98,
+          "d_week": -0.03,
+          "d_quarter": -0.7
+        },
+        {
+          "ticker": "HOOD",
+          "label": "HOOD",
+          "weight": 2.89,
+          "d_week": 0.0,
+          "d_quarter": -0.63
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "CRWV",
+            "label": "CRWV",
+            "pct": 0.201,
+            "shares": 223010
+          },
+          {
+            "ticker": "NVDA",
+            "label": "英伟达",
+            "pct": 0.156,
+            "shares": 51097
+          },
+          {
+            "ticker": "SOFI",
+            "label": "SOFI",
+            "pct": 0.105,
+            "shares": 362911
+          },
+          {
+            "ticker": "ACHR",
+            "label": "ACHR",
+            "pct": 0.096,
+            "shares": 1270278
+          },
+          {
+            "ticker": "TWST",
+            "label": "TWST",
+            "pct": 0.093,
+            "shares": 54834
+          },
+          {
+            "ticker": "KTOS",
+            "label": "KTOS",
+            "pct": 0.05,
+            "shares": 83148
+          },
+          {
+            "ticker": "RKLB",
+            "label": "RKLB",
+            "pct": 0.049,
+            "shares": 49244
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "TEM",
+            "label": "TEM",
+            "pct": -0.167,
+            "shares": -122803
+          },
+          {
+            "ticker": "XYZ",
+            "label": "XYZ",
+            "pct": -0.154,
+            "shares": -103997
+          },
+          {
+            "ticker": "PLTR",
+            "label": "PLTR",
+            "pct": -0.148,
+            "shares": -53547
+          },
+          {
+            "ticker": "AMZN",
+            "label": "亚马逊",
+            "pct": -0.117,
+            "shares": -26909
+          },
+          {
+            "ticker": "TER",
+            "label": "泰瑞达",
+            "pct": -0.036,
+            "shares": -8930
+          }
+        ]
+      }
+    },
+    "ARKG": {
+      "name": "基因革命",
+      "aum": 1935589993,
+      "aum_prev": 1951401550,
+      "daum_pct": -0.81,
+      "ret_pct": -4.95,
+      "pnl": -96604037,
+      "flow": 80792481,
+      "prev_date": "2026-11-06",
+      "quarter_date": "2026-08-14",
+      "top": [
+        {
+          "ticker": "TEM",
+          "label": "TEM",
+          "weight": 10.21,
+          "d_week": -0.23,
+          "d_quarter": 3.28
+        },
+        {
+          "ticker": "TXG",
+          "label": "TXG",
+          "weight": 7.95,
+          "d_week": 0.26,
+          "d_quarter": -1.91
+        },
+        {
+          "ticker": "TWST",
+          "label": "TWST",
+          "weight": 7.58,
+          "d_week": -0.11,
+          "d_quarter": -1.29
+        },
+        {
+          "ticker": "CRSP",
+          "label": "CRSP",
+          "weight": 5.19,
+          "d_week": -0.65,
+          "d_quarter": -1.05
+        },
+        {
+          "ticker": "GH",
+          "label": "GH",
+          "weight": 5.1,
+          "d_week": 0.28,
+          "d_quarter": 1.0
+        },
+        {
+          "ticker": "LLY",
+          "label": "LLY",
+          "weight": 4.82,
+          "d_week": 0.52,
+          "d_quarter": 0.54
+        },
+        {
+          "ticker": "ABSI",
+          "label": "ABSI",
+          "weight": 4.75,
+          "d_week": -0.91,
+          "d_quarter": -0.65
+        },
+        {
+          "ticker": "NTRA",
+          "label": "NTRA",
+          "weight": 4.67,
+          "d_week": 0.35,
+          "d_quarter": 0.42
+        },
+        {
+          "ticker": "ILMN",
+          "label": "ILMN",
+          "weight": 4.48,
+          "d_week": 0.1,
+          "d_quarter": 0.55
+        },
+        {
+          "ticker": "BEAM",
+          "label": "BEAM",
+          "weight": 3.8,
+          "d_week": -0.37,
+          "d_quarter": 0.28
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "PRME",
+            "label": "PRME",
+            "pct": 0.309,
+            "shares": 1744714
+          },
+          {
+            "ticker": "TWST",
+            "label": "TWST",
+            "pct": 0.094,
+            "shares": 18000
+          },
+          {
+            "ticker": "SCTX",
+            "label": "SCTX",
+            "pct": 0.065,
+            "shares": 81597
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "ABSI",
+            "label": "ABSI",
+            "pct": -0.244,
+            "shares": -478402
+          },
+          {
+            "ticker": "TEM",
+            "label": "TEM",
+            "pct": -0.145,
+            "shares": -38882
+          }
+        ]
+      }
+    },
+    "ARKQ": {
+      "name": "自动化与机器人",
+      "aum": 1716676879,
+      "aum_prev": 1648385575,
+      "daum_pct": 4.14,
+      "ret_pct": 2.96,
+      "pnl": 48759497,
+      "flow": 19531808,
+      "prev_date": "2026-11-06",
+      "quarter_date": "2026-08-14",
+      "top": [
+        {
+          "ticker": "TSLA",
+          "label": "特斯拉",
+          "weight": 13.02,
+          "d_week": 0.73,
+          "d_quarter": 3.57
+        },
+        {
+          "ticker": "SPCX",
+          "label": "SPCX",
+          "weight": 9.89,
+          "d_week": 0.07,
+          "d_quarter": 2.91
+        },
+        {
+          "ticker": "KTOS",
+          "label": "KTOS",
+          "weight": 5.0,
+          "d_week": -0.17,
+          "d_quarter": -2.09
+        },
+        {
+          "ticker": "NVDA",
+          "label": "英伟达",
+          "weight": 4.87,
+          "d_week": -0.71,
+          "d_quarter": 1.3
+        },
+        {
+          "ticker": "PLTR",
+          "label": "PLTR",
+          "weight": 4.84,
+          "d_week": 0.09,
+          "d_quarter": 0.38
+        },
+        {
+          "ticker": "RKLB",
+          "label": "RKLB",
+          "weight": 4.8,
+          "d_week": 0.63,
+          "d_quarter": 4.8
+        },
+        {
+          "ticker": "GOOG",
+          "label": "谷歌",
+          "weight": 4.03,
+          "d_week": 0.01,
+          "d_quarter": -0.34
+        },
+        {
+          "ticker": "AMZN",
+          "label": "亚马逊",
+          "weight": 3.86,
+          "d_week": 0.0,
+          "d_quarter": 0.46
+        },
+        {
+          "ticker": "LHX",
+          "label": "LHX",
+          "weight": 3.49,
+          "d_week": 0.07,
+          "d_quarter": 0.4
+        },
+        {
+          "ticker": "TER",
+          "label": "泰瑞达",
+          "weight": 3.45,
+          "d_week": 0.35,
+          "d_quarter": -3.22
+        }
+      ],
+      "week_trades": {
+        "buys": [
+          {
+            "ticker": "NVDA",
+            "label": "英伟达",
+            "pct": 0.155,
+            "shares": 14380
+          },
+          {
+            "ticker": "KTOS",
+            "label": "KTOS",
+            "pct": 0.148,
+            "shares": 73360
+          },
+          {
+            "ticker": "ACHR",
+            "label": "ACHR",
+            "pct": 0.105,
+            "shares": 389385
+          },
+          {
+            "ticker": "RKLB",
+            "label": "RKLB",
+            "pct": 0.101,
+            "shares": 27665
+          }
+        ],
+        "sells": [
+          {
+            "ticker": "BYDDY",
+            "label": "BYDDY",
+            "pct": -0.481,
+            "shares": -952982
+          },
+          {
+            "ticker": "SNPS",
+            "label": "SNPS",
+            "pct": -0.106,
+            "shares": -3712
+          }
+        ]
+      }
+    }
+  }
+}
