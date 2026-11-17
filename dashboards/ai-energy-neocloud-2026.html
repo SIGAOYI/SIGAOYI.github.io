@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI算力与电力基建四大核心标的深度研报：Bloom Energy (BE) · Clearway (CWEN) · Nebius (NBIS) · CoreWeave (CRWV)</title>
+  <meta name="description" content="基于2026年Q3最新SEC财报，深度拆解AI算力云(Nebius/CoreWeave)与电力能源基建(Bloom Energy/Clearway Energy)的主营业务、财务轨迹、护城河、产业链位置与SWOT全景对比。">
+  <meta property="og:title" content="AI算力与电力基建四大核心标的深度研报：BE · CWEN · NBIS · CRWV (2026 Q3)">
+  <meta property="og:description" content="从800V固体氧化物燃料电池、绿电YieldCo容量合同，到自研ODM机柜与万卡液冷集群：四大AI基础设施核心资产全维度投研看板。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://axelrod.lawootrip.com/dashboards/ai-energy-neocloud-2026.html">
+  <meta property="og:image" content="https://axelrod.lawootrip.com/img/avatar-hux.jpg">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js" defer onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js';"></script>
+  <style>
+    :root {
+      --bg-base: #0a0f1d;
+      --bg-surface: #111827;
+      --bg-card: #162032;
+      --bg-card-hover: #1e2b45;
+      --border-subtle: #24324f;
+      --border-highlight: #3b82f6;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-rose: #f43f5e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+    a { color: var(--accent-blue); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #7dd3fc; text-decoration: underline; }
+    .container { max-width: 1360px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header Banner */
+    .hero-header {
+      background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.14), transparent 45%),
+                  radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.12), transparent 50%),
+                  linear-gradient(180deg, #0f172a 0%, #0a0f1d 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 36px 0 28px;
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: center; }
+    .pill-badge {
+      font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .pill-badge.emerald { background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border-color: rgba(16, 185, 129, 0.3); }
+    .pill-badge.amber { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border-color: rgba(245, 158, 11, 0.3); }
+    .hero-title { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: #ffffff; margin-bottom: 10px; line-height: 1.3; }
+    .hero-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 1080px; }
+
+    /* Top KPI Strip */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px;
+    }
+    .kpi-card {
+      background: rgba(22, 32, 50, 0.85); border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 14px 16px; position: relative; overflow: hidden;
+    }
+    .kpi-card::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+    }
+    .kpi-card.be::before { background: var(--accent-emerald); }
+    .kpi-card.cwen::before { background: var(--accent-amber); }
+    .kpi-card.nbis::before { background: var(--accent-blue); }
+    .kpi-card.crwv::before { background: var(--accent-purple); }
+    .kpi-ticker { font-size: 12px; font-weight: 700; color: var(--text-secondary); display: flex; justify-content: space-between; }
+    .kpi-main { font-size: 21px; font-weight: 800; color: #fff; margin: 4px 0 2px; }
+    .kpi-sub { font-size: 12px; color: var(--text-secondary); }
+
+    /* Main Nav Tabs */
+    .nav-bar {
+      position: sticky; top: 0; z-index: 90; background: rgba(10, 15, 29, 0.92);
+      backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 0; margin-bottom: 24px;
+    }
+    .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nav-btn {
+      background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-subtle);
+      padding: 9px 16px; border-radius: 8px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .nav-btn:hover { background: var(--bg-card-hover); color: #fff; }
+    .nav-btn.active {
+      background: linear-gradient(135deg, #2563eb, #0284c7); color: #fff;
+      border-color: #38bdf8; box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
+    }
+
+    /* Section Containers */
+    .view-section { display: none; animation: fadeIn 0.25s ease; }
+    .view-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-box {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 22px; margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-desc { font-size: 13.5px; color: var(--text-secondary); margin-bottom: 18px; }
+
+    /* Overview Dual-Column Card Matrix + Inspector */
+    .overview-layout {
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; align-items: start;
+    }
+    .company-matrix { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .entity-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 18px; cursor: pointer; transition: all 0.2s; position: relative;
+    }
+    .entity-card:hover { background: var(--bg-card-hover); border-color: #475569; }
+    .entity-card.active {
+      border-color: var(--accent-blue); background: rgba(30, 43, 69, 0.95);
+      box-shadow: 0 0 0 1px var(--accent-blue), 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+    .entity-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .entity-name { font-size: 17px; font-weight: 700; color: #fff; }
+    .entity-tag { font-size: 11.5px; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+    .tag-be { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .tag-cwen { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .tag-nbis { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .tag-crwv { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .entity-summary { font-size: 13.5px; color: var(--text-secondary); margin-bottom: 12px; }
+    .entity-metrics {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12px;
+    }
+    .metric-item span { display: block; color: var(--text-muted); font-size: 11px; }
+    .metric-item strong { color: #f8fafc; font-size: 13px; }
+
+    .inspector-panel {
+      background: #131c2e; border: 1px solid var(--accent-blue); border-radius: 12px;
+      padding: 22px; position: sticky; top: 72px;
+    }
+    .inspector-header {
+      border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px; margin-bottom: 14px;
+    }
+    .inspector-list { list-style: none; }
+    .inspector-list li {
+      margin-bottom: 11px; font-size: 13.5px; color: #e2e8f0;
+      padding-left: 14px; position: relative;
+    }
+    .inspector-list li::before {
+      content: "▸"; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold;
+    }
+
+    /* Value Chain Architecture Diagram */
+    .chain-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 14px;
+    }
+    .chain-col {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 16px;
+    }
+    .chain-col-title {
+      font-size: 14px; font-weight: 700; color: var(--accent-blue);
+      border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; margin-bottom: 12px;
+    }
+    .chain-node {
+      background: rgba(15, 23, 42, 0.7); border-left: 3px solid var(--accent-emerald);
+      padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; font-size: 13px;
+    }
+    .chain-node.mid { border-left-color: var(--accent-blue); }
+    .chain-node.down { border-left-color: var(--accent-purple); }
+    .chain-node strong { display: block; color: #fff; margin-bottom: 3px; }
+
+    /* Deep Dive Company Selector */
+    .company-subtabs {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;
+    }
+    .subtab-btn {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-secondary);
+      padding: 12px 14px; border-radius: 10px; cursor: pointer; text-align: left; transition: all 0.2s;
+    }
+    .subtab-btn:hover { background: var(--bg-card-hover); color: #fff; }
+    .subtab-btn.active {
+      background: rgba(37, 99, 235, 0.18); border-color: var(--accent-blue); color: #fff;
+      box-shadow: inset 0 0 0 1px var(--accent-blue);
+    }
+    .subtab-btn .st-ticker { font-size: 15px; font-weight: 800; color: #fff; display: block; }
+    .subtab-btn .st-role { font-size: 12px; color: var(--text-secondary); }
+
+    .deepdive-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 20px;
+    }
+    .dd-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 18px;
+    }
+    .dd-card.full-span { grid-column: 1 / -1; }
+    .dd-card h4 {
+      font-size: 15.5px; font-weight: 700; color: var(--accent-blue);
+      margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .dd-list { list-style: none; }
+    .dd-list li {
+      font-size: 13.5px; color: #e2e8f0; margin-bottom: 10px; padding-left: 14px; position: relative;
+    }
+    .dd-list li::before {
+      content: "•"; position: absolute; left: 0; color: var(--accent-emerald); font-weight: bold;
+    }
+
+    /* SWOT 4-Quadrant Grid */
+    .swot-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 12px;
+    }
+    .swot-box {
+      background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 15px;
+    }
+    .swot-box.s { border-top: 3px solid var(--accent-emerald); }
+    .swot-box.w { border-top: 3px solid var(--accent-rose); }
+    .swot-box.o { border-top: 3px solid var(--accent-blue); }
+    .swot-box.t { border-top: 3px solid var(--accent-amber); }
+    .swot-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .swot-box.s .swot-title { color: #34d399; }
+    .swot-box.w .swot-title { color: #fb7185; }
+    .swot-box.o .swot-title { color: #38bdf8; }
+    .swot-box.t .swot-title { color: #fbbf24; }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin-top: 12px; border-radius: 8px; border: 1px solid var(--border-subtle); }
+    table.comp-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+    table.comp-table th {
+      background: #1e293b; color: #f8fafc; font-weight: 700; padding: 11px 13px;
+      border-bottom: 1px solid var(--border-subtle); white-space: nowrap;
+    }
+    table.comp-table td {
+      padding: 11px 13px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #cbd5e1; vertical-align: top;
+    }
+    table.comp-table tr:hover td { background: rgba(56, 189, 248, 0.04); }
+
+    /* Charts Grid */
+    .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .chart-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 16px;
+    }
+    .chart-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .chart-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+    .echart-box { width: 100%; height: 350px; }
+
+    /* Simulator */
+    .sim-layout { display: grid; grid-template-columns: 1fr 1.25fr; gap: 20px; }
+    .sim-controls {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 18px;
+    }
+    .control-group { margin-bottom: 18px; }
+    .control-label {
+      display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600;
+      color: #e2e8f0; margin-bottom: 6px;
+    }
+    .control-val { color: var(--accent-blue); font-weight: 700; }
+    input[type="range"] {
+      width: 100%; accent-color: var(--accent-blue); cursor: pointer;
+    }
+    .preset-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .preset-btn {
+      background: #1e293b; color: #cbd5e1; border: 1px solid var(--border-subtle);
+      padding: 7px 12px; border-radius: 6px; font-size: 12.5px; cursor: pointer; font-weight: 600;
+    }
+    .preset-btn.active, .preset-btn:hover {
+      background: rgba(56, 189, 248, 0.2); color: #fff; border-color: var(--accent-blue);
+    }
+    .sim-output {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 18px;
+    }
+    .alloc-bars { margin-top: 14px; }
+    .alloc-row { margin-bottom: 12px; }
+    .alloc-head { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .alloc-track { width: 100%; height: 10px; background: #0f172a; border-radius: 999px; overflow: hidden; }
+    .alloc-fill { height: 100%; border-radius: 999px; transition: width 0.3s ease; }
+
+    /* Glossary Cards */
+    .glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .glossary-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 16px;
+    }
+    .glossary-term { font-size: 15px; font-weight: 700; color: var(--accent-blue); margin-bottom: 6px; }
+    .glossary-def { font-size: 13.5px; color: #cbd5e1; }
+
+    @media (max-width: 1024px) {
+      .overview-layout, .deepdive-grid, .charts-grid, .sim-layout, .chain-grid, .glossary-grid {
+        grid-template-columns: 1fr;
+      }
+      .inspector-panel { position: static; margin-top: 10px; margin-bottom: 12px; }
+      .kpi-grid, .company-subtabs { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .hero-title { font-size: 21px; }
+      .kpi-grid, .company-subtabs, .swot-grid { grid-template-columns: repeat(2, 1fr); }
+      .swot-grid { grid-template-columns: 1fr; }
+      .nav-tabs { display: grid; grid-template-columns: repeat(2, 1fr); }
+      .entity-metrics { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://axelrod.lawootrip.com/img/avatar-hux.jpg" alt="share-thumbnail" style="display:none;width:300px;height:300px;" />
+
+  <header class="hero-header">
+    <div class="container">
+      <div class="badge-row">
+        <span class="pill-badge">2026 Q3 财报全景校准</span>
+        <span class="pill-badge emerald">AI 供电基建：Bloom Energy · Clearway Energy</span>
+        <span class="pill-badge amber">AI 算力新云 (Neocloud)：Nebius · CoreWeave</span>
+      </div>
+      <h1 class="hero-title">AI 算力与电力能源四大核心标的深度投研报告：BE · CWEN · NBIS · CRWV</h1>
+      <p class="hero-subtitle">
+        当生成式 AI 步入万卡吉瓦（GW）级工厂时代，行业的真正瓶颈已从单一芯片供给延伸至<strong>“电力并网交付速度（Time-to-Power）”</strong>与<strong>“算力集群单位资本回报（ROIC vs. 债务成本）”</strong>。本报告基于截至 2026 年第三季度的最新 SEC 监管财报（10-Q / 6-K / 10-K），对分布式燃料电池龙头 <strong>Bloom Energy (BE)</strong>、清洁能源收息平台 <strong>Clearway Energy-C (CWEN)</strong>、全栈自研 AI 云 <strong>Nebius (NBIS)</strong> 与最大规模裸金属 GPU 云 <strong>CoreWeave (CRWV)</strong> 进行七大维度的穿透式拆解。
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card be">
+          <div class="kpi-ticker"><span>BLOOM ENERGY</span><span>NYSE: BE</span></div>
+          <div class="kpi-main">$177.28 <small style="font-size:12px;color:#34d399;font-weight:600;">市值 $52.41B</small></div>
+          <div class="kpi-sub">Q3'26 营收 $12.36亿 (+138%) | 26E 指引 $44-46亿</div>
+        </div>
+        <div class="kpi-card cwen">
+          <div class="kpi-ticker"><span>CLEARWAY CLASS C</span><span>NYSE: CWEN</span></div>
+          <div class="kpi-main">$32.70 <small style="font-size:12px;color:#fbbf24;font-weight:600;">股息率 5.90%</small></div>
+          <div class="kpi-sub">总装机 13.9 GW | 27E CAFD 指引 $5.2-5.9亿</div>
+        </div>
+        <div class="kpi-card nbis">
+          <div class="kpi-ticker"><span>NEBIUS GROUP</span><span>NASDAQ: NBIS</span></div>
+          <div class="kpi-main">$107.13 <small style="font-size:12px;color:#38bdf8;font-weight:600;">市值 $31.38B</small></div>
+          <div class="kpi-sub">Q3'26 营收 $9.81亿 (+571%) | RPO 积压 $387亿</div>
+        </div>
+        <div class="kpi-card crwv">
+          <div class="kpi-ticker"><span>COREWEAVE</span><span>NASDAQ: CRWV</span></div>
+          <div class="kpi-main">$49.88 <small style="font-size:12px;color:#c084fc;font-weight:600;">市值 $27.51B</small></div>
+          <div class="kpi-sub">Q3'26 营收 $36.61亿 (+168%) | RPO 积压 $1,323亿</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-bar">
+    <div class="container">
+      <div class="nav-tabs" id="mainNavTabs">
+        <button class="nav-btn active" data-target="overview">🌐 1. 产业链位置与全景对比</button>
+        <button class="nav-btn" data-target="company-deepdive">🏛️ 2. 四大公司七维深度拆解 (含SWOT)</button>
+        <button class="nav-btn" data-target="charts">📊 3. 2025-2026Q3 财报与护城河图表</button>
+        <button class="nav-btn" data-target="simulator">🧮 4. 算力×电力配置与估值模拟器</button>
+        <button class="nav-btn" data-target="glossary">📖 5. 跨学科专业概念词典与信源库</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- SECTION 1: OVERVIEW & VALUE CHAIN -->
+    <section class="view-section active" id="sec-overview">
+      <div class="section-box">
+        <h2 class="section-title">🔗 AI 基础设施“电子→瓦特→算力→Token”全产业链协同图谱</h2>
+        <p class="section-desc">
+          这四家公司并非孤立存在，而是直接互为上下游客户与生态伙伴：例如 <strong>Bloom Energy</strong> 直接为 <strong>CoreWeave</strong>（伊利诺伊州 Volo 园区）和 <strong>Nebius</strong>（新泽西州 Vineland 300MW 微软专属中心）提供表后微电网燃料电池；<strong>Clearway Energy</strong> 与微软、谷歌签署吉瓦级长期购电协议（PPA）；而 <strong>NVIDIA</strong> 同时重仓持股 <strong>Nebius (9.3%)</strong> 与 <strong>CoreWeave</strong>。点击下方左侧任意公司卡片，即可在检视台中查看其核心商业闭环与上下游咬合关系（手机端点击卡片将在正下方就地展开）。
+        </p>
+
+        <div class="overview-layout">
+          <div class="company-matrix" id="overviewMatrix">
+            <div class="entity-card active" data-company="BE">
+              <div class="entity-head">
+                <div class="entity-name">1. Bloom Energy (NYSE: BE)</div>
+                <span class="entity-tag tag-be">表后分布式发电 · SOFC 龙头</span>
+              </div>
+              <p class="entity-summary">
+                利用高温固体氧化物燃料电池（SOFC）将天然气、沼气或氢气无需燃烧直接转化为 800V 直流电，帮 AI 数据中心绕过长达 4-7 年的电网并网排队与燃气轮机缺货瓶颈。
+              </p>
+              <div class="entity-metrics">
+                <div class="metric-item"><span>Q3'26 营收 / 增速</span><strong>$12.36亿 (+138%)</strong></div>
+                <div class="metric-item"><span>Non-GAAP 毛利率</span><strong>34.5% (产品 38.4%)</strong></div>
+                <div class="metric-item"><span>在手积压订单</span><strong>~$200亿 (产品~$60亿)</strong></div>
+              </div>
+            </div>
+
+            <div class="entity-card" data-company="CWEN">
+              <div class="entity-head">
+                <div class="entity-name">2. Clearway Energy Class C (NYSE: CWEN)</div>
+                <span class="entity-tag tag-cwen">公用事业级绿电 + 调峰气电 YieldCo</span>
+              </div>
+              <p class="entity-summary">
+                背靠 BlackRock/GIP 与道达尔能源（TotalEnergies）合资开发商平台，运营 13.9 GW 风光储与加州稀缺调峰燃气电厂，通过 15-20 年长期购电协议（PPA）向超大规模云商与电网输出高确定性股息现金流。
+              </p>
+              <div class="entity-metrics">
+                <div class="metric-item"><span>Q3'26 营收 / EBITDA</span><strong>$5.22亿 / $4.35亿</strong></div>
+                <div class="metric-item"><span>远期年化股息率</span><strong>5.90% ($1.93/股)</strong></div>
+                <div class="metric-item"><span>母公司储备管道</span><strong>35.5 GW (含12GW算力园)</strong></div>
+              </div>
+            </div>
+
+            <div class="entity-card" data-company="NBIS">
+              <div class="entity-head">
+                <div class="entity-name">3. Nebius Group N.V. (NASDAQ: NBIS)</div>
+                <span class="entity-tag tag-nbis">全栈自研 AI 云 · 低息高预付模式</span>
+              </div>
+              <p class="entity-summary">
+                脱胎于 Yandex 国际业务重组，携 1,300+ 资深软硬件工程师自研服务器主板、免工具机柜与 Aether 云平台；以“客户高额预付款 + 低息可转债 + 巨额副业股权（ClickHouse/Avride）”实现轻债务负担的算力狂飙。
+              </p>
+              <div class="entity-metrics">
+                <div class="metric-item"><span>Q3'26 营收 / ARR</span><strong>$9.81亿 / $64.0亿</strong></div>
+                <div class="metric-item"><span>AI云 EBITDA 利润率</span><strong>53.2% (GAAP转正)</strong></div>
+                <div class="metric-item"><span>RPO 合同积压</span><strong>$387亿 (微软/Meta)</strong></div>
+              </div>
+            </div>
+
+            <div class="entity-card" data-company="CRWV">
+              <div class="entity-head">
+                <div class="entity-name">4. CoreWeave, Inc. (NASDAQ: CRWV)</div>
+                <span class="entity-tag tag-crwv">全球最大纯正 GPU 算力巨头</span>
+              </div>
+              <p class="entity-summary">
+                运营 51 座专用数据中心（>1.7 GW 已通电、>4.6 GW 签约电力），凭借裸金属 Kubernetes、SUNK 调度、Mission Control 自动排障及收购 Weights & Biases，垄断微软、OpenAI 与 Meta 的核心外溢训练与推理集群。
+              </p>
+              <div class="entity-metrics">
+                <div class="metric-item"><span>Q3'26 营收 / EBITDA</span><strong>$36.61亿 / $22.56亿</strong></div>
+                <div class="metric-item"><span>RPO 合同积压</span><strong>$1,323亿 (26E ARR >$200亿)</strong></div>
+                <div class="metric-item"><span>账面总债务 / 利息</span><strong>$468.7亿 / 单季$8.46亿</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Inspector Box -->
+          <div class="inspector-panel" id="inspectorBox">
+            <div class="inspector-header">
+              <div style="font-size:12px;color:var(--accent-blue);font-weight:700;margin-bottom:4px;" id="inspBadge">当前检视：NYSE: BE · 表后分布式主电源</div>
+              <h3 style="font-size:18px;color:#fff;" id="inspTitle">Bloom Energy：用固态电化学破解 AI 缺电死结</h3>
+            </div>
+            <ul class="inspector-list" id="inspList">
+              <!-- Populated by JS -->
+            </ul>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:12px;color:var(--text-secondary);" id="inspFooter">点击上方“2. 四大公司七维深度拆解”查看完整财报与SWOT</span>
+              <button class="preset-btn" id="jumpDeepDiveBtn" data-company="BE">查看该司完整档案 ↗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Value Chain Positioning Diagram -->
+      <div class="section-box">
+        <h2 class="section-title">🏗️ 四大标的在 AI 算力—能源产业链中的精确坐标</h2>
+        <p class="section-desc">
+          从上游的硅片、陶瓷电解质、风光电组件，到中游的电力生产与算力云编排，再到下游的基座大模型与企业级 Agent 应用，四家公司分别卡位最关键的物理瓶颈与算力枢纽。
+        </p>
+        <div class="chain-grid">
+          <div class="chain-col">
+            <div class="chain-col-title">⚡ 第一层：上游硬件、材料与电力底座</div>
+            <div class="chain-node">
+              <strong>Bloom Energy (BE) — 离网/微电网主电源</strong>
+              上游采购氧化钇稳定氧化锆（YSZ，Tosoh/CoorsTek）与铬铁合金连接板（零贵金属铂催化剂）；中游在加州 Fremont 与特拉华州 Newark 工厂扩产至 <strong>2 GW/年（2026年底）</strong>；直接向数据中心园区输出 800V DC 高效电力与余热吸收式制冷。
+            </div>
+            <div class="chain-node">
+              <strong>Clearway Energy (CWEN) — 大电网绿电与容量基石</strong>
+              依托母公司 CEG（BlackRock/GIP + TotalEnergies）35.5 GW 开发管道及 Quanta/Blattner EPC 合作，收购已并网的风电（4.2GW）、光伏（5.4GW）、电池储能（1.4GW）及加州调峰气电（2.8GW），为电网与云厂商提供 15-20 年长协清洁电力。
+            </div>
+          </div>
+
+          <div class="chain-col">
+            <div class="chain-col-title">🖥️ 第二层：中游 AI 算力工厂与云平台 (Neocloud)</div>
+            <div class="chain-node mid">
+              <strong>CoreWeave (CRWV) — 超大规模裸金属算力霸主</strong>
+              上游锁定 NVIDIA 优先配额、Dell/Supermicro 液冷机柜及 Core Scientific (590MW)、Digital Realty、Bloom Energy 电力设施；中游通过 CKS 裸金属容器、SUNK (Slurm on K8s) 与 Mission Control 编排 51 座数据中心，承接万卡级训练与推理订单。
+            </div>
+            <div class="chain-node mid">
+              <strong>Nebius Group (NBIS) — ODM 自研硬件 + 推理 PaaS 云</strong>
+              跳过传统 OEM 品牌商，由内部百人硬件团队自研主板与无缆机柜交由台湾 ODM 直造；在芬兰 Mäntsälä（PUE 1.13）、美国密苏里州（1.1GW）自建绿色 AI 工厂，叠加 Aether 云架构、Token Factory 推理平台与 Tavily 实时搜索。
+            </div>
+          </div>
+
+          <div class="chain-col">
+            <div class="chain-col-title">🚀 第三层：下游客户生态与跨公司咬合协同</div>
+            <div class="chain-node down">
+              <strong>跨公司直接商业订单（实证协同）</strong>
+              • <strong>BE → CRWV</strong>：Bloom 为 CoreWeave 伊利诺伊州 Volo 数据中心部署现场燃料电池微电网。<br>
+              • <strong>BE → NBIS / MSFT</strong>：Nebius 服务微软的 300MW 新泽西 Vineland 基地正切换至 Bloom 燃料电池永久供电。<br>
+              • <strong>CWEN → GOOGL / MSFT</strong>：Clearway 与 Google 签约 1.24 GW PPA，与微软签约 300 MW Mt. Storm 风电改造。
+            </div>
+            <div class="chain-node down">
+              <strong>终端买单方（Hyperscalers & 前沿 AI 实验室）</strong>
+              微软（同时是 CRWV、NBIS、CWEN 客户）、Meta（CRWV $210亿 + NBIS 最高~$270亿合同）、OpenAI（CRWV $224亿+合同）、Google（BE 702MW AEP 怀俄明项目 + CWEN 1.24GW）、Oracle（BE 最高 2.8GW 框架协议）。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Comparison Table -->
+      <div class="section-box">
+        <h2 class="section-title">📋 四大核心公司核心基本面与财务指标横向总表（截至 2026 Q3）</h2>
+        <div class="table-wrap">
+          <table class="comp-table">
+            <thead>
+              <tr>
+                <th>对比维度</th>
+                <th>Bloom Energy (NYSE: BE)</th>
+                <th>Clearway Energy-C (NYSE: CWEN)</th>
+                <th>Nebius Group (NASDAQ: NBIS)</th>
+                <th>CoreWeave (NASDAQ: CRWV)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>股价 / 市值 (2026-11-16)</strong></td>
+                <td>$177.28 / <strong>$52.41B</strong></td>
+                <td>$32.70 / <strong>$6.71B</strong> (单轨合并后)</td>
+                <td>$107.13 / <strong>$31.38B</strong></td>
+                <td>$49.88 / <strong>$27.51B</strong></td>
+              </tr>
+              <tr>
+                <td><strong>商业模式定位</strong></td>
+                <td>固态氧化物燃料电池(SOFC)制造与表后供电系统 + 长期运维(O&M)</td>
+                <td>清洁能源与加州灵活燃气发电资产持有运营平台 (YieldCo)</td>
+                <td>全栈自研 AI 云 (ODM服务器 + 自建电厂 + Token Factory + 科技股权)</td>
+                <td>全球最大纯正 GPU 算力云 (AI Hyperscaler) + W&B 开发者生态</td>
+              </tr>
+              <tr>
+                <td><strong>2025 全年营收</strong></td>
+                <td><strong>$20.24亿</strong> (+37.3% YoY)</td>
+                <td><strong>$14.29亿</strong> (+4.2% YoY)</td>
+                <td><strong>$5.30亿</strong> (+479% YoY)</td>
+                <td><strong>$51.31亿</strong> (+168% YoY)</td>
+              </tr>
+              <tr>
+                <td><strong>2026 Q3 单季营收</strong></td>
+                <td><strong>$12.358亿</strong> (+138.1% YoY)</td>
+                <td><strong>$5.22亿</strong> (+21.7% YoY)</td>
+                <td><strong>$9.808亿</strong> (+571.3% YoY; 云+643%)</td>
+                <td><strong>$36.61亿</strong> (+168.3% YoY)</td>
+              </tr>
+              <tr>
+                <td><strong>Q3 核心盈利指标</strong></td>
+                <td>Non-GAAP 毛利率 <strong>34.5%</strong>；Non-GAAP 营业利润 $2.857亿 (23.1%)；GAAP 净利 $2.503亿</td>
+                <td>Adjusted EBITDA <strong>$4.35亿</strong>；可分配现金(CAFD) <strong>$1.73亿</strong>；GAAP 净利 $1.23亿</td>
+                <td>集团 Adj. EBITDA <strong>$4.658亿</strong> (47.5%，AI云 53.2%)；首次实现 GAAP 营业利润 <strong>+$5,040万</strong></td>
+                <td>Adj. EBITDA <strong>$22.56亿</strong> (62% 利润率)；GAAP 营业利润 $2.07亿；因利息 $8.46亿致 GAAP 净亏 $(7.09)亿</td>
+              </tr>
+              <tr>
+                <td><strong>在手积压订单 (Backlog / RPO)</strong></td>
+                <td>总积压 <strong>~$200亿</strong>（其中产品积压 ~$60亿，同比增 2.5 倍）</td>
+                <td>13.9 GW 长期 PPA/容量合同（未来数年锁定 ~100% 增长落地）</td>
+                <td>GAAP RPO <strong>$387亿</strong>（40% 在 24 个月内确认；ARR 达 $64亿）</td>
+                <td>总积压 <strong>$1,325亿</strong>（GAAP RPO $1,323亿，36% 在 24 个月内确认）</td>
+              </tr>
+              <tr>
+                <td><strong>2026 / 2027 官方业绩指引</strong></td>
+                <td><strong>2026E 营收 $44-46亿</strong>（年内第三次上调）；Non-GAAP 营业利润 $9.6-10.3亿</td>
+                <td><strong>2026E CAFD $4.3-4.7亿</strong>；<strong>2027E CAFD $5.2-5.9亿</strong> ($2.70/股)；2031E $3.20-3.40/股</td>
+                <td><strong>2026E 营收 $30-34亿下沿</strong>；<strong>2027E 营收 $120-130亿</strong>（翻4倍）；27年2月 ARR >$70亿</td>
+                <td><strong>2026E 营收 $130-133亿</strong>；2026年底 ARR <strong>$200-210亿</strong>；26E CapEx $370-390亿</td>
+              </tr>
+              <tr>
+                <td><strong>资产负债表与融资结构 (2026 Q3末)</strong></td>
+                <td>现金 $25.08亿 vs 追索权债务 $24.74亿（主要为 2030 到期 0% 利率可转债）</td>
+                <td>流动性 $11.02亿；总债务 $94.36亿（公司债 $27.25亿 + 无追索权项目自摊销债，零 CEPF）</td>
+                <td>非受限现金 $74.26亿 (+$12.2亿受限)；账面债 $141.9亿 (0.5%-4.5%低息转债) + <strong>$94.1亿客户预付款</strong> + >$60亿副业股权</td>
+                <td>现金及受限现金 $64.04亿；<strong>账面总债务 $468.73亿</strong> + 租赁负债 $186.97亿 + 客户预付款 $100.02亿</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: FOUR-COMPANY 7-DIMENSION DEEP DIVE & SWOT -->
+    <section class="view-section" id="sec-company-deepdive">
+      <div class="section-box">
+        <h2 class="section-title">🏛️ 四大核心公司七维深度拆解（点击切换公司档案）</h2>
+        <p class="section-desc">
+          包含每家公司的：<strong>① 主营产品与服务、② 近期财报与指引、③ 核心竞争力、④ 护城河深度评估、⑤ 行业地位与竞品对标、⑥ 产业链位置、⑦ SWOT 四象限分析</strong>。所有财务数据与合同金额均附带 SEC 原始文件与官方公告出处。
+        </p>
+
+        <div class="company-subtabs" id="companySubtabs">
+          <button class="subtab-btn active" data-comp="BE">
+            <span class="st-ticker">⚡ Bloom Energy (BE)</span>
+            <span class="st-role">固态氧化物燃料电池 · 800V表后电厂</span>
+          </button>
+          <button class="subtab-btn" data-comp="CWEN">
+            <span class="st-ticker">🌱 Clearway-C (CWEN)</span>
+            <span class="st-role">13.9GW 风光储与加州灵活气电 YieldCo</span>
+          </button>
+          <button class="subtab-btn" data-comp="NBIS">
+            <span class="st-ticker">☁️ Nebius Group (NBIS)</span>
+            <span class="st-role">ODM自研硬件 · 全栈AI云与科技孵化器</span>
+          </button>
+          <button class="subtab-btn" data-comp="CRWV">
+            <span class="st-ticker">🔥 CoreWeave (CRWV)</span>
+            <span class="st-role">$1,325亿积压订单 · 裸金属GPU算力霸主</span>
+          </button>
+        </div>
+
+        <div id="companyDeepDiveContent">
+          <!-- Dynamically rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE ECHARTS COMPARISON -->
+    <section class="view-section" id="sec-charts">
+      <div class="section-box">
+        <h2 class="section-title">📊 2025 Q1 – 2026 Q3 核心财务轨迹与护城河量化对比</h2>
+        <p class="section-desc">
+          通过四组交互式图表直观对比四家公司在<strong>季度营收爆发斜率、利润率结构、合同积压（RPO）与债务/现金杠杆、以及六维护城河雷达图</strong>上的结构性分野。
+        </p>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-title">1. 季度营收增长轨迹对比 (Q1 2025 – Q3 2026, $M)</div>
+            <div class="chart-sub">CoreWeave 突破单季 $36.6亿，Bloom 突破 $12.3亿，Nebius 七个季度狂飙近 20 倍至 $9.8亿</div>
+            <div id="chartRevTrajectory" class="echart-box"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title">2. Q3 2026 盈利能力与利润率结构对比 (%)</div>
+            <div class="chart-sub">对比 Adjusted EBITDA 利润率、GAAP 营业利润率与净利率（揭示高折旧与高利息对净利润的侵蚀）</div>
+            <div id="chartMargins" class="echart-box"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title">3. 资本结构对决：现金 + 客户预付款 vs. 账面总债务 ($B)</div>
+            <div class="chart-sub">Nebius 依靠 $9.41B 预付款与低息转债轻装上阵；CoreWeave 扛起 $46.87B 债务冲锋；Bloom 净现金</div>
+            <div id="chartCapital" class="echart-box"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title">4. 四大标的六维竞争护城河雷达评估 (满分 100)</div>
+            <div class="chart-sub">涵盖：交付速度优势、合同现金流可见度、资产负债表健康度、自研技术壁垒、毛利/现金流转化、估值安全边际</div>
+            <div id="chartRadar" class="echart-box"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE PORTFOLIO & VALUATION SIMULATOR -->
+    <section class="view-section" id="sec-simulator">
+      <div class="section-box">
+        <h2 class="section-title">🧮 AI 算力×电力基础设施组合配置与 2027 情景推演模拟器</h2>
+        <p class="section-desc">
+          不同宏观环境（AI 资本开支增速、美联储利率与信贷利差、电网审批速度）对四家公司的影响截然不同。拖动下方滑块或点击预设投资流派，实时测算四家公司在 2027 年的营收/现金流敏感度及最优组合权重建议。
+        </p>
+
+        <div class="sim-layout">
+          <div class="sim-controls">
+            <div style="margin-bottom:16px;">
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;">快速选择投资偏好流派：</div>
+              <div class="preset-btns" id="simPresetBtns">
+                <button class="preset-btn active" data-preset="balanced">⚖️ 算力+电力杠铃均衡</button>
+                <button class="preset-btn" data-preset="growth">🚀 激进 AI 算力与缺电弹性</button>
+                <button class="preset-btn" data-preset="defensive">🛡️ 稳健现金流与防高息冲击</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>1. 2027 全球 AI 资本开支与通电交付景气度</span>
+                <span class="control-val" id="valAiDemand">100% (基准指引兑现)</span>
+              </div>
+              <input type="range" id="sliderAiDemand" min="70" max="130" step="5" value="100">
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px;">影响 NBIS ($120-130亿指引)、CRWV ($200亿+ ARR) 与 BE (2GW扩产) 的订单转化率</div>
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>2. 美元基准利率与高收益债利差变动 (bps)</span>
+                <span class="control-val" id="valRateShift">0 bps (维持当前利率)</span>
+              </div>
+              <input type="range" id="sliderRateShift" min="-150" max="150" step="25" value="0">
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px;">降息显著利好高负债的 CRWV 及高股息 YieldCo CWEN；加息则凸显 NBIS 与 BE 低息可转债优势</div>
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>3. 电网并网排队与燃气轮机缺货严重度</span>
+                <span class="control-val" id="valGridBottleneck">80 / 100 (严重拥堵)</span>
+              </div>
+              <input type="range" id="sliderGridBottleneck" min="40" max="100" step="10" value="80">
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px;">电网排队越久，Bloom Energy 55天极速表后供电与 CWEN 既有并网节点改造溢价越高</div>
+            </div>
+
+            <div class="control-group">
+              <div class="control-label">
+                <span>4. 模拟投资本金总额 ($ USD)</span>
+                <span class="control-val" id="valCapital">$100,000</span>
+              </div>
+              <input type="range" id="sliderCapital" min="10000" max="1000000" step="10000" value="100000">
+            </div>
+          </div>
+
+          <div class="sim-output">
+            <h3 style="font-size:16px;color:#fff;margin-bottom:4px;">📌 实时推演结论与推荐仓位权重</h3>
+            <p style="font-size:12.5px;color:var(--text-secondary);margin-bottom:12px;" id="simSummaryText"></p>
+
+            <div class="alloc-bars" id="simAllocBars">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="table-wrap" style="margin-top:16px;">
+              <table class="comp-table" id="simResultTable">
+                <thead>
+                  <tr>
+                    <th>标的</th>
+                    <th>建议权重 / 分配金额</th>
+                    <th>2027E 核心指标推演</th>
+                    <th>情景核心驱动逻辑</th>
+                  </tr>
+                </thead>
+                <tbody id="simTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: GLOSSARY & VERIFIED SOURCES -->
+    <section class="view-section" id="sec-glossary">
+      <div class="section-box">
+        <h2 class="section-title">📖 跨学科核心专业概念通俗词典（消除工程与金融阅读壁垒）</h2>
+        <p class="section-desc">
+          针对电化学工程、电力市场交易与云原生算力架构中的高频专业术语，用直白精准的商业逻辑进行拆解：
+        </p>
+
+        <div class="glossary-grid">
+          <div class="glossary-card">
+            <div class="glossary-term">1. SOFC / SOEC（固体氧化物燃料电池 / 电解槽）</div>
+            <div class="glossary-def">
+              <strong>通俗类比：无需活塞与涡轮的“陶瓷化学发电砖”。</strong> 传统燃气轮机靠烧天然气推动叶片旋转发电（热效率约 36%-43%，产生大量氮氧化物且耗水冷却）；而 Bloom Energy 的 SOFC 在 800°C 高温下通过氧化锆陶瓷电解质直接把天然气/氢气中的化学能转化为电能（热效率高达 53%-65%，零耗水、无燃烧尾气）。反过来通入水蒸气和绿电，它就能变成 SOEC 电解槽高效制氢（仅耗电 37.5 kWh/kg H2，比传统电解水省电 25%+）。
+            </div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-term">2. 800V DC Native（原生 800 伏高压直流供电）</div>
+            <div class="glossary-def">
+              <strong>通俗类比：砍掉多层“变压器过路费”。</strong> 传统电网送来的是高压交流电（AC），进数据中心要先变低压交流、进 UPS 再转直流（DC）、到机柜再转电压，每次转换损失 2%-4% 电能并消耗大量铜缆和变压器。NVIDIA 新一代高密机柜正全面转向 800V 直流供电，Bloom Energy 出厂即原生输出 800V DC，可帮 1 GW 算力园区节省约 27% 的非算力配电资本开支。
+            </div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-term">3. YieldCo 与 CAFD（收息型新能源平台与可分配现金流）</div>
+            <div class="glossary-def">
+              <strong>通俗类比：把建好的电站装进“高息收租信托”。</strong> 绿电前期买地、跑环评、排队并网风险极高（由母公司 Clearway Energy Group 承担）；一旦电站建成并签好 15-20 年购电合同（PPA），就以 10%-11% 的现金流收益率卖给上市公司 CWEN（即 Drop-down 注入）。<strong>CAFD（Cash Available for Distribution）</strong>就是扣除运维成本和项目贷款本息偿还后，真正能拿出来给股东发股息的净自由现金流。
+            </div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-term">4. CEPF（可转换股权组合融资）与无追索权项目债</div>
+            <div class="glossary-def">
+              <strong>为什么同行暴雷而 CWEN 稳健？</strong> 昔日龙头 NextEra Energy Partners (现 XPLR) 曾大量使用 CEPF（类似明股实债的对赌融资，到期必须高价赎回或疯狂印股稀释），在加息周期资金链断裂被迫于 2025 年初停发股息。而 CWEN 严禁 CEPF，90% 以上项目债务为<strong>“无追索权自摊销项目债”</strong>——每个电站用自己的电费收入在合同期内把本金慢慢还清，绝不连累母公司。
+            </div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-term">5. Bare-Metal K8s 与 SUNK（裸金属容器与 Slurm on Kubernetes）</div>
+            <div class="glossary-def">
+              <strong>通俗类比：拆掉酒店隔断墙，把整栋楼打通成超级车间。</strong> 传统公有云（AWS/Azure）为安全隔离会在物理服务器上套一层虚拟机（Hypervisor），但这会吃掉 5%-15% 的网络与存储性能。CoreWeave 直接在裸机上跑 Kubernetes；同时因为 AI 科学家习惯用 Slurm 提交大模型训练任务，而工程师习惯用 K8s 部署在线推理，<strong>SUNK</strong> 让这两套系统共享同一个 GPU 池，训练完一秒切推理，无需搬运数据。
+            </div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-term">6. RPO（剩余履约义务）与 Take-or-Pay（照付不议合同）</div>
+            <div class="glossary-def">
+              <strong>算力云的“铁饭碗”与真实含金量：</strong> RPO 是客户已经白纸黑字签约、但尚未交付确认收入的合同总额（CoreWeave 达 $1,323 亿，Nebius 达 $387 亿）。其中绝大多数是 4-5 年期 <strong>Take-or-Pay（照付不议）</strong>——无论客户用不用满 GPU，都必须按月付租金，且签约时先交 15%-25% 甚至全额 CapEx 预付款，这构成了算力云向银行抵押借贷的底层信用支点。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-box">
+        <h2 class="section-title">🔗 权威 SEC 监管文件与一手信源核验清单</h2>
+        <ul class="dd-list" style="columns: 2; column-gap: 28px;">
+          <li><a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026066890/ex991_q326financialresults.htm" target="_blank">Bloom Energy Q3 2026 财务报告 (SEC Form 8-K Exhibit 99.1)</a></li>
+          <li><a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026006516/be-20251231.htm" target="_blank">Bloom Energy FY2025 年度报告 (SEC Form 10-K)</a></li>
+          <li><a href="https://www.bloomenergy.com/news/bloom-energy-and-oracle-expand-strategic-partnership-to-deploy-up-to-2-8-gw-to-accelerate-ai-infrastructure-build-out/" target="_blank">Bloom Energy 与 Oracle 扩大至 2.8 GW 战略合作官方公告</a></li>
+          <li><a href="https://www.datacenterfrontier.com/energy/article/55413102/aep-google-advance-4-billion-fuel-cell-project-to-power-cheyenne-data-centers" target="_blank">AEP 与 Google 推进 40 亿美元 702MW 怀俄明燃料电池项目</a></li>
+          <li><a href="https://investor.clearwayenergy.com/news-releases/news-release-details/clearway-energy-inc-reports-third-quarter-2026-financial-results" target="_blank">Clearway Energy Q3 2026 财报官方发布 (IR Release)</a></li>
+          <li><a href="https://investor.clearwayenergy.com/static-files/f14fd4ff-09eb-405e-86cc-583e8c14eb31" target="_blank">Clearway Energy Q3 2026 投资者演示文稿 (35.5GW 管道与 2031 指引)</a></li>
+          <li><a href="https://www.clearwayenergygroup.com/press-releases/clearway-signs-portfolio-of-power-purchase-agreements-with-google-totaling-nearly-1-2-gw-across-three-states/" target="_blank">Clearway 与 Google 签署三州近 1.2 GW 长期 PPA 协议公告</a></li>
+          <li><a href="https://assets.nebius.com/assets/5bc733ff-bed7-415c-af10-74ce7881a764/Nebius-SHL-2026-Q3.pdf" target="_blank">Nebius Group Q3 2026 致股东信 ($9.81亿营收与 $387亿 RPO)</a></li>
+          <li><a href="https://sec-api.io/insights/nebius-group-nbis-q3-2026-earnings-980-8m-revenue-38-7bn-rpo-and-a-12bn-to-13bn-2027-outlook-sec-filing-analysis" target="_blank">Nebius Group Q3 2026 Form 6-K 深度财务拆解分析</a></li>
+          <li><a href="https://www.sec.gov/Archives/edgar/data/1769628/000176962826000461/coreweave3q26earningspress.htm" target="_blank">CoreWeave Q3 2026 财务报告 (SEC Form 8-K Exhibit 99.1)</a></li>
+          <li><a href="https://www.sec.gov/Archives/edgar/data/1769628/000176962826000094/coreweave4q25earningspress.htm" target="_blank">CoreWeave Q4 及 FY2025 全年财务报告 (SEC Form 8-K)</a></li>
+          <li><a href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-and-Meta-Announce-21-Billion-Expanded-AI-Infrastructure-Agreement/default.aspx" target="_blank">CoreWeave 与 Meta 宣布 210 亿美元扩展 AI 基础设施协议</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- SCRIPT 1: UI INTERACTION, MOBILE INLINE ACCORDION, DEEP-DIVE DATA & SIMULATOR (NO ECHARTS DEPENDENCY) -->
+  <script id="interaction-script">
+    (function() {
+      var inspectorData = {
+        BE: {
+          badge: '当前检视：NYSE: BE · 固态氧化物燃料电池 (SOFC) 绝对龙头',
+          title: 'Bloom Energy：55 天极速通电，破解 AI 算力中心并网排队死结',
+          bullets: [
+            '<strong>主营核心：</strong>旗舰产品 Energy Server 6.5（单撬装 325 kW，净交流电效率 53%–65% LHV，原生支持 800V DC 直流输出）与 Bloom Electrolyzer 高温固体氧化物电解槽（制氢耗电仅 37.5 kWh/kg，比低温电解水多产氢 20%–25%）。',
+            '<strong>2026 Q3 业绩井喷：</strong>单季营收 $12.358 亿（+138.1% YoY），Non-GAAP 毛利率达 34.5%（其中产品毛利率 38.4%，服务毛利率连续 6 季为正达 21.4%），Non-GAAP 营业利润 $2.857 亿（营业利润率 23.1%），全年营收指引年内第三次上调至 <strong>$44 亿–$46 亿</strong>（同比翻倍以上）。',
+            '<strong>超级客户版图：</strong>Oracle 签署最高 2.8 GW 主服务协议（已签约 1.2 GW，首个站点仅用 <strong>55 天</strong>完成通电交付，含新墨西哥州 Project Jupiter 最高 2.45 GW）；AEP 为 Google 怀俄明州数据中心定制 702 MW（$40 亿投资）；Brookfield 设立 <strong>$250 亿</strong>专项融资平台采购 Bloom 设备；Equinix 部署超 100 MW；并为 CoreWeave 与 Nebius（Vineland 园区）提供微电网电源。',
+            '<strong>核心护城河与隐忧：</strong>美国大电网并网排队逾 2,300 GW，重型燃气轮机排期至 2031 年；Bloom 零耗水、极低氮氧化物（0.003 lb/MWh）可豁免或快速通过环评，且享受 OBBBA 法案延续至 2033 年的 <strong>30% 48E 投资税收抵免 (ITC)</strong>。主要短板在于初始安装成本（$3,000–$5,700/kW）高于内燃机，且电堆每 5-6 年需更换。'
+          ]
+        },
+        CWEN: {
+          badge: '当前检视：NYSE: CWEN · 北美顶级清洁能源与调峰气电 YieldCo',
+          title: 'Clearway Energy-C：5.90% 高股息安全垫 + 35.5 GW 算力绿电储备库',
+          bullets: [
+            '<strong>资产底盘与股权合一：</strong>在全美 27 个州运营 <strong>13.9 GW 总装机（10.66 GW 净装机）</strong>，含 11.1 GW 风光储（光伏 5.4GW、风电 4.2GW、电池储能 1.4GW）及 2.8 GW 加州/康州稀缺调峰燃气电厂。2026 年 5 月 1 日完成 A 类股（CWEN.A）向 C 类股（CWEN）1:1 免税合并，彻底消除双轨折价，公众流通盘达 1.212 亿股（占经济权益 ~59%）。',
+            '<strong>顶级金主背书：</strong>控股发起人 Clearway Energy Group (CEG) 由全球资管巨头 <strong>BlackRock (GIP) 与法国道达尔能源 (TotalEnergies) 50/50 合资持有</strong>，手握 35.5 GW 开发管道（其中 6.36 GW 已锁定在 2026-2030 年以 10%–11% CAFD 收益率注入 CWEN）。',
+            '<strong>2026 Q3 财报与分红指引：</strong>Q3 营收 $5.22 亿（+21.7% YoY），Adjusted EBITDA $4.35 亿，可分配现金（CAFD）$1.73 亿（前 9 个月累计 CAFD $4.10 亿）。年化远期股息 $1.9296/股（对应 $32.70 股价股息率 <strong>5.90%</strong>）。指引 2027 年 CAFD 达 $5.2–$5.9 亿（中位数 $2.70/股），2031 年 CAFD/股目标 $3.20–$3.40（年化复合增长 7%–8%+）。',
+            '<strong>AI 数据中心催化剂：</strong>与 Google 签署总计 <strong>1.24 GW</strong> 长期 PPA（含密苏里州 650MW Swan Solar 等）；与微软签署 300MW Mt. Storm 风电增容协议（11%-12% 收益率）；母公司正开发 12 GW 数据中心共址能源综合体（怀俄明州 3.4 GW Wilcox 综合体已签超大规模云商 LOI，CWEN 享 $7 亿+ 参股期权）。'
+          ]
+        },
+        NBIS: {
+          badge: '当前检视：NASDAQ: NBIS · 垂直整合全栈自研 AI 云与科技股权集团',
+          title: 'Nebius Group：客户预付款覆盖 CapEx，最具资产负债表韧性的 Neocloud',
+          bullets: [
+            '<strong>前世今生与全栈架构：</strong>2024 年 7 月剥离 Yandex 俄罗斯业务后由创始人 Arkady Volozh 带领 1,300+ 核心工程师在阿姆斯特丹重启。拥有内部数百人硬件工程团队，<strong>自研服务器主板与无缆机柜交由台湾 ODM 直造</strong>（单台省去 7 米线缆，支持 40°C 高温运行，芬兰 Mäntsälä 数据中心 PUE 低至 1.13），软件层搭载 Aether 云平台、Token Factory 推理平台（Q3 合同额环比暴增 17 倍）及收购的 Tavily 智能体搜索。',
+            '<strong>2026 Q3 炸裂财报：</strong>Q3 集团营收达 <strong>$9.808 亿（同比暴增 571.3%，其中 AI 云 $9.738 亿同比增 642.8%）</strong>；ARR 达 $64.0 亿（+1,062% YoY）；集团 Adjusted EBITDA 达 $4.658 亿（利润率 47.5%，AI 云高达 53.2%），并<strong>首次实现 GAAP 营业利润转正（+$5,040 万，利润率 5.1%）</strong>。在手 RPO 合同积压高达 <strong>$387 亿</strong>（微软 $174–194 亿 + Meta 最高 ~$270 亿）。',
+            '<strong>2027 翻四倍指引：</strong>受第三方机房（新泽西 Vineland 切换永久电源）交付节奏微调影响，2026 全年营收预计落在 $30–$34 亿区间下沿，但 <strong>2027 全年营收指引高达 $120 亿–$130 亿（同比翻 4 倍）</strong>，签约电力突破 4 GW（年底冲刺 5 GW）。',
+            '<strong>碾压同行的资本结构：</strong>NVIDIA 累计战略投资 <strong>$27 亿（持股 9.3%）</strong>；Q3 新签合同中超 90% 包含客户前期预付款（资产负债表递延收入达 $94.1 亿，100% 覆盖对应 CapEx），账面现金 $74.3 亿（另 $12.2 亿受限现金），债务以 0.5%–4.5% 低息可转债为主；且手握 <strong>ClickHouse (~28% 股权，估值约 $42 亿)、Avride (~83% 股权，估值约 $23 亿)、Toloka 与 TripleTen</strong> 等超 $60 亿非核心资产安全垫。'
+          ]
+        },
+        CRWV: {
+          badge: '当前检视：NASDAQ: CRWV · 全球规模第一的纯正 AI GPU 算力巨头',
+          title: 'CoreWeave：手握 $1,325 亿积压订单与 62% EBITDA 利润率的算力重装旅',
+          bullets: [
+            '<strong>绝对规模与技术首发权：</strong>全球运营 51 座专用 AI 数据中心（已通电 >1.7 GW，签约总电力 >4.6 GW）。凭借裸金属 Kubernetes (CKS)、<strong>SUNK (Slurm on Kubernetes)</strong> 混合调度与 <strong>Mission Control</strong> 故障节点自动隔离修复，成为业内唯一连续三次斩获 SemiAnalysis ClusterMAX 铂金评级的云商，并全球首发商业化部署 NVIDIA GB200 NVL72、GB300 NVL72 及 <strong>Vera Rubin NVL72（吞吐量达 GB200 的 4.8 倍）</strong>。2025 年以 ~$17 亿收购 MLOps 龙头 Weights & Biases 构建 CoreWeave Forge。',
+            '<strong>2026 Q3 创纪录财报：</strong>Q3 营收跃升至 <strong>$36.61 亿（+168% YoY，单季环比净增 $10.86 亿）</strong>；Adjusted EBITDA 高达 $22.56 亿（利润率 62%）；GAAP 营业利润转正至 $2.07 亿（Adjusted 营业利润 $3.79 亿，利润率 10%）。在手总积压订单高达 <strong>$1,325 亿（GAAP RPO $1,323 亿）</strong>，上调 2026 全年营收指引至 $130–$133 亿，年底 ARR 冲击 $200–$210 亿。',
+            '<strong>巨头绑定与 NVIDIA 兜底：</strong>服务前十大基座模型商中的 9 家，包括微软（Q2 占营收 36%）、OpenAI（累计签约 <strong>$224 亿+</strong>）、Meta（2026 年春签署 <strong>$210 亿</strong>大单至 2032 年）及 Jane Street（$60 亿算力 + $10 亿入股）。NVIDIA 不仅于 2026 年 1 月以 $87.20/股追加投资 $20 亿，更签署 <strong>$63 亿算力包销兜底协议至 2032 年</strong>。',
+            '<strong>高杠杆双刃剑：</strong>为支撑 2026 全年 $370–$390 亿的惊人 CapEx，公司账面总债务达 <strong>$468.73 亿</strong>（另有 $186.97 亿经营租赁负债与 $474 亿未起租承诺），Q3 单季净利息支出高达 <strong>$8.46 亿</strong>（Q4 预计升至 $10.5–$11.5 亿），叠加 $18.89 亿折旧，导致 Q3 GAAP 净亏损 $(7.09) 亿。'
+          ]
+        }
+      };
+
+      var deepDiveData = {
+        BE: {
+          header: '⚡ Bloom Energy Corporation (NYSE: BE) — 固态氧化物电化学发电与制氢龙头',
+          sub: '2026-11-16 收盘价：$177.28 | 市值：$524.1亿美元 | 52周区间：$75.70–$351.28 | 2026 Q3 纳入标普 500 指数',
+          products: [
+            '<strong>Bloom Energy Server 6.5 (SOFC 分布式主电源)：</strong>单套户外撬装机柜净输出 325 kW（由 5 个 ~65kW 模块组装，底层为 ~1kW 陶瓷电堆），工作温度超 800°C，无需燃烧即可将天然气、生物沼气或氢气直接转化为电力，累计净交流电效率达 <strong>65%–53% (LHV)</strong>，运行期间<strong>零水资源消耗</strong>。全系出厂原生支持 <strong>800V DC（高压直流）</strong>架构，省去传统 AC-DC 多级转换，可为 1 GW AI 数据中心园区削减约 27% 的非算力配电资本开支（<a href="https://www.bloomenergy.com/wp-content/uploads/bloom-energy-server-datasheet-feb-2026.pdf" target="_blank">Server 6.5 官方规格书</a>）。',
+            '<strong>热电联产 (CHP) 与碳捕集 (CCUS)：</strong>由于电堆尾气温度高于 350°C，搭配余热回收系统可将综合能源效率提升至 <strong>90% 以上</strong>；接入单效吸收式制冷机后，每 1 MW 余热可产生 0.70–0.79 MW 数据中心冷却能力。同时阳极尾气为高浓度 CO2 与水蒸气（无空气氮气稀释），极易低成本捕集封存（<a href="https://gr1d.us/insights/bloom-energy-fuel-cells-data-centers" target="_blank">GR1D 数据中心燃料电池报告</a>）。',
+            '<strong>Bloom Electrolyzer (SOEC 高温电解水制氢)：</strong>与发电产品共享同一条固态氧化物产线，利用 700°C–900°C 高温蒸汽电解制氢。经爱达荷国家实验室与 NASA Ames (4MW) 验证，每生产 1 公斤氢气仅耗电 <strong>37.5 kWh</strong>（而低温 PEM/碱性电解槽需 52–54 kWh/kg），同等电力下产氢量高出 20%–25%（<a href="https://www.bloomenergy.com/bloomelectrolyzer/" target="_blank">Bloom Electrolyzer 官网</a>）。',
+            '<strong>长期运维服务 (O&M)：</strong>配套签署 5 至 20 年运维合同，由美国圣何塞与印度班加罗尔双远程监控中心（RMCC）7×24 小时实时遥测，并在特拉华州 Newark 设有 13.3 万平方英尺翻修中心，负责每 5–6 年的热插拔电堆更换（<a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026006516/be-20251231.htm" target="_blank">SEC FY2025 10-K</a>）。'
+          ],
+          financials: [
+            '<strong>2025 全年业绩拐点：</strong>全年营收创纪录达 <strong>$20.240 亿</strong>（+37.3% YoY），GAAP 毛利率提升 150 bps 至 29.0%（Non-GAAP 30.3%），GAAP 营业利润 $7,280 万（Non-GAAP $2.210 亿），Adjusted EBITDA $2.716 亿，经营现金流 $1.139 亿；2025 年底总积压订单达 <strong>~$200 亿</strong>（其中产品积压 ~$60 亿，同比暴增 2.5 倍）（<a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026005798/ex991_q42025financialresul.htm" target="_blank">SEC Q4 2025 财报</a>）。',
+            '<strong>2026 Q1–Q3 逐季加速爆发：</strong>Q1 营收 $7.511 亿（+130.4% YoY）→ Q2 营收 $10.654 亿（+166% YoY）→ <strong>Q3 营收创历史新高至 $12.358 亿（+138.1% YoY，其中产品营收 $10.736 亿，同比大增 179.4%）</strong>。',
+            '<strong>Q3 利润率与服务业务全面盈利：</strong>Q3 GAAP 毛利率升至 <strong>33.8%</strong>（Non-GAAP 毛利率 <strong>34.5%</strong>，其中产品 Non-GAAP 毛利率高达 38.4%，历史上曾拖累利润的 Service 服务板块连续 6 个季度盈利，Q3 Non-GAAP 毛利率达 21.4%）。Q3 GAAP 营业利润 $2.254 亿（利润率 18.2%），Non-GAAP 营业利润 $2.857 亿（利润率 23.1%），Adjusted EBITDA $2.995 亿，归母 GAAP 净利润 $2.503 亿（Non-GAAP 稀释 EPS $0.94）（<a href="https://www.sec.gov/Archives/edgar/data/1664703/000162828026066890/ex991_q326financialresults.htm" target="_blank">SEC Q3 2026 财报</a>）。',
+            '<strong>2026 全年指引三连跳与资产负债表：</strong>管理层年内第三次上调 2026 全年营收指引（从年初 $31-33亿 → 4月 $34-38亿 → 7月 $39-42亿 → <strong>10月最新 $44 亿–$46 亿，中位数同比暴增 122%</strong>），Non-GAAP 毛利率指引 ~34%，Non-GAAP 营业利润 $9.6–$10.3 亿，Non-GAAP EPS $3.10–$3.40。Q3 末账面总现金 $25.081 亿 vs 追索权债务 $24.735 亿（主要为 2025 Q4 发行的 $25 亿 2030 年到期 0% 零息可转债，转股价 ~$194.97），对应 2026E EV/Sales 约 11.6x、Non-GAAP P/E 约 54.5x。'
+          ],
+          competitiveness: [
+            '<strong>极致的“通电时间 (Time-to-Power)”优势：</strong>面对美国电网平均 4–7 年的并网审批与 GE Vernova 重型燃机排期至 2031 年（116 GW 积压）的困局，Bloom 模块化撬装系统在场地就绪后仅用 <strong>55 天</strong>即为 Oracle 完成首期交付（比原定 90 天承诺快近 40%），常规大型项目从签约到投产仅需 6–12 个月（<a href="https://www.bloomenergy.com/news/bloom-energy-and-oracle-expand-strategic-partnership-to-deploy-up-to-2-8-gw-to-accelerate-ai-infrastructure-build-out/" target="_blank">Bloom-Oracle 2.8GW 公告</a>）。',
+            '<strong>环评豁免与高功率密度：</strong>无燃烧过程消除了热力型氮氧化物（NOx 仅 0.003 lbs/MWh，不足燃气轮机的 1/12）且零耗水，在加州湾区、纽约、新泽西等多地享受空气许可豁免或 3 个月极速审批；支持多层立体堆叠，占地功率密度高达 <strong>100 MW/英亩</strong>（约为光伏电站的 125 倍）。',
+            '<strong>高可用性与 AI 阶跃负载响应：</strong>每个 325 kW 机柜由独立模块冗余组成，仅需 ~10% 备用容量即可实现 99.99%+ 可用性（而传统往复式内燃机或燃机需 40%–65% 超配冗余以应对大修停机）；内置超级电容（寿命 >100 万次循环）与逆变器数字控制，应对 AI 训练瞬间 40%→100% 阶跃负载的速度比燃气轮机快 2 倍以上。'
+          ],
+          moat: [
+            '<strong>美国本土制造与 30% 48E 税收抵免政策壁垒：</strong>2025 年通过的《One Big Beautiful Bill Act》(OBBBA) 明确将燃料电池纳入 <strong>Section 48E 30% 投资税收抵免 (ITC)</strong>（覆盖 2026 年至 2033 年底开工项目，且不强制要求零碳燃料），同时严格排除受关注外国实体（FEOC）供应链。Bloom 在加州 Fremont 与特拉华州 Newark 本土制造（2026 年底产能从 1 GW 翻倍至 2 GW/年），直接将海外竞争对手挡在补贴门外。',
+            '<strong>材料科学专利群与零贵金属配方：</strong>截至 2025 年底拥有 <strong>380 项美国有效发明专利、252 项国际专利</strong>及 599 项在审专利，研发团队包含 62 名博士；高温陶瓷催化无需铂（Pt）、钯（Pd）等昂贵贵金属。',
+            '<strong>长周期转换成本与 Brookfield $250 亿金融杠杆：</strong>客户无需自掏腰包承担硬件 CapEx，而是通过 Brookfield <strong>$250 亿专项基础设施合资基金</strong>或公用事业公司（AEP、韩国 SK ecoplant）购买设备并签署 15–20 年 PPA，形成极强的存量锁定。'
+          ],
+          industryPos: [
+            '<strong>全球固定式燃料电池绝对霸主（市占率 ~44%）：</strong>在固定式燃料电池市场，Bloom Energy 全球市占率约 44%，累计部署超 1.5 GW（含韩国市场通过 SK ecoplant 部署的 682 MW），遥遥领先于韩国斗山（Doosan/HyAxiom，主攻磷酸燃料电池 PAFC，效率 ~45%）、FuelCell Energy（FCEL，主攻熔融碳酸盐 MCFC，效率 ~47%-50%）、Plug Power（PLUG，主攻低温 PEM 氢能叉车与电解槽，FY25 营收 ~$7.1亿且持续亏损）以及 Ballard Power（BLDP，FY25 营收仅 $9,940万）（<a href="https://www.bloomenergy.com/blog/bloom-deemed-leader-in-growing-stationary-fuel-cell-market/" target="_blank">固定式燃料电池市占率报告</a>）。',
+            '<strong>产业链位置：</strong>上游对接特种氧化锆陶瓷粉体（Tosoh、CoorsTek）、铬铁金属连接件（Plansee 等）及电子代工巨头 Jabil；中游掌握核心陶瓷电池片丝网印刷、烧结与电堆集成；下游深度绑定 AI 超大规模云商（Oracle 2.8GW、Google/AEP 702MW、AWS 72.9MW）、第三方机房巨头（Equinix 19个站点超 100MW）、算力新云（CoreWeave、Nebius）及芯片制造厂（Intel 圣克拉拉 HPC、广达电脑加州 AI 服务器工厂）。'
+          ],
+          swot: {
+            s: [
+              '商业化规模断层领先：全球部署 >1.5 GW，总积压订单 ~$200 亿，手握 Oracle (2.8GW)、Brookfield ($250亿)、AEP/Google (702MW) 顶级长协。',
+              '盈利能力迎来爆发拐点：2026E 营收翻倍至 $44-46 亿，Q3 Non-GAAP 营业利润率达 23.1%，服务业务毛利率转正至 21.4%。',
+              '专为 AI 算力定制的工程特性：55 天极速部署、原生 800V DC 输出、零耗水、近零 NOx 排放、100MW/英亩超高密度。'
+            ],
+            w: [
+              '初始资本开支与度电成本（LCOE）偏高：安装成本 $3,000–$5,700/kW（约为燃气内燃机 $1,700–$2,000/kW 的 1.5–2.4 倍），测算 LCOE $94–$199/MWh 高于大电网电价（$45–$65/MWh）。',
+              '电堆寿命衰减与更换成本：EIA 实测全美 61 座运行电站中位热耗率约 7,057 Btu/kWh（48.3% HHV），且陶瓷电堆每 5–6 年需更换（占运维成本约 65%）。',
+              '客户与关联方高度集中：2025 年前三大客户占营收 68%；Brookfield 关联合资企业占 Q4\'25 营收的 73.8% 及 Q1\'26 营收的 49.7%；Q3\'26 营运资金占用达 $7.76 亿。'
+            ],
+            o: [
+              'AI 数据中心年均 5–7 GW 供电缺口：Fremont 工厂 2026 年底扩产至 2 GW/年，直接承接“自带电源（BYOP）”刚需。',
+              'Section 48E 30% ITC 税收抵免锁定至 2033 年：大幅降低天然气燃料电池项目的税盾融资成本。',
+              '800V DC 机柜普及与余热制冷（CHP）、碳捕集（CCUS）及核电余热耦合高温制氢（SOEC 与 Shell 等合作）打开第二增长曲线。'
+            ],
+            t: [
+              '地方环评暂停与碳排放争议：使用天然气时碳排放约 679–833 lb CO2/MWh；2026 年 9-10 月德州 TCEQ 暂停数据中心空气许可审批，新墨西哥州 Project Jupiter 亦面临听证博弈。',
+              '天然气价格波动风险：100 MW 电站日耗气约 16,900 MMBtu；2026 年 1 月冬季风暴期间 Henry Hub 气价飙至 $7.72/MMBtu，导致度电燃料成本从 $27.8 翻倍至 $54.5/MWh。',
+              '模块化燃气内燃机与远期 SMR 竞争：VoltaGrid（获 Oracle 2.3 GW 订单）与 Wärtsilä 内燃机初始 CapEx 更低；2030 年代小型模块化核反应堆（SMR）或分流基荷需求。'
+            ]
+          }
+        },
+
+        CWEN: {
+          header: '🌱 Clearway Energy, Inc. Class C (NYSE: CWEN) — 公用事业级绿电与灵活气电收息旗舰',
+          sub: '2026-11-16 收盘价：$32.70 | 市值：$67.1亿美元 | 远期股息率：5.90% ($1.93/股) | 运营总装机：13.9 GW (净 10.66 GW)',
+          products: [
+            '<strong>清洁能源 YieldCo 商业模式：</strong>作为全美最大的上市清洁能源收息平台之一，CWEN 在 27 个州持有并运营高度商业化、带长期购电协议（PPA）的发电资产，将稳定的电费与容量收入转化为持续增长的季度分红（<a href="https://investor.clearwayenergy.com/news-releases/news-release-details/clearway-energy-inc-reports-third-quarter-2026-financial-results" target="_blank">Clearway Q3 2026 财报</a>）。',
+            '<strong>可再生能源与电池储能板块（11.1 GW 总装机 / 8.08 GW 净装机，贡献 84% 26E EBITDA）：</strong>包含 ① <strong>光伏电站 5,428 MW</strong>（净 3,522 MW，含犹他州 530MW、德州 Solar Nova 452MW 及 2026 年 3 月以 $2.4 亿净投资收购的 464MW Cardinal 光伏包）；② <strong>风力发电 4,234 MW</strong>（净 3,713 MW，含加州 947MW Alta Wind 基地、德州 Mesquite Star/Sky 等）；③ <strong>公用事业级电池储能 (BESS) 1,439 MW</strong>（净 849 MW，含 2026 年 5 月投产的犹他州 320MW Honeycomb 一期及加州 Daggett 394MW）（<a href="https://investor.clearwayenergy.com/static-files/f14fd4ff-09eb-405e-86cc-583e8c14eb31" target="_blank">Clearway Q3 2026 演示文稿</a>）。',
+            '<strong>加州与康州灵活燃气调峰电厂（Flexible Generation，2.8 GW 总装机 / 2.58 GW 净装机）：</strong>在极度缺电且严控新建气电的加州拥有 Marsh Landing (820 MW)、El Segundo (546 MW)、Carlsbad (523 MW，与 SDG&E 签有至 2038 年长协) 和 Walnut Creek (501 MW，2026 年 11 月刚续签 2027–2034 年资源充裕度 RA 合同)，为加州电网傍晚光伏出力骤降（鸭子曲线）提供不可或缺的分钟级快速爬坡调峰容量。',
+            '<strong>CWEN (C类股) 与 CWEN.A (A类股) 历史差异与 2026 年 5 月单轨合并：</strong>历史上 CWEN.A（1股1票）与 CWEN（1股 1/100 票）享有完全相同的分红权，但因增发均采用 C 类股，CWEN 流动性更好且长期溢价约 6.7%。<strong>2026 年 5 月 1 日，公司正式将全部 3,461 万股 CWEN.A 按 1:1 免税转换为 CWEN</strong>，CWEN.A 退市，CWEN 成为唯一上市交易代码（公众持 C 类股占 ~59% 经济权益，母公司 CEG 持 B/D 类股占 ~41% 并通过投票信托保持投票权比例不变）（<a href="https://investor.clearwayenergy.com/news-releases/news-release-details/clearway-energy-inc-announces-results-2026-annual-meeting" target="_blank">CWEN 股权合并公告</a>）。'
+          ],
+          financials: [
+            '<strong>2025 全年稳健收官与 2026 前三季度高增长：</strong>FY2025 营收 $14.29 亿（+4.2% YoY），归母 GAAP 净利润 $1.69 亿（$1.43/股，同比近翻倍），Adjusted EBITDA $12.17 亿，CAFD 达 $4.30 亿（命中原始指引上限）。2026 年前 9 个月（9M 2026）营收同比增长 <strong>21.3% 至 $13.57 亿</strong>，综合 GAAP 净利润转正至 $8,500 万，Adjusted EBITDA 达 $11.01 亿（+12.3% YoY），经营现金流激增 83.8% 至 $9.39 亿（含 $2.82 亿可转让税收抵免变现），CAFD 达 $4.10 亿。',
+            '<strong>2026 Q3 单季表现：</strong>Q3 营业收入 <strong>$5.22 亿（+21.7% YoY）</strong>，综合 GAAP 净利润翻倍至 $1.23 亿（归母 $5,100 万），Adjusted EBITDA 达 <strong>$4.35 亿（+13.0% YoY）</strong>，单季 CAFD 达 <strong>$1.73 亿</strong>。',
+            '<strong>股息分红与 2026–2031 远期增长指引：</strong>2026 年 Q4 季度股息上调至 $0.4824/股（年化 $1.9296/股，2026 全年宣派股息同比增 6.5%，对应当前股价股息率 <strong>5.90%</strong>）。管理层重申 2026 全年 CAFD 指引 $4.30–$4.70 亿，首次发布 <strong>2027 年 CAFD 指引 $5.20–$5.90 亿（中位数 $5.55 亿或 $2.70/股，同比增长超 23%，2027 目标股息 ~$1.98/股）</strong>，并确立 2030 年 CAFD/股 $2.90–$3.10+、<strong>2031 年 CAFD/股 $3.20–$3.40（7%–8%+ 复合增长率，派息率降至 70% 以下）</strong>的长期路线图。',
+            '<strong>隔离风险的债务结构：</strong>截至 2026 Q3 末，账面总债务 $94.36 亿，其中绝大多数为<strong>无追索权项目级债务</strong>（依靠单个电站现金流每年自动摊销本金约 $3.84–$4.22 亿）；母公司层面追索权高级债券仅 $27.25 亿（含 2028/2031/2032 年到期的 3.75%–4.75% 低息绿债，以及 2026 年 1 月新发的 $6 亿 2034 到期 5.75% 债券，且 2028 到期债券已 100% 锁定利率对冲），无任何毒性可转股组合融资（CEPF）。'
+          ],
+          competitiveness: [
+            '<strong>BlackRock (GIP) + 道达尔能源 (TotalEnergies) 双巨头发起人漏斗：</strong>2022 年道达尔收购 GIP 所持 Clearway Energy Group (CEG) 50% 股权，2024 年 BlackRock 又以 $125 亿收购 GIP。背靠全球最大资管与能源巨头，CEG 坐拥 <strong>35.5 GW 开发管道</strong>，其中 6.36 GW 已锁定在 2026–2030 年按 <strong>10.0%–11.0% 杠杆 CAFD 收益率</strong>注入 CWEN。',
+            '<strong>高回报存量风电技改增容 (Brownfield Repowering)：</strong>利用既有土地、塔筒基础与最宝贵的电网并网点，更换大兆瓦新风机并重签 15-20 年超大规模云商 PPA（如与微软合作的 300MW Mt. Storm、与 Google 合作的 306MW Goat Mountain），投资总额 $6.5 亿，CAFD 收益率高达 <strong>11%–12%</strong>。',
+            '<strong>储能 (BESS) 占比跃升平滑天气波动：</strong>电池储能采用固定容量租赁模式（Capacity Tolling），完全不受风速或光照波动影响。CWEN 计划将储能占资产 CAFD 的比例从 2025 年的 <strong>3% 大幅提升至 2031 年的 17%</strong>（同期光伏保持 39%，风电从 32% 降至 29%，气电从 25% 降至 15%）。'
+          ],
+          moat: [
+            '<strong>加州调峰气电的准入垄断与长协锁定：</strong>在加州新建燃气电厂几乎不可能获批，而 AI 与电动车负荷激增令加州电网高度依赖 CWEN 的 2.8 GW 燃气机组；公司已将其中 774 MW 容量锁定在 8–10 年长期合同（最远延至 2037–2038 年），Q3 可用率高达 93.8%。',
+            '<strong>15 GW+ 远期项目税收抵免安全港 (Safe Harbor) 保护：</strong>母公司已通过提前采购设备、联邦土地 10 年连续性规则及储能 100% ITC 条款，为 2030 年后超 15 GW 管道锁定了联邦税收抵免资格。',
+            '<strong>12 GW 数据中心共址能源综合体 (Co-located Digital Infrastructure)：</strong>母公司 CEG 正在怀俄明州（3.4 GW Wilcox 综合体，已签云巨头 LOI）、西德州（3 GW+）等五大区域开发风光储气一体化数据中心供电基地，CWEN 仅在 Wilcox 单一项目就享有 $7 亿+（50% 股权）的高收益投资权。'
+          ],
+          industryPos: [
+            '<strong>美国纯正清洁能源 YieldCo 幸存赢家：</strong>相比昔日同行 NextEra Energy Partners（现名 XPLR Infrastructure，NYSE: XIFR，因背负 $9.45 亿+ CEPF 赎回债务于 2025 年 1 月无限期停发股息，市值跌至 ~$6.9 亿），CWEN 凭借干净的资产负债表和自摊销项目债，维持了近 6% 股息率与 7%-8% 增长。对比全球同行 Brookfield Renewable (BEP/BEPC，市值 ~$130亿，股息率 ~5.2%，含哥伦比亚水电与海外汇率敞口) 及被 BlackRock/GIP 与 EQT 财团私有化的 AES Corp，CWEN 是最纯粹的美国本土公用事业与数据中心绿电收息标的。',
+            '<strong>产业链位置：</strong>上游由母公司 CEG 联手 Quanta Services / Blattner 锁定变压器、燃气轮机与风光电组件；中游 CWEN 负责已投产电站的资产持有、运维与资本结构管理；下游直接服务投资级公用事业电网（PG&E、SCE、SDG&E、PacifiCorp）及科技巨头（Google 1.24 GW PPA、微软 300 MW、Verizon 452 MW、Toyota、康宁、洛克希德马丁）。'
+          ],
+          swot: {
+            s: [
+              '资产负债表健康透明：零 CEPF 毒性融资，项目债依靠电费自摊销（2026 年摊销 $3.84 亿），公司级债券利率锁在 3.75%–5.75% 且 2028 到期债已 100% 对冲。',
+              '顶级双发起人（BlackRock/GIP + TotalEnergies）：提供 35.5 GW 管道，2026-2027 增长项目 100% 锁定，2028-2029 超 70%-80% 已明确。',
+              '加州 2.8 GW 灵活燃气电厂壁垒极高：签下长达 8-10 年的资源充裕度（RA）高价容量合同。',
+              '2026 年 5 月完成 A/C 类股合并：消除股权折价，提升机构流动性。'
+            ],
+            w: [
+              '自然气象资源波动敏感度：2026 上半年风速偏弱迫使公司将 2026 全年 CAFD 指引从 $4.7-5.1 亿下调 $4,000 万至 $4.3-4.7 亿（全年风/光发电量 ±5% 波动分别影响 CAFD ±$3,000 万 / ±$3,100 万）。',
+              '加州市场与公用事业客户集中度较高：受 CAISO 监管政策与加州公用事业信用周期影响。',
+              '远期扩张仍需外部融资：完成 2026–2030 年 $41 亿资本部署计划需新增 $20 亿+ 公司债及 $8–$13 亿外部股权增发。'
+            ],
+            o: [
+              '12 GW 数据中心共址供电基地：怀俄明州 3.4 GW Wilcox 综合体（CWEN 享 $7 亿+ 股权投资额）带来超指引上限的增长期权。',
+              '存量风电增容改造与长协重签：以 11%-12% 收益率改造老旧风电场，并将到期银行商品对冲重签为 15 年云巨头高价 PPA。',
+              '2030 年后迈入内生自融资阶段：当派息率降至 70% 以下后，留存现金流+配债即可每年自主支持 1.2–1.4 GW 收购。'
+            ],
+            t: [
+              '高利率长期维持（Higher-for-Longer）：挤压 5.90% 股息率相对美债的溢价；2028 年后未对冲公司债利率若上升 50 bps，将削减 2031E CAFD/股约 6 美分。',
+              '关税与 IRA 补贴细则变动：光伏组件、储能电芯或变压器进口关税可能推高新项目造价。',
+              '电网拥堵与弃风弃光限电（Curtailment）：2026 前三季度限电电量达 109.9 万 MWh（高于 2025 同期的 85.2 万 MWh）。'
+            ]
+          }
+        },
+
+        NBIS: {
+          header: '☁️ Nebius Group N.V. (NASDAQ: NBIS) — 全栈自研 AI 云工厂与科技孵化集团',
+          sub: '2026-11-16 收盘价：$107.13 | 市值：$313.8亿美元 | 52周区间：$73.52–$299.86 | Q3 2026 营收：$9.81亿 (+571% YoY)',
+          products: [
+            '<strong>全栈自研 AI 原生云平台 (Nebius AI Cloud / Aether 3.6)：</strong>源于 2024 年 7 月 Yandex N.V. 完成 $54 亿俄罗斯资产剥离后保留的海外核心云团队（1,300+ 名基础设施与 AI 工程师，创始人 Arkady Volozh 领衔）。提供基于自研 Aether 3.6 云操作系统的裸金属与虚拟化 GPU 集群、托管 Kubernetes 与 Slurm 编排、100 GB/s 高吞吐分布式存储、Wiz 安全集成及企业级专线互联，于 2026 年 9 月斩获 <strong>SemiAnalysis ClusterMAX 3.0 最高级铂金（Platinum）评级</strong>（<a href="https://assets.nebius.com/assets/5bc733ff-bed7-415c-af10-74ce7881a764/Nebius-SHL-2026-Q3.pdf" target="_blank">Nebius Q3 2026 致股东信</a>）。',
+            '<strong>大规模 GPUaaS 算力集群：</strong>通过 3.2 Tb/s NVIDIA Quantum-2 与 Quantum-X800 InfiniBand 无阻塞网络互联，运营及部署涵盖 <strong>NVIDIA H100、H200、Blackwell B200、液冷机柜级 GB200/GB300 NVL72、下一代 Vera Rubin NVL72、Vera CPU 以及 NVIDIA Groq 3 LPX</strong> 推理加速卡。',
+            '<strong>Nebius Token Factory（原 AI Studio）推理与后训练平台 + Tavily 智能体搜索：</strong>支持 60+ 款开源与定制大模型（DeepSeek R1、Llama、Qwen、Nemotron、Kimi K3 等）的亚秒级生产推理与 LoRA 微调，在 2026 年接连收购 Eigen AI、ClarifAI 与 Inferize 后，<strong>Q3 2026 Token Factory 签约合同额环比暴增 17 倍</strong>。此外，2026 年 2 月以 $1.894 亿收购的 <strong>Tavily</strong> 为超 300 万开发者提供实时 AI Agent 联网搜索（月处理 3.5 亿次请求）。',
+            '<strong>四大非核心高价值科技资产组合（估值合计超 $60 亿）：</strong>① <strong>ClickHouse（持股 ~28%）</strong>：全球顶尖开源列式分析数据库，2026 年 1 月以 <strong>~$150 亿估值</strong>完成 4 亿美元 D 轮融资，Nebius 持股市值约 $40–$42 亿；② <strong>Avride（控股 ~83%）</strong>：自动驾驶 Robotaxi 与配送机器人公司，2025 年 10 月获 Uber 与 Nebius 最高 $3.75 亿战略投资（投后估值 ~$27.8 亿），已在达拉斯完成超 10 万次 Robotaxi 载客并在美日部署 1,000 台配送机器人；③ <strong>Toloka AI（多数经济权益）</strong>：2025 年 5 月获贝索斯（Bezos Expeditions）领投 $7,200 万，为 Anthropic、微软、亚马逊提供大模型 RLHF 与评估数据（Q3 营收环比翻倍）；④ <strong>TripleTen（100% 控股）</strong>：北美与拉美科技职业教育平台（FY25 营收 $5,410 万）。'
+          ],
+          financials: [
+            '<strong>七个季度营收狂飙近 20 倍：</strong>集团季度营收从 2025 Q1 的 $5,090 万、Q2 $1.051 亿、Q3 $1.461 亿、Q4 $2.277 亿（2025 全年 $5.298 亿，+479% YoY），一路跃升至 2026 Q1 $3.990 亿、Q2 $5.823 亿，并在 <strong>2026 Q3 达到 $9.808 亿（同比暴增 571.3%，其中 Nebius AI Cloud 贡献 $9.738 亿，同比大增 642.8%）</strong>（<a href="https://sec-api.io/insights/nebius-group-nbis-q3-2026-earnings-980-8m-revenue-38-7bn-rpo-and-a-12bn-to-13bn-2027-outlook-sec-filing-analysis" target="_blank">SEC 6-K 财报深度分析</a>）。',
+            '<strong>ARR 与 RPO 合同积压：</strong>年化经常性收入（ARR）从 2025 年底的 $12.5 亿飙升至 2026 年 9 月末的 <strong>$64.0 亿（+1,062% YoY，+113% QoQ）</strong>；截至 Q3 末，未履约合同积压（RPO）高达 <strong>$387 亿</strong>（其中 40% 在未来 24 个月内确认），投资级客户总承诺超 $400 亿。',
+            '<strong>利润率跃升与首次 GAAP 营业利润转正：</strong>Q3 2026 集团 Adjusted EBITDA 达 <strong>$4.658 亿（利润率 47.5%）</strong>，其中核心 AI Cloud 业务 Adjusted EBITDA 高达 <strong>$5.182 亿（利润率 53.2%）</strong>；并在 Q3 历史性实现<strong>首次 GAAP 营业利润转正（+$5,040 万，营业利润率 5.1%）</strong>，Adjusted 净利润 +$9,090 万（GAAP 净亏损收窄至 $(3,750) 万）。单兆瓦年化合同价值（ACV）超 $2,500 万/MW，硬件投资回收期仅 <strong>1 年零 7 个月</strong>。',
+            '<strong>2026–2027 指引与超强融资结构：</strong>因新泽西 Vineland 合作机房切换永久电源导致微软部分批次顺延至 2027 Q2，2026 全年营收预计落在 $30–$34 亿区间下沿（对应 Q4 营收至少 $10.4 亿），但<strong>官方指引 2027 全年营收将飙升至 $120 亿–$130 亿（同比翻 4 倍），并预计 2027 Q4 实现税前利润盈亏平衡</strong>。2026 年 CapEx 约 $270 亿，2027 年 CapEx 预计 $400–$450 亿——其中 <strong>75%–85% 由客户前期预付款（2026 年已锁定 $100 亿预付款，2027 年预计 $170–$200 亿）及资产抵押贷款覆盖</strong>。截至 Q3 末，账面非受限现金 $74.26 亿（另 $12.2 亿受限），递延收入（预收款）$94.1 亿，账面债务 $141.9 亿（以 0.5%–4.5% 票息可转债为主），10 月另获花旗 $35 亿授信。'
+          ],
+          competitiveness: [
+            '<strong>业内唯一采用内部自研主板 + 台湾 ODM 直造模式的 Neocloud：</strong>不同于全盘采购 Dell/Supermicro 品牌服务器的同行，Nebius 内部拥有数百名硬件工程师，自主设计服务器主板、免工具维护机箱（每台服务器省去平均 7 米线缆）与热管理机柜，直接交由台湾 ODM 代工，大幅降低总拥有成本（TCO）并支持 40°C 高温环境运行（<a href="https://nebius.com/sustainability/servers-and-racks" target="_blank">Nebius 自研服务器与机柜</a>）。',
+            '<strong>极致的绿色数据中心工程（PUE 1.13 与余热供暖）：</strong>芬兰 Mäntsälä 自建旗舰数据中心利用北欧自然新风冷却（零耗水、零制冷剂），满载 PUE 低至 <strong>1.13</strong>（全球平均约 1.58），并将每年约 20,000 MWh 的服务器废热直接回收接入当地市政供暖网，降低居民采暖成本约 10%。',
+            '<strong>“客户预付款 + 低息转债”碾压同行的轻息差负担：</strong>Q3 新签大单中超 90% 带有前期预付款且超过 100% 覆盖对应 CapEx；相比 CoreWeave 单季高达 $8.46 亿的利息吞噬，Nebius Q3 净利息支出仅 $1.125 亿，资本效率优势极其突出。'
+          ],
+          moat: [
+            '<strong>NVIDIA $27 亿真金白银入股（持股 9.3%）：</strong>继 2024 年 12 月联合 Accel、Orbis 投资 $7 亿（$21/股）后，NVIDIA 于 2026 年 3 月再投 <strong>$20 亿</strong>认购预融资权证，累计持有 2,226 万股 A 类股（占比 9.3%），双方共同推进到 2030 年部署超 5 GW NVIDIA 系统的战略目标。',
+            '<strong>欧美超 4 GW 签约电力与自建“AI 工厂”转型：</strong>从 2025 年底的 170 MW 跃升至 2026 年 11 月的 <strong>>4 GW 签约电力（年底目标 5 GW）</strong>，覆盖全球 16+ 站点：含芬兰 Mäntsälä (75MW) 与 Lappeenranta 新建 310MW 液冷基地、美国密苏里州 Independence <strong>1.1 GW 自建超级园区</strong>、新泽西州 Vineland 300MW、阿拉巴马州 Birmingham 300MW 及冰岛地热机房。',
+            '<strong>超过 $60 亿的非核心科技股权蓄水池：</strong>所持 ClickHouse (~$42亿)、Avride (~$23亿)、Toloka 与 TripleTen 股权随时可通过部分变现或分拆上市，提供零稀释的巨额自有资金。'
+          ],
+          industryPos: [
+            '<strong>全球第二大上市纯正 Neocloud，兼具欧美双主权云地位：</strong>在纯正 AI 算力云中，Nebius 营收与积压订单规模仅次于 CoreWeave，但利润率结构（Q3 GAAP 营业利润率 5.1% vs CRWV 5.7%，净亏损仅 -$3,750 万 vs CRWV -$7.09 亿）和资产负债表健康度显著占优；同时因总部位于荷兰阿姆斯特丹并在芬兰、法国、英国拥有自建/托管集群，成为欧洲 GDPR 合规与主权 AI（含 Palantir 主权 AI 合作）的首选底座。',
+            '<strong>产业链位置：</strong>上游获 NVIDIA 股权绑定供货、台湾 ODM 直造机柜、并与 Bloom Energy（Vineland 燃料电池供电）、Equinix、Verne Global 合作电力与机房；中游输出 IaaS 算力 + Token Factory 推理 PaaS + Tavily 搜索；下游覆盖微软（$174-194 亿 5 年合同）、Meta（累计最高 ~$270 亿 Vera Rubin 等算力合同）、企业级数据平台（Palantir、Databricks、Snowflake、Datadog）及 AI 原生独角兽（Cohere、Cognition/Devin、Cursor 等）。'
+          ],
+          swot: {
+            s: [
+              '高达 $387 亿的 RPO 积压订单：微软与 Meta 两大投资级巨头锁死多年期基础负荷。',
+              '预付款驱动的极致资本效率：$94.1 亿递延收入在手，客户预付款覆盖新项目 100%+ CapEx，配合 0.5%-4.5% 低息转债，财务费用率远低于同行。',
+              '自研 ODM 硬件 + 1.13 PUE 数据中心工程：造就 53.2% 的 AI 云 EBITDA 利润率与 1.6 年极速回本周期。',
+              'NVIDIA 9.3% 战略持股 + 超 $60 亿非核心资产（ClickHouse / Avride）提供厚实安全垫。'
+            ],
+            w: [
+              '客户与应收账款高度集中：Q3 前三大客户占营收 70%（33%、22%、15%），单一客户 D 占 $40.4 亿应收账款的 75%（DSO 达 673 天）。',
+              '建设计划带来巨额自由现金流消耗：TTM Q3 自由现金流为 -$124.2 亿（2026 CapEx ~$270 亿，2027 预计 $400-$450 亿）。',
+              '非经常性收入占比与折旧年限拉长：Q3 AI 云营收中含 $3.251 亿（占 33.4%）轻资产战略合作赋能费（SEC 文件注明具非经常性质），且 2026 年初将服务器折旧年限从 4 年延长至 5 年增厚了账面利润。',
+              '内控缺陷披露与双层股权集中：FY25 20-F 曾披露固定资产与 TripleTen 收入确认两项内控重大缺陷（2026 已换聘德勤审计）；CEO 凭 B 类股掌控 51.62% 投票权。'
+            ],
+            o: [
+              '2027 年营收翻四倍（$120-$130 亿指引）：密苏里州 1.1 GW、芬兰 310 MW、阿拉巴马 300 MW 等自建大园区集中投产。',
+              'Token Factory 与 Tavily 推升推理与 Agent 高毛利软件占比：Q3 Token Factory 合同额环比暴增 17 倍。',
+              'ClickHouse 或 Avride 资本运作变现：为 $400 亿+ CapEx 提供非稀释性股权资金。'
+            ],
+            t: [
+              '第三方托管机房与电网通电延误：如新泽西 Vineland 机房切换永久电源导致微软部分容量顺延至 2027 Q2，压制了 2026 年底 ARR 节奏。',
+              '潜在可转债转股稀释与高管减持：$157.3 亿可转债本金、ATM 增发计划及 2026 年 3-10 月 $3.2 亿内部人士减持带来供给压力。',
+              '美国地方数据中心环评诉讼与地缘敞口：面临部分美国站点分区环评法律挑战，且在以色列持有 $8.81 亿长期资产。'
+            ]
+          }
+        },
+
+        CRWV: {
+          header: '🔥 CoreWeave, Inc. (NASDAQ: CRWV) — 全球最大纯正 AI GPU 算力巨兽',
+          sub: '2026-11-16 收盘价：$49.88 | 市值：$275.1亿美元 | 2025-03-28 IPO ($40/股) | Q3 2026 营收：$36.61亿 | RPO 积压：$1,323亿',
+          products: [
+            '<strong>裸金属 Kubernetes 原生算力云 (CKS)：</strong>成立于 2017 年（前身为以太坊 GPU 矿商 Atlantic Crypto，后全面转型 AI 算力），现于全球运营 <strong>51 座专用 AI 数据中心（已通电 >1.7 GW，签约总电力 >4.6 GW）</strong>。不同于传统公有云带虚拟化损耗的虚拟机（VM），CoreWeave 直接在裸金属服务器上运行 Kubernetes，消除 I/O 与虚拟化税，大幅提升万卡集群模型算力利用率（MFU）（<a href="https://www.sec.gov/Archives/edgar/data/1769628/000176962826000461/coreweave3q26earningspress.htm" target="_blank">CoreWeave Q3 2026 财报</a>）。',
+            '<strong>行业首发的顶级 NVIDIA 液冷集群矩阵：</strong>全面覆盖 H100、H200、<strong>GB200 NVL72</strong>（2025 年 2 月全球首家 GA 商用）、<strong>GB300 NVL72</strong>（2025 年 7 月全球首发）以及 <strong>NVIDIA Vera Rubin NVL72 与 Vera CPU</strong>（2026 Q3 全球首家规模化投产交付 Cognition，Token 吞吐量达 GB200 的 4.8 倍），底层搭载 400G/800G InfiniBand 与 Spectrum-X 网络。',
+            '<strong>SUNK (Slurm on Kubernetes) 与 Mission Control 自动运维平面：</strong>SUNK 将 AI 研究员偏爱的 Slurm 批处理调度与工程团队偏爱的 Kubernetes 容器无缝融合于同一 GPU 池；<strong>Mission Control</strong> 则实时监控数万张 GPU 的健康遥测，一旦发现降速拖后腿节点（Straggler）或光模块故障，自动执行隔离、排水、替换并从断点恢复训练。',
+            '<strong>收购 Weights & Biases ($17亿) 与 CoreWeave Forge 全栈开发生态：</strong>2025 年 5 月完成对服务超 100 万 AI 工程师与 1,400+ 企业客户的 MLOps 龙头 <strong>Weights & Biases (W&B)</strong> 的 ~$17 亿收购，并整合收购的 OpenPipe（强化学习）、Monolith AI（工业物理 AI）与 Marimo（响应式 Python 笔记本），于 2026 Q3 推出 <strong>CoreWeave Forge</strong>（含 W&B Models/Weave、Serverless RL、CoreWeave Sandboxes 与 ARIA 智能体）（<a href="https://investors.coreweave.com/news/news-details/2025/CoreWeave-Completes-Acquisition-of-Weights--Biases/default.aspx" target="_blank">W&B 收购完成公告</a>）。'
+          ],
+          financials: [
+            '<strong>史上最快突破 $50 亿与 $100 亿营收的云服务商：</strong>2025 全年营收暴增 168% 至 <strong>$51.31 亿</strong>（2024 年为 $19.15 亿），Adjusted EBITDA 达 $30.93 亿（60% 利润率）。步入 2026 年，Q1 营收 $20.78 亿（+112% YoY）→ Q2 营收 $25.75 亿（+112% YoY）→ <strong>Q3 2026 单季营收飙升至 $36.61 亿（+168% YoY，单季环比暴增 $10.86 亿），前三季度累计营收达 $83.14 亿</strong>。',
+            '<strong>Q3 2026 惊人的经营杠杆 vs. 沉重的利息账单：</strong>Q3 Adjusted EBITDA 高达 <strong>$22.56 亿（利润率高达 62%）</strong>；GAAP 营业利润转正至 <strong>$2.07 亿（利润率 6%）</strong>，Adjusted 营业利润达 $3.79 亿（利润率 10%，提前一个季度实现双位数营业利润率目标）。然而，由于 Q3 <strong>净利息支出高达 $(8.46) 亿</strong>（前三季度累计利息 $(20.22) 亿）及折旧摊销 $18.89 亿，导致 Q3 GAAP 净亏损为 <strong>$(7.09) 亿</strong>（稀释 EPS -$1.27）。',
+            '<strong>$1,325 亿史诗级合同积压与全年指引上调：</strong>截至 2026 年 9 月 30 日，总收入积压达 <strong>$1,325 亿（正式 GAAP RPO 为 $1,323 亿，其中 36% 约 $476 亿将在未来 24 个月内确认为收入，98% 营收来自确定性长协）</strong>。管理层将 2026 全年营收指引上调至 <strong>$130 亿–$133 亿</strong>，Adjusted 营业利润指引上调 26% 至 $12.75–$13.75 亿，2026 年底 ARR 指引上调至 <strong>$200 亿–$210 亿</strong>（<a href="https://www.stocktitan.net/sec-filings/CRWV/10-q-core-weave-inc-quarterly-earnings-report-f12417e8443a.html" target="_blank">Q3 2026 10-Q 深度拆解</a>）。',
+            '<strong>重资产 CapEx 与 $468.7 亿债务结构：</strong>2026 全年 CapEx 指引高达 <strong>$370 亿–$390 亿</strong>（前三季度现金购置设备已达 $235.58 亿，账面净固定资产达 $567.78 亿）。公司开创了以 NVIDIA GPU 和照付不议合同为抵押的 SPV 延迟提款定期贷款（DDTL，由 Blackstone 与 Magnetar 领投，2026 Q1 最新投资级 DDTL 4.0 利率已降至 SOFR+2.25% / ~5.9%）。截至 Q3 末，<strong>账面总债务达 $468.73 亿</strong>（$416.0 亿有追索权 + $52.73 亿无追索权），经营租赁负债 $186.97 亿（另有 $474 亿未起租承诺），账面现金及受限现金 $64.04 亿，递延收入（客户预付款）$100.02 亿（预计 Q4 再收 ~$90 亿预付款）。'
+          ],
+          competitiveness: [
+            '<strong>行业第一的集群工程能力（连续三次 ClusterMAX 铂金评级）：</strong>CoreWeave 是全球唯一连续三次获得 SemiAnalysis ClusterMAX 铂金评级的云厂商，并保持 MLPerf Inference v6.1 推理吞吐量纪录；在超过 120 kW/机柜的直达芯片液冷（Direct-to-Chip Liquid Cooling）与超大规模 InfiniBand 组网上具备极深工程壁垒。',
+            '<strong>与 NVIDIA 深度共生的“亲儿子”地位：</strong>由于 CoreWeave 完全不自研竞争性 AI 芯片（不同于 AWS Trainium、Google TPU、微软 Maia），成为 NVIDIA 最核心的标杆展示窗口。NVIDIA 于 2026 年 1 月以 $87.20/股追加投资 <strong>$20 亿</strong>（共建 >5 GW AI 工厂），提供 <strong>$63 亿算力兜底包销协议（至 2032 年 4 月）</strong>，并将 CoreWeave 的 SUNK 与 Mission Control 纳入 NVIDIA 官方参考架构向全球企业推广（<a href="https://investors.coreweave.com/news/news-details/2026/NVIDIA-and-CoreWeave-Strengthen-Collaboration-to-Accelerate-Buildout-of-AI-Factories/default.aspx" target="_blank">NVIDIA-CoreWeave 2026 战略升级公告</a>）。',
+            '<strong>5 年期照付不议 (Take-or-Pay) 合同锁定：</strong>98% 收入来自平均 ~5 年期的照付不议合同（附带 15%–25% 现金预付款），合同期内的确定性现金流足以完全摊销 GPU 硬件成本与项目贷款本息。'
+          ],
+          moat: [
+            '<strong>超大规模电力与机房网络先发锁定（>4.6 GW 签约电力）：</strong>横跨北美、欧洲、亚洲近 40 家数据中心开发商（单一房东占比不超 17%），在变压器与机房极度紧缺的当下，>1.7 GW 已通电容量（2026 年底 >1.85 GW）构成了后来者难以逾越的物理规模墙。',
+            '<strong>Weights & Biases 带来的 100 万+ 开发者工作流粘性：</strong>通过将 W&B 实验追踪、模型评估与 Serverless RL 深度嵌入 CoreWeave Forge，客户从“租裸机”升级为“在平台上训练、微调、评测并部署 Agent”，显著提高了迁移成本。'
+          ],
+          industryPos: [
+            '<strong>全球纯正 Neocloud 绝对霸主（营收为第二名 Nebius 的 4.5 倍）：</strong>以 2026 上半年营收计，CoreWeave ($46.53亿) 约为第二名 Nebius ($9.81亿) 的 4.7 倍（Q3 单季 $36.61亿 vs Nebius $9.81亿，约为 3.7 倍），远超 IREN、Applied Digital 以及未上市的 Lambda Labs 和 Crusoe。同时与三大公有云形成“竞合关系”——微软既是竞争对手又是头号租户，Google Cloud 则通过 CoreWeave Interconnect 光纤直连。',
+            '<strong>产业链位置：</strong>上游 100% 绑定 NVIDIA 芯片、Dell/Supermicro 液冷机柜、以及 Core Scientific（签约 ~590 MW 托管容量，注：2025 年 10 月 Core Scientific 股东否决了 CoreWeave $90 亿全股票收购要约，双方维持租户与房东关系）、Digital Realty、Chirisa 及 <strong>Bloom Energy（伊利诺伊州 Volo 燃料电池微电网）</strong>；下游服务前 10 大基座大模型中的 9 家，包括微软（FY25 占 67%，Q2\'26 降至 36%）、OpenAI（<strong>$224 亿+</strong> 合同）、Meta（<strong>$210 亿</strong>合同至 2032 年）、Anthropic、Cohere、Jane Street（$60 亿合同）及美国联邦政府（DARPA、能源部 Genesis 任务）。'
+          ],
+          swot: {
+            s: [
+              '无可匹敌的订单积压与规模：$1,325 亿积压订单（$1,323 亿 GAAP RPO），2026E 营收 $130-$133 亿，年底 ARR 达 $200-$210 亿。',
+              '顶级集群工程与首发速度：唯一三连冠 ClusterMAX 铂金评级，全球首发 GB200、GB300 与 Vera Rubin NVL72 生产集群。',
+              'NVIDIA 全方位背书：$20 亿高价入股（$87.20/股）、$63 亿闲置算力兜底包销至 2032 年、并将 SUNK/Mission Control 纳入官方参考架构。',
+              '高达 62% 的 Adjusted EBITDA 利润率与 >1.7 GW 已通电稀缺电力底座。'
+            ],
+            w: [
+              '极高的债务杠杆与利息黑洞：$468.7 亿账面债务 + $187.0 亿租赁负债，Q3 单季净利息高达 $8.46 亿（Q4 预计 $10.5-$11.5 亿），吞噬全部营业利润导致单季 GAAP 净亏 $(7.09) 亿。',
+              '巨额负自由现金流与持续融资依赖：2026 CapEx 高达 $370-$390 亿，远超经营现金流，高度依赖债市发债与 ATM 股票增发。',
+              '客户集中度与单一供应商依赖：前三大客户（微软、OpenAI、Meta）占 Q2 营收 72%（Q3 前两大占 54%），芯片 100% 依赖 NVIDIA。',
+              '自持机房比例低且内控存缺陷：收购 Core Scientific 被否决后仍以租赁机房外壳为主；SEC 文件披露财务报告内控存在重大缺陷。'
+            ],
+            o: [
+              '向推理、后训练强化学习 (RL) 与企业级软件升级：Vera Rubin NVL72 与 CoreWeave Forge 切入高频持续推理负载。',
+              '通过 NVIDIA 向全球云商授权 SUNK 与 Mission Control 软件：开辟零硬件 CapEx 的纯高毛利软件授权收入流。',
+              '债务资本成本持续下降：随着投资级合同占比提升，新批 DDTL 4.0 利率已从早期的 10%+ 降至 SOFR+2.25% (~5.9%)。',
+              '主权 AI 与美国国防联邦市场（CoreWeave Federal）：拓展 DARPA、DOE 及海外 >1.3 GW 算力部署。'
+            ],
+            t: [
+              'GPU 加速折旧与租期错配风险：NVIDIA 保持 1 年 1 代更新节奏，而 CoreWeave 客户合同约 5 年、机房租约长达 7–17 年；若 5 年后老款 GPU 续租价格大跌将冲击长期 ROIC。',
+              'OpenAI 信用与现金流消耗风险：$224 亿+ 积压订单系于尚未盈利的 OpenAI，若其融资放缓将直接冲击 RPO 兑现。',
+              '云巨头自建机房与自研 ASIC 追赶：2028 年后微软、AWS、Google 自建吉瓦级园区与自研芯片成熟，或减少外部算力溢价外包。'
+            ]
+          }
+        }
+      };
+
+      function renderInspector(compKey) {
+        var d = inspectorData[compKey];
+        if (!d) return;
+        document.getElementById('inspBadge').textContent = d.badge;
+        document.getElementById('inspTitle').textContent = d.title;
+        var ul = document.getElementById('inspList');
+        ul.innerHTML = d.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('');
+        var jumpBtn = document.getElementById('jumpDeepDiveBtn');
+        jumpBtn.setAttribute('data-company', compKey);
+      }
+
+      function renderDeepDive(compKey) {
+        var d = deepDiveData[compKey];
+        if (!d) return;
+        var container = document.getElementById('companyDeepDiveContent');
+        var html = ''
+          + '<div style="background:rgba(30,41,59,0.7);border:1px solid var(--border-subtle);border-radius:10px;padding:16px 20px;margin-bottom:18px;">'
+          + '  <h3 style="font-size:20px;color:#fff;margin-bottom:4px;">' + d.header + '</h3>'
+          + '  <div style="font-size:13px;color:var(--accent-blue);font-weight:600;">' + d.sub + '</div>'
+          + '</div>'
+          + '<div class="deepdive-grid">'
+          + '  <div class="dd-card">'
+          + '    <h4>📦 一、主营产品与服务体系 (Core Products & Services)</h4>'
+          + '    <ul class="dd-list">' + d.products.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul>'
+          + '  </div>'
+          + '  <div class="dd-card">'
+          + '    <h4>📈 二、近期财报表现与业绩指引 (2025 – 2026 Q3)</h4>'
+          + '    <ul class="dd-list">' + d.financials.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul>'
+          + '  </div>'
+          + '  <div class="dd-card">'
+          + '    <h4>⚡ 三、核心竞争力 (Core Competitiveness)</h4>'
+          + '    <ul class="dd-list">' + d.competitiveness.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul>'
+          + '  </div>'
+          + '  <div class="dd-card">'
+          + '    <h4>🏰 四、经济与技术护城河 (Economic & Technical Moat)</h4>'
+          + '    <ul class="dd-list">' + d.moat.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul>'
+          + '  </div>'
+          + '  <div class="dd-card full-span">'
+          + '    <h4>🌐 五 & 六、行业地位、竞品对标与产业链位置 (Industry & Value Chain Position)</h4>'
+          + '    <ul class="dd-list">' + d.industryPos.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul>'
+          + '  </div>'
+          + '  <div class="dd-card full-span">'
+          + '    <h4>🧭 七、SWOT 四象限全景深度分析 (Strengths · Weaknesses · Opportunities · Threats)</h4>'
+          + '    <div class="swot-grid">'
+          + '      <div class="swot-box s"><div class="swot-title">✅ 优势 (Strengths)</div><ul class="dd-list">' + d.swot.s.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul></div>'
+          + '      <div class="swot-box w"><div class="swot-title">⚠️ 劣势 (Weaknesses)</div><ul class="dd-list">' + d.swot.w.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul></div>'
+          + '      <div class="swot-box o"><div class="swot-title">🚀 机会 (Opportunities)</div><ul class="dd-list">' + d.swot.o.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul></div>'
+          + '      <div class="swot-box t"><div class="swot-title">🛡️ 威胁 (Threats)</div><ul class="dd-list">' + d.swot.t.map(function(x){return '<li>'+x+'</li>';}).join('') + '</ul></div>'
+          + '    </div>'
+          + '  </div>'
+          + '</div>';
+        container.innerHTML = html;
+      }
+
+      // Main navigation tabs
+      var navBtns = document.querySelectorAll('#mainNavTabs .nav-btn');
+      navBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var target = btn.getAttribute('data-target');
+          navBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          document.querySelectorAll('.view-section').forEach(function(sec) {
+            sec.classList.remove('active');
+          });
+          var targetSec = document.getElementById('sec-' + target);
+          if (targetSec) targetSec.classList.add('active');
+          if (target === 'charts' && typeof window.resizeAllECharts === 'function') {
+            setTimeout(window.resizeAllECharts, 60);
+          }
+        });
+      });
+
+      // Overview Entity Cards + Mobile Inline Accordion with Scroll Compensation
+      var entityCards = document.querySelectorAll('#overviewMatrix .entity-card');
+      var inspectorBox = document.getElementById('inspectorBox');
+      entityCards.forEach(function(card) {
+        card.addEventListener('click', function() {
+          var comp = card.getAttribute('data-company');
+          var beforeTop = card.getBoundingClientRect().top;
+          entityCards.forEach(function(c) { c.classList.remove('active'); });
+          card.classList.add('active');
+          renderInspector(comp);
+
+          if (window.innerWidth <= 1024 && inspectorBox) {
+            card.insertAdjacentElement('afterend', inspectorBox);
+            var afterTop = card.getBoundingClientRect().top;
+            var delta = afterTop - beforeTop;
+            if (Math.abs(delta) > 2) {
+              window.scrollBy(0, delta);
+            }
+          }
+        });
+      });
+
+      // Jump button from Inspector to Deep Dive
+      var jumpBtn = document.getElementById('jumpDeepDiveBtn');
+      if (jumpBtn) {
+        jumpBtn.addEventListener('click', function() {
+          var comp = jumpBtn.getAttribute('data-company') || 'BE';
+          document.querySelector('#mainNavTabs .nav-btn[data-target="company-deepdive"]').click();
+          var subBtn = document.querySelector('#companySubtabs .subtab-btn[data-comp="' + comp + '"]');
+          if (subBtn) subBtn.click();
+          window.scrollTo({ top: 240, behavior: 'smooth' });
+        });
+      }
+
+      // Company Deep-Dive Subtabs
+      var subBtns = document.querySelectorAll('#companySubtabs .subtab-btn');
+      subBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var comp = btn.getAttribute('data-comp');
+          subBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          renderDeepDive(comp);
+        });
+      });
+
+      // Simulator Logic
+      var sliderAi = document.getElementById('sliderAiDemand');
+      var sliderRate = document.getElementById('sliderRateShift');
+      var sliderGrid = document.getElementById('sliderGridBottleneck');
+      var sliderCap = document.getElementById('sliderCapital');
+
+      function updateSimulator() {
+        var aiPct = parseInt(sliderAi.value, 10);
+        var rateBps = parseInt(sliderRate.value, 10);
+        var gridScore = parseInt(sliderGrid.value, 10);
+        var cap = parseInt(sliderCap.value, 10);
+
+        document.getElementById('valAiDemand').textContent = aiPct + '% (' + (aiPct >= 105 ? '超预期加速' : (aiPct <= 90 ? '资本开支放缓' : '基准指引兑现')) + ')';
+        document.getElementById('valRateShift').textContent = (rateBps > 0 ? '+' : '') + rateBps + ' bps';
+        document.getElementById('valGridBottleneck').textContent = gridScore + ' / 100';
+        document.getElementById('valCapital').textContent = '$' + cap.toLocaleString('en-US');
+
+        // Compute dynamic scores for allocation
+        var scoreBE = 25 + (gridScore - 70) * 0.45 + (aiPct - 100) * 0.25;
+        var scoreCWEN = 22 - rateBps * 0.06 - (aiPct - 100) * 0.15 + (gridScore - 70) * 0.15;
+        var scoreNBIS = 32 + (aiPct - 100) * 0.35 + rateBps * 0.03;
+        var scoreCRWV = 21 + (aiPct - 100) * 0.45 - rateBps * 0.08;
+
+        scoreBE = Math.max(10, scoreBE);
+        scoreCWEN = Math.max(10, scoreCWEN);
+        scoreNBIS = Math.max(12, scoreNBIS);
+        scoreCRWV = Math.max(8, scoreCRWV);
+
+        var total = scoreBE + scoreCWEN + scoreNBIS + scoreCRWV;
+        var wBE = Math.round((scoreBE / total) * 100);
+        var wCWEN = Math.round((scoreCWEN / total) * 100);
+        var wNBIS = Math.round((scoreNBIS / total) * 100);
+        var wCRWV = 100 - wBE - wCWEN - wNBIS;
+
+        // Projected 2027 metrics under scenario
+        var beRev27 = (5.8 * (aiPct / 100) * (1 + (gridScore - 80) * 0.004)).toFixed(2);
+        var cwenCafd27 = (555 * (1 - rateBps * 0.0004)).toFixed(0);
+        var nbisRev27 = (12.5 * (aiPct / 100)).toFixed(2);
+        var crwvRev27 = (21.5 * (aiPct / 100)).toFixed(2);
+        var crwvInt27 = (4.2 * (1 + rateBps * 0.0012)).toFixed(2);
+
+        document.getElementById('simSummaryText').innerHTML =
+          '在 <strong>AI 景气度 ' + aiPct + '%、利率变动 ' + (rateBps > 0 ? '+' : '') + rateBps + ' bps、电网拥堵指数 ' + gridScore + '</strong> 情景下：建议采取<strong>“Nebius (' + wNBIS + '%) + Bloom Energy (' + wBE + '%)”</strong>作为核心进攻仓位，辅以 <strong>Clearway (' + wCWEN + '%)</strong> 提供近 6% 股息安全垫，并将高弹性高负债的 <strong>CoreWeave 控制在 ' + wCRWV + '%</strong>。';
+
+        var items = [
+          { ticker: 'NBIS (Nebius)', w: wNBIS, color: '#38bdf8', proj: '27E 营收 ~$' + nbisRev27 + 'B | 预付款免疫高息', note: '客户预付款覆盖 CapEx + 0.5%-4.5%低息转债 + $60亿副业股权保护' },
+          { ticker: 'BE (Bloom Energy)', w: wBE, color: '#10b981', proj: '27E 营收 ~$' + beRev27 + 'B | 2GW 产能释放', note: '电网排队越久，55天极速表后 800V DC 燃料电池溢价越强' },
+          { ticker: 'CWEN (Clearway-C)', w: wCWEN, color: '#f59e0b', proj: '27E CAFD ~$' + cwenCafd27 + 'M | 股息率 ~5.9%', note: '15-20年 PPA 锁定现金流，对冲算力资本开支波动风险' },
+          { ticker: 'CRWV (CoreWeave)', w: wCRWV, color: '#a855f7', proj: '27E 营收 ~$' + crwvRev27 + 'B | 年利息 ~$' + crwvInt27 + 'B', note: '$1,323亿 RPO 规模第一，但对利率成本与 GPU 续租率极度敏感' }
+        ];
+
+        document.getElementById('simAllocBars').innerHTML = items.map(function(it) {
+          var amt = Math.round(cap * (it.w / 100));
+          return '<div class="alloc-row">'
+            + '<div class="alloc-head"><strong>' + it.ticker + '</strong><span>' + it.w + '% ($' + amt.toLocaleString('en-US') + ')</span></div>'
+            + '<div class="alloc-track"><div class="alloc-fill" style="width:' + it.w + '%;background:' + it.color + ';"></div></div>'
+            + '</div>';
+        }).join('');
+
+        document.getElementById('simTableBody').innerHTML = items.map(function(it) {
+          var amt = Math.round(cap * (it.w / 100));
+          return '<tr>'
+            + '<td><strong>' + it.ticker + '</strong></td>'
+            + '<td><strong style="color:' + it.color + ';">' + it.w + '%</strong> ($' + amt.toLocaleString('en-US') + ')</td>'
+            + '<td>' + it.proj + '</td>'
+            + '<td>' + it.note + '</td>'
+            + '</tr>';
+        }).join('');
+      }
+
+      [sliderAi, sliderRate, sliderGrid, sliderCap].forEach(function(s) {
+        if (s) s.addEventListener('input', updateSimulator);
+      });
+
+      var presetBtns = document.querySelectorAll('#simPresetBtns .preset-btn');
+      presetBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          presetBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var p = btn.getAttribute('data-preset');
+          if (p === 'balanced') {
+            sliderAi.value = 100; sliderRate.value = 0; sliderGrid.value = 80;
+          } else if (p === 'growth') {
+            sliderAi.value = 120; sliderRate.value = -75; sliderGrid.value = 90;
+          } else if (p === 'defensive') {
+            sliderAi.value = 85; sliderRate.value = 75; sliderGrid.value = 70;
+          }
+          updateSimulator();
+        });
+      });
+
+      // Initialize default views
+      renderInspector('BE');
+      renderDeepDive('BE');
+      updateSimulator();
+    })();
+  </script>
+
+  <!-- SCRIPT 2: ECHARTS RENDERING (ISOLATED FROM UI INTERACTION) -->
+  <script id="chart-script">
+    (function() {
+      var chartInstances = [];
+
+      function initCharts() {
+        if (typeof echarts === 'undefined') {
+          setTimeout(initCharts, 150);
+          return;
+        }
+
+        var textColor = '#cbd5e1';
+        var gridBorder = 'rgba(148, 163, 184, 0.15)';
+
+        // 1. Quarterly Revenue Trajectory
+        var domRev = document.getElementById('chartRevTrajectory');
+        if (domRev) {
+          var cRev = echarts.init(domRev);
+          cRev.setOption({
+            tooltip: { trigger: 'axis', backgroundColor: '#0f172a', borderColor: '#38bdf8', textStyle: { color: '#f8fafc' } },
+            legend: { data: ['CoreWeave (CRWV)', 'Bloom Energy (BE)', 'Nebius Group (NBIS)', 'Clearway Energy (CWEN)'], textStyle: { color: textColor }, bottom: 0 },
+            grid: { left: '3%', right: '4%', top: '10%', bottom: '15%', containLabel: true },
+            xAxis: { type: 'category', data: ['Q1 25', 'Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26'], axisLabel: { color: textColor } },
+            yAxis: { type: 'value', name: '百万美元 ($M)', nameTextStyle: { color: textColor }, axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridBorder } } },
+            series: [
+              { name: 'CoreWeave (CRWV)', type: 'line', smooth: true, lineStyle: { width: 3 }, itemStyle: { color: '#a855f7' }, data: [982, 1212, 1365, 1572, 2078, 2575, 3661] },
+              { name: 'Bloom Energy (BE)', type: 'line', smooth: true, lineStyle: { width: 3 }, itemStyle: { color: '#10b981' }, data: [326.0, 401.3, 519.0, 777.7, 751.1, 1065.4, 1235.8] },
+              { name: 'Nebius Group (NBIS)', type: 'line', smooth: true, lineStyle: { width: 3 }, itemStyle: { color: '#38bdf8' }, data: [50.9, 105.1, 146.1, 227.7, 399.0, 582.3, 980.8] },
+              { name: 'Clearway Energy (CWEN)', type: 'line', smooth: true, lineStyle: { width: 2.5 }, itemStyle: { color: '#f59e0b' }, data: [298, 392, 429, 310, 354, 481, 522] }
+            ]
+          });
+          chartInstances.push(cRev);
+        }
+
+        // 2. Q3 2026 Margins Comparison
+        var domMargin = document.getElementById('chartMargins');
+        if (domMargin) {
+          var cMargin = echarts.init(domMargin);
+          cMargin.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: '#0f172a', borderColor: '#38bdf8', textStyle: { color: '#f8fafc' } },
+            legend: { data: ['Adj. EBITDA 利润率 (%)', 'GAAP 营业利润率 (%)', 'GAAP 净利率 (%)'], textStyle: { color: textColor }, bottom: 0 },
+            grid: { left: '3%', right: '4%', top: '10%', bottom: '15%', containLabel: true },
+            xAxis: { type: 'category', data: ['Bloom Energy (BE)', 'Clearway (CWEN)', 'Nebius (NBIS)', 'CoreWeave (CRWV)'], axisLabel: { color: textColor } },
+            yAxis: { type: 'value', name: '%', axisLabel: { color: textColor, formatter: '{value}%' }, splitLine: { lineStyle: { color: gridBorder } } },
+            series: [
+              { name: 'Adj. EBITDA 利润率 (%)', type: 'bar', itemStyle: { color: '#38bdf8' }, data: [24.2, 83.3, 47.5, 61.6] },
+              { name: 'GAAP 营业利润率 (%)', type: 'bar', itemStyle: { color: '#10b981' }, data: [18.2, 31.0, 5.1, 5.7] },
+              { name: 'GAAP 净利率 (%)', type: 'bar', itemStyle: { color: '#f43f5e' }, data: [20.3, 23.6, -3.8, -19.4] }
+            ]
+          });
+          chartInstances.push(cMargin);
+        }
+
+        // 3. Capital Structure & Prepayments vs Debt
+        var domCap = document.getElementById('chartCapital');
+        if (domCap) {
+          var cCap = echarts.init(domCap);
+          cCap.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, backgroundColor: '#0f172a', borderColor: '#38bdf8', textStyle: { color: '#f8fafc' } },
+            legend: { data: ['总现金(含受限, $B)', '客户预付款/递延收入 ($B)', '账面总债务 ($B)', '经营租赁负债 ($B)'], textStyle: { color: textColor }, bottom: 0 },
+            grid: { left: '3%', right: '4%', top: '10%', bottom: '16%', containLabel: true },
+            xAxis: { type: 'category', data: ['Bloom (BE)', 'Clearway (CWEN)', 'Nebius (NBIS)', 'CoreWeave (CRWV)'], axisLabel: { color: textColor } },
+            yAxis: { type: 'value', name: '十亿美元 ($B)', axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridBorder } } },
+            series: [
+              { name: '总现金(含受限, $B)', type: 'bar', itemStyle: { color: '#10b981' }, data: [2.51, 0.75, 8.65, 6.40] },
+              { name: '客户预付款/递延收入 ($B)', type: 'bar', itemStyle: { color: '#38bdf8' }, data: [0.35, 0.0, 9.41, 10.00] },
+              { name: '账面总债务 ($B)', type: 'bar', itemStyle: { color: '#f43f5e' }, data: [2.47, 9.44, 14.19, 46.87] },
+              { name: '经营租赁负债 ($B)', type: 'bar', itemStyle: { color: '#f59e0b' }, data: [0.19, 0.45, 0.85, 18.70] }
+            ]
+          });
+          chartInstances.push(cCap);
+        }
+
+        // 4. Radar Chart
+        var domRadar = document.getElementById('chartRadar');
+        if (domRadar) {
+          var cRadar = echarts.init(domRadar);
+          cRadar.setOption({
+            tooltip: { backgroundColor: '#0f172a', borderColor: '#38bdf8', textStyle: { color: '#f8fafc' } },
+            legend: { data: ['Bloom (BE)', 'Clearway (CWEN)', 'Nebius (NBIS)', 'CoreWeave (CRWV)'], textStyle: { color: textColor }, bottom: 0 },
+            radar: {
+              radius: '62%',
+              indicator: [
+                { name: '交付速度/规模先发', max: 100 },
+                { name: '订单积压/长协可见度', max: 100 },
+                { name: '资产负债表/低息安全度', max: 100 },
+                { name: '自研硬件/工程独特性', max: 100 },
+                { name: '自由现金流/分红转化', max: 100 },
+                { name: '营收爆发增长弹性', max: 100 }
+              ],
+              axisName: { color: textColor, fontSize: 11.5 },
+              splitArea: { areaStyle: { color: ['rgba(30,41,59,0.4)', 'rgba(15,23,42,0.4)'] } },
+              splitLine: { lineStyle: { color: gridBorder } }
+            },
+            series: [{
+              type: 'radar',
+              data: [
+                { value: [92, 85, 84, 90, 78, 86], name: 'Bloom (BE)', itemStyle: { color: '#10b981' } },
+                { value: [72, 90, 82, 70, 94, 58], name: 'Clearway (CWEN)', itemStyle: { color: '#f59e0b' } },
+                { value: [86, 92, 88, 94, 65, 98], name: 'Nebius (NBIS)', itemStyle: { color: '#38bdf8' } },
+                { value: [96, 99, 48, 86, 52, 95], name: 'CoreWeave (CRWV)', itemStyle: { color: '#a855f7' } }
+              ]
+            }]
+          });
+          chartInstances.push(cRadar);
+        }
+      }
+
+      window.resizeAllECharts = function() {
+        chartInstances.forEach(function(c) {
+          if (c && typeof c.resize === 'function') c.resize();
+        });
+      };
+
+      window.addEventListener('resize', window.resizeAllECharts);
+      if (document.readyState === 'complete') {
+        initCharts();
+      } else {
+        window.addEventListener('load', initCharts);
+      }
+    })();
+  </script>
+</body>
+</html>
